@@ -1,83 +1,203 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#05050A" />
 
-    <!-- ─── Primary Favicon ─────────────────────────────────── -->
+    <!-- ═══════════════════════════════════════════════════════
+         PRIMARY META
+    ═══════════════════════════════════════════════════════ -->
+    <title>Hardik Bhaskar — Full Stack Developer &amp; AI Systems Builder</title>
+    <meta name="description"
+      content="I design and build cinematic web experiences, AI-powered systems, and futuristic interactive products. Specialising in React, TypeScript, Three.js, Framer Motion &amp; AI engineering." />
+    <meta name="keywords"
+      content="Hardik Bhaskar, Luna Kitsune, Full Stack Developer, React Developer, AI Systems Builder, Three.js, Framer Motion, TypeScript, Portfolio, Frontend Engineer, Web Design, India" />
+    <meta name="author"        content="Hardik Bhaskar" />
+    <meta name="robots"        content="index, follow, max-image-preview:large" />
+    <meta name="theme-color"   content="#05050A" />
+    <meta name="color-scheme"  content="dark" />
+    <meta name="generator"     content="React + Vite + TypeScript" />
+    <meta name="language"      content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <link rel="canonical"      href="https://hardikbhaskar.dev/" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         FAVICONS & ICONS
+    ═══════════════════════════════════════════════════════ -->
     <link rel="icon"             type="image/png" sizes="32x32"  href="/images/logo.png" />
     <link rel="icon"             type="image/png" sizes="16x16"  href="/images/logo.png" />
     <link rel="shortcut icon"    type="image/png"                 href="/images/logo.png" />
-
-    <!-- ─── Apple / PWA Icons ───────────────────────────────── -->
     <link rel="apple-touch-icon" sizes="180x180"                  href="/images/logo.png" />
-    <meta name="apple-mobile-web-app-capable"        content="yes" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         APPLE / PWA
+    ═══════════════════════════════════════════════════════ -->
+    <meta name="apple-mobile-web-app-capable"          content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title"          content="Hardik Bhaskar" />
+    <meta name="apple-mobile-web-app-title"            content="Hardik Bhaskar" />
+    <meta name="mobile-web-app-capable"                content="yes" />
+    <meta name="application-name"                      content="Hardik Bhaskar — Portfolio" />
 
-    <!-- ─── SEO ─────────────────────────────────────────────── -->
-    <title>Hardik Bhaskar — Full Stack Developer & AI Systems Builder</title>
-    <meta name="description"
-      content="I build cinematic web experiences, AI-powered systems, and futuristic interactive products. Specialising in React, TypeScript, Three.js, Framer Motion, and AI." />
-    <meta name="keywords"
-      content="Hardik Bhaskar, Luna Kitsune, Frontend Developer, React Developer, AI Systems, Three.js, Portfolio" />
-    <meta name="author" content="Hardik Bhaskar" />
-    <meta name="robots" content="index, follow" />
-
-    <!-- ─── Open Graph ───────────────────────────────────────── -->
-    <meta property="og:site_name"   content="Hardik Bhaskar Portfolio" />
-    <meta property="og:type"        content="website" />
-    <meta property="og:title"       content="Hardik Bhaskar — Luna Kitsune" />
-    <meta property="og:description" content="Cinematic web experiences, AI systems, and futuristic digital products." />
-    <meta property="og:image"       content="/images/avatar.png" />
+    <!-- ═══════════════════════════════════════════════════════
+         OPEN GRAPH  (Facebook · LinkedIn · Discord · WhatsApp)
+    ═══════════════════════════════════════════════════════ -->
+    <meta property="og:site_name"    content="Hardik Bhaskar" />
+    <meta property="og:type"         content="profile" />
+    <meta property="og:locale"       content="en_US" />
+    <meta property="og:url"          content="https://hardikbhaskar.dev/" />
+    <meta property="og:title"        content="Hardik Bhaskar — Full Stack Dev &amp; AI Builder ✦" />
+    <meta property="og:description"
+      content="Cinematic web experiences · AI-powered systems · Futuristic interactive products. Built with React, Three.js, Framer Motion &amp; cutting-edge AI engineering." />
+    <meta property="og:image"        content="https://hardikbhaskar.dev/og-preview.png" />
+    <meta property="og:image:secure_url" content="https://hardikbhaskar.dev/og-preview.png" />
+    <meta property="og:image:type"   content="image/png" />
     <meta property="og:image:width"  content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt"    content="Hardik Bhaskar — Full Stack Developer &amp; AI Systems Builder Portfolio" />
 
-    <!-- ─── Twitter Card ─────────────────────────────────────── -->
+    <!-- OG Profile -->
+    <meta property="profile:first_name" content="Hardik" />
+    <meta property="profile:last_name"  content="Bhaskar" />
+    <meta property="profile:username"   content="HardikBhaskar2010" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         TWITTER / X CARD
+    ═══════════════════════════════════════════════════════ -->
     <meta name="twitter:card"        content="summary_large_image" />
     <meta name="twitter:site"        content="@kitsune_luna05" />
     <meta name="twitter:creator"     content="@kitsune_luna05" />
-    <meta name="twitter:title"       content="Hardik Bhaskar — Luna Kitsune" />
-    <meta name="twitter:description" content="Cinematic web experiences, AI systems & futuristic digital products." />
-    <meta name="twitter:image"       content="/images/avatar.png" />
+    <meta name="twitter:title"       content="Hardik Bhaskar — Full Stack Dev &amp; AI Builder ✦" />
+    <meta name="twitter:description"
+      content="Cinematic web experiences · AI-powered systems · Futuristic interactive products. React · Three.js · Framer Motion · AI Engineering." />
+    <meta name="twitter:image"       content="https://hardikbhaskar.dev/og-preview.png" />
+    <meta name="twitter:image:alt"   content="Hardik Bhaskar Portfolio Preview" />
+    <meta name="twitter:url"         content="https://hardikbhaskar.dev/" />
+    <meta name="twitter:label1"      content="Status" />
+    <meta name="twitter:data1"       content="Available for work ✦" />
+    <meta name="twitter:label2"      content="Stack" />
+    <meta name="twitter:data2"       content="React · TypeScript · Three.js · AI" />
 
-    <!-- ─── Preconnect for Google Fonts ─────────────────────── -->
+    <!-- ═══════════════════════════════════════════════════════
+         DISCORD (uses OG) — extra richness via article tags
+    ═══════════════════════════════════════════════════════ -->
+    <meta property="og:updated_time" content="2025-05-28T00:00:00Z" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         JSON-LD STRUCTURED DATA
+    ═══════════════════════════════════════════════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://hardikbhaskar.dev/#person",
+          "name": "Hardik Bhaskar",
+          "alternateName": "Luna Kitsune",
+          "url": "https://hardikbhaskar.dev",
+          "image": {
+            "@type": "ImageObject",
+            "url": "https://hardikbhaskar.dev/images/avatar.png",
+            "width": 400,
+            "height": 400
+          },
+          "jobTitle": "Full Stack Developer & AI Systems Builder",
+          "description": "I design and build cinematic web experiences, AI-powered systems, and futuristic interactive products using React, TypeScript, Three.js, and Framer Motion.",
+          "email": "hardik.bhaskar2010@gmail.com",
+          "telephone": "+91-9599891970",
+          "knowsAbout": ["React", "TypeScript", "Three.js", "Framer Motion", "AI Systems", "Next.js", "Supabase", "Node.js"],
+          "sameAs": [
+            "https://github.com/HardikBhaskar2010",
+            "https://x.com/kitsune_luna05",
+            "https://www.linkedin.com/in/luna-kitsune-8a107a3bb/"
+          ],
+          "nationality": {
+            "@type": "Country",
+            "name": "India"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://hardikbhaskar.dev/#website",
+          "url": "https://hardikbhaskar.dev",
+          "name": "Hardik Bhaskar — Portfolio",
+          "description": "Cinematic web experiences, AI-powered systems, and futuristic interactive products.",
+          "author": { "@id": "https://hardikbhaskar.dev/#person" },
+          "inLanguage": "en-US",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://hardikbhaskar.dev/projects?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "ProfilePage",
+          "@id": "https://hardikbhaskar.dev/#webpage",
+          "url": "https://hardikbhaskar.dev",
+          "name": "Hardik Bhaskar — Full Stack Developer & AI Systems Builder",
+          "isPartOf": { "@id": "https://hardikbhaskar.dev/#website" },
+          "about": { "@id": "https://hardikbhaskar.dev/#person" },
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://hardikbhaskar.dev/"
+              }
+            ]
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════
+         FONTS — Preconnect + Load
+    ═══════════════════════════════════════════════════════ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- ─── Google Fonts ─────────────────────────────────────── -->
-    <!-- Instrument Serif · Syne · Inter · Space Grotesk · JetBrains Mono -->
     <link
       href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap"
       rel="stylesheet"
     />
 
-    <!-- ─── Inline Logo SVG fallback in tab title area ───────── -->
-    <!--
-      The <link rel="icon"> above handles browser tabs.
-      The SVG below is embedded as an inline data URI alternative
-      so even if /images/logo.png hasn't loaded yet there's a placeholder.
-    -->
+    <!-- ═══════════════════════════════════════════════════════
+         CRITICAL INLINE CSS — prevents FOUC
+    ═══════════════════════════════════════════════════════ -->
     <style>
-      /* Prevent flash of unstyled content */
-      html { background: #080808; }
+      /* Prevent flash of white */
+      html, body { background: #05050A; margin: 0; }
 
-      /* Branded scrollbar */
-      ::-webkit-scrollbar { width: 4px; }
-      ::-webkit-scrollbar-track { background: #080808; }
-      ::-webkit-scrollbar-thumb { background: #1C1C1C; border-radius: 2px; }
+      /* Loading state */
+      #root:empty::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: #05050A;
+        z-index: 99999;
+      }
+
+      /* Branded scrollbar (visible before CSS loads) */
+      ::-webkit-scrollbar { width: 3px; }
+      ::-webkit-scrollbar-track { background: #05050A; }
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #00E5FF, #7C3AED);
+        border-radius: 2px;
+      }
     </style>
   </head>
 
   <body>
     <!--
-      ┌──────────────────────────────────────────────┐
-      │  Hardik Bhaskar · Luna Kitsune               │
-      │  Full Stack Developer & AI Systems Builder   │
-      │  Portfolio — built with React + Vite + TS   │
-      │  github.com/HardikBhaskar2010                │
-      └──────────────────────────────────────────────┘
+      ┌──────────────────────────────────────────────────────┐
+      │  Hardik Bhaskar · Luna Kitsune                       │
+      │  Full Stack Developer & AI Systems Builder           │
+      │  ── React 18 · Vite 5 · TypeScript ──               │
+      │  ── Framer Motion · Lenis · Tailwind CSS v3 ──       │
+      │  github.com/HardikBhaskar2010/Portfolio              │
+      └──────────────────────────────────────────────────────┘
     -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
