@@ -7,6 +7,7 @@ import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Tag } from '@/components/ui/Tag';
 import { projects } from '@/data/projects';
 import { stagger, scaleIn, fadeUp } from '@/lib/motion';
+import { playSynthPulse } from '@/lib/audio';
 
 interface FeaturedWorkProps {
   limit?: number;
@@ -87,6 +88,7 @@ function ProjectCard({ project, priority }: { project: typeof projects[0]; prior
       <motion.article
         ref={cardRef}
         whileHover={{ y: -6 }}
+        onHoverStart={playSynthPulse}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className="group relative rounded-2xl overflow-hidden border border-border bg-surface cursor-pointer"
       >

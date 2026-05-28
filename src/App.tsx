@@ -5,6 +5,8 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { useLenis } from '@/lib/lenis';
 import { track } from '@/lib/analytics';
+import { unlockAudio, playTransitionWhoosh } from '@/lib/audio';
+import { GridDistortion } from '@/components/effects/GridDistortion';
 import { Navbar } from '@/components/layout/Navbar';
 import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
 import Home from '@/pages/Home';
@@ -60,13 +62,14 @@ function CustomCursor() {
   );
 }
 
-/* ── Animated page routes (NO Navbar inside) ────────────────── */
+/* ── Animated page routes ────────────────────────────────────── */
 function AnimatedRoutes() {
   const location = useLocation();
 
-  /* Track page view on every route change */
+  /* Track page view + play transition whoosh on route change */
   useEffect(() => {
     track.pageView(location.pathname);
+    playTransitionWhoosh();
   }, [location.pathname]);
 
   return (
@@ -86,7 +89,10 @@ function AnimatedRoutes() {
 function AppContent() {
   useLenis();
 
-  /* ── Scroll-depth milestone tracker ─────────────────────── */
+  /* ── Audio unlock on first touch/click ─────────────────── */
+  useEffect(() => {
+    window.addEventListener('pointerdown', unlockAudio, { once: true });
+  }, []);
   useEffect(() => {
     const fired = new Set<number>();
     const milestones = [25, 50, 75, 100] as const;
@@ -111,12 +117,9 @@ function AppContent() {
 
   return (
     <>
-      {/*
-        ┌─────────────────────────────────────────────────────┐
-        │  GLOBAL FIXED ELEMENTS — rendered OUTSIDE           │
-        │  AnimatePresence so transforms never affect them.   │
-        └─────────────────────────────────────────────────────┘
-      */}
+      {/* ── Background grid + glow effect (BELOW everything) ── */}
+      <GridDistortion />
+
       <Navbar />           {/* ← always fixed, always visible */}
       <ScrollProgressBar />
       <CustomCursor />

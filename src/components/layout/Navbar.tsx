@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { mobileMenuContainer, mobileMenuItem } from '@/lib/motion';
 import { scrollTo, getLenis } from '@/lib/lenis';
 import { track } from '@/lib/analytics';
+import { playHoverTick, playClick } from '@/lib/audio';
 
 const navLinks = [
   { label: 'Home',     to: '/' },
@@ -155,6 +156,7 @@ export function Navbar() {
                 <NavLink
                   key={link.to}
                   to={link.to}
+                  onMouseEnter={playHoverTick}
                   onClick={() => track.navClick(link.label)}
                   className={({ isActive }) =>
                     clsx(

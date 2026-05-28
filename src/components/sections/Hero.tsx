@@ -1,24 +1,17 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ArrowDown, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
+import { CinematicHeading } from '@/components/ui/CinematicText';
+import { CurrentFocus } from '@/components/sections/CurrentFocus';
 import { scrollTo } from '@/lib/lenis';
 import { spring } from '@/lib/motion';
 import { projects } from '@/data/projects';
 import { track } from '@/lib/analytics';
+import { playHoverTick, playClick, playSynthPulse } from '@/lib/audio';
 
 const tagline = ['Designing', 'intelligent', 'digital', 'experiences.'];
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
-};
-
-const lineVariants = {
-  hidden:  { opacity: 0, y: 70, skewY: 5 },
-  visible: { opacity: 1, y: 0, skewY: 0, transition: { duration: 0.85, ease: spring } },
-};
 
 const fadeUpDelay = (delay: number) => ({
   hidden:  { opacity: 0, y: 24 },
@@ -100,39 +93,14 @@ export function Hero() {
               </span>
             </motion.div>
 
-            {/* Headline */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="mb-8"
-            >
-              {tagline.map((word, i) => (
-                <div key={i} className="overflow-hidden">
-                  <motion.h1
-                    variants={lineVariants}
-                    className="font-display italic text-heading leading-[0.87] tracking-tight block"
-                    style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}
-                  >
-                    {word}
-                    {i === tagline.length - 1 && (
-                      <motion.span
-                        className="inline-block ml-1"
-                        animate={{ opacity: [1, 0, 1] }}
-                        transition={{ duration: 1, repeat: Infinity }}
-                        style={{
-                          background: 'linear-gradient(135deg, #00E5FF, #7C3AED)',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                        }}
-                      >
-                        _
-                      </motion.span>
-                    )}
-                  </motion.h1>
-                </div>
-              ))}
-            </motion.div>
+            {/* Headline — CinematicHeading (blur + slide word-by-word) */}
+            <div className="mb-8" style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}>
+              <CinematicHeading
+                lines={tagline}
+                animate={true}
+                showCursor={true}
+              />
+            </div>
 
             {/* Subtitle */}
             <motion.p
@@ -154,14 +122,15 @@ export function Hero() {
               <Button
                 variant="primary"
                 size="lg"
-                onClick={() => { scrollTo('#contact'); track.ctaClick("Let's work together", 'hero'); }}
+                onMouseEnter={playHoverTick}
+                onClick={() => { playClick(); scrollTo('#contact'); track.ctaClick("Let's work together", 'hero'); }}
                 icon={<ArrowRight size={14} />}
                 className="w-full xs:w-auto justify-center"
               >
                 Let's work together
               </Button>
-              <Link to="/projects" className="w-full xs:w-auto" onClick={() => track.ctaClick('View case studies', 'hero')}>
-                <Button variant="ghost" size="lg" className="w-full justify-center">View case studies</Button>
+              <Link to="/projects" className="w-full xs:w-auto" onClick={() => { playClick(); track.ctaClick('View case studies', 'hero'); }}>
+                <Button onMouseEnter={playHoverTick} variant="ghost" size="lg" className="w-full justify-center">View case studies</Button>
               </Link>
             </motion.div>
 
@@ -182,6 +151,15 @@ export function Hero() {
                   <span className="font-ui text-[9px] md:text-[10px] text-muted uppercase tracking-widest">{s.label}</span>
                 </div>
               ))}
+            </motion.div>
+
+            {/* Currently Building card */}
+            <motion.div
+              variants={fadeUpDelay(1.2)}
+              initial="hidden"
+              animate="visible"
+            >
+              <CurrentFocus />
             </motion.div>
           </motion.div>
 
@@ -232,7 +210,9 @@ export function Hero() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.7 + i * 0.15, ease: spring }}
-                  className="flex-1 bg-surface border border-border rounded-xl overflow-hidden group"
+                  whileHover={{ scale: 1.02 }}
+                  onHoverStart={playSynthPulse}
+                  className="flex-1 bg-surface border border-border rounded-xl overflow-hidden group cursor-pointer"
                 >
                   <div className="aspect-video overflow-hidden">
                     <img
