@@ -12,6 +12,7 @@ export function ContactSection() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formStarted, setFormStarted] = useState(false);
 
   const handleFieldChange = (field: string, value: string) => {
@@ -22,10 +23,30 @@ export function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1200));
-    setSent(true);
-    setLoading(false);
-    track.contactFormSubmit(true);
+    setError(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || data.error) {
+        throw new Error(data.error ?? 'Something went wrong');
+      }
+
+      setSent(true);
+      track.contactFormSubmit(true);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Failed to send. Please try again.';
+      setError(msg);
+      track.contactFormSubmit(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const socials = [
@@ -127,13 +148,26 @@ export function ContactSection() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center py-16 gap-4 text-center"
+                  className="flex flex-col items-center justify-center py-16 gap-5 text-center"
                 >
-                  <span className="text-5xl">✦</span>
+                  <motion.span
+                    className="text-5xl"
+                    animate={{ scale: [1, 1.15, 1] }}
+                    transition={{ duration: 0.6, ease: 'easeOut' }}
+                  >
+                    ✦
+                  </motion.span>
                   <h3 className="font-display italic text-3xl text-heading">Message sent!</h3>
-                  <p className="font-ui text-sm text-body">
-                    I'll get back to you within 24 hours. Looking forward to connecting!
+                  <p className="font-ui text-sm text-body max-w-[280px]">
+                    Thanks, <span className="text-heading">{form.name.split(' ')[0]}</span>!
+                    I'll reply to <span className="text-cyan">{form.email}</span> within 24 hours.
                   </p>
+                  <button
+                    onClick={() => { setSent(false); setForm({ name: '', email: '', message: '' }); }}
+                    className="font-ui text-xs text-muted hover:text-heading transition-colors underline underline-offset-4 mt-2"
+                  >
+                    Send another message
+                  </button>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
@@ -178,6 +212,17 @@ export function ContactSection() {
                       className="w-full bg-bg border border-border rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted resize-none transition-all duration-200"
                     />
                   </div>
+
+                  {/* Error message */}
+                  {error && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="font-ui text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-2.5 text-center"
+                    >
+                      ⚠ {error}
+                    </motion.p>
+                  )}
 
                   <motion.button
                     type="submit"

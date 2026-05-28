@@ -7,4 +7,14 @@ export default defineConfig({
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') },
   },
+  server: {
+    proxy: {
+      // Proxy /api/* to Vercel dev server in local development
+      // Run `vercel dev` instead of `npm run dev` to test the API locally
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
+  },
 });
