@@ -3,7 +3,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ArrowDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
-import { CinematicHeading } from '@/components/ui/CinematicText';
 import { CurrentFocus } from '@/components/sections/CurrentFocus';
 import { scrollTo } from '@/lib/lenis';
 import { spring } from '@/lib/motion';
@@ -12,6 +11,18 @@ import { track } from '@/lib/analytics';
 import { playHoverTick, playClick, playSynthPulse } from '@/lib/audio';
 
 const tagline = ['Designing', 'intelligent', 'digital', 'experiences.'];
+
+/* Each word: slides up from below the clip + deblurs */
+const lineVariants = {
+  hidden:  { opacity: 0, y: 70, filter: 'blur(12px)', skewY: 3 },
+  visible: { opacity: 1, y: 0, filter: 'blur(0px)', skewY: 0,
+    transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] as [number,number,number,number] } },
+};
+
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
+};
 
 const fadeUpDelay = (delay: number) => ({
   hidden:  { opacity: 0, y: 24 },
@@ -93,14 +104,32 @@ export function Hero() {
               </span>
             </motion.div>
 
-            {/* Headline — CinematicHeading (blur + slide word-by-word) */}
-            <div className="mb-8" style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}>
-              <CinematicHeading
-                lines={tagline}
-                animate={true}
-                showCursor={true}
-              />
-            </div>
+            {/* Headline — original tight word-per-line + blur entrance */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="mb-8"
+            >
+              {tagline.map((word, i) => (
+                <div key={i} className="overflow-hidden">
+                  <motion.h1
+                    variants={lineVariants}
+                    className="font-display italic text-heading leading-[0.87] tracking-tight block"
+                    style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}
+                  >
+                    {word}
+                    {i === tagline.length - 1 && (
+                      <motion.span
+                        className="inline-block w-[3px] h-[0.75em] bg-cyan align-middle ml-2"
+                        animate={{ opacity: [1, 0, 1, 0, 1, 0, 0] }}
+                        transition={{ duration: 2, times: [0,0.2,0.4,0.6,0.8,0.9,1], delay: tagline.length * 0.1 + 0.8 }}
+                      />
+                    )}
+                  </motion.h1>
+                </div>
+              ))}
+            </motion.div>
 
             {/* Subtitle */}
             <motion.p
@@ -155,9 +184,9 @@ export function Hero() {
 
             {/* Currently Building card */}
             <motion.div
-              variants={fadeUpDelay(1.2)}
-              initial="hidden"
-              animate="visible"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.35, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               <CurrentFocus />
             </motion.div>
