@@ -30,7 +30,7 @@ export function AboutPreview() {
   return (
     <section
       ref={sectionRef}
-      className="py-24 md:py-32 lg:py-40 border-t border-border overflow-hidden"
+      className="py-16 md:py-24 lg:py-32 border-t border-border overflow-hidden"
     >
       <div
         ref={inViewRef}
@@ -56,7 +56,7 @@ export function AboutPreview() {
         </motion.div>
 
         {/* ── Main Grid ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 md:gap-6">
 
           {/* Left Column — 3/5 */}
           <motion.div
@@ -93,7 +93,7 @@ export function AboutPreview() {
             {/* Stats Row */}
             <motion.div
               variants={stagger}
-              className="grid grid-cols-3 gap-4"
+              className="grid grid-cols-3 gap-3"
             >
               {stats.map((s) => (
                 <motion.div
@@ -104,9 +104,9 @@ export function AboutPreview() {
                   <CountUp
                     to={s.value}
                     suffix={s.suffix}
-                    className="font-display italic text-5xl text-heading"
+                    className="font-display italic text-3xl md:text-5xl text-heading"
                   />
-                  <span className="font-ui text-[10px] uppercase tracking-widest text-tagText">
+                  <span className="font-ui text-[9px] md:text-[10px] uppercase tracking-widest text-tagText">
                     {s.label}
                   </span>
                 </motion.div>
@@ -168,7 +168,7 @@ export function AboutPreview() {
           variants={stagger}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4"
+          className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
         >
           {Object.entries(tools).map(([category, items]) => (
             <motion.div

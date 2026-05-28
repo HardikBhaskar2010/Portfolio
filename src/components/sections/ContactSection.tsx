@@ -27,7 +27,7 @@ export function ContactSection() {
   ];
 
   return (
-    <section id="contact" className="py-24 md:py-32 border-t border-border">
+    <section id="contact" className="py-16 md:py-24 lg:py-32 border-t border-border">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         <motion.div
           ref={ref}

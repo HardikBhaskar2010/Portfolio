@@ -72,6 +72,10 @@ export function Navbar() {
   ));
   const isCompact = scrollY >= COMPACT_START;
 
+  /* ── Responsive inset: smaller on mobile ─────────────── */
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const maxInset = isMobile ? 4 : 10;  // % side inset at full compact
+
   return (
     <>
       {/* ══════════════════════════════════════════════════════
@@ -90,7 +94,7 @@ export function Navbar() {
         <div
           className="pointer-events-auto transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] relative"
           style={{
-            margin:       `${t * 14}px ${t * 10}% 0`,
+            margin:       `${t * 14}px ${t * maxInset}% 0`,
             borderRadius: `${t * 999}px`,
             background:   isCompact
               ? `rgba(5,5,10,${0.55 + t * 0.35})`
@@ -119,7 +123,7 @@ export function Navbar() {
             className="relative flex items-center justify-between transition-all duration-500"
             style={{
               height:  `${64 - t * 16}px`,
-              padding: `0 ${isCompact ? Math.max(16, 48 - t * 36) : 48}px`,
+              padding: `0 ${isCompact ? Math.max(12, 48 - t * 40) : isMobile ? 16 : 48}px`,
             }}
           >
 

@@ -41,7 +41,7 @@ export function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex flex-col justify-center pt-20 pb-16 overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center pt-20 pb-24 md:pb-16 overflow-hidden"
     >
       {/* ── Background effects ──────────────────────── */}
       <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
@@ -84,8 +84,8 @@ export function Hero() {
       </div>
 
       {/* ── Two-column layout ───────────────────────── */}
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-120px)]">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[calc(100vh-120px)]">
 
           {/* ── LEFT: Text column ── */}
           <motion.div style={{ y: textY, opacity }} className="flex flex-col gap-0">
@@ -111,7 +111,7 @@ export function Hero() {
                   <motion.h1
                     variants={lineVariants}
                     className="font-display italic text-heading leading-[0.87] tracking-tight block"
-                    style={{ fontSize: 'clamp(48px, 7.5vw, 112px)' }}
+                    style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}
                   >
                     {word}
                     {i === tagline.length - 1 && (
@@ -148,18 +148,19 @@ export function Hero() {
               variants={fadeUpDelay(0.9)}
               initial="hidden"
               animate="visible"
-              className="flex flex-col sm:flex-row items-start gap-3 mb-16"
+              className="flex flex-col xs:flex-row items-stretch xs:items-start gap-3 mb-10 md:mb-16"
             >
               <Button
                 variant="primary"
                 size="lg"
                 onClick={() => scrollTo('#contact')}
                 icon={<ArrowRight size={14} />}
+                className="w-full xs:w-auto justify-center"
               >
                 Let's work together
               </Button>
-              <Link to="/projects">
-                <Button variant="ghost" size="lg">View case studies</Button>
+              <Link to="/projects" className="w-full xs:w-auto">
+                <Button variant="ghost" size="lg" className="w-full justify-center">View case studies</Button>
               </Link>
             </motion.div>
 
@@ -168,7 +169,7 @@ export function Hero() {
               variants={fadeUpDelay(1.05)}
               initial="hidden"
               animate="visible"
-              className="grid grid-cols-3 gap-6 pt-8 border-t border-border"
+              className="grid grid-cols-3 gap-3 md:gap-6 pt-6 md:pt-8 border-t border-border"
             >
               {[
                 { value: '3+',  label: 'Years exp.' },
@@ -176,8 +177,8 @@ export function Hero() {
                 { value: '10+', label: 'Clients' },
               ].map((s) => (
                 <div key={s.label} className="flex flex-col gap-1">
-                  <span className="font-display italic text-4xl md:text-5xl text-heading leading-none">{s.value}</span>
-                  <span className="font-ui text-[10px] text-muted uppercase tracking-widest">{s.label}</span>
+                  <span className="font-display italic text-3xl md:text-5xl text-heading leading-none">{s.value}</span>
+                  <span className="font-ui text-[9px] md:text-[10px] text-muted uppercase tracking-widest">{s.label}</span>
                 </div>
               ))}
             </motion.div>

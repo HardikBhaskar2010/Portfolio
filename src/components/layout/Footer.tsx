@@ -33,14 +33,14 @@ export function Footer() {
             <p className="font-ui text-sm text-muted max-w-[280px] leading-relaxed">
               Building cinematic web experiences, AI systems & futuristic interactive products.
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 flex-wrap">
               {socials.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-ui text-xs text-muted hover:text-heading transition-colors duration-200 link-underline"
+                  className="font-ui text-xs text-muted hover:text-heading transition-colors duration-200 link-underline whitespace-nowrap"
                 >
                   {s.label}
                 </a>
@@ -67,16 +67,16 @@ export function Footer() {
             <span className="font-ui text-[10px] uppercase tracking-widest text-tagText mb-2">Contact</span>
             <a
               href="mailto:hardik.bhaskar2010@gmail.com"
-              className="flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors duration-200"
+              className="flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors duration-200 truncate max-w-[240px]"
             >
-              <Mail size={12} />
+              <Mail size={12} className="flex-shrink-0" />
               hardik.bhaskar2010@gmail.com
             </a>
             <a
               href="tel:+919599891970"
               className="flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors duration-200"
             >
-              <Phone size={12} />
+              <Phone size={12} className="flex-shrink-0" />
               +91 9599891970
             </a>
           </div>
@@ -85,7 +85,7 @@ export function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-border">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-5 flex items-center justify-between">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="font-ui text-xs text-muted">
             © 2025 Hardik Bhaskar — Luna Kitsune. All rights reserved.
           </p>
