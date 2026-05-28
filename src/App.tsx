@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { useLenis } from '@/lib/lenis';
+import { track } from '@/lib/analytics';
 import { Navbar } from '@/components/layout/Navbar';
 import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
 import Home from '@/pages/Home';
@@ -60,6 +63,12 @@ function CustomCursor() {
 /* ── Animated page routes (NO Navbar inside) ────────────────── */
 function AnimatedRoutes() {
   const location = useLocation();
+
+  /* Track page view on every route change */
+  useEffect(() => {
+    track.pageView(location.pathname);
+  }, [location.pathname]);
+
   return (
     <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
@@ -76,6 +85,30 @@ function AnimatedRoutes() {
 /* ── Root App content ───────────────────────────────────────── */
 function AppContent() {
   useLenis();
+
+  /* ── Scroll-depth milestone tracker ─────────────────────── */
+  useEffect(() => {
+    const fired = new Set<number>();
+    const milestones = [25, 50, 75, 100] as const;
+
+    const onScroll = () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      if (total <= 0) return;
+      const pct = Math.round((scrolled / total) * 100);
+
+      for (const m of milestones) {
+        if (pct >= m && !fired.has(m)) {
+          fired.add(m);
+          track.scrollDepth(m);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <>
       {/*
@@ -90,6 +123,12 @@ function AppContent() {
 
       {/* Page content — animated in/out by AnimatePresence */}
       <AnimatedRoutes />
+
+      {/* ── Vercel: Page-view analytics ── */}
+      <Analytics />
+
+      {/* ── Vercel: Core Web Vitals (LCP, FID, CLS, TTFB, INP) ── */}
+      <SpeedInsights />
     </>
   );
 }

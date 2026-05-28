@@ -5,12 +5,19 @@ import { ArrowRight, Mail, Phone, ExternalLink } from 'lucide-react';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Button } from '@/components/ui/Button';
 import { stagger, fadeUp, scaleIn } from '@/lib/motion';
+import { track } from '@/lib/analytics';
 
 export function ContactSection() {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [formStarted, setFormStarted] = useState(false);
+
+  const handleFieldChange = (field: string, value: string) => {
+    if (!formStarted) { track.contactFormStart(); setFormStarted(true); }
+    setForm(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +25,7 @@ export function ContactSection() {
     await new Promise(r => setTimeout(r, 1200));
     setSent(true);
     setLoading(false);
+    track.contactFormSubmit(true);
   };
 
   const socials = [
@@ -103,6 +111,7 @@ export function ContactSection() {
                 <a
                   href="tel:+919599891970"
                   className="flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors duration-200"
+                  onClick={() => track.emailClick('contact-section')}
                 >
                   <Phone size={13} />
                   +91 9599891970
@@ -136,7 +145,7 @@ export function ContactSection() {
                       type="text"
                       required
                       value={form.name}
-                      onChange={e => setForm({...form, name: e.target.value})}
+                      onChange={e => handleFieldChange('name', e.target.value)}
                       placeholder="Your name"
                       className="w-full bg-bg border border-border rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted transition-all duration-200"
                     />
@@ -150,7 +159,7 @@ export function ContactSection() {
                       type="email"
                       required
                       value={form.email}
-                      onChange={e => setForm({...form, email: e.target.value})}
+                      onChange={e => handleFieldChange('email', e.target.value)}
                       placeholder="you@example.com"
                       className="w-full bg-bg border border-border rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted transition-all duration-200"
                     />
@@ -164,7 +173,7 @@ export function ContactSection() {
                       required
                       rows={5}
                       value={form.message}
-                      onChange={e => setForm({...form, message: e.target.value})}
+                      onChange={e => handleFieldChange('message', e.target.value)}
                       placeholder="Tell me about your project..."
                       className="w-full bg-bg border border-border rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted resize-none transition-all duration-200"
                     />

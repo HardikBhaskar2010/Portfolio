@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
@@ -7,11 +7,17 @@ import { Tag } from '@/components/ui/Tag';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { projects } from '@/data/projects';
 import { pageEnter, stagger, fadeUp, scaleIn } from '@/lib/motion';
+import { track } from '@/lib/analytics';
 
 export default function ProjectDetail() {
   const { slug } = useParams();
   const project = projects.find(p => p.slug === slug);
   const heroRef = useRef<HTMLDivElement>(null);
+
+  // Track project view on mount
+  useEffect(() => {
+    if (project) track.projectView(project.title, project.slug);
+  }, [project]);
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -113,6 +119,7 @@ export default function ProjectDetail() {
                     href={project.link}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => track.projectLinkClick(project.title, project.link!)}
                     className="inline-flex items-center gap-2 font-ui text-sm text-cyan hover:text-heading transition-colors group link-underline w-fit"
                   >
                     Live site

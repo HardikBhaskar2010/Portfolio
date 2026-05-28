@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { scrollTo } from '@/lib/lenis';
 import { spring } from '@/lib/motion';
 import { projects } from '@/data/projects';
+import { track } from '@/lib/analytics';
 
 const tagline = ['Designing', 'intelligent', 'digital', 'experiences.'];
 
@@ -153,13 +154,13 @@ export function Hero() {
               <Button
                 variant="primary"
                 size="lg"
-                onClick={() => scrollTo('#contact')}
+                onClick={() => { scrollTo('#contact'); track.ctaClick("Let's work together", 'hero'); }}
                 icon={<ArrowRight size={14} />}
                 className="w-full xs:w-auto justify-center"
               >
                 Let's work together
               </Button>
-              <Link to="/projects" className="w-full xs:w-auto">
+              <Link to="/projects" className="w-full xs:w-auto" onClick={() => track.ctaClick('View case studies', 'hero')}>
                 <Button variant="ghost" size="lg" className="w-full justify-center">View case studies</Button>
               </Link>
             </motion.div>

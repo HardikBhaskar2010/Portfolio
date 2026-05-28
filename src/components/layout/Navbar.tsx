@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import clsx from 'clsx';
 import { mobileMenuContainer, mobileMenuItem } from '@/lib/motion';
 import { scrollTo, getLenis } from '@/lib/lenis';
+import { track } from '@/lib/analytics';
 
 const navLinks = [
   { label: 'Home',     to: '/' },
@@ -154,6 +155,7 @@ export function Navbar() {
                 <NavLink
                   key={link.to}
                   to={link.to}
+                  onClick={() => track.navClick(link.label)}
                   className={({ isActive }) =>
                     clsx(
                       'font-ui tracking-wide transition-colors duration-200 link-underline whitespace-nowrap',
@@ -277,6 +279,7 @@ export function Navbar() {
                   { label: 'GitHub',   href: 'https://github.com/HardikBhaskar2010/' },
                 ].map(s => (
                   <a key={s.label} href={s.href} target="_blank" rel="noreferrer"
+                    onClick={() => track.socialClick(s.label, 'mobile-menu')}
                     className="font-ui text-xs uppercase tracking-widest text-muted hover:text-heading transition-colors link-underline"
                   >
                     {s.label}
