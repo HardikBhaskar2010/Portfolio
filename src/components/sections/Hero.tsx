@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { lazy, Suspense, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ArrowDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,12 @@ import { spring } from '@/lib/motion';
 import { projects } from '@/data/projects';
 import { track } from '@/lib/analytics';
 import { playHoverTick, playClick, playSynthPulse } from '@/lib/audio';
+import { WebGLGuard } from '@/components/three/WebGLGuard';
+
+// Lazy-load the heavy Canvas — zero impact on initial paint
+const NeuralNetworkScene = lazy(() =>
+  import('@/components/three/NeuralNetworkScene').then(m => ({ default: m.NeuralNetworkScene }))
+);
 
 const tagline = ['Designing', 'intelligent', 'digital', 'experiences.'];
 
@@ -29,6 +35,13 @@ const fadeUpDelay = (delay: number) => ({
   visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: spring, delay } },
 });
 
+const stats = [
+  { value: '3+',  label: 'Years exp.' },
+  { value: '20+', label: 'Projects' },
+  { value: '10+', label: 'Clients' },
+  { value: '3',   label: 'AI Systems shipped' },
+];
+
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -40,56 +53,47 @@ export function Hero() {
   const textY   = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
   const cardY   = useTransform(scrollYProgress, [0, 1], ['0%', '-8%']);
   const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
-  const blob1Y  = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-  const blob2Y  = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
 
   return (
     <section
       ref={containerRef}
       className="relative min-h-screen flex flex-col justify-center pt-20 pb-24 md:pb-16 overflow-hidden"
     >
-      {/* ── Background effects ──────────────────────── */}
-      <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
-        {/* Cyan blob — centre-right */}
-        <motion.div
-          animate={{ scale: [1, 1.12, 1], opacity: [0.18, 0.28, 0.18] }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-          style={{
-            y: blob1Y,
-            position: 'absolute', top: '15%', right: '5%',
-            width: '560px', height: '560px', borderRadius: '9999px',
-            background: 'radial-gradient(circle, rgba(0,229,255,0.22) 0%, transparent 65%)',
-            filter: 'blur(60px)',
-          }}
-        />
-        {/* Violet blob — bottom-left */}
-        <motion.div
-          animate={{ scale: [1, 1.15, 1], opacity: [0.14, 0.22, 0.14] }}
-          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-          style={{
-            y: blob2Y,
-            position: 'absolute', bottom: '10%', left: '0%',
-            width: '480px', height: '480px', borderRadius: '9999px',
-            background: 'radial-gradient(circle, rgba(124,58,237,0.28) 0%, transparent 65%)',
-            filter: 'blur(70px)',
-          }}
-        />
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
-            backgroundSize: '64px 64px',
-          }}
-        />
-        {/* Vignette edges */}
-        <div className="absolute inset-0"
-          style={{ background: 'radial-gradient(ellipse at center, transparent 40%, #080808 100%)' }} />
-      </div>
+      {/* ── 3D Neural Network Background ───────────────────── */}
+      <WebGLGuard fallback={<div className="absolute inset-0 -z-10" />}>
+        <Suspense fallback={null}>
+          <NeuralNetworkScene />
+        </Suspense>
+      </WebGLGuard>
 
-      {/* ── Two-column layout ───────────────────────── */}
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 w-full">
+      {/* ── Glass-dark overlay — keeps text readable over 3D ── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          zIndex: 1,
+          background: 'linear-gradient(to right, rgba(5,5,10,0.88) 50%, rgba(5,5,10,0.35) 100%)',
+        }}
+      />
+
+      {/* ── Subtle grid (kept, complements the particles) ───── */}
+      <div
+        className="absolute inset-0 opacity-[0.025] pointer-events-none"
+        style={{
+          zIndex: 1,
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+        }}
+      />
+
+      {/* ── Vignette edges ──────────────────────────────────── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ zIndex: 1, background: 'radial-gradient(ellipse at center, transparent 40%, #080808 100%)' }}
+      />
+
+      {/* ── Two-column layout ────────────────────────────────── */}
+      <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 w-full" style={{ zIndex: 2 }}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[calc(100vh-120px)]">
 
           {/* ── LEFT: Text column ── */}
@@ -104,7 +108,7 @@ export function Hero() {
               </span>
             </motion.div>
 
-            {/* Headline — original tight word-per-line + blur entrance */}
+            {/* Headline */}
             <motion.div
               variants={containerVariants}
               initial="hidden"
@@ -131,14 +135,16 @@ export function Hero() {
               ))}
             </motion.div>
 
-            {/* Subtitle */}
+            {/* Subtitle — updated copy per upgrade plan */}
             <motion.p
               variants={fadeUpDelay(0.75)}
               initial="hidden"
               animate="visible"
               className="font-ui text-body text-base leading-[1.85] max-w-[420px] mb-8"
             >
-              I build cinematic web experiences, AI-powered systems, and futuristic interactive products focused on performance, storytelling, and innovation.
+              I build scroll-driven 3D web experiences, AI-powered tools, and full-stack
+              products using React, Three.js, and Framer Motion.{' '}
+              <span className="text-cyan">Available for freelance projects and long-term contracts.</span>
             </motion.p>
 
             {/* CTAs */}
@@ -163,21 +169,17 @@ export function Hero() {
               </Link>
             </motion.div>
 
-            {/* Stats */}
+            {/* Stats — 4-column with "3 AI Systems Shipped" */}
             <motion.div
               variants={fadeUpDelay(1.05)}
               initial="hidden"
               animate="visible"
-              className="grid grid-cols-3 gap-3 md:gap-6 pt-6 md:pt-8 border-t border-border"
+              className="grid grid-cols-4 gap-3 md:gap-4 pt-6 md:pt-8 border-t border-border"
             >
-              {[
-                { value: '3+',  label: 'Years exp.' },
-                { value: '20+', label: 'Projects' },
-                { value: '10+', label: 'Clients' },
-              ].map((s) => (
+              {stats.map((s) => (
                 <div key={s.label} className="flex flex-col gap-1">
-                  <span className="font-display italic text-3xl md:text-5xl text-heading leading-none">{s.value}</span>
-                  <span className="font-ui text-[9px] md:text-[10px] text-muted uppercase tracking-widest">{s.label}</span>
+                  <span className="font-display italic text-2xl md:text-4xl text-heading leading-none">{s.value}</span>
+                  <span className="font-ui text-[9px] text-muted uppercase tracking-widest leading-tight">{s.label}</span>
                 </div>
               ))}
             </motion.div>
@@ -197,7 +199,7 @@ export function Hero() {
             style={{ y: cardY }}
             className="hidden lg:flex flex-col gap-4 items-end"
           >
-            {/* Avatar card */}
+            {/* Avatar card — updated title */}
             <motion.div
               initial={{ opacity: 0, x: 40, scale: 0.95 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -224,14 +226,14 @@ export function Hero() {
               </div>
               <div className="p-5 flex flex-col gap-1">
                 <p className="font-heading font-bold text-heading text-base">Hardik Bhaskar</p>
-                <p className="font-ui text-xs text-cyan">Full Stack Dev & AI Builder</p>
+                <p className="font-ui text-xs text-cyan">Interactive Web Developer · AI Systems Builder</p>
                 <p className="font-ui text-xs text-muted mt-1 leading-relaxed">
-                  Building cinematic web experiences & intelligent systems.
+                  Building 3D web experiences & intelligent systems.
                 </p>
               </div>
             </motion.div>
 
-            {/* Project preview cards — two small ones */}
+            {/* Project preview cards */}
             <div className="flex gap-3 w-full max-w-[340px]">
               {projects.slice(0, 2).map((p, i) => (
                 <motion.div
@@ -265,7 +267,7 @@ export function Hero() {
               transition={{ delay: 1.1 }}
               className="flex flex-wrap gap-2 w-full max-w-[340px] justify-end"
             >
-              {['React', 'TypeScript', 'Three.js', 'Framer Motion', 'AI Systems'].map((tech, i) => (
+              {['Three.js', 'React', 'TypeScript', 'Framer Motion', 'AI Systems'].map((tech, i) => (
                 <motion.span
                   key={tech}
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -288,6 +290,7 @@ export function Hero() {
         transition={{ delay: 1.6 }}
         onClick={() => scrollTo('#marquee')}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer group"
+        style={{ zIndex: 2 }}
       >
         <span className="font-ui text-[9px] uppercase tracking-[0.22em] text-tagText">Scroll</span>
         <motion.div

@@ -7,6 +7,13 @@ let lenisInstance: Lenis | null = null;
 
 export function getLenis() { return lenisInstance; }
 
+/* ─── Scroll store — read in R3F useFrame without React state ── */
+export const scrollStore = {
+  progress: 0,
+  velocity: 0,
+  scroll: 0,
+};
+
 /* ─── Main Lenis hook — call once at App root ───────────────── */
 export function useLenis() {
   useEffect(() => {
@@ -17,6 +24,13 @@ export function useLenis() {
       touchMultiplier: 1.8,
     });
     lenisInstance = lenis;
+
+    // Populate scrollStore so R3F scenes can read progress in useFrame
+    lenis.on('scroll', ({ progress, velocity, scroll }: { progress: number; velocity: number; scroll: number }) => {
+      scrollStore.progress = progress;
+      scrollStore.velocity = velocity;
+      scrollStore.scroll   = scroll;
+    });
 
     function raf(time: number) {
       lenis.raf(time);

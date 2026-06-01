@@ -6,8 +6,10 @@ import { AboutPreview } from '@/components/sections/AboutPreview';
 import { FeaturedWork } from '@/components/sections/FeaturedWork';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { FAQ } from '@/components/sections/FAQ';
+import { Services } from '@/components/sections/Services';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { SystemLabel } from '@/components/effects/SystemLabel';
+import { HighlightPoint } from '@/components/ui/HighlightPoint';
 import { pageEnter } from '@/lib/motion';
 
 export default function Home() {
@@ -28,27 +30,44 @@ export default function Home() {
 
         {/* ── SYSTEM_01: About preview ── */}
         <SystemLabel id="SYSTEM_01" index="01" total="05">
-          <AboutPreview />
+          <HighlightPoint id="about-section">
+            <AboutPreview />
+          </HighlightPoint>
         </SystemLabel>
 
         {/* ── PROJECT_ARCHIVE: Featured work ── */}
         <SystemLabel id="PROJECT_ARCHIVE" index="02" total="05">
-          <FeaturedWork limit={4} showViewAll />
+          <HighlightPoint id="featured-work">
+            <FeaturedWork limit={4} showViewAll />
+          </HighlightPoint>
+        </SystemLabel>
+
+        {/* ── SERVICES: What I Build ── */}
+        <SystemLabel id="SERVICES" index="03" total="06">
+          <HighlightPoint id="services">
+            <Services />
+          </HighlightPoint>
         </SystemLabel>
 
         {/* ── NEURAL_FEEDBACK: Testimonials ── */}
-        <SystemLabel id="NEURAL_FEEDBACK" index="03" total="05">
-          <Testimonials />
+        <SystemLabel id="NEURAL_FEEDBACK" index="04" total="06">
+          <HighlightPoint id="testimonials">
+            <Testimonials />
+          </HighlightPoint>
         </SystemLabel>
 
         {/* ── QUERY_ENGINE: FAQ ── */}
-        <SystemLabel id="QUERY_ENGINE" index="04" total="05">
-          <FAQ />
+        <SystemLabel id="QUERY_ENGINE" index="05" total="06">
+          <HighlightPoint id="faq">
+            <FAQ />
+          </HighlightPoint>
         </SystemLabel>
 
         {/* ── OPEN_CHANNEL: Contact ── */}
-        <SystemLabel id="OPEN_CHANNEL" index="05" total="05">
-          <ContactSection />
+        <SystemLabel id="OPEN_CHANNEL" index="06" total="06">
+          <HighlightPoint id="contact">
+            <ContactSection />
+          </HighlightPoint>
         </SystemLabel>
       </main>
 

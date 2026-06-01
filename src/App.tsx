@@ -9,6 +9,7 @@ import { unlockAudio, playTransitionWhoosh } from '@/lib/audio';
 import { GridDistortion } from '@/components/effects/GridDistortion';
 import { Navbar } from '@/components/layout/Navbar';
 import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
+import { ScrollOrb } from '@/components/three/ScrollOrb';
 import Home from '@/pages/Home';
 import Projects from '@/pages/Projects';
 import About from '@/pages/About';
@@ -123,6 +124,7 @@ function AppContent() {
       <Navbar />           {/* ← always fixed, always visible */}
       <ScrollProgressBar />
       <CustomCursor />
+      <ScrollOrb />
 
       {/* Page content — animated in/out by AnimatePresence */}
       <AnimatedRoutes />

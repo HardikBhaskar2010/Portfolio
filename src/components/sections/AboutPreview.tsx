@@ -1,12 +1,18 @@
-import { useRef } from 'react';
+import { useRef, lazy, Suspense } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { CountUp } from '@/components/ui/CountUp';
+import { getToolIcon } from '@/components/ui/ToolIcon';
 import { fadeUp, stagger, scaleIn, spring } from '@/lib/motion';
 import { tools } from '@/data/tools';
+import { WebGLGuard } from '@/components/three/WebGLGuard';
+
+const FloatingGeomCanvas = lazy(() =>
+  import('@/components/three/FloatingGeoms').then(m => ({ default: m.FloatingGeomCanvas }))
+);
 
 export function AboutPreview() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -63,7 +69,7 @@ export function AboutPreview() {
             variants={stagger}
             initial="hidden"
             animate={inView ? 'visible' : 'hidden'}
-            className="lg:col-span-3 flex flex-col gap-6"
+            className="lg:col-span-3 flex flex-col gap-6 order-2 lg:order-1"
           >
             {/* Bio Card */}
             <motion.div
@@ -112,10 +118,59 @@ export function AboutPreview() {
                 </motion.div>
               ))}
             </motion.div>
+            {/* Design & Development Tools */}
+            <motion.div
+              variants={stagger}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6"
+            >
+              {['Design', 'Development'].map((category) => (
+                <motion.div
+                  key={category}
+                  variants={scaleIn}
+                  className="bg-surface border border-border rounded-2xl p-6 md:p-8 flex flex-col"
+                >
+                  <span className="font-ui text-[10px] uppercase tracking-[0.2em] text-tagText mb-6">{category}</span>
+                  <div className="flex flex-col gap-5">
+                    {tools[category].slice(0, 3).map((tool) => (
+                      <div key={tool.name} className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-bg border border-border flex items-center justify-center flex-shrink-0">
+                          {getToolIcon(tool.name)}
+                        </div>
+                        <div>
+                          <p className="font-ui text-sm md:text-base text-heading font-medium">{tool.name}</p>
+                          <p className="font-ui text-[10px] md:text-xs text-muted mt-0.5">{tool.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Collaboration Tools (Full Width) */}
+            <motion.div
+              variants={scaleIn}
+              className="bg-surface border border-border rounded-2xl p-6 md:p-8 flex flex-col flex-1 justify-center"
+            >
+              <span className="font-ui text-[10px] uppercase tracking-[0.2em] text-tagText mb-6 md:mb-8">Collaboration</span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {tools['Collaboration'].slice(0, 3).map((tool) => (
+                  <div key={tool.name} className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-bg border border-border flex items-center justify-center flex-shrink-0">
+                      {getToolIcon(tool.name, 28)}
+                    </div>
+                    <div>
+                      <p className="font-ui text-base md:text-lg text-heading font-medium">{tool.name}</p>
+                      <p className="font-ui text-xs text-muted mt-1 max-w-[120px] leading-tight">{tool.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* Right Column — 2/5 */}
-          <div className="lg:col-span-2 flex flex-col gap-6">
+          <div className="lg:col-span-2 flex flex-col gap-4 md:gap-6 order-1 lg:order-2">
             {/* Avatar Card with parallax */}
             <div className="bg-surface border border-border rounded-2xl overflow-hidden">
               <div className="parallax-container h-56 md:h-72">
@@ -129,7 +184,10 @@ export function AboutPreview() {
               <div className="p-6">
                 <p className="font-heading font-bold text-heading text-lg">Hardik Bhaskar</p>
                 <p className="font-ui text-xs text-cyan uppercase tracking-widest mt-1">
-                  Full Stack Developer & AI Systems Builder
+                  Interactive Web Developer · AI Systems Builder
+                </p>
+                <p className="font-ui text-[10px] text-muted mt-1">
+                  Based in India · Works globally
                 </p>
                 <p className="font-ui text-sm text-body mt-3 leading-relaxed">
                   Building immersive web experiences, AI systems, and futuristic digital products.
@@ -137,7 +195,25 @@ export function AboutPreview() {
               </div>
             </div>
 
-            {/* Role Card */}
+            {/* 3D Bento Cell — floating icosahedron */}
+            <motion.div
+              variants={scaleIn}
+              initial="hidden"
+              animate={inView ? 'visible' : 'hidden'}
+              className="glass-cyan rounded-2xl overflow-hidden relative"
+              style={{ height: 180 }}
+            >
+              <WebGLGuard fallback={<div className="w-full h-full flex items-center justify-center"><span className="font-ui text-xs text-tagText">Three.js</span></div>}>
+                <Suspense fallback={null}>
+                  <FloatingGeomCanvas type="icosahedron" color="#00E5FF" speed={0.8} size={0.9} />
+                </Suspense>
+              </WebGLGuard>
+              <div className="absolute bottom-3 left-4">
+                <span className="font-ui text-[9px] uppercase tracking-[0.2em] text-cyan/60">Three.js · R3F</span>
+              </div>
+            </motion.div>
+
+            {/* Role Card — premium skills first */}
             <motion.div
               variants={scaleIn}
               initial="hidden"
@@ -146,7 +222,7 @@ export function AboutPreview() {
             >
               <span className="font-ui text-[10px] uppercase tracking-widest text-tagText">What I do</span>
               <div className="flex flex-wrap gap-2 mt-1">
-                {['React / Next.js', 'Framer Motion', 'Three.js', 'AI Systems', 'TypeScript', 'Supabase'].map(t => (
+                {['Three.js', 'React Three Fiber', 'Framer Motion', 'GSAP', 'React / Next.js', 'AI Systems', 'TypeScript', 'Supabase'].map(t => (
                   <span
                     key={t}
                     className="font-ui text-xs text-tagText bg-tag px-3 py-1.5 rounded-full border border-border"
@@ -160,37 +236,34 @@ export function AboutPreview() {
                 <span className="font-ui text-xs text-cyan">Available for new projects</span>
               </div>
             </motion.div>
+
+            {/* AI & Systems Tools */}
+            {['AI & Systems'].map((category) => (
+              <motion.div
+                key={category}
+                variants={scaleIn}
+                initial="hidden"
+                animate={inView ? 'visible' : 'hidden'}
+                className="bg-surface border border-border rounded-2xl p-6 flex flex-col"
+              >
+                <span className="font-ui text-[10px] uppercase tracking-[0.2em] text-tagText mb-4">{category}</span>
+                <div className="flex flex-col gap-4">
+                  {tools[category].slice(0, 3).map((tool) => (
+                    <div key={tool.name} className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-bg border border-border flex items-center justify-center flex-shrink-0">
+                        {getToolIcon(tool.name)}
+                      </div>
+                      <div>
+                        <p className="font-ui text-sm text-heading font-medium">{tool.name}</p>
+                        <p className="font-ui text-[10px] text-muted mt-0.5">{tool.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
-
-        {/* ── Tools Grid ── */}
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
-        >
-          {Object.entries(tools).map(([category, items]) => (
-            <motion.div
-              key={category}
-              variants={scaleIn}
-              className="bg-surface border border-border rounded-2xl p-5"
-            >
-              <span className="font-ui text-[9px] uppercase tracking-[0.2em] text-tagText">{category}</span>
-              <div className="mt-4 flex flex-col gap-3">
-                {items.slice(0, 3).map((tool) => (
-                  <div key={tool.name} className="flex items-center gap-2.5">
-                    <span className="text-lg">{tool.icon}</span>
-                    <div>
-                      <p className="font-ui text-sm text-heading font-medium">{tool.name}</p>
-                      <p className="font-ui text-[10px] text-muted">{tool.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

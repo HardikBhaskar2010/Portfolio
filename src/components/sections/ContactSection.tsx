@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ArrowRight, Mail, Phone, ExternalLink } from 'lucide-react';
+import { ArrowRight, Mail, Phone, ExternalLink, Calendar } from 'lucide-react';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Button } from '@/components/ui/Button';
 import { stagger, fadeUp, scaleIn } from '@/lib/motion';
@@ -84,10 +84,20 @@ export function ContactSection() {
               I'd love to hear from you. Let's build something remarkable together.
             </motion.p>
 
-            <motion.div variants={fadeUp}>
+            <motion.div variants={fadeUp} className="flex flex-col xs:flex-row items-start gap-3">
               <a href="mailto:hardik.bhaskar2010@gmail.com">
                 <Button variant="primary" size="lg" icon={<ArrowRight size={14} />}>
                   Let's begin
+                </Button>
+              </a>
+              <a
+                href="https://calendly.com/lunakitsune/30min"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => track.ctaClick('Book a call', 'contact-section')}
+              >
+                <Button variant="ghost" size="lg" icon={<Calendar size={14} />}>
+                  Book a 30-min call
                 </Button>
               </a>
             </motion.div>
@@ -100,7 +110,8 @@ export function ContactSection() {
                 </div>
                 <div>
                   <p className="font-heading font-semibold text-heading text-sm">Hardik Bhaskar</p>
-                  <p className="font-ui text-xs text-cyan">Available for new projects</p>
+                  <p className="font-ui text-xs text-cyan">Interactive Web Developer · AI Systems Builder</p>
+                  <p className="font-ui text-[10px] text-muted mt-0.5">Based in India · Works globally</p>
                 </div>
               </div>
 
@@ -243,7 +254,17 @@ export function ContactSection() {
                   </motion.button>
 
                   <p className="font-ui text-[10px] text-center text-muted">
-                    Typically responds within 24 hours. No spam, ever.
+                    Usually responds within 24 hours · No spam, ever.
+                    <br />
+                    <span className="text-tagText">Prefer a call?{' '}</span>
+                    <a
+                      href="https://calendly.com/lunakitsune/30min"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-cyan hover:underline underline-offset-4"
+                    >
+                      Book 30 min here →
+                    </a>
                   </p>
                 </form>
               )}
