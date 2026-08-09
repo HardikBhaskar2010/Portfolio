@@ -179,6 +179,21 @@ export function Navbar() {
 
             {/* CTA + Hamburger */}
             <div className="flex items-center gap-2 flex-shrink-0">
+              {/* GitHub icon link — separate, left of Let's Talk */}
+              <motion.a
+                href="https://github.com/HardikBhaskar2010/"
+                target="_blank"
+                rel="noreferrer"
+                whileHover={{ scale: 1.12 }}
+                whileTap={{ scale: 0.92 }}
+                onClick={() => track.socialClick('GitHub', 'navbar')}
+                className="hidden md:flex items-center justify-center w-8 h-8 rounded-full border border-white/10 text-muted hover:text-heading hover:border-white/30 transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(8px)' }}
+                aria-label="GitHub profile"
+              >
+                <GithubIcon size={15} />
+              </motion.a>
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.96 }}
@@ -189,7 +204,10 @@ export function Navbar() {
                   padding:  `${7 - t * 1.5}px ${16 - t * 4}px`,
                 }}
               >
-                <GithubIcon size={13 - t} />
+                <span
+                  className="rounded-full bg-bg animate-pulse"
+                  style={{ width: `${6 - t}px`, height: `${6 - t}px` }}
+                />
                 {t < 0.5 ? "Let's Talk" : 'Talk'}
               </motion.button>
 
@@ -272,7 +290,7 @@ export function Navbar() {
                   onClick={() => { scrollTo('#contact'); setMenuOpen(false); }}
                   className="inline-flex items-center gap-2 font-ui text-sm uppercase tracking-widest text-bg bg-accent px-6 py-3 rounded-full"
                 >
-                  <GithubIcon size={14} />
+                  <span className="w-1.5 h-1.5 rounded-full bg-bg animate-pulse" />
                   Let's Talk
                 </button>
               </motion.div>
