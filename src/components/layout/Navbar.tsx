@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Github } from 'lucide-react';
 import clsx from 'clsx';
 import { mobileMenuContainer, mobileMenuItem } from '@/lib/motion';
 import { scrollTo, getLenis } from '@/lib/lenis';
@@ -183,10 +183,7 @@ export function Navbar() {
                   padding:  `${7 - t * 1.5}px ${16 - t * 4}px`,
                 }}
               >
-                <span
-                  className="rounded-full bg-bg animate-pulse"
-                  style={{ width: `${6 - t}px`, height: `${6 - t}px` }}
-                />
+                <Github style={{ width: `${13 - t}px`, height: `${13 - t}px` }} />
                 {t < 0.5 ? "Let's Talk" : 'Talk'}
               </motion.button>
 
@@ -269,7 +266,7 @@ export function Navbar() {
                   onClick={() => { scrollTo('#contact'); setMenuOpen(false); }}
                   className="inline-flex items-center gap-2 font-ui text-sm uppercase tracking-widest text-bg bg-accent px-6 py-3 rounded-full"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-bg animate-pulse" />
+                  <Github size={14} />
                   Let's Talk
                 </button>
               </motion.div>
