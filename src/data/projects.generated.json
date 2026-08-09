@@ -1,0 +1,95 @@
+[
+  {
+    "id": "stem-idea-generator",
+    "slug": "stem-idea-generator",
+    "title": "STEM Idea Adventure",
+    "subtitle": "Interactive Learning Platform",
+    "category": "EdTech",
+    "tag": "Full Stack",
+    "year": "2024",
+    "image": "/images/project-stem-adventure.png",
+    "heroImage": "/images/project-stem-adventure.png",
+    "description": "AI-powered STEM idea generator that creates personalized science experiments, engineering challenges, and learning paths for K-12 students using multi-agent AI.",
+    "longDescription": "STEM Idea Adventure reimagines science education through interactive challenges, 3D simulations, and game-like progression systems. Built for K-12 students, it makes complex concepts feel like an adventure.",
+    "featured": true,
+    "tools": [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "FastAPI",
+      "Google ADK"
+    ],
+    "link": "https://stemidea.vercel.app",
+    "color": "#00E5FF"
+  },
+  {
+    "id": "mahinaos",
+    "slug": "mahinaos",
+    "title": "Mahina OS",
+    "subtitle": "Experimental OS Interface",
+    "category": "Systems Design",
+    "tag": "UI / Systems",
+    "year": "2025",
+    "image": "/images/project-placeholder.png",
+    "heroImage": "/images/project-placeholder.png",
+    "description": "A reimagined operating system interface — brutally minimal, intentionally different. MahinaOS is an experimental OS-shell aesthetic built for those who think modern computing has gotten too comfortable.",
+    "longDescription": "MahinaOS is a radical rethink of the computing interface — stripped of corporate polish, rebuilt around intentionality. A fully interactive OS-shell aesthetic that challenges what a desktop environment can feel like.",
+    "featured": true,
+    "tools": [
+      "TypeScript",
+      "React",
+      "WebGL",
+      "Framer Motion",
+      "CSS Houdini"
+    ],
+    "link": "https://github.com/HardikBhaskar2010/MahinaOS",
+    "color": "#A855F7"
+  },
+  {
+    "id": "aegis-decision-intelligence-platform",
+    "slug": "aegis-decision-intelligence-platform",
+    "title": "AEGIS",
+    "subtitle": "AI Decision Intelligence Platform",
+    "category": "AI Systems",
+    "tag": "Data Intelligence",
+    "year": "2025",
+    "image": "/images/project-placeholder.png",
+    "heroImage": "/images/project-placeholder.png",
+    "description": "AI decision intelligence platform that orchestrates agentic data pipelines on BigQuery and Vertex AI — turning raw enterprise data into structured, evidence-based strategic decisions.",
+    "longDescription": "AEGIS orchestrates agentic data pipelines on BigQuery and Vertex AI, combining multi-model reasoning with enterprise data warehousing to produce structured, evidence-based strategic decisions at scale.",
+    "featured": true,
+    "tools": [
+      "Python",
+      "BigQuery",
+      "Vertex AI",
+      "Google ADK",
+      "FastAPI"
+    ],
+    "link": "https://decisionforge-one.vercel.app",
+    "color": "#F59E0B"
+  },
+  {
+    "id": "veronica-ai",
+    "slug": "veronica-ai",
+    "title": "Veronica AI",
+    "subtitle": "Conversational AI System",
+    "category": "AI Systems",
+    "tag": "AI Engineering",
+    "year": "2025",
+    "image": "/images/project-ai-veronica.png",
+    "heroImage": "/images/project-ai-veronica.png",
+    "description": "A next-generation conversational AI system with custom agent orchestration, persistent memory graphs, and emotionally adaptive dialogue — built to feel genuinely intelligent.",
+    "longDescription": "Veronica is a next-generation AI system built with custom agent orchestration, persistent memory graphs, and emotionally responsive dialogue models. It powers conversational experiences that feel genuinely intelligent.",
+    "featured": true,
+    "tools": [
+      "Python",
+      "LangChain",
+      "OpenAI",
+      "React",
+      "TypeScript",
+      "FastAPI"
+    ],
+    "link": "https://github.com/HardikBhaskar2010/Veronica-AI",
+    "color": "#7C3AED"
+  }
+]

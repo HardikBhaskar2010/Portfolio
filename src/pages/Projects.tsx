@@ -21,7 +21,7 @@ export default function Projects() {
   });
   const heroImageY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%']);
 
-  const featured = projects[0];
+  const featured = projects.length > 0 ? projects[0] : null;
 
   return (
     <motion.div variants={pageEnter} initial="hidden" animate="visible" exit="exit" className="page-wrapper">
@@ -51,45 +51,47 @@ export default function Projects() {
             </motion.div>
 
             {/* Featured Project — Full Width */}
-            <motion.div
-              ref={featuredRef}
-              variants={scaleIn}
-              initial="hidden"
-              animate="visible"
-              className="relative rounded-2xl overflow-hidden border border-border bg-surface group cursor-pointer"
-            >
-              <Link to={`/projects/${featured.slug}`}>
-                {/* Tag */}
-                <div className="absolute top-5 left-5 z-10">
-                  <span className="font-ui text-[10px] uppercase tracking-widest text-bg bg-cyan px-3 py-1.5 rounded-full">
-                    Latest project
-                  </span>
-                </div>
-
-                {/* Hero Image with parallax */}
-                <div className="aspect-[16/7] overflow-hidden parallax-container">
-                  <motion.img
-                    src={featured.image}
-                    alt={featured.title}
-                    style={{ y: heroImageY, scale: 1.08 }}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
-                </div>
-
-                {/* Footer info */}
-                <div className="p-8 flex items-end justify-between">
-                  <div className="flex flex-col gap-2">
-                    <Tag>{featured.category}</Tag>
-                    <h2 className="font-display italic text-heading text-3xl md:text-5xl">{featured.title}</h2>
-                    <p className="font-ui text-body text-sm max-w-[400px]">{featured.description}</p>
+            {featured && (
+              <motion.div
+                ref={featuredRef}
+                variants={scaleIn}
+                initial="hidden"
+                animate="visible"
+                className="relative rounded-2xl overflow-hidden border border-border bg-surface group cursor-pointer"
+              >
+                <Link to={`/projects/${featured.slug}`}>
+                  {/* Tag */}
+                  <div className="absolute top-5 left-5 z-10">
+                    <span className="font-ui text-[10px] uppercase tracking-widest text-bg bg-cyan px-3 py-1.5 rounded-full">
+                      Latest project
+                    </span>
                   </div>
-                  <div className="hidden md:flex w-12 h-12 rounded-full border border-border items-center justify-center text-heading group-hover:bg-accent group-hover:border-accent group-hover:text-bg transition-all duration-300">
-                    <ArrowUpRight size={18} />
+
+                  {/* Hero Image with parallax */}
+                  <div className="aspect-[16/7] overflow-hidden parallax-container">
+                    <motion.img
+                      src={featured.image}
+                      alt={featured.title}
+                      style={{ y: heroImageY, scale: 1.08 }}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
                   </div>
-                </div>
-              </Link>
-            </motion.div>
+
+                  {/* Footer info */}
+                  <div className="p-8 flex items-end justify-between">
+                    <div className="flex flex-col gap-2">
+                      <Tag>{featured.category}</Tag>
+                      <h2 className="font-display italic text-heading text-3xl md:text-5xl">{featured.title}</h2>
+                      <p className="font-ui text-body text-sm max-w-[400px]">{featured.description}</p>
+                    </div>
+                    <div className="hidden md:flex w-12 h-12 rounded-full border border-border items-center justify-center text-heading group-hover:bg-accent group-hover:border-accent group-hover:text-bg transition-all duration-300">
+                      <ArrowUpRight size={18} />
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            )}
           </div>
         </section>
 
