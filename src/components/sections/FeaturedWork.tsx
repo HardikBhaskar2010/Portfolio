@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { type HTMLMotionProps, motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -72,6 +72,26 @@ export function FeaturedWork({ limit = 4, showViewAll = true }: FeaturedWorkProp
   );
 }
 
+/* ── Fallback Image ── */
+function FallbackImg({
+  src, alt, className, style, priority, ...rest
+}: HTMLMotionProps<"img"> & { priority?: boolean }) {
+  const FALLBACK = '/images/project-placeholder.png';
+  const [imgSrc, setImgSrc] = useState(src || FALLBACK);
+  useEffect(() => { setImgSrc(src || FALLBACK); }, [src]);
+  return (
+    <motion.img
+      {...rest as any}
+      src={imgSrc}
+      alt={alt}
+      className={className || "w-full h-full object-cover"}
+      style={style}
+      loading={priority ? 'eager' : 'lazy'}
+      onError={() => setImgSrc(FALLBACK)}
+    />
+  );
+}
+
 /* ── Project Card ── */
 function ProjectCard({ project, priority }: { project: typeof projects[0]; priority?: boolean }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -94,12 +114,11 @@ function ProjectCard({ project, priority }: { project: typeof projects[0]; prior
       >
         {/* Image area */}
         <div className="aspect-video overflow-hidden parallax-container">
-          <motion.img
+          <FallbackImg
             src={project.image}
             alt={project.title}
             style={{ y: imageY, scale: 1.1 }}
-            className="w-full h-full object-cover"
-            loading={priority ? 'eager' : 'lazy'}
+            priority={priority}
           />
           {/* Overlay gradient */}
           <div
