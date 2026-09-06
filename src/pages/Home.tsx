@@ -24,7 +24,7 @@ export default function Home() {
     >
       <Seo
         title="Hardik Bhaskar — Interactive Web & 3D Developer"
-        description="I build scroll-driven 3D web experiences, AI-powered apps, and full-stack products. React · Three.js · Framer Motion · TypeScript. Available for freelance projects and long-term contracts."
+        description="Scroll-driven 3D web experiences, AI-powered apps & full-stack products. React · Three.js · TypeScript. Available for freelance contracts."
         path="/"
         jsonLd={[buildPersonJsonLd(), buildWebsiteJsonLd()]}
       />
