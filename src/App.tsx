@@ -7,6 +7,7 @@ import { useLenis, getLenis } from '@/lib/lenis';
 import { track } from '@/lib/analytics';
 import { unlockAudio, playTransitionWhoosh } from '@/lib/audio';
 import { GridDistortion } from '@/components/effects/GridDistortion';
+import GradientWaves from '@/components/ui/GradientWaves';
 import { Navbar } from '@/components/layout/Navbar';
 import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
 import Home from '@/pages/Home';
@@ -180,6 +181,32 @@ function AppContent() {
 
   return (
     <>
+      {/* ── Backmost Layer: GradientWaves (React Bits) ── */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
+        <GradientWaves
+          horizonColor="#5227FF"
+          waveColor="#FF9FFC"
+          crestColor="#FFFFFF"
+          speed={0.4}
+          amplitude={2.5}
+          waveScale={0.6}
+          waveRatio={0.9}
+          swell={35}
+          turbulence={20}
+          tilt={1.11}
+          zoom={1.0}
+          height={5.5}
+          fogDepth={15}
+          detail="medium"
+          brightness={1.0}
+          opacity={1.0}
+          mouseInteraction={true}
+          parallaxStrength={0.5}
+          grain={true}
+          grainIntensity={0.05}
+        />
+      </div>
+
       {/* ── Background grid + glow effect (BELOW everything) ── */}
       <GridDistortion />
 
@@ -194,7 +221,9 @@ function AppContent() {
       <ScrollToTop />
 
       {/* Page content — animated in/out by AnimatePresence */}
-      <AnimatedRoutes />
+      <div className="relative z-10">
+        <AnimatedRoutes />
+      </div>
 
       {/* ── Vercel: Page-view analytics ── */}
       <Analytics />

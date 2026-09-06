@@ -66,12 +66,12 @@ export function Hero() {
         </Suspense>
       </WebGLGuard>
 
-      {/* ── Glass-dark overlay — keeps text readable over 3D ── */}
+      {/* ── Glass-dark overlay — keeps text readable over 3D & waves ── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           zIndex: 1,
-          background: 'linear-gradient(to right, rgba(5,5,10,0.88) 50%, rgba(5,5,10,0.35) 100%)',
+          background: 'linear-gradient(to right, rgba(5,5,10,0.85) 45%, rgba(5,5,10,0.25) 100%)',
         }}
       />
 
@@ -89,7 +89,7 @@ export function Hero() {
       {/* ── Vignette edges ──────────────────────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ zIndex: 1, background: 'radial-gradient(ellipse at center, transparent 40%, #080808 100%)' }}
+        style={{ zIndex: 1, background: 'radial-gradient(ellipse at center, transparent 40%, rgba(8,8,8,0.55) 100%)' }}
       />
 
       {/* ── Two-column layout ────────────────────────────────── */}
