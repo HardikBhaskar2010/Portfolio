@@ -59,9 +59,10 @@ export function getRoutes() {
       <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
         Building cinematic web experiences, AI systems, and futuristic interactive products. React · Three.js · TypeScript.
       </p>
-      <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem;">
+      <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
         <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Explore Projects →</a>
         <a href="/about" style="color: #00E5FF; text-decoration: none; font-weight: 600;">About Hardik →</a>
+        <a href="https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/" target="_blank" rel="noopener noreferrer" style="color: #00E5FF; text-decoration: none; font-weight: 600;">LinkedIn ↗</a>
       </nav>
     </header>`,
     },
@@ -81,9 +82,17 @@ export function getRoutes() {
         <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
           Systems developer and AI builder focused on robust low-level architectures, autonomous intelligence systems, and high-performance user interfaces — from bare-metal OS kernels to cinematic 3D web experiences.
         </p>
-        <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem; margin-top: 1.5rem;">
+        <section style="margin: 1.5rem 0; padding: 1.25rem; background: #0c0c10; border: 1px solid #222; border-radius: 12px;">
+          <h2 style="font-size: 1.25rem; font-weight: 600; color: #00E5FF; margin-bottom: 0.5rem;">Verified GitHub Telemetry &amp; Live Shipping Cadence</h2>
+          <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.5rem;">
+            1,867+ contributions across public and private repositories. Active open-source and architecture systems include Vectoris (Native AI Desktop), Veronica-AI (Autonomous reasoning loop), MahinaOS (bare-metal x86_64 kernel), and AEGIS (Intelligence platform).
+          </p>
+        </section>
+        <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem; margin-top: 1.5rem; flex-wrap: wrap;">
           <a href="/" style="color: #00E5FF; text-decoration: none; font-weight: 600;">← Home</a>
           <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Projects →</a>
+          <a href="https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/" target="_blank" rel="noopener noreferrer" style="color: #00E5FF; text-decoration: none; font-weight: 600;">LinkedIn ↗</a>
+          <a href="https://github.com/HardikBhaskar2010" target="_blank" rel="noopener noreferrer" style="color: #00E5FF; text-decoration: none; font-weight: 600;">GitHub ↗</a>
         </nav>
       </header>`,
     },

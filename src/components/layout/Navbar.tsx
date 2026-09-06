@@ -306,7 +306,7 @@ export function Navbar() {
               <motion.div variants={mobileMenuItem} className="mt-8 flex gap-6">
                 {[
                   { label: 'Twitter',  href: 'https://x.com/kitsune_luna05' },
-                  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/luna-kitsune-8a107a3bb/' },
+                  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/' },
                   { label: 'GitHub',   href: 'https://github.com/HardikBhaskar2010/' },
                 ].map(s => (
                   <a key={s.label} href={s.href} target="_blank" rel="noreferrer"

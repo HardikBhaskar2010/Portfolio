@@ -76,18 +76,27 @@ function ScrollToTop() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    // If there is an anchor hash (e.g. #contact), scroll to that section
+    // If there is an anchor hash (e.g. #contact, #about-contributions), scroll to that section
     if (hash) {
-      const el = document.querySelector(hash);
-      if (el) {
-        const lenis = getLenis();
-        if (lenis) {
-          lenis.scrollTo(hash, { duration: 1.2 });
-        } else {
-          el.scrollIntoView({ behavior: 'smooth' });
+      const scrollToHash = () => {
+        const el = document.querySelector(hash);
+        if (el) {
+          const lenis = getLenis();
+          if (lenis) {
+            lenis.scrollTo(hash, { duration: 1.2, offset: -80 });
+          } else {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+          return true;
         }
-        return;
-      }
+        return false;
+      };
+
+      if (scrollToHash()) return;
+
+      // Retry shortly in case target route chunk is still mounting
+      const timer = setTimeout(scrollToHash, 250);
+      return () => clearTimeout(timer);
     }
 
     // Immediately reset scroll position to top (0, 0)

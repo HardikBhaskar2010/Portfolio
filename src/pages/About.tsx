@@ -7,6 +7,7 @@ import { Tag } from '@/components/ui/Tag';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { FAQ } from '@/components/sections/FAQ';
 import { ContactSection } from '@/components/sections/ContactSection';
+import { LiveContributions } from '@/components/sections/LiveContributions';
 import { services, experience, tools } from '@/data/tools';
 import { pageEnter, stagger, fadeUp, fadeLeft, fadeRight, scaleIn } from '@/lib/motion';
 import { Seo, buildPersonJsonLd } from '@/lib/seo';
@@ -147,6 +148,11 @@ export default function About() {
               </motion.div>
             </div>
           </section>
+        </HighlightPoint>
+
+        {/* ── Live Contributions & Activity ── */}
+        <HighlightPoint id="about-contributions" color="#00E5FF" label="UPLINK // LIVE CONTRIBUTIONS">
+          <LiveContributions />
         </HighlightPoint>
 
         {/* ── Services ── */}

@@ -86,13 +86,23 @@ export function AboutPreview() {
                 <strong className="text-heading font-semibold">Python</strong> multi-agent intelligence (AEGIS & Veronica AI),
                 and modern full-stack web engineering with <strong className="text-heading font-semibold">TypeScript</strong> and React 19.
               </p>
-              <Link
-                to="/about"
-                className="inline-flex items-center gap-2 mt-6 font-ui text-sm text-heading link-underline group"
-              >
-                Full story & architecture
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <div className="flex flex-wrap items-center gap-4 mt-6">
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 font-ui text-sm text-heading link-underline group"
+                >
+                  Full story & architecture
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  to="/about#about-contributions"
+                  className="inline-flex items-center gap-2 font-mono text-xs text-cyan bg-cyan/10 border border-cyan/30 px-3 py-1.5 rounded-full hover:bg-cyan/20 transition-all group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" />
+                  1,867+ Live Contributions
+                  <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+              </div>
             </motion.div>
 
             {/* Stats Row */}

@@ -226,7 +226,7 @@ Since `package.json` sets `"type": "module"`, all `.js` config files are treated
 
 [![Email](https://img.shields.io/badge/Email-hardik.bhaskar2010@gmail.com-00E5FF?style=flat-square&logo=gmail)](mailto:hardik.bhaskar2010@gmail.com)
 [![GitHub](https://img.shields.io/badge/GitHub-HardikBhaskar2010-181717?style=flat-square&logo=github)](https://github.com/HardikBhaskar2010)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Luna%20Kitsune-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/luna-kitsune-8a107a3bb/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Hardik%20Bhaskar-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/)
 [![Twitter](https://img.shields.io/badge/Twitter-@kitsune__luna05-1DA1F2?style=flat-square&logo=twitter)](https://x.com/kitsune_luna05)
 
 ---

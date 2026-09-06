@@ -51,7 +51,7 @@ export function ContactSection() {
 
   const socials = [
     { label: 'Twitter / X', href: 'https://x.com/kitsune_luna05' },
-    { label: 'LinkedIn',    href: 'https://www.linkedin.com/in/luna-kitsune-8a107a3bb/' },
+    { label: 'LinkedIn',    href: 'https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/' },
     { label: 'GitHub',      href: 'https://github.com/HardikBhaskar2010/' },
   ];
 
