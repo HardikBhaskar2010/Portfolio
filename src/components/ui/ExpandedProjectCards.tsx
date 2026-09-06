@@ -55,7 +55,7 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
             >
               {/* Entire card is clickable to project detail */}
               <Link
-                to={`/project/${project.slug}`}
+                to={`/projects/${project.slug}`}
                 className="absolute inset-0 z-20 flex flex-col justify-between p-5 lg:p-7"
               >
                 {/* ── Top row: Number and Status ── */}
@@ -246,7 +246,7 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                     {project.description}
                   </p>
                   <Link
-                    to={`/project/${project.slug}`}
+                    to={`/projects/${project.slug}`}
                     className="w-full py-2.5 rounded-xl bg-cyan text-bg font-ui font-medium text-xs flex items-center justify-center gap-1.5"
                   >
                     <span>Explore Project</span>
