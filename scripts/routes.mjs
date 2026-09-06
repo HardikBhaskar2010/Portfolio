@@ -76,16 +76,16 @@ export function getRoutes() {
       ogImage: '/og-preview.png',
       jsonLd: buildPersonJsonLd(),
       fallbackHtml: `
-    <main style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
-      <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">About Hardik Bhaskar</h1>
-      <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
-        Systems developer and AI builder focused on robust low-level architectures, autonomous intelligence systems, and high-performance user interfaces — from bare-metal OS kernels to cinematic 3D web experiences.
-      </p>
-      <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem; margin-top: 1.5rem;">
-        <a href="/" style="color: #00E5FF; text-decoration: none; font-weight: 600;">← Home</a>
-        <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Projects →</a>
-      </nav>
-    </main>`,
+      <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
+        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">About Hardik Bhaskar — Systems Architect &amp; AI Systems Builder</h1>
+        <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
+          Systems developer and AI builder focused on robust low-level architectures, autonomous intelligence systems, and high-performance user interfaces — from bare-metal OS kernels to cinematic 3D web experiences.
+        </p>
+        <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem; margin-top: 1.5rem;">
+          <a href="/" style="color: #00E5FF; text-decoration: none; font-weight: 600;">← Home</a>
+          <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Projects →</a>
+        </nav>
+      </header>`,
     },
     {
       path: '/projects',
@@ -98,27 +98,27 @@ export function getRoutes() {
       ogImage: '/og-preview.png',
       jsonLd: [buildPersonJsonLd(), collectionJsonLd],
       fallbackHtml: `
-    <main style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
-      <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">Projects — Hardik Bhaskar</h1>
-      <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
-        A curated collection of AI systems, low-level desktop applications, OS research, and cinematic 3D web experiences.
-      </p>
-      <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
-        ${projects
-          .map(
-            (p) => `
-        <li>
-          <a href="/projects/${p.slug}" style="color: #00E5FF; text-decoration: none; font-weight: 600;">${p.title}</a>
-          <span style="color: #94A3B8;"> — ${p.subtitle || p.category || ''}</span>
-        </li>`
-          )
-          .join('')}
-      </ul>
-      <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem; margin-top: 1.5rem;">
-        <a href="/" style="color: #00E5FF; text-decoration: none; font-weight: 600;">← Home</a>
-        <a href="/about" style="color: #00E5FF; text-decoration: none; font-weight: 600;">About →</a>
-      </nav>
-    </main>`,
+      <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
+        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">Projects — Hardik Bhaskar</h1>
+        <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
+          A curated collection of AI systems, low-level desktop applications, OS research, and cinematic 3D web experiences.
+        </p>
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
+          ${projects
+            .map(
+              (p) => `
+          <li>
+            <a href="/projects/${p.slug}" style="color: #00E5FF; text-decoration: none; font-weight: 600;">${p.title}</a>
+            <span style="color: #94A3B8;"> — ${p.subtitle || p.category || ''}</span>
+          </li>`
+            )
+            .join('')}
+        </ul>
+        <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem; margin-top: 1.5rem;">
+          <a href="/" style="color: #00E5FF; text-decoration: none; font-weight: 600;">← Home</a>
+          <a href="/about" style="color: #00E5FF; text-decoration: none; font-weight: 600;">About →</a>
+        </nav>
+      </header>`,
     },
     ...projects.map((project) => {
       const metaDescription =
@@ -137,20 +137,20 @@ export function getRoutes() {
         ogImage: project.image || '/og-preview.png',
         jsonLd: buildProjectJsonLd(project),
         fallbackHtml: `
-    <main style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
-      <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">${project.title}</h1>
-      <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
-        ${project.description}
-      </p>
-      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-        ${
-          project.link
-            ? `<a href="${project.link}" target="_blank" rel="noopener noreferrer" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Live Project / Repository ↗</a>`
-            : ''
-        }
-        <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">← Back to all projects</a>
-      </div>
-    </main>`,
+      <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
+        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">${project.title}</h1>
+        <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
+          ${project.description}
+        </p>
+        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+          ${
+            project.link
+              ? `<a href="${project.link}" target="_blank" rel="noopener noreferrer" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Live Project / Repository ↗</a>`
+              : ''
+          }
+          <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">← Back to all projects</a>
+        </div>
+      </header>`,
       };
     }),
   ];

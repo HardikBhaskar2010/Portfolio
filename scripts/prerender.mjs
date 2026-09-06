@@ -78,9 +78,18 @@ function setJsonLd(html, jsonLd) {
   return html.replace(regex, tag);
 }
 
-function setRootContent(html, content) {
-  const regex = /<div\s+id="root">\s*<\/div>/i;
-  return html.replace(regex, `<div id="root">${content}</div>`);
+function removeMetaProperty(html, property) {
+  const regex = new RegExp(`\\s*<meta(?=[^>]*\\bproperty=["']${property}["'])[^>]*>`, 'gi');
+  return html.replace(regex, '');
+}
+
+function setNoscriptContent(html, content) {
+  const regex = /<noscript>[\s\S]*?<\/noscript>/i;
+  const tag = `<noscript>\n${content}\n    </noscript>`;
+  if (regex.test(html)) {
+    return html.replace(regex, tag);
+  }
+  return html.replace('</body>', `  ${tag}\n  </body>`);
 }
 
 let generatedCount = 0;
@@ -109,10 +118,19 @@ for (const route of routes) {
   html = setMetaProperty(html, 'og:url', canonicalUrl);
   html = setMetaProperty(html, 'og:image', ogImageUrl);
   html = setMetaProperty(html, 'og:image:secure_url', ogImageUrl);
-  html = setMetaProperty(html, 'og:image:width', '1200');
-  html = setMetaProperty(html, 'og:image:height', '630');
   html = setMetaProperty(html, 'og:image:type', imageType);
   html = setMetaProperty(html, 'og:image:alt', imageAlt);
+
+  // Declare dimensions ONLY for the standard 1200x630 banner.
+  // For project screenshots (arbitrary aspect ratios), strip declared dimensions
+  // so social debuggers (Facebook, LinkedIn) auto-detect natural size without mis-cropping.
+  if (route.ogImage === '/og-preview.png') {
+    html = setMetaProperty(html, 'og:image:width', '1200');
+    html = setMetaProperty(html, 'og:image:height', '630');
+  } else {
+    html = removeMetaProperty(html, 'og:image:width');
+    html = removeMetaProperty(html, 'og:image:height');
+  }
 
   // 3. Twitter tags
   html = setMetaName(html, 'twitter:title', route.title);
@@ -126,9 +144,11 @@ for (const route of routes) {
     html = setJsonLd(html, route.jsonLd);
   }
 
-  // 5. Semantic non-JS fallback body inside #root
+  // 5. Semantic non-JS fallback inside <noscript>
+  // <div id="root"></div> remains completely empty so #root:empty::after handles the
+  // background cleanly and React mounts with zero flash-of-content or CLS.
   if (route.fallbackHtml) {
-    html = setRootContent(html, route.fallbackHtml);
+    html = setNoscriptContent(html, route.fallbackHtml);
   }
 
   // 6. Write to dist/<route>/index.html (directory index)
