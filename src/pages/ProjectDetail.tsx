@@ -22,6 +22,7 @@ import { projects } from '@/data/projects';
 import { pageEnter, stagger, fadeUp, scaleIn } from '@/lib/motion';
 import { track } from '@/lib/analytics';
 import { playHoverTick, playClick, playSynthPulse } from '@/lib/audio';
+import { Seo, buildProjectJsonLd } from '@/lib/seo';
 
 // ── Markdown → Rich JSX Renderer ──────────────────────────────────────────
 function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) {
@@ -275,6 +276,12 @@ export default function ProjectDetail() {
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center">
+        <Seo
+          title="Project Not Found — Hardik Bhaskar"
+          description="This project doesn't exist. Browse all projects by Hardik Bhaskar."
+          path="/projects"
+          noindex
+        />
         <div className="text-center p-8">
           <p className="font-display italic text-6xl text-heading mb-4">404</p>
           <p className="font-ui text-body mb-6">Project not found.</p>
@@ -321,6 +328,11 @@ export default function ProjectDetail() {
     .filter(p => p.slug !== slug)
     .slice(0, 2);
 
+  // Trim description to ~155 chars for meta description
+  const metaDescription = project.description.length > 155
+    ? `${project.description.slice(0, 152)}…`
+    : project.description;
+
   return (
     <motion.div
       variants={pageEnter}
@@ -329,6 +341,13 @@ export default function ProjectDetail() {
       exit="exit"
       className="page-wrapper min-h-screen"
     >
+      <Seo
+        title={`${project.title} — Hardik Bhaskar`}
+        description={metaDescription}
+        path={`/projects/${project.slug}`}
+        ogImage={project.image}
+        jsonLd={buildProjectJsonLd(project)}
+      />
       <main>
         {/* ── Top Floating Header / Breadcrumbs ── */}
         <section className="pt-28 pb-6 border-b border-border/50 bg-bg/60 backdrop-blur-md sticky top-0 z-30">
@@ -487,6 +506,9 @@ export default function ProjectDetail() {
                     src={project.image}
                     fallbackSrc={project.fallbackImage}
                     alt={project.title}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                 </motion.div>
@@ -615,7 +637,7 @@ export default function ProjectDetail() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Previous */}
               <Link
-                to={`/project/${prevProject.slug}`}
+                to={`/projects/${prevProject.slug}`}
                 onMouseEnter={playSynthPulse}
                 className="group p-6 rounded-2xl border border-border bg-surface hover:border-accent transition-all flex items-center gap-5 active:scale-[0.99]"
               >
@@ -641,7 +663,7 @@ export default function ProjectDetail() {
 
               {/* Next */}
               <Link
-                to={`/project/${nextProject.slug}`}
+                to={`/projects/${nextProject.slug}`}
                 onMouseEnter={playSynthPulse}
                 className="group p-6 rounded-2xl border border-border bg-surface hover:border-accent transition-all flex items-center justify-between gap-5 text-right active:scale-[0.99]"
               >
@@ -687,7 +709,7 @@ export default function ProjectDetail() {
                 {related.map(p => (
                   <Link
                     key={p.id}
-                    to={`/project/${p.slug}`}
+                    to={`/projects/${p.slug}`}
                     onMouseEnter={playSynthPulse}
                   >
                     <motion.div

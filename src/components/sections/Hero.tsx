@@ -108,41 +108,46 @@ export function Hero() {
               </span>
             </motion.div>
 
-            {/* Headline */}
+            {/* Headline — single <h1> containing all animated words as <span> children */}
             <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
               className="mb-8"
             >
-              {tagline.map((word, i) => (
-                <div key={i} className="overflow-hidden">
-                  <motion.h1
-                    variants={lineVariants}
-                    className="font-display italic text-heading leading-[0.87] tracking-tight block"
-                    style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}
-                  >
-                    {word}
-                    {i === tagline.length - 1 && (
-                      <motion.span
-                        className="inline-block w-[3px] h-[0.75em] bg-cyan align-middle ml-2"
-                        animate={{ opacity: [1, 0, 1, 0, 1, 0, 0] }}
-                        transition={{ duration: 2, times: [0,0.2,0.4,0.6,0.8,0.9,1], delay: tagline.length * 0.1 + 0.8 }}
-                      />
-                    )}
-                  </motion.h1>
-                </div>
-              ))}
+              <div className="overflow-hidden">
+                <motion.h1
+                  className="font-display italic text-heading leading-[0.87] tracking-tight block"
+                  style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}
+                >
+                  {tagline.map((word, i) => (
+                    <motion.span
+                      key={i}
+                      variants={lineVariants}
+                      className="block"
+                    >
+                      {word}
+                      {i === tagline.length - 1 && (
+                        <motion.span
+                          className="inline-block w-[3px] h-[0.75em] bg-cyan align-middle ml-2"
+                          animate={{ opacity: [1, 0, 1, 0, 1, 0, 0] }}
+                          transition={{ duration: 2, times: [0,0.2,0.4,0.6,0.8,0.9,1], delay: tagline.length * 0.1 + 0.8 }}
+                        />
+                      )}
+                    </motion.span>
+                  ))}
+                </motion.h1>
+              </div>
             </motion.div>
 
-            {/* Subtitle — updated copy per upgrade plan */}
+            {/* Subtitle — "Hardik Bhaskar" present as real visible text for crawlers */}
             <motion.p
               variants={fadeUpDelay(0.75)}
               initial="hidden"
               animate="visible"
               className="font-ui text-body text-base leading-[1.85] max-w-[440px] mb-8"
             >
-              I build low-level systems in <span className="text-heading font-medium">Rust</span> & <span className="text-heading font-medium">C++</span>,
+              Hi, I'm <span className="text-heading font-medium">Hardik Bhaskar</span>. I build low-level systems in <span className="text-heading font-medium">Rust</span> &amp; <span className="text-heading font-medium">C++</span>,
               bare-metal operating systems, autonomous AI agents, and cinematic 3D web applications.{' '}
               <span className="text-cyan">Available for systems engineering and AI product contracts.</span>
             </motion.p>
@@ -244,7 +249,7 @@ export function Hero() {
               {projects.slice(0, 2).map((p, i) => (
                 <Link
                   key={p.id}
-                  to={`/project/${p.slug}`}
+                  to={`/projects/${p.slug}`}
                   className="flex-1 block focus:outline-none"
                 >
                   <motion.div

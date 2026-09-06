@@ -26,7 +26,7 @@ export function Footer() {
               <div className="w-9 h-9 rounded-full overflow-hidden border border-border flex-shrink-0">
                 <img
                   src="/images/logo.png"
-                  alt="Logo"
+                  alt="Hardik Bhaskar logo"
                   width={36}
                   height={36}
                   loading="lazy"

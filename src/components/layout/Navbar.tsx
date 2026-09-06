@@ -143,7 +143,7 @@ export function Navbar() {
               >
                 <img
                   src="/images/logo.png"
-                  alt="Hardik"
+                  alt="Hardik Bhaskar logo"
                   width={32}
                   height={32}
                   loading="eager"
