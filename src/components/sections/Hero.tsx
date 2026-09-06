@@ -213,6 +213,11 @@ export function Hero() {
                 <img
                   src="/images/avatar.png"
                   alt="Hardik Bhaskar"
+                  width={340}
+                  height={256}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-full h-full object-cover object-top"
                 />
                 {/* Gradient overlay */}
@@ -255,6 +260,10 @@ export function Hero() {
                       <img
                         src={p.image}
                         alt={p.title}
+                        width={160}
+                        height={90}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         onError={(e) => {
                           const target = e.currentTarget;

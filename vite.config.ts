@@ -7,6 +7,25 @@ export default defineConfig({
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') },
   },
+  build: {
+    target: 'esnext',
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/three') || id.includes('@react-three')) {
+            return 'three-vendor';
+          }
+          if (id.includes('node_modules/framer-motion')) {
+            return 'motion-vendor';
+          }
+          if (id.includes('node_modules/lucide-react') || id.includes('node_modules/lenis')) {
+            return 'ui-vendor';
+          }
+        },
+      },
+    },
+  },
   server: {
     proxy: {
       // Proxy /api/* to Vercel dev server in local development

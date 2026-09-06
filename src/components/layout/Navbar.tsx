@@ -141,7 +141,15 @@ export function Navbar() {
                 className="rounded-full overflow-hidden border border-white/10 group-hover:border-cyan/40 transition-all duration-300"
                 style={{ width: `${32 - t * 6}px`, height: `${32 - t * 6}px` }}
               >
-                <img src="/images/logo.png" alt="Hardik" className="w-full h-full object-cover" />
+                <img
+                  src="/images/logo.png"
+                  alt="Hardik"
+                  width={32}
+                  height={32}
+                  loading="eager"
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span
                 className="font-ui font-medium text-sm text-heading tracking-wide overflow-hidden whitespace-nowrap transition-all duration-500"

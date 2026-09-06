@@ -96,6 +96,10 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                     <img
                       src={project.image}
                       alt={project.title}
+                      width={600}
+                      height={375}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       onError={(e) => {
                         const target = e.currentTarget;
@@ -119,6 +123,10 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                     <img
                       src={project.image}
                       alt={project.title}
+                      width={400}
+                      height={500}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover opacity-25 filter grayscale contrast-125"
                       onError={(e) => {
                         const target = e.currentTarget;
@@ -219,6 +227,10 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                     <img
                       src={project.image}
                       alt={project.title}
+                      width={400}
+                      height={225}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         const target = e.currentTarget;

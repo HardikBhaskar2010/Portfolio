@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
@@ -9,14 +9,16 @@ import { unlockAudio, playTransitionWhoosh } from '@/lib/audio';
 import { GridDistortion } from '@/components/effects/GridDistortion';
 import { Navbar } from '@/components/layout/Navbar';
 import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
-import { ScrollOrb } from '@/components/three/ScrollOrb';
 import Home from '@/pages/Home';
-import Projects from '@/pages/Projects';
-import About from '@/pages/About';
-import ProjectDetail from '@/pages/ProjectDetail';
-import NotFound from '@/pages/NotFound';
 
-/* ── Custom Cursor ──────────────────────────────────────────── */
+// Lazy-load subpages and 3D scenes to split bundle and accelerate initial paint
+const ScrollOrb = lazy(() => import('@/components/three/ScrollOrb').then(m => ({ default: m.ScrollOrb })));
+const Projects = lazy(() => import('@/pages/Projects'));
+const About = lazy(() => import('@/pages/About'));
+const ProjectDetail = lazy(() => import('@/pages/ProjectDetail'));
+const NotFound = lazy(() => import('@/pages/NotFound'));
+
+/* ── Custom Cursor (Compositor-accelerated with translate3d) ── */
 function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const ringRef   = useRef<HTMLDivElement>(null);
@@ -26,14 +28,13 @@ function CustomCursor() {
     const ring   = ringRef.current;
     if (!cursor || !ring) return;
 
-    let mouseX = 0, mouseY = 0;
-    let ringX  = 0, ringY  = 0;
+    let mouseX = -100, mouseY = -100;
+    let ringX  = -100, ringY  = -100;
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      cursor.style.left = `${mouseX}px`;
-      cursor.style.top  = `${mouseY}px`;
+      cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
     };
 
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -42,13 +43,12 @@ function CustomCursor() {
     const animate = () => {
       ringX = lerp(ringX, mouseX, 0.12);
       ringY = lerp(ringY, mouseY, 0.12);
-      ring.style.left = `${ringX}px`;
-      ring.style.top  = `${ringY}px`;
+      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
       rafId = requestAnimationFrame(animate);
     };
     rafId = requestAnimationFrame(animate);
 
-    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mousemove', onMove, { passive: true });
     return () => {
       window.removeEventListener('mousemove', onMove);
       cancelAnimationFrame(rafId);
@@ -75,14 +75,16 @@ function AnimatedRoutes() {
 
   return (
     <AnimatePresence mode="wait" initial={false}>
-      <Routes location={location} key={location.pathname}>
-        <Route path="/"               element={<Home />} />
-        <Route path="/projects"       element={<Projects />} />
-        <Route path="/projects/:slug" element={<ProjectDetail />} />
-        <Route path="/project/:slug"  element={<ProjectDetail />} />
-        <Route path="/about"          element={<About />} />
-        <Route path="*"               element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={null}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/"               element={<Home />} />
+          <Route path="/projects"       element={<Projects />} />
+          <Route path="/projects/:slug" element={<ProjectDetail />} />
+          <Route path="/project/:slug"  element={<ProjectDetail />} />
+          <Route path="/about"          element={<About />} />
+          <Route path="*"               element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   );
 }
@@ -125,7 +127,9 @@ function AppContent() {
       <Navbar />           {/* ← always fixed, always visible */}
       <ScrollProgressBar />
       <CustomCursor />
-      <ScrollOrb />
+      <Suspense fallback={null}>
+        <ScrollOrb />
+      </Suspense>
 
       {/* Page content — animated in/out by AnimatePresence */}
       <AnimatedRoutes />

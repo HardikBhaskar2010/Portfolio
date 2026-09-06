@@ -36,6 +36,8 @@ export function ScrollOrb() {
 
   // Track position (starts off-screen to prevent flash before first frame)
   const currentPos = useRef({ x: -100, y: -100, initialized: false });
+  const cachedTargetRef = useRef<{ left: number; top: number; height: number } | null>(null);
+  const lastMeasureTimeRef = useRef(0);
 
   useAnimationFrame((time) => {
     if (!containerRef.current) return;
@@ -44,35 +46,39 @@ export function ScrollOrb() {
     const vw = window.innerWidth;
     const centerY = vh / 2;
 
+    // Only query DOM layout measurements once every 120ms to prevent layout thrashing
+    if (time - lastMeasureTimeRef.current > 120) {
+      lastMeasureTimeRef.current = time;
+      let closestDist = Infinity;
+      let bestRect: { left: number; top: number; height: number } | null = null;
+
+      const latestHighlights = useHighlightStore.getState().highlights;
+      const elements = Object.values(latestHighlights);
+      for (let i = 0; i < elements.length; i++) {
+        const el = elements[i];
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        const elCenterY = rect.top + rect.height / 2;
+        const dist = Math.abs(elCenterY - centerY);
+
+        if (dist < closestDist && dist < vh * 0.6) {
+          closestDist = dist;
+          bestRect = { left: rect.left, top: rect.top, height: rect.height };
+        }
+      }
+      cachedTargetRef.current = bestRect;
+    }
+
     // Default target: floating near the right edge
     let targetX = vw - (vw < 768 ? 40 : 80);
     let targetY = centerY + Math.sin(time / 1000) * 60;
     
-    let closestDist = Infinity;
-    let closestRect: any = null;
-
-    // Find nearest highlight point in the viewport
-    // Read directly from store state to bypass any stale closures in framer-motion
-    const latestHighlights = useHighlightStore.getState().highlights;
-    
-    Object.values(latestHighlights).forEach((el) => {
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const elCenterY = rect.top + rect.height / 2;
-      const dist = Math.abs(elCenterY - centerY);
-
-      // Trigger threshold: within 60% of half-viewport
-      if (dist < closestDist && dist < vh * 0.6) {
-        closestDist = dist;
-        closestRect = rect;
-      }
-    });
-
-    if (closestRect) {
+    const targetRect = cachedTargetRef.current;
+    if (targetRect) {
       // Hover dynamically to the left of the target element on desktop
       // On mobile, keep it on the right edge so it doesn't overlap left-aligned text
-      targetX = vw < 768 ? vw - 40 : Math.max(40, closestRect.left - 60);
-      targetY = closestRect.top + closestRect.height / 2;
+      targetX = vw < 768 ? vw - 40 : Math.max(40, targetRect.left - 60);
+      targetY = targetRect.top + targetRect.height / 2;
       
       // Spirit-like slow orbit effect when locked onto a target
       targetX += Math.cos(time / 1200) * 20;

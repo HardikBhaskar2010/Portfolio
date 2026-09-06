@@ -176,6 +176,10 @@ export function AboutPreview() {
                 <motion.img
                   src="/images/avatar.png"
                   alt="Hardik Bhaskar"
+                  width={400}
+                  height={288}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover object-top"
                   style={{ y: avatarY, scale: avatarScale }}
                 />

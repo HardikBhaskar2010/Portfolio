@@ -23,8 +23,16 @@ export function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full overflow-hidden border border-border">
-                <img src="/images/logo.png" alt="Logo" className="w-full h-full object-cover" />
+              <div className="w-9 h-9 rounded-full overflow-hidden border border-border flex-shrink-0">
+                <img
+                  src="/images/logo.png"
+                  alt="Logo"
+                  width={36}
+                  height={36}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="font-display italic text-2xl text-heading">
                 Hardik<span className="text-cyan">.</span>

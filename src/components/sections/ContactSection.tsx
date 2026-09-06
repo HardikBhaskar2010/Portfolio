@@ -105,8 +105,16 @@ export function ContactSection() {
             {/* Avatar + socials */}
             <motion.div variants={fadeUp} className="flex flex-col gap-6">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-border">
-                  <img src="/images/avatar.png" alt="Hardik Bhaskar" className="w-full h-full object-cover" />
+                <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-border flex-shrink-0">
+                  <img
+                    src="/images/avatar.png"
+                    alt="Hardik Bhaskar"
+                    width={56}
+                    height={56}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div>
                   <p className="font-heading font-semibold text-heading text-sm">Hardik Bhaskar</p>

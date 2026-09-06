@@ -267,7 +267,10 @@ function StackingCardImg({
     <img
       src={imgSrc}
       alt={alt}
+      width={500}
+      height={312}
       loading="lazy"
+      decoding="async"
       onError={() => {
         if (!hasError && fallback && imgSrc !== fallback) {
           setImgSrc(fallback);
