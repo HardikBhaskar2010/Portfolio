@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Terminal, Cpu, Sparkles, Layers, Shield, Bot } from 'lucide-react';
-import { Project } from '@/data/projects';
+import type { Project } from '@/data/projects';
 import { playHoverTick, playSynthPulse } from '@/lib/audio';
 
 interface ExpandedProjectCardsProps {
