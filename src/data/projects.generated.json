@@ -9,7 +9,7 @@
     "year": "2026",
     "image": "https://raw.githubusercontent.com/VectorisAI/Vectoris/main/assets/pic.png",
     "heroImage": "https://raw.githubusercontent.com/VectorisAI/Vectoris/main/assets/pic.png",
-    "description": "Vectoris — AI-Native Project Management & Project Intelligence Workspace for Electrical and MEP Engineering",
+    "description": "Official release distribution repository for Vectoris Engineering Desktop Workstation",
     "longDescription": "# Vectoris: AI-Native Engineering Intelligence & Blueprint Takeoff Workstation\n\n## Executive Overview\n\nVectoris is an advanced engineering workstation and project intelligence platform engineered for electrical estimators, MEP (Mechanical, Electrical, Plumbing) coordinators, and preconstruction teams. Combining a local-first desktop runtime with vision-language neural perception models, Vectoris automates the labor-intensive discipline of construction drawing takeoff, quantity calculation, and Bill of Quantities (BOQ) synthesis directly from native architectural drawings without exposing confidential project IP to uncontrolled third-party cloud infrastructure.\n\n## The Preconstruction Engineering Challenge\n\nElectrical takeoff and estimating constitute one of the highest-friction bottlenecks in modern construction project delivery:\n1. Manual Blueprint Measurement: Senior estimators spend hundreds of hours per project manually scaling and tracing circuit paths, cable trays, conduits, and fixture counts across hundreds of multi-megabyte DWG and PDF sheets.\n2. High Human Error Rates: Discrepancies between schematic schedules and physical drawing layers introduce multi-million dollar bidding errors, conductor undersizing risks, and delayed change orders during site construction.\n3. Intellectual Property and Security Exposure: Enterprise blueprints contain sensitive structural layouts and proprietary electrical specifications. Cloud-only SaaS alternatives create enterprise compliance violations by transmitting raw blueprints over public networks.\n\nVectoris eliminates this bottleneck by executing hardware-accelerated local parsing, deterministic geometry extraction, and AI-assisted conductor sizing directly on the estimator's workstation.\n\n## System Architecture\n\n### 1. Tauri v2 Desktop Engine & Native Window Protocol\n- Runtime Architecture: Built on Tauri v2 and Rust 2021 with strict memory isolation and zero-cost native FFI bindings.\n- Custom Hardware-Accelerated Compositor: Leverages native platform WebViews (WebView2 on Windows) with custom frameless window styling, sub-pixel text rendering, and native titlebar drag physics.\n- Minimal Memory Footprint: Idle RAM usage maintained below 95 Megabytes, outperforming Electron-based competitors by an order of magnitude.\n\n### 2. Local-First Blueprint Perception & Takeoff Pipeline\n- On-Device Geometry Extraction: Vector parsing engines ingest high-resolution architectural DWG and PDF documents, vectorizing layer geometries (e.g., ELEC-TRAY-FEEDER, ELEC-POWER, LIGHTING) in local system memory.\n- Multimodal Symbol Classification: Specialized neural vision models detect standard and non-standard electrical symbols (e.g., Recessed 2x4 LED Troffers, Duplex Receptacles, Switchboards) across scaled drawing rooms.\n- Path Tracing & Linear Takeoff: Computes exact linear run lengths for overhead ladder cable trays, EMT conduits, and feeder lines with millimeter precision.\n\n### 3. AI Engineering Copilot & Sizing Engine\n- Live Contextual Inference: An embedded engineering copilot monitors active drawing sheets, providing instant calculations for branch circuiting and voltage drop verification.\n- Automated Feeder Sizing: Suggests optimal conductor and conduit specifications (such as proposing 350 kcmil conductor sizing for 184.6-meter feeder runs) in strict accordance with the National Electrical Code (NEC).\n- Human-in-the-Loop Verification: Every AI-detected element is staged in an interactive verification queue, enabling estimators to inspect, override, and approve line items before generating procurement-ready Bill of Quantities (BOQ).\n\n### 4. Liquid Theme System & High-Precision UI\n- Visual Design System: 5-phase fluid Bezier wave compositor transitions between deep dark mode (black cherry and coffee bean tones) and light mode (alabaster cream and greige).\n- High Information Density: Designed specifically for dual-4K workstation setups with isometric 3D drawing previews, interactive sheet inspectors, and live telemetry feeds.\n\n### 5. Cryptographic Release Trust Model\n- Minisign Verification: Every software release bundle (.exe, .msi) is cryptographically signed using Ed25519 keys outside the repository.\n- Native In-App Updater: Embedded updater verifies digital signatures against public keys embedded in tauri.conf.json prior to handoff to the passive Windows installer.\n\n## Technology Stack\n\n- Desktop Runtime: Tauri v2, Rust 2021, tauri-plugin-updater, tauri-plugin-process, WebView2\n- Frontend Application: React 19, Vite 7, TypeScript Strict, TailwindCSS\n- Motion & Animation: Motion 13, Web Animations API, Compositor-driven Liquid transitions\n- Perception & Inference: Local neural vision models, On-device vector geometry parser, Python sidecar bridge\n- Security: Ed25519 signature verification, Strict Content Security Policy (CSP), Local-First zero telemetry posture\n\n## Production Benchmarks\n\n- Sheet Ingestion Speed: Sub-1.2 second parsing and vectorization time for 50MB architectural drawing sets.\n- Takeoff Throughput: Automated detection of 18,000+ electrical takeoff items across 400+ drawing packages with a 99.1% precision rate.\n- Offline Availability: 100% functionality maintained without active internet connectivity, safeguarding critical enterprise engineering assets.",
     "featured": true,
     "tools": [
@@ -21,8 +21,8 @@
       "Local AI"
     ],
     "link": "https://github.com/VectorisAI/Vectoris",
-    "color": "#E11D48",
     "repoUrl": "https://github.com/VectorisAI/Vectoris",
+    "color": "#E11D48",
     "fallbackImage": "/images/project-vectoris.webp"
   },
   {
@@ -47,6 +47,7 @@
       "FastAPI"
     ],
     "link": "https://github.com/HardikBhaskar2010/Veronica-AI",
+    "repoUrl": "https://github.com/HardikBhaskar2010/Veronica-AI",
     "color": "#7C3AED",
     "fallbackImage": "/images/project-ai-veronica.webp"
   },
@@ -71,6 +72,7 @@
       "FastAPI"
     ],
     "link": "https://decisionforge-one.vercel.app",
+    "repoUrl": "https://github.com/HardikBhaskar2010/AEGIS-Decision-Intelligence-Platform",
     "color": "#F59E0B",
     "fallbackImage": "/images/project-aegis.webp"
   },
@@ -95,6 +97,7 @@
       "CSS Houdini"
     ],
     "link": "https://github.com/HardikBhaskar2010/MahinaOS",
+    "repoUrl": "https://github.com/HardikBhaskar2010/MahinaOS",
     "color": "#A855F7",
     "fallbackImage": "/images/project-mahina-os.webp"
   },
@@ -119,6 +122,7 @@
       "Google ADK"
     ],
     "link": "https://stemidea.vercel.app",
+    "repoUrl": "https://github.com/HardikBhaskar2010/STEM-IDEA-GENERATOR",
     "color": "#00E5FF",
     "fallbackImage": "/images/project-stem-adventure.webp"
   }

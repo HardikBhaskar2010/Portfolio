@@ -72,6 +72,7 @@ export const overrides = {
     category: 'Engineering & AI',
     tag:      'Desktop / Systems',
     year:     '2026',
+    featured: true,
     tools:    ['Tauri v2', 'Rust', 'React 19', 'TypeScript', 'TailwindCSS', 'Local AI'],
     link:     'https://github.com/VectorisAI/Vectoris',
     repoUrl:  'https://github.com/VectorisAI/Vectoris',

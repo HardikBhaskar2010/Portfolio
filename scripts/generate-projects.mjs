@@ -10,8 +10,9 @@
 import { writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 
-const USERNAME  = 'HardikBhaskar2010';
-let TOKEN       = process.env.PORTFOLIO_GITHUB_TOKEN;
+const USERS_AND_ORGS   = ['HardikBhaskar2010', 'VectorisAI'];
+const DEFAULT_USERNAME = 'HardikBhaskar2010';
+let TOKEN              = process.env.PORTFOLIO_GITHUB_TOKEN;
 
 if (!TOKEN) {
   try {
@@ -60,8 +61,8 @@ async function gh(path) {
  * Returns { ok: true, text } or { ok: false }.
  * Uses /HEAD/ so it always resolves to whatever the default branch is.
  */
-async function rawFile(repoName, filePath) {
-  const url = `https://raw.githubusercontent.com/${USERNAME}/${repoName}/HEAD/${filePath}`;
+async function rawFile(repoName, filePath, owner = DEFAULT_USERNAME) {
+  const url = `https://raw.githubusercontent.com/${owner}/${repoName}/HEAD/${filePath}`;
   try {
     const headers = TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {};
     const res = await fetch(url, { headers, signal: AbortSignal.timeout(3000) });
@@ -76,9 +77,9 @@ async function rawFile(repoName, filePath) {
 /**
  * Try to fetch file content via GitHub Contents API (authenticated, base64 encoded)
  */
-async function fetchRepoFileContent(repoName, filePath) {
+async function fetchRepoFileContent(repoName, filePath, owner = DEFAULT_USERNAME) {
   try {
-    const data = await gh(`/repos/${USERNAME}/${repoName}/contents/${filePath}`);
+    const data = await gh(`/repos/${owner}/${repoName}/contents/${filePath}`);
     if (data && data.content && data.encoding === 'base64') {
       const decoded = Buffer.from(data.content, 'base64').toString('utf8');
       return { ok: true, text: decoded };
@@ -93,13 +94,13 @@ async function fetchRepoFileContent(repoName, filePath) {
  * Fetch both assets/pic.png and assets/description.md from the repo in parallel.
  * Returns { imageUrl, longDescription } — each falls back gracefully to existing cache or default.
  */
-async function fetchRepoAssets(repoName, fallbackDescription, existingProject = null) {
+async function fetchRepoAssets(repoName, fallbackDescription, existingProject = null, owner = DEFAULT_USERNAME) {
   const slug = slugify(repoName);
   
   // 1. Fetch description and image in parallel
   const [picResult, rawMd] = await Promise.all([
-    rawFile(repoName, 'assets/pic.png'),
-    rawFile(repoName, 'assets/description.md'),
+    rawFile(repoName, 'assets/pic.png', owner),
+    rawFile(repoName, 'assets/description.md', owner),
   ]);
 
   let longDescription = '';
@@ -107,7 +108,7 @@ async function fetchRepoAssets(repoName, fallbackDescription, existingProject = 
     longDescription = rawMd.text.trim();
   } else {
     // Try GitHub Contents API
-    const apiMd = await fetchRepoFileContent(repoName, 'assets/description.md');
+    const apiMd = await fetchRepoFileContent(repoName, 'assets/description.md', owner);
     if (apiMd.ok && apiMd.text.trim()) {
       longDescription = apiMd.text.trim();
     } else {
@@ -127,11 +128,11 @@ async function fetchRepoAssets(repoName, fallbackDescription, existingProject = 
 
   let imageUrl = existingProject?.image || FALLBACK_IMAGE;
   if (picResult.ok) {
-    imageUrl = `https://raw.githubusercontent.com/${USERNAME}/${repoName}/HEAD/assets/pic.png`;
+    imageUrl = `https://raw.githubusercontent.com/${owner}/${repoName}/HEAD/assets/pic.png`;
   } else {
     // Try checking if pic.png exists via GitHub Contents API
     try {
-      const picData = await gh(`/repos/${USERNAME}/${repoName}/contents/assets/pic.png`);
+      const picData = await gh(`/repos/${owner}/${repoName}/contents/assets/pic.png`);
       if (picData && picData.download_url) {
         imageUrl = picData.download_url;
       }
@@ -175,14 +176,28 @@ if (!TOKEN) {
 
 // ── 1. Fetch repos ─────────────────────────────────────────────────────────
 
-console.log(`🔍 Searching repos tagged "portfolio-project" for ${USERNAME}…`);
+const userQuery = USERS_AND_ORGS.map((u) => `user:${u}`).join('+');
+console.log(`🔍 Searching repos tagged "portfolio-project" for ${USERS_AND_ORGS.join(', ')}…`);
 
 let repos = [];
 try {
   const searchResult = await gh(
-    `/search/repositories?q=user:${USERNAME}+topic:portfolio-project&sort=updated&per_page=100`
+    `/search/repositories?q=${userQuery}+topic:portfolio-project&sort=updated&per_page=100`
   );
-  repos = searchResult.items || [];
+  const rawRepos = searchResult.items || [];
+  // Deduplicate repos by slug, preferring public repos if duplicates exist across personal and org accounts
+  const reposBySlug = new Map();
+  for (const repo of rawRepos) {
+    const slug = slugify(repo.name);
+    const existing = reposBySlug.get(slug);
+    if (!existing) {
+      reposBySlug.set(slug, repo);
+    } else if (existing.private && !repo.private) {
+      // Prefer public repo over private repo
+      reposBySlug.set(slug, repo);
+    }
+  }
+  repos = Array.from(reposBySlug.values());
   console.log(`   Found ${repos.length} repo(s).`);
 } catch (err) {
   console.warn(`\n⚠️  GitHub search API failed: ${err.message}`);
@@ -213,16 +228,18 @@ const assetResults = await Promise.all(
   repos.map(async (repo) => {
     const slug = slugify(repo.name);
     const existing = existingProjects.find((p) => p.slug === slug);
+    const owner = repo.owner?.login || DEFAULT_USERNAME;
     const { imageUrl, longDescription } = await fetchRepoAssets(
       repo.name,
       repo.description ?? '',
-      existing
+      existing,
+      owner
     );
 
     const hasImage = imageUrl !== FALLBACK_IMAGE;
     const hasDesc  = longDescription !== (repo.description ?? '');
     const status   = [hasImage ? '🖼' : '·', hasDesc ? '📝' : '·'].join('');
-    console.log(`   ${status}  ${repo.name}`);
+    console.log(`   ${status}  ${repo.name} (${owner})`);
 
     return { imageUrl, longDescription };
   })
@@ -233,6 +250,8 @@ const assetResults = await Promise.all(
 const projects = repos.map((repo, i) => {
   const { imageUrl, longDescription } = assetResults[i];
   const slug = slugify(repo.name);
+  const repoOwner = repo.owner?.login || DEFAULT_USERNAME;
+  const repoHtmlUrl = repo.html_url || `https://github.com/${repoOwner}/${repo.name}`;
 
   // Merge hand-written overrides (keyed by slug, case-insensitive)
   const override =
@@ -263,7 +282,8 @@ const projects = repos.map((repo, i) => {
     tools:           repo.topics?.filter(
                        (t) => !['portfolio-project', 'featured'].includes(t)
                      ) ?? [],
-    link:            repo.homepage || repo.html_url,
+    link:            repo.homepage || repoHtmlUrl,
+    repoUrl:         repoHtmlUrl,
     color:           colorFor(repo.name),
   };
 
