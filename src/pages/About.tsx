@@ -63,28 +63,26 @@ export default function About() {
               {/* Bio */}
               <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col gap-6">
                 <motion.h2 variants={fadeUp} className="font-display italic text-heading text-3xl md:text-4xl">
-                  Full Stack Developer<br />& AI Systems Builder.
+                  Systems Architect, Low-Level Engineer<br />& AI Systems Builder.
                 </motion.h2>
                 <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
-                  I'm a developer and AI builder focused on crafting premium digital experiences
-                  that combine cinematic visuals, intelligent systems, and modern frontend engineering.
-                  My work blends design, animation, performance, and storytelling into products that
-                  feel alive and interactive.
+                  I'm a systems developer and AI builder focused on building robust low-level architectures,
+                  autonomous intelligence systems, and high-performance user interfaces. My work bridges bare-metal
+                  operating systems, native desktop binaries, and cinematic web experiences.
                 </motion.p>
                 <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
-                  I specialize in React, TypeScript, Three.js, Framer Motion, and AI-integrated systems.
-                  From futuristic landing pages to experimental AI architectures like Veronica, I enjoy
-                  building projects that push beyond traditional web experiences and explore what the
-                  future of software can feel like.
+                  I engineer native desktop platforms with <strong className="text-heading font-semibold">Rust</strong> and Tauri v2 (Vectoris),
+                  bare-metal x86_64 operating system kernels in <strong className="text-heading font-semibold">C / C++</strong> and Assembly (MahinaOS),
+                  autonomous multi-agent decision intelligence platforms in <strong className="text-heading font-semibold">Python</strong> and Google ADK 2.0 (AEGIS & Veronica AI),
+                  and modern interactive applications with <strong className="text-heading font-semibold">TypeScript</strong>, React 19, and Three.js.
                 </motion.p>
                 <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
-                  Currently focused on creating high-quality interactive products, AI tools, and
-                  scalable frontend systems while constantly experimenting with advanced UI/UX concepts,
-                  motion design, and immersive web technologies.
+                  Whether writing bare-metal memory managers, zero-cost abstractions in Rust, or cinematic scroll-driven
+                  3D web animations, I build software where deep performance engineering meets exquisite design craft.
                 </motion.p>
                 <motion.div variants={fadeUp} className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
-                  <span className="font-ui text-sm text-cyan">Available for new projects in 2025</span>
+                  <span className="font-ui text-sm text-cyan">Available for systems engineering and AI product contracts</span>
                 </motion.div>
               </motion.div>
             </div>

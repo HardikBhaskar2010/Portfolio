@@ -6,28 +6,36 @@ export interface Tool {
 }
 
 export const tools: Record<string, Tool[]> = {
-  Design: [
-    { name: 'Figma',          desc: 'Design systems & scalable UI',    icon: '🎨', category: 'Design' },
-    { name: 'Framer',         desc: 'Prototypes & live experiences',    icon: '⚡', category: 'Design' },
-    { name: 'Three.js',       desc: 'Real-time 3D & WebGL',             icon: '🌐', category: 'Design' },
-    { name: 'Framer Motion',  desc: 'Production-grade animations',      icon: '🎭', category: 'Design' },
+  'Languages & Systems': [
+    { name: 'Rust',               desc: 'Systems, memory safety & Tauri v2 desktop', icon: '🦀', category: 'Languages & Systems' },
+    { name: 'C / C++',            desc: 'OS kernel, bare-metal boot & high perf',    icon: '⚙️', category: 'Languages & Systems' },
+    { name: 'Python',             desc: 'AI orchestration, Google ADK & neural ops', icon: '🐍', category: 'Languages & Systems' },
+    { name: 'TypeScript',         desc: 'Type-safe enterprise web & desktop apps',    icon: '🔷', category: 'Languages & Systems' },
+    { name: 'Assembly (x86_64)',  desc: 'Bare-metal early boot & CPU registers',     icon: '⚡', category: 'Languages & Systems' },
+    { name: 'SQL & BigQuery',     desc: 'Telemetry analytics & vector datasets',      icon: '📊', category: 'Languages & Systems' },
   ],
   Development: [
-    { name: 'React',          desc: 'Component-driven UIs',             icon: '⚛️', category: 'Development' },
-    { name: 'TypeScript',     desc: 'Type-safe scalable code',          icon: '🔷', category: 'Development' },
+    { name: 'React',          desc: 'Component-driven UIs & React 19',  icon: '⚛️', category: 'Development' },
+    { name: 'Tauri v2',       desc: 'Rust-powered lightweight desktop', icon: '🦀', category: 'Development' },
     { name: 'Next.js',        desc: 'Full-stack React framework',       icon: '▲',  category: 'Development' },
     { name: 'Tailwind CSS',   desc: 'Utility-first styling',            icon: '💨', category: 'Development' },
   ],
+  Design: [
+    { name: 'Three.js',       desc: 'Real-time 3D & WebGL rendering',   icon: '🌐', category: 'Design' },
+    { name: 'Framer Motion',  desc: 'Production-grade animations',      icon: '🎭', category: 'Design' },
+    { name: 'Figma',          desc: 'Design systems & scalable UI',    icon: '🎨', category: 'Design' },
+    { name: 'Framer',         desc: 'Prototypes & live experiences',    icon: '⚡', category: 'Design' },
+  ],
   'AI & Systems': [
-    { name: 'Python',         desc: 'AI / ML / backend scripting',      icon: '🐍', category: 'AI & Systems' },
+    { name: 'Google ADK 2.0', desc: 'Autonomous multi-agent systems',   icon: '🤖', category: 'AI & Systems' },
     { name: 'LangChain',      desc: 'LLM orchestration & agents',       icon: '🔗', category: 'AI & Systems' },
-    { name: 'OpenAI API',     desc: 'GPT-4o & embeddings',              icon: '🤖', category: 'AI & Systems' },
+    { name: 'FastAPI',        desc: 'High-throughput async backend APIs',icon: '⚡', category: 'AI & Systems' },
     { name: 'Supabase',       desc: 'Database & realtime backend',      icon: '⚡', category: 'AI & Systems' },
   ],
   Collaboration: [
-    { name: 'Notion',         desc: 'Docs & project planning',          icon: '📋', category: 'Collaboration' },
+    { name: 'GitHub',         desc: 'Version control & CI/CD workflows', icon: '🐙', category: 'Collaboration' },
     { name: 'Linear',         desc: 'Product & sprint management',      icon: '📐', category: 'Collaboration' },
-    { name: 'GitHub',         desc: 'Version control & CI/CD',          icon: '🐙', category: 'Collaboration' },
+    { name: 'Notion',         desc: 'Docs & architectural specs',       icon: '📋', category: 'Collaboration' },
     { name: 'Vercel',         desc: 'Deployment & edge hosting',        icon: '▲',  category: 'Collaboration' },
   ],
 };
@@ -73,27 +81,33 @@ export const services = [
 
 export const experience = [
   {
+    role: 'Systems & Desktop Engineer',
+    company: 'Vectoris',
+    period: '2025 — Present',
+    description: 'Engineered a high-performance native desktop AI takeoff platform with Tauri v2, Rust 2021, and React 19. Designed IPC bridges and local AI execution pipelines.',
+  },
+  {
+    role: 'Operating Systems Architect',
+    company: 'MahinaOS',
+    period: '2024 — Present',
+    description: 'Developed an x86_64 bare-metal micro-operating system from scratch using C++, C, and Assembly. Built luna-init PID 1, VGA framebuffer driver, and memory manager.',
+  },
+  {
+    role: 'AI Systems Developer',
+    company: 'Veronica AI & AEGIS Project',
+    period: '2025 — Present',
+    description: 'Architecting multi-agent decision intelligence and conversational AI systems with Google ADK 2.0, Python, BigQuery telemetry, and memory persistence.',
+  },
+  {
     role: 'Founder & Lead Developer',
     company: 'STEM Idea Adventure',
     period: '2024 — Present',
     description: 'Founded and built an interactive STEM education platform from scratch. Led product strategy, design, and full-stack development.',
   },
   {
-    role: 'AI Systems Developer',
-    company: 'Veronica AI Project',
-    period: '2025 — Present',
-    description: 'Architecting a next-generation conversational AI system with memory persistence, emotional adaptation, and multi-agent orchestration.',
-  },
-  {
-    role: 'Freelance Frontend Developer',
-    company: 'Independent',
-    period: '2023 — Present',
-    description: 'Delivering premium React applications, animation-rich interfaces, and performance-optimized frontends for startups and agencies globally.',
-  },
-  {
-    role: 'Interactive UI/UX Developer',
+    role: 'Interactive Web & 3D Developer',
     company: 'Independent Projects Lab',
-    period: '2022 — Present',
-    description: 'Experimenting with Three.js, WebGL, Framer Motion, and advanced CSS to push the boundaries of web interaction and visual design.',
+    period: '2023 — Present',
+    description: 'Delivering cinematic Three.js WebGL experiences, animation-rich interfaces, and performance-optimized frontends for modern web applications.',
   },
 ];

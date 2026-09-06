@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { type HTMLMotionProps, motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ArrowUpRight, LayoutGrid, Rows3 } from 'lucide-react';
+import { ArrowUpRight, Layers, Rows3 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Tag } from '@/components/ui/Tag';
@@ -9,6 +9,7 @@ import { projects } from '@/data/projects';
 import { stagger, scaleIn, fadeUp } from '@/lib/motion';
 import { playSynthPulse, playHoverTick } from '@/lib/audio';
 import { ExpandedProjectCards } from '@/components/ui/ExpandedProjectCards';
+import { StackingProjectCards } from '@/components/ui/StackingProjectCards';
 
 interface FeaturedWorkProps {
   limit?: number;
@@ -17,100 +18,88 @@ interface FeaturedWorkProps {
 
 export function FeaturedWork({ limit = 6, showViewAll = true }: FeaturedWorkProps) {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
-  const [viewMode, setViewMode] = useState<'expanded' | 'grid'>('expanded');
+  const [viewMode, setViewMode] = useState<'stacking' | 'expanded'>('stacking');
   const displayed = projects.slice(0, limit);
 
   return (
-    <section className="py-24 md:py-32 border-t border-border">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+    <section className="py-16 md:py-24 border-t border-border">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-12 mb-10 md:mb-14">
+        {/* Header */}
         <motion.div
           ref={ref}
           variants={stagger}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          className="flex flex-col gap-10"
+          className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6"
         >
-          {/* Header */}
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
-            <div className="flex flex-col gap-4">
-              <motion.div variants={fadeUp}>
-                <SectionLabel>Selected work</SectionLabel>
-              </motion.div>
-              <motion.h2
-                variants={fadeUp}
-                className="font-display italic text-heading"
-                style={{ fontSize: 'clamp(32px, 4.5vw, 64px)', lineHeight: '0.92' }}
-              >
-                Some of my<br />best projects.
-              </motion.h2>
-            </div>
-
-            <motion.div variants={fadeUp} className="flex items-center gap-4">
-              {/* View Switcher: Expanded Rail vs Grid */}
-              <div className="hidden sm:flex items-center gap-1 p-1 bg-surface border border-border rounded-full text-xs">
-                <button
-                  onClick={() => {
-                    playHoverTick();
-                    setViewMode('expanded');
-                  }}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all ${
-                    viewMode === 'expanded'
-                      ? 'bg-cyan text-bg font-semibold shadow-sm'
-                      : 'text-muted hover:text-heading'
-                  }`}
-                  title="Expanded Cards View (Interactive Rail)"
-                >
-                  <Rows3 size={13} />
-                  <span>Interactive Rail</span>
-                </button>
-                <button
-                  onClick={() => {
-                    playHoverTick();
-                    setViewMode('grid');
-                  }}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all ${
-                    viewMode === 'grid'
-                      ? 'bg-cyan text-bg font-semibold shadow-sm'
-                      : 'text-muted hover:text-heading'
-                  }`}
-                  title="Grid View"
-                >
-                  <LayoutGrid size={13} />
-                  <span>Grid</span>
-                </button>
-              </div>
-
-              {showViewAll && (
-                <Link
-                  to="/projects"
-                  className="inline-flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors group link-underline"
-                >
-                  View all projects
-                  <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </Link>
-              )}
+          <div className="flex flex-col gap-4">
+            <motion.div variants={fadeUp}>
+              <SectionLabel>Selected work</SectionLabel>
             </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="font-display italic text-heading"
+              style={{ fontSize: 'clamp(32px, 4.5vw, 64px)', lineHeight: '0.92' }}
+            >
+              Some of my<br />best projects.
+            </motion.h2>
           </div>
 
-          {/* Primary View: Scrolltide-style Expanded Cards */}
-          {viewMode === 'expanded' ? (
-            <motion.div variants={fadeUp} className="w-full">
-              <ExpandedProjectCards projects={projects} />
-            </motion.div>
-          ) : (
-            /* Secondary View: Classic Responsive 2-col Grid */
-            <motion.div
-              variants={stagger}
-              className="grid grid-cols-1 md:grid-cols-2 gap-5"
-            >
-              {displayed.map((project, i) => (
-                <motion.div key={project.id} variants={scaleIn}>
-                  <ProjectCard project={project} priority={i < 2} />
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
+          <motion.div variants={fadeUp} className="flex items-center gap-4">
+            {/* View Switcher: Stacking Deck vs Interactive Rail */}
+            <div className="hidden sm:flex items-center gap-1 p-1 bg-surface border border-border rounded-full text-xs">
+              <button
+                onClick={() => {
+                  playHoverTick();
+                  setViewMode('stacking');
+                }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all active:scale-[0.97] ${
+                  viewMode === 'stacking'
+                    ? 'bg-cyan text-bg font-semibold shadow-sm'
+                    : 'text-muted hover:text-heading'
+                }`}
+                title="The Stacking Cards Effect (Sticky Deck)"
+              >
+                <Layers size={13} />
+                <span>Stacking Deck</span>
+              </button>
+              <button
+                onClick={() => {
+                  playHoverTick();
+                  setViewMode('expanded');
+                }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all active:scale-[0.97] ${
+                  viewMode === 'expanded'
+                    ? 'bg-cyan text-bg font-semibold shadow-sm'
+                    : 'text-muted hover:text-heading'
+                }`}
+                title="Expanded Cards View (Interactive Rail)"
+              >
+                <Rows3 size={13} />
+                <span>Interactive Rail</span>
+              </button>
+            </div>
+
+            {showViewAll && (
+              <Link
+                to="/projects"
+                className="inline-flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors group link-underline"
+              >
+                View all projects
+                <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
+            )}
+          </motion.div>
         </motion.div>
+      </div>
+
+      {/* Primary Project Showcase — Clean non-transformed container for robust sticky stacking */}
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12">
+        {viewMode === 'stacking' ? (
+          <StackingProjectCards projects={displayed} />
+        ) : (
+          <ExpandedProjectCards projects={projects} />
+        )}
       </div>
     </section>
   );

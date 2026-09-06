@@ -16,6 +16,7 @@ export interface Project {
   featured: boolean;
   tools: string[];
   link?: string;
+  repoUrl?: string;
   color: string;
 }
 

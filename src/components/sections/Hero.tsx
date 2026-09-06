@@ -140,11 +140,11 @@ export function Hero() {
               variants={fadeUpDelay(0.75)}
               initial="hidden"
               animate="visible"
-              className="font-ui text-body text-base leading-[1.85] max-w-[420px] mb-8"
+              className="font-ui text-body text-base leading-[1.85] max-w-[440px] mb-8"
             >
-              I build scroll-driven 3D web experiences, AI-powered tools, and full-stack
-              products using React, Three.js, and Framer Motion.{' '}
-              <span className="text-cyan">Available for freelance projects and long-term contracts.</span>
+              I build low-level systems in <span className="text-heading font-medium">Rust</span> & <span className="text-heading font-medium">C++</span>,
+              bare-metal operating systems, autonomous AI agents, and cinematic 3D web applications.{' '}
+              <span className="text-cyan">Available for systems engineering and AI product contracts.</span>
             </motion.p>
 
             {/* CTAs */}
@@ -174,21 +174,22 @@ export function Hero() {
               variants={fadeUpDelay(1.05)}
               initial="hidden"
               animate="visible"
-              className="grid grid-cols-4 gap-3 md:gap-4 pt-6 md:pt-8 border-t border-border"
+              className="grid grid-cols-4 gap-3 md:gap-4 pt-6 md:pt-8 pb-6 border-t border-border"
             >
               {stats.map((s) => (
-                <div key={s.label} className="flex flex-col gap-1">
+                <div key={s.label} className="flex flex-col gap-1.5">
                   <span className="font-display italic text-2xl md:text-4xl text-heading leading-none">{s.value}</span>
                   <span className="font-ui text-[9px] text-muted uppercase tracking-widest leading-tight">{s.label}</span>
                 </div>
               ))}
             </motion.div>
 
-            {/* Currently Building card */}
+            {/* Currently Building card — generous spacing to prevent overlap */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.35, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              variants={fadeUpDelay(1.2)}
+              initial="hidden"
+              animate="visible"
+              className="pt-4 md:pt-6"
             >
               <CurrentFocus />
             </motion.div>

@@ -298,8 +298,15 @@ export default function ProjectDetail() {
     'stem-idea-generator': 'STEM-IDEA-GENERATOR',
     'vectoris': 'Vectoris',
   };
+  const isVectorisOrg = project.slug === 'vectoris';
   const repoName = slugToRepoMap[project.slug] || project.slug;
-  const githubUrl = `https://github.com/HardikBhaskar2010/${repoName}`;
+  const githubUrl =
+    project.repoUrl ||
+    (isVectorisOrg
+      ? 'https://github.com/VectorisAI/Vectoris'
+      : (project.link?.includes('github.com')
+          ? project.link
+          : `https://github.com/HardikBhaskar2010/${repoName}`));
   const cloneCommand = `git clone ${githubUrl}.git`;
 
   const copyCloneCommand = () => {
@@ -413,6 +420,55 @@ export default function ProjectDetail() {
               >
                 {project.description}
               </motion.p>
+
+              {/* ── Hero Action Buttons ── */}
+              <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3 pt-2">
+                {hasLiveLink && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    onMouseEnter={playHoverTick}
+                    onClick={() => track.projectLinkClick(project.title, project.link!)}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-ui text-sm font-semibold bg-cyan text-bg hover:bg-cyan/90 transition-all active:scale-[0.97] shadow-sm"
+                  >
+                    <span>Explore Live System</span>
+                    <ExternalLink size={14} />
+                  </a>
+                )}
+
+                <a
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  onMouseEnter={playHoverTick}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-ui text-sm font-medium border border-border bg-white/[0.04] text-heading hover:border-accent hover:bg-white/[0.08] transition-all active:scale-[0.97]"
+                >
+                  <GitBranch size={15} className="text-muted" />
+                  <span>{isVectorisOrg ? 'Organization Repository' : 'GitHub Repository'}</span>
+                  <ArrowUpRight size={14} className="text-muted" />
+                </a>
+
+                <button
+                  onClick={copyCloneCommand}
+                  onMouseEnter={playHoverTick}
+                  className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl font-mono text-xs border border-border/80 bg-black/40 text-muted hover:text-heading hover:border-border transition-colors active:scale-[0.97]"
+                  title="Copy git clone command"
+                >
+                  {copied ? (
+                    <>
+                      <Check size={13} className="text-emerald-400" />
+                      <span className="text-emerald-400">Clone Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Terminal size={13} className="text-cyan" />
+                      <span>git clone</span>
+                      <Copy size={12} />
+                    </>
+                  )}
+                </button>
+              </motion.div>
             </motion.div>
 
             {/* ── Hero Media Showcase ── */}

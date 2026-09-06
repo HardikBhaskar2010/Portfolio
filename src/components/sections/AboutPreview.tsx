@@ -77,21 +77,20 @@ export function AboutPreview() {
               className="bg-surface border border-border rounded-2xl p-8 md:p-10"
             >
               <p className="font-ui text-body text-base leading-[1.8]">
-                I'm a developer and AI builder focused on crafting premium digital experiences
-                that combine cinematic visuals, intelligent systems, and modern frontend engineering.
-                My work blends design, animation, performance, and storytelling into products that
-                feel alive and interactive.
+                I'm a systems developer and AI builder focused on building robust low-level architectures,
+                autonomous intelligence platforms, and high-performance desktop and web applications.
               </p>
               <p className="font-ui text-body text-base leading-[1.8] mt-4">
-                I specialize in React, TypeScript, Three.js, Framer Motion, and AI-integrated systems.
-                From futuristic landing pages to experimental AI architectures, I enjoy building
-                projects that push beyond traditional web experiences.
+                My work spans <strong className="text-heading font-semibold">Rust</strong> native desktop platforms (Vectoris),
+                bare-metal <strong className="text-heading font-semibold">C / C++</strong> operating system kernels (MahinaOS),
+                <strong className="text-heading font-semibold">Python</strong> multi-agent intelligence (AEGIS & Veronica AI),
+                and modern full-stack web engineering with <strong className="text-heading font-semibold">TypeScript</strong> and React 19.
               </p>
               <Link
                 to="/about"
                 className="inline-flex items-center gap-2 mt-6 font-ui text-sm text-heading link-underline group"
               >
-                Full story
+                Full story & architecture
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
@@ -118,12 +117,12 @@ export function AboutPreview() {
                 </motion.div>
               ))}
             </motion.div>
-            {/* Design & Development Tools */}
+            {/* Languages & Development Tools */}
             <motion.div
               variants={stagger}
               className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6"
             >
-              {['Design', 'Development'].map((category) => (
+              {['Languages & Systems', 'Development'].map((category) => (
                 <motion.div
                   key={category}
                   variants={scaleIn}
@@ -222,7 +221,7 @@ export function AboutPreview() {
             >
               <span className="font-ui text-[10px] uppercase tracking-widest text-tagText">What I do</span>
               <div className="flex flex-wrap gap-2 mt-1">
-                {['Three.js', 'React Three Fiber', 'Framer Motion', 'GSAP', 'React / Next.js', 'AI Systems', 'TypeScript', 'Supabase'].map(t => (
+                {['Rust Systems', 'C / C++', 'Python AI Agents', 'TypeScript', 'Tauri v2', 'x86_64 Bare-Metal', 'Three.js / WebGL', 'React 19'].map(t => (
                   <span
                     key={t}
                     className="font-ui text-xs text-tagText bg-tag px-3 py-1.5 rounded-full border border-border"

@@ -2,9 +2,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 const items = [
-  { text: 'Veronica AI System',      tag: 'LIVE'     },
-  { text: 'Portfolio v2.0',          tag: 'BUILDING' },
-  { text: 'Three.js Experiments',    tag: 'RESEARCH' },
+  { text: 'Vectoris Desktop (Rust)', tag: 'BUILDING' },
+  { text: 'Veronica AI Multi-Agent', tag: 'LIVE' },
+  { text: 'MahinaOS Kernel (C++)',   tag: 'RESEARCH' },
 ];
 
 const TAG_STYLES: Record<string, string> = {
@@ -22,17 +22,12 @@ export function CurrentFocus() {
       i++;
       setVisible(i);
       if (i >= items.length) clearInterval(id);
-    }, 480);
+    }, 400);
     return () => clearInterval(id);
   }, []);
 
   return (
-    <motion.div
-      className="relative inline-block"
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1.5, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <div className="relative inline-block w-full max-w-[360px]">
       {/* Pulsing border glow */}
       <motion.div
         className="absolute -inset-px rounded-xl pointer-events-none"
@@ -97,6 +92,6 @@ export function CurrentFocus() {
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

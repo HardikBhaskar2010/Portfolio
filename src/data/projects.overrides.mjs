@@ -73,8 +73,11 @@ export const overrides = {
     tag:      'Desktop / Systems',
     year:     '2026',
     tools:    ['Tauri v2', 'Rust', 'React 19', 'TypeScript', 'TailwindCSS', 'Local AI'],
-    link:     'https://github.com/HardikBhaskar2010/Vectoris',
+    link:     'https://github.com/VectorisAI/Vectoris',
+    repoUrl:  'https://github.com/VectorisAI/Vectoris',
     color:    '#E11D48',
+    image:    'https://raw.githubusercontent.com/VectorisAI/Vectoris/main/assets/pic.png',
+    heroImage: 'https://raw.githubusercontent.com/VectorisAI/Vectoris/main/assets/pic.png',
     fallbackImage: '/images/project-vectoris.png',
   },
 
