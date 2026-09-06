@@ -154,9 +154,9 @@ export default function Projects() {
 
               <motion.p
                 variants={fadeUp}
-                className="font-ui text-body text-base lg:text-lg max-w-[560px] leading-relaxed"
+                className="font-ui text-body text-base lg:text-lg max-w-[580px] leading-relaxed"
               >
-                Autonomous AI systems, local-first desktop runtimes, Linux OS distributions, and cinematic 3D web applications architected for real-world reliability.
+                Interactive web platforms, autonomous AI systems, and modern applications built with React, Node.js, and TypeScript — alongside recent engineering in Rust and local runtimes.
               </motion.p>
 
               {/* Telemetry Metrics Strip */}
@@ -169,12 +169,12 @@ export default function Projects() {
                   <span className="font-display italic text-2xl lg:text-3xl text-heading font-semibold">05 Systems</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Architectures</span>
-                  <span className="font-display italic text-2xl lg:text-3xl text-heading font-semibold">Local &amp; AI</span>
+                  <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Primary Stack</span>
+                  <span className="font-display italic text-2xl lg:text-3xl text-cyan font-semibold">React + Node.js</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Primary Stack</span>
-                  <span className="font-display italic text-2xl lg:text-3xl text-heading font-semibold">Rust &amp; Python</span>
+                  <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Recent Focus</span>
+                  <span className="font-display italic text-2xl lg:text-3xl text-heading font-semibold">Rust &amp; Local AI</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Verification</span>

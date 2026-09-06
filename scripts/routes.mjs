@@ -94,7 +94,7 @@ export function getRoutes() {
       lastmod: today,
       title: 'Projects — Hardik Bhaskar',
       description:
-        'A curated collection of AI systems, low-level desktop applications, OS research, and cinematic 3D web experiences built by Hardik Bhaskar using Rust, C++, Python, React, and Three.js.',
+        'A curated collection of web applications, AI systems, and interactive experiences built by Hardik Bhaskar using React, Node.js, TypeScript, Python, and Rust.',
       ogImage: '/og-preview.png',
       jsonLd: [buildPersonJsonLd(), collectionJsonLd],
       fallbackHtml: `
