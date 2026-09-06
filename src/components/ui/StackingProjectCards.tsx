@@ -254,7 +254,7 @@ function StackingCardImg({
   fallback?: string;
   alt: string;
 }) {
-  const FALLBACK = '/images/project-placeholder.png';
+  const FALLBACK = '/images/project-placeholder.webp';
   const [imgSrc, setImgSrc] = useState<string>(src || fallback || FALLBACK);
   const [hasError, setHasError] = useState(false);
 

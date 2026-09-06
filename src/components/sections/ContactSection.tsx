@@ -107,7 +107,7 @@ export function ContactSection() {
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-border flex-shrink-0">
                   <img
-                    src="/images/avatar.png"
+                    src="/images/avatar.webp"
                     alt="Hardik Bhaskar"
                     width={56}
                     height={56}

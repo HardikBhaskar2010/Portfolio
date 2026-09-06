@@ -216,7 +216,7 @@ export function Hero() {
               {/* Profile image */}
               <div className="h-64 overflow-hidden relative">
                 <img
-                  src="/images/avatar.png"
+                  src="/images/avatar.webp"
                   alt="Hardik Bhaskar"
                   width={340}
                   height={256}
@@ -275,7 +275,7 @@ export function Hero() {
                           if (p.fallbackImage && !target.src.endsWith(p.fallbackImage)) {
                             target.src = p.fallbackImage;
                           } else {
-                            target.src = '/images/project-placeholder.png';
+                            target.src = '/images/project-placeholder.webp';
                           }
                         }}
                       />

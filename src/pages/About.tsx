@@ -52,8 +52,13 @@ export default function About() {
               <motion.div variants={scaleIn} initial="hidden" animate="visible" className="relative rounded-2xl overflow-hidden">
                 <div className="aspect-[3/4] md:aspect-[4/5] parallax-container">
                   <motion.img
-                    src="/images/avatar.png"
+                    src="/images/avatar.webp"
                     alt="Hardik Bhaskar"
+                    width={500}
+                    height={625}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                     style={{ y: imageY, scale: imageScale }}
                     className="w-full h-full object-cover object-top"
                   />

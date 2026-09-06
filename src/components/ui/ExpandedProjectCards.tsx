@@ -106,7 +106,7 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                         if (project.fallbackImage && !target.src.endsWith(project.fallbackImage)) {
                           target.src = project.fallbackImage;
                         } else {
-                          target.src = '/images/project-placeholder.png';
+                          target.src = '/images/project-placeholder.webp';
                         }
                       }}
                     />
@@ -133,7 +133,7 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                         if (project.fallbackImage && !target.src.endsWith(project.fallbackImage)) {
                           target.src = project.fallbackImage;
                         } else {
-                          target.src = '/images/project-placeholder.png';
+                          target.src = '/images/project-placeholder.webp';
                         }
                       }}
                     />
@@ -237,7 +237,7 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                         if (project.fallbackImage && !target.src.endsWith(project.fallbackImage)) {
                           target.src = project.fallbackImage;
                         } else {
-                          target.src = '/images/project-placeholder.png';
+                          target.src = '/images/project-placeholder.webp';
                         }
                       }}
                     />

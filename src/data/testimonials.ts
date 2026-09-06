@@ -14,7 +14,7 @@ export const testimonials: Testimonial[] = [
     name: 'Aryan Mehta',
     role: 'CTO',
     company: 'Pulse Analytics',
-    avatar: '/images/avatar-1.png',
+    avatar: '/images/avatar-1.webp',
   },
   {
     id: 't2',
@@ -22,7 +22,7 @@ export const testimonials: Testimonial[] = [
     name: 'Priya Nair',
     role: 'Product Lead',
     company: 'STEM Idea Adventure',
-    avatar: '/images/avatar-2.png',
+    avatar: '/images/avatar-2.webp',
   },
   {
     id: 't3',
@@ -30,7 +30,7 @@ export const testimonials: Testimonial[] = [
     name: 'Siddharth Rao',
     role: 'Creative Director',
     company: 'Void Studios',
-    avatar: '/images/avatar-3.png',
+    avatar: '/images/avatar-3.webp',
   },
   {
     id: 't4',
@@ -38,6 +38,6 @@ export const testimonials: Testimonial[] = [
     name: 'Ananya Sharma',
     role: 'Engineering Manager',
     company: 'Folio Systems',
-    avatar: '/images/avatar-4.png',
+    avatar: '/images/avatar-4.webp',
   },
 ];

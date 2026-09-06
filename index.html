@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
     <!-- ═══════════════════════════════════════════════════════
-         PRIMARY META — page-specific tags managed by react-helmet-async
-         (title, description, canonical injected per-route by <Seo> component)
+         PRIMARY META — Initial static tags (data-rh="true" enables react-helmet-async deduplication)
     ═══════════════════════════════════════════════════════ -->
+    <title data-rh="true">Hardik Bhaskar — Interactive Web &amp; 3D Developer</title>
+    <meta data-rh="true" name="description"
+      content="Scroll-driven 3D web experiences, AI-powered apps &amp; full-stack products. React · Three.js · TypeScript. Available for freelance contracts." />
+    <link data-rh="true" rel="canonical" href="https://lunakitsune.vercel.app/" />
     <meta name="keywords"
       content="Hardik Bhaskar, Luna Kitsune, Interactive Web Developer, 3D Web Developer, React Developer, AI Systems Builder, Three.js Developer, Framer Motion, TypeScript, Portfolio, Frontend Engineer, Web Design, India, Freelance" />
     <meta name="author"        content="Hardik Bhaskar" />
@@ -21,6 +24,7 @@
     <!-- ═══════════════════════════════════════════════════════
          FAVICONS & ICONS
     ═══════════════════════════════════════════════════════ -->
+    <link rel="icon"             type="image/webp"               href="/images/logo.webp" />
     <link rel="icon"             type="image/png" sizes="32x32"  href="/images/logo.png" />
     <link rel="icon"             type="image/png" sizes="16x16"  href="/images/logo.png" />
     <link rel="shortcut icon"    type="image/png"                 href="/images/logo.png" />
@@ -191,7 +195,18 @@
       │  github.com/HardikBhaskar2010/Portfolio              │
       └──────────────────────────────────────────────────────┘
     -->
-    <div id="root"></div>
+    <div id="root">
+      <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
+        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">Hardik Bhaskar — Interactive Web &amp; 3D Developer</h1>
+        <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
+          Building cinematic web experiences, AI systems, and futuristic interactive products. React · Three.js · TypeScript.
+        </p>
+        <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem;">
+          <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Explore Projects →</a>
+          <a href="/about" style="color: #00E5FF; text-decoration: none; font-weight: 600;">About Hardik →</a>
+        </nav>
+      </header>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

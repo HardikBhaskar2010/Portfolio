@@ -174,7 +174,7 @@ export function AboutPreview() {
             <div className="bg-surface border border-border rounded-2xl overflow-hidden">
               <div className="parallax-container h-56 md:h-72">
                 <motion.img
-                  src="/images/avatar.png"
+                  src="/images/avatar.webp"
                   alt="Hardik Bhaskar"
                   width={400}
                   height={288}

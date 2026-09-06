@@ -226,7 +226,7 @@ function ProjectImage({
   style,
   ...rest
 }: React.ImgHTMLAttributes<HTMLImageElement> & { style?: React.CSSProperties; fallbackSrc?: string }) {
-  const FALLBACK = '/images/project-placeholder.png';
+  const FALLBACK = '/images/project-placeholder.webp';
   const [imgSrc, setImgSrc] = useState(src || fallbackSrc || FALLBACK);
 
   useEffect(() => {
@@ -506,6 +506,8 @@ export default function ProjectDetail() {
                     src={project.image}
                     fallbackSrc={project.fallbackImage}
                     alt={project.title}
+                    width={1200}
+                    height={675}
                     loading="eager"
                     fetchPriority="high"
                     decoding="async"
@@ -682,6 +684,10 @@ export default function ProjectDetail() {
                     src={nextProject.image}
                     fallbackSrc={nextProject.fallbackImage}
                     alt={nextProject.title}
+                    width={64}
+                    height={64}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -721,6 +727,10 @@ export default function ProjectDetail() {
                           src={p.image}
                           fallbackSrc={p.fallbackImage}
                           alt={p.title}
+                          width={560}
+                          height={315}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div

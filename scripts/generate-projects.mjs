@@ -26,7 +26,7 @@ if (!TOKEN) {
 }
 
 const PALETTE   = ['#00E5FF', '#7C3AED', '#A855F7', '#F59E0B', '#EC4899', '#10B981'];
-const FALLBACK_IMAGE = '/images/project-placeholder.png';
+const FALLBACK_IMAGE = '/images/project-placeholder.webp';
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -91,9 +91,9 @@ async function fetchRepoFileContent(repoName, filePath) {
 
 /**
  * Fetch both assets/pic.png and assets/description.md from the repo in parallel.
- * Returns { imageUrl, longDescription } — each falls back gracefully.
+ * Returns { imageUrl, longDescription } — each falls back gracefully to existing cache or default.
  */
-async function fetchRepoAssets(repoName, fallbackDescription) {
+async function fetchRepoAssets(repoName, fallbackDescription, existingProject = null) {
   const slug = slugify(repoName);
   
   // 1. Fetch description and image in parallel
@@ -122,10 +122,10 @@ async function fetchRepoAssets(repoName, fallbackDescription) {
   }
 
   if (!longDescription) {
-    longDescription = fallbackDescription;
+    longDescription = existingProject?.longDescription || fallbackDescription;
   }
 
-  let imageUrl = FALLBACK_IMAGE;
+  let imageUrl = existingProject?.image || FALLBACK_IMAGE;
   if (picResult.ok) {
     imageUrl = `https://raw.githubusercontent.com/${USERNAME}/${repoName}/HEAD/assets/pic.png`;
   } else {
@@ -135,13 +135,35 @@ async function fetchRepoAssets(repoName, fallbackDescription) {
       if (picData && picData.download_url) {
         imageUrl = picData.download_url;
       }
-    } catch {}
+    } catch {
+      if (existingProject?.image && existingProject.image !== FALLBACK_IMAGE) {
+        imageUrl = existingProject.image;
+      }
+    }
   }
 
   return { imageUrl, longDescription };
 }
 
-// ── 0. Auth check ──────────────────────────────────────────────────────────
+// ── 0. Read existing cache & overrides ─────────────────────────────────────
+
+const outPath = new URL('../src/data/projects.generated.json', import.meta.url);
+let existingProjects = [];
+if (existsSync(outPath)) {
+  try {
+    existingProjects = JSON.parse(readFileSync(outPath, 'utf8'));
+    console.log(`📁 Loaded ${existingProjects.length} existing project(s) from cache.`);
+  } catch {}
+}
+
+let overrides = {};
+try {
+  const mod = await import('../src/data/projects.overrides.mjs');
+  overrides = mod.overrides ?? {};
+  console.log(`   Loaded overrides for: ${Object.keys(overrides).join(', ') || '(none)'}`);
+} catch {
+  console.warn('⚠️  Could not load projects.overrides.mjs — no overrides applied.');
+}
 
 if (!TOKEN) {
   console.warn(
@@ -155,21 +177,32 @@ if (!TOKEN) {
 
 console.log(`🔍 Searching repos tagged "portfolio-project" for ${USERNAME}…`);
 
-const { items: repos } = await gh(
-  `/search/repositories?q=user:${USERNAME}+topic:portfolio-project&sort=updated&per_page=100`
-);
-
-console.log(`   Found ${repos.length} repo(s).`);
-
-// ── 2. Load overrides ──────────────────────────────────────────────────────
-
-let overrides = {};
+let repos = [];
 try {
-  const mod = await import('../src/data/projects.overrides.mjs');
-  overrides = mod.overrides ?? {};
-  console.log(`   Loaded overrides for: ${Object.keys(overrides).join(', ') || '(none)'}`);
-} catch {
-  console.warn('⚠️  Could not load projects.overrides.mjs — no overrides applied.');
+  const searchResult = await gh(
+    `/search/repositories?q=user:${USERNAME}+topic:portfolio-project&sort=updated&per_page=100`
+  );
+  repos = searchResult.items || [];
+  console.log(`   Found ${repos.length} repo(s).`);
+} catch (err) {
+  console.warn(`\n⚠️  GitHub search API failed: ${err.message}`);
+  if (existingProjects.length > 0) {
+    console.warn(`🛡️  Rate limit reached or network offline. Retaining all ${existingProjects.length} existing project(s) in projects.generated.json.`);
+    console.log(`✓ Retained existing ${existingProjects.length} project(s) → build will proceed safely without dropping any projects.\n`);
+    process.exit(0);
+  } else {
+    throw err;
+  }
+}
+
+// ── 2. Check for missing known projects (e.g. Vectoris during search indexing lag) ──
+
+const fetchedSlugs = new Set(repos.map((r) => slugify(r.name)));
+const missingProjects = existingProjects.filter((p) => !fetchedSlugs.has(p.slug));
+
+if (missingProjects.length > 0) {
+  console.warn(`⚠️  Search returned ${repos.length} repos; ${missingProjects.length} known project(s) missing from search: ${missingProjects.map((p) => p.slug).join(', ')}.`);
+  console.log(`🛡️  Preserving missing project(s) from cache so nothing is dropped from portfolio or sitemap.`);
 }
 
 // ── 3. Fetch per-repo assets in parallel ───────────────────────────────────
@@ -178,9 +211,12 @@ console.log('📦 Fetching assets/pic.png and assets/description.md from each re
 
 const assetResults = await Promise.all(
   repos.map(async (repo) => {
+    const slug = slugify(repo.name);
+    const existing = existingProjects.find((p) => p.slug === slug);
     const { imageUrl, longDescription } = await fetchRepoAssets(
       repo.name,
-      repo.description ?? ''
+      repo.description ?? '',
+      existing
     );
 
     const hasImage = imageUrl !== FALLBACK_IMAGE;
@@ -234,9 +270,18 @@ const projects = repos.map((repo, i) => {
   return { ...base, ...override };
 });
 
+// Preserve any missing projects from existing cache with fresh overrides applied
+for (const missing of missingProjects) {
+  const override =
+    overrides[missing.slug] ??
+    overrides[missing.slug.toLowerCase()] ??
+    overrides[missing.id?.toLowerCase()] ??
+    {};
+  projects.push({ ...missing, ...override });
+}
+
 // ── 5. Write output ────────────────────────────────────────────────────────
 
-const outPath = new URL('../src/data/projects.generated.json', import.meta.url);
 writeFileSync(outPath, JSON.stringify(projects, null, 2) + '\n');
 
 console.log(`\n✓ Generated ${projects.length} project(s) → src/data/projects.generated.json`);

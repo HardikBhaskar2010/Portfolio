@@ -109,7 +109,7 @@ export function FeaturedWork({ limit = 6, showViewAll = true }: FeaturedWorkProp
 function FallbackImg({
   src, fallbackSrc, alt, className, style, priority, ...rest
 }: HTMLMotionProps<"img"> & { priority?: boolean; fallbackSrc?: string }) {
-  const FALLBACK = '/images/project-placeholder.png';
+  const FALLBACK = '/images/project-placeholder.webp';
   const [imgSrc, setImgSrc] = useState(src || fallbackSrc || FALLBACK);
   useEffect(() => { setImgSrc(src || fallbackSrc || FALLBACK); }, [src, fallbackSrc]);
   return (
@@ -117,9 +117,13 @@ function FallbackImg({
       {...rest as any}
       src={imgSrc}
       alt={alt}
+      width={700}
+      height={394}
+      decoding="async"
       className={className || "w-full h-full object-cover"}
       style={style}
       loading={priority ? 'eager' : 'lazy'}
+      {...(priority ? { fetchPriority: 'high' } : {})}
       onError={() => {
         if (fallbackSrc && imgSrc !== fallbackSrc) {
           setImgSrc(fallbackSrc);

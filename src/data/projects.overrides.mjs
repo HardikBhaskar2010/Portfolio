@@ -24,7 +24,7 @@ export const overrides = {
     year:     '2025',
     tools:    ['Python', 'LangChain', 'OpenAI', 'React', 'TypeScript', 'FastAPI'],
     color:    '#7C3AED',
-    fallbackImage: '/images/project-ai-veronica.png',
+    fallbackImage: '/images/project-ai-veronica.webp',
   },
 
   // ── STEM Idea Generator ────────────────────────────────────────────────
@@ -37,7 +37,7 @@ export const overrides = {
     tools:    ['React', 'TypeScript', 'Node.js', 'FastAPI', 'Google ADK'],
     link:     'https://stemidea.vercel.app',
     color:    '#00E5FF',
-    fallbackImage: '/images/project-stem-adventure.png',
+    fallbackImage: '/images/project-stem-adventure.webp',
   },
 
   // ── MahinaOS ────────────────────────────────────────────────────────────
@@ -49,7 +49,7 @@ export const overrides = {
     year:     '2025',
     tools:    ['TypeScript', 'React', 'WebGL', 'Framer Motion', 'CSS Houdini'],
     color:    '#A855F7',
-    fallbackImage: '/images/project-mahina-os.png',
+    fallbackImage: '/images/project-mahina-os.webp',
   },
 
   // ── AEGIS Decision Intelligence ─────────────────────────────────────────
@@ -62,7 +62,7 @@ export const overrides = {
     tools:    ['Python', 'BigQuery', 'Vertex AI', 'Google ADK', 'FastAPI'],
     link:     'https://decisionforge-one.vercel.app',
     color:    '#F59E0B',
-    fallbackImage: '/images/project-aegis.png',
+    fallbackImage: '/images/project-aegis.webp',
   },
 
   // ── Vectoris ────────────────────────────────────────────────────────────
@@ -78,7 +78,7 @@ export const overrides = {
     color:    '#E11D48',
     image:    'https://raw.githubusercontent.com/VectorisAI/Vectoris/main/assets/pic.png',
     heroImage: 'https://raw.githubusercontent.com/VectorisAI/Vectoris/main/assets/pic.png',
-    fallbackImage: '/images/project-vectoris.png',
+    fallbackImage: '/images/project-vectoris.webp',
   },
 
 };

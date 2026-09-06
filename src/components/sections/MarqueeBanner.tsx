@@ -53,7 +53,7 @@ export function MarqueeBanner() {
 }
 
 function MarqueeCard({ item, index }: { item: { slug: string; src: string; fallbackSrc?: string; title: string; category: string }; index: number }) {
-  const FALLBACK = '/images/project-placeholder.png';
+  const FALLBACK = '/images/project-placeholder.webp';
   const [imgSrc, setImgSrc] = useState(item.src || item.fallbackSrc || FALLBACK);
   useEffect(() => {
     setImgSrc(item.src || item.fallbackSrc || FALLBACK);
@@ -67,10 +67,13 @@ function MarqueeCard({ item, index }: { item: { slug: string; src: string; fallb
           <motion.img
             src={imgSrc}
             alt={item.title}
+            width={420}
+            height={236}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
             whileHover={{ scale: 1.06 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            loading="lazy"
             onError={() => {
               if (item.fallbackSrc && imgSrc !== item.fallbackSrc) {
                 setImgSrc(item.fallbackSrc);

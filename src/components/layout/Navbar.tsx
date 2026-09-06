@@ -142,7 +142,7 @@ export function Navbar() {
                 style={{ width: `${32 - t * 6}px`, height: `${32 - t * 6}px` }}
               >
                 <img
-                  src="/images/logo.png"
+                  src="/images/logo.webp"
                   alt="Hardik Bhaskar logo"
                   width={32}
                   height={32}

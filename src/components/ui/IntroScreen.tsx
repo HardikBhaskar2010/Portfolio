@@ -93,7 +93,15 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
             className="mb-10"
           >
             <div className="w-16 h-16 rounded-2xl overflow-hidden border border-border shadow-lg shadow-cyan/10">
-              <img src="/images/logo.png" alt="Logo" className="w-full h-full object-cover" />
+              <img
+                src="/images/logo.webp"
+                alt="Hardik Bhaskar logo"
+                width={64}
+                height={64}
+                loading="eager"
+                decoding="async"
+                className="w-full h-full object-cover"
+              />
             </div>
           </motion.div>
 
