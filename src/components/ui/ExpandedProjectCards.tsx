@@ -1,9 +1,10 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Terminal, Cpu, Sparkles, Layers, Shield, Bot } from 'lucide-react';
 import type { Project } from '@/data/projects';
 import { playHoverTick, playSynthPulse } from '@/lib/audio';
+import { useHighlightStore } from '@/store/highlightStore';
 
 interface ExpandedProjectCardsProps {
   projects: Project[];
@@ -24,6 +25,16 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
 
   // Take top 5 projects for the 5-sliver rail
   const railProjects = projects.slice(0, 5);
+
+  useEffect(() => {
+    const current = railProjects[activeIndex];
+    if (current) {
+      useHighlightStore.getState().setOverride(current.color, `${current.title.toUpperCase()} // ACTIVE`);
+    }
+    return () => {
+      useHighlightStore.getState().setOverride(null);
+    };
+  }, [activeIndex, railProjects]);
 
   return (
     <div className="w-full select-none" ref={containerRef}>

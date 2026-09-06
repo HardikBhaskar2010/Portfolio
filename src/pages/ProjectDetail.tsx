@@ -23,6 +23,8 @@ import { pageEnter, stagger, fadeUp, scaleIn } from '@/lib/motion';
 import { track } from '@/lib/analytics';
 import { playHoverTick, playClick, playSynthPulse } from '@/lib/audio';
 import { Seo, buildProjectJsonLd } from '@/lib/seo';
+import { HighlightPoint } from '@/components/ui/HighlightPoint';
+import { useHighlightStore } from '@/store/highlightStore';
 
 // ── Markdown → Rich JSX Renderer ──────────────────────────────────────────
 function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) {
@@ -260,8 +262,14 @@ export default function ProjectDetail() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (project) track.projectView(project.title, project.slug);
+    if (project) {
+      track.projectView(project.title, project.slug);
+      useHighlightStore.getState().setOverride(project.color, `${project.title.toUpperCase()} // ACTIVE`);
+    }
     window.scrollTo({ top: 0, behavior: 'instant' });
+    return () => {
+      useHighlightStore.getState().setOverride(null);
+    };
   }, [project, slug]);
 
   const { scrollYProgress } = useScroll({
@@ -350,53 +358,56 @@ export default function ProjectDetail() {
       />
       <main>
         {/* ── Top Floating Header / Breadcrumbs ── */}
-        <section className="pt-28 pb-6 border-b border-border/50 bg-bg/60 backdrop-blur-md sticky top-0 z-30">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex items-center justify-between gap-4">
-            <Link
-              to="/projects"
-              onMouseEnter={playHoverTick}
-              className="inline-flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors group"
-            >
-              <ArrowLeft size={15} className="group-hover:-translate-x-1 transition-transform" />
-              <span>All Projects</span>
-              <span className="text-border">/</span>
-              <span className="text-heading font-medium truncate max-w-[200px] md:max-w-none">
-                {project.title}
-              </span>
-            </Link>
+        <HighlightPoint id="detail-header" color={project.color} label={`${project.title.toUpperCase()} // ACTIVE`}>
+          <section className="pt-28 pb-6 border-b border-border/50 bg-bg/60 backdrop-blur-md sticky top-0 z-30">
+            <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex items-center justify-between gap-4">
+              <Link
+                to="/projects"
+                onMouseEnter={playHoverTick}
+                className="inline-flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors group"
+              >
+                <ArrowLeft size={15} className="group-hover:-translate-x-1 transition-transform" />
+                <span>All Projects</span>
+                <span className="text-border">/</span>
+                <span className="text-heading font-medium truncate max-w-[200px] md:max-w-none">
+                  {project.title}
+                </span>
+              </Link>
 
-            <div className="flex items-center gap-3">
-              {hasLiveLink && (
+              <div className="flex items-center gap-3">
+                {hasLiveLink && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    onMouseEnter={playHoverTick}
+                    onClick={() => track.projectLinkClick(project.title, project.link!)}
+                    className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-ui font-medium border border-cyan/40 bg-cyan/10 text-cyan hover:bg-cyan/20 hover:border-cyan transition-all active:scale-[0.98]"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
+                    Live Preview
+                    <ExternalLink size={12} />
+                  </a>
+                )}
                 <a
-                  href={project.link}
+                  href={githubUrl}
                   target="_blank"
                   rel="noreferrer"
                   onMouseEnter={playHoverTick}
-                  onClick={() => track.projectLinkClick(project.title, project.link!)}
-                  className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-ui font-medium border border-cyan/40 bg-cyan/10 text-cyan hover:bg-cyan/20 hover:border-cyan transition-all active:scale-[0.98]"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-ui font-medium border border-border bg-surface text-heading hover:border-accent transition-all active:scale-[0.98]"
                 >
-                  <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
-                  Live Preview
-                  <ExternalLink size={12} />
+                  <GitBranch size={13} className="text-muted" />
+                  <span>GitHub</span>
+                  <ArrowUpRight size={12} className="text-muted" />
                 </a>
-              )}
-              <a
-                href={githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                onMouseEnter={playHoverTick}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-ui font-medium border border-border bg-surface text-heading hover:border-accent transition-all active:scale-[0.98]"
-              >
-                <GitBranch size={13} className="text-muted" />
-                <span>GitHub</span>
-                <ArrowUpRight size={12} className="text-muted" />
-              </a>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </HighlightPoint>
 
         {/* ── Project Hero ── */}
-        <section ref={heroRef} className="relative pt-12 pb-20 overflow-hidden border-b border-border">
+        <HighlightPoint id="detail-hero" color={project.color} label={`${project.title.toUpperCase()} // OVERVIEW`}>
+          <section ref={heroRef} className="relative pt-12 pb-20 overflow-hidden border-b border-border">
           {/* Ambient colored backdrop glow */}
           <div
             className="absolute top-0 right-1/4 w-[600px] h-[400px] rounded-full blur-[140px] opacity-15 pointer-events-none -z-10"
@@ -521,180 +532,185 @@ export default function ProjectDetail() {
             </motion.div>
           </div>
         </section>
+        </HighlightPoint>
 
         {/* ── Main Content Area: Sidebar Meta + Markdown Documentation ── */}
-        <section className="py-20 md:py-28">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <HighlightPoint id="detail-spec" color={project.color} label="ENGINEERING // SPEC">
+          <section className="py-20 md:py-28">
+            <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
 
-              {/* ── Left Sidebar (4 cols) ── */}
-              <div className="lg:col-span-4 flex flex-col gap-8 lg:sticky lg:top-24 self-start">
-                {/* Meta Card */}
-                <div className="p-6 rounded-2xl border border-border bg-surface/70 backdrop-blur-sm flex flex-col gap-6">
-                  <div>
-                    <span className="font-ui text-[11px] uppercase tracking-widest text-muted flex items-center gap-1.5 mb-2">
-                      <Layers size={13} />
-                      Primary Domain
-                    </span>
-                    <p className="font-heading font-semibold text-heading text-lg">
-                      {project.category}
-                    </p>
-                  </div>
-
-                  <div className="border-t border-border/60 pt-5">
-                    <span className="font-ui text-[11px] uppercase tracking-widest text-muted flex items-center gap-1.5 mb-2">
-                      <Cpu size={13} />
-                      Technology Stack
-                    </span>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {project.tools.map(t => (
-                        <span
-                          key={t}
-                          className="font-mono text-xs text-tagText bg-tag border border-border/80 px-2.5 py-1 rounded-md hover:border-cyan/40 transition-colors"
-                        >
-                          {t}
-                        </span>
-                      ))}
+                {/* ── Left Sidebar (4 cols) ── */}
+                <div className="lg:col-span-4 flex flex-col gap-8 lg:sticky lg:top-24 self-start">
+                  {/* Meta Card */}
+                  <div className="p-6 rounded-2xl border border-border bg-surface/70 backdrop-blur-sm flex flex-col gap-6">
+                    <div>
+                      <span className="font-ui text-[11px] uppercase tracking-widest text-muted flex items-center gap-1.5 mb-2">
+                        <Layers size={13} />
+                        Primary Domain
+                      </span>
+                      <p className="font-heading font-semibold text-heading text-lg">
+                        {project.category}
+                      </p>
                     </div>
-                  </div>
 
-                  {/* Actions */}
-                  <div className="border-t border-border/60 pt-5 flex flex-col gap-3">
-                    {hasLiveLink && (
+                    <div className="border-t border-border/60 pt-5">
+                      <span className="font-ui text-[11px] uppercase tracking-widest text-muted flex items-center gap-1.5 mb-2">
+                        <Cpu size={13} />
+                        Technology Stack
+                      </span>
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {project.tools.map(t => (
+                          <span
+                            key={t}
+                            className="font-mono text-xs text-tagText bg-tag border border-border/80 px-2.5 py-1 rounded-md hover:border-cyan/40 transition-colors"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="border-t border-border/60 pt-5 flex flex-col gap-3">
+                      {hasLiveLink && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          onMouseEnter={playHoverTick}
+                          onClick={() => track.projectLinkClick(project.title, project.link!)}
+                          className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-cyan text-bg font-ui font-medium text-sm hover:opacity-90 transition-opacity active:scale-[0.98]"
+                        >
+                          <span>Explore Live System</span>
+                          <ExternalLink size={15} />
+                        </a>
+                      )}
+
                       <a
-                        href={project.link}
+                        href={githubUrl}
                         target="_blank"
                         rel="noreferrer"
                         onMouseEnter={playHoverTick}
-                        onClick={() => track.projectLinkClick(project.title, project.link!)}
-                        className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-cyan text-bg font-ui font-medium text-sm hover:opacity-90 transition-opacity active:scale-[0.98]"
+                        className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-border bg-white/[0.03] text-heading font-ui font-medium text-sm hover:border-accent hover:bg-white/[0.06] transition-all active:scale-[0.98]"
                       >
-                        <span>Explore Live System</span>
-                        <ExternalLink size={15} />
+                        <span className="flex items-center gap-2">
+                          <GitBranch size={15} />
+                          GitHub Repository
+                        </span>
+                        <ArrowUpRight size={15} />
                       </a>
-                    )}
+                    </div>
+                  </div>
 
-                    <a
-                      href={githubUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      onMouseEnter={playHoverTick}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-border bg-white/[0.03] text-heading font-ui font-medium text-sm hover:border-accent hover:bg-white/[0.06] transition-all active:scale-[0.98]"
-                    >
-                      <span className="flex items-center gap-2">
-                        <GitBranch size={15} />
-                        GitHub Repository
+                  {/* Terminal Clone Affordance */}
+                  <div className="p-5 rounded-2xl border border-border bg-bg/80 flex flex-col gap-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs text-muted flex items-center gap-1.5">
+                        <Terminal size={12} className="text-cyan" />
+                        Clone Repository
                       </span>
-                      <ArrowUpRight size={15} />
-                    </a>
+                      <button
+                        onClick={copyCloneCommand}
+                        onMouseEnter={playHoverTick}
+                        className="text-xs text-muted hover:text-heading flex items-center gap-1 font-mono transition-colors active:scale-95"
+                        title="Copy clone command"
+                      >
+                        {copied ? (
+                          <>
+                            <Check size={12} className="text-emerald-400" />
+                            <span className="text-emerald-400">Copied</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy size={12} />
+                            <span>Copy</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <div className="bg-black/50 p-3 rounded-xl border border-border/50 font-mono text-[11px] text-muted select-all overflow-x-auto">
+                      <code>{cloneCommand}</code>
+                    </div>
                   </div>
                 </div>
 
-                {/* Terminal Clone Affordance */}
-                <div className="p-5 rounded-2xl border border-border bg-bg/80 flex flex-col gap-3">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs text-muted flex items-center gap-1.5">
-                      <Terminal size={12} className="text-cyan" />
-                      Clone Repository
-                    </span>
-                    <button
-                      onClick={copyCloneCommand}
-                      onMouseEnter={playHoverTick}
-                      className="text-xs text-muted hover:text-heading flex items-center gap-1 font-mono transition-colors active:scale-95"
-                      title="Copy clone command"
-                    >
-                      {copied ? (
-                        <>
-                          <Check size={12} className="text-emerald-400" />
-                          <span className="text-emerald-400">Copied</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy size={12} />
-                          <span>Copy</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  <div className="bg-black/50 p-3 rounded-xl border border-border/50 font-mono text-[11px] text-muted select-all overflow-x-auto">
-                    <code>{cloneCommand}</code>
-                  </div>
+                {/* ── Right Content: Professional Markdown Documentation (8 cols) ── */}
+                <div className="lg:col-span-8">
+                  <article className="prose prose-invert max-w-none">
+                    <MarkdownBody md={project.longDescription} accentColor={project.color} />
+                  </article>
                 </div>
-              </div>
 
-              {/* ── Right Content: Professional Markdown Documentation (8 cols) ── */}
-              <div className="lg:col-span-8">
-                <article className="prose prose-invert max-w-none">
-                  <MarkdownBody md={project.longDescription} accentColor={project.color} />
-                </article>
               </div>
-
             </div>
-          </div>
-        </section>
+          </section>
+        </HighlightPoint>
 
         {/* ── Project Navigation (Previous / Next) ── */}
-        <section className="py-16 border-t border-border bg-surface/30">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Previous */}
-              <Link
-                to={`/projects/${prevProject.slug}`}
-                onMouseEnter={playSynthPulse}
-                className="group p-6 rounded-2xl border border-border bg-surface hover:border-accent transition-all flex items-center gap-5 active:scale-[0.99]"
-              >
-                <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-border/80">
-                  <ProjectImage
-                    src={prevProject.image}
-                    fallbackSrc={prevProject.fallbackImage}
-                    alt={prevProject.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="flex flex-col gap-1 overflow-hidden">
-                  <span className="font-mono text-xs text-muted flex items-center gap-1">
-                    <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" />
-                    Previous Project
-                  </span>
-                  <p className="font-display italic text-lg text-heading truncate group-hover:text-cyan transition-colors">
-                    {prevProject.title}
-                  </p>
-                  <span className="text-xs text-muted/70 truncate">{prevProject.category}</span>
-                </div>
-              </Link>
+        <HighlightPoint id="detail-nav" color={project.color} label="SYSTEMS // NAVIGATE">
+          <section className="py-16 border-t border-border bg-surface/30">
+            <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Previous */}
+                <Link
+                  to={`/projects/${prevProject.slug}`}
+                  onMouseEnter={playSynthPulse}
+                  className="group p-6 rounded-2xl border border-border bg-surface hover:border-accent transition-all flex items-center gap-5 active:scale-[0.99]"
+                >
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-border/80">
+                    <ProjectImage
+                      src={prevProject.image}
+                      fallbackSrc={prevProject.fallbackImage}
+                      alt={prevProject.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1 overflow-hidden">
+                    <span className="font-mono text-xs text-muted flex items-center gap-1">
+                      <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" />
+                      Previous Project
+                    </span>
+                    <p className="font-display italic text-lg text-heading truncate group-hover:text-cyan transition-colors">
+                      {prevProject.title}
+                    </p>
+                    <span className="text-xs text-muted/70 truncate">{prevProject.category}</span>
+                  </div>
+                </Link>
 
-              {/* Next */}
-              <Link
-                to={`/projects/${nextProject.slug}`}
-                onMouseEnter={playSynthPulse}
-                className="group p-6 rounded-2xl border border-border bg-surface hover:border-accent transition-all flex items-center justify-between gap-5 text-right active:scale-[0.99]"
-              >
-                <div className="flex flex-col gap-1 overflow-hidden ml-auto">
-                  <span className="font-mono text-xs text-muted flex items-center justify-end gap-1">
-                    Next Project
-                    <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <p className="font-display italic text-lg text-heading truncate group-hover:text-cyan transition-colors">
-                    {nextProject.title}
-                  </p>
-                  <span className="text-xs text-muted/70 truncate">{nextProject.category}</span>
-                </div>
-                <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-border/80">
-                  <ProjectImage
-                    src={nextProject.image}
-                    fallbackSrc={nextProject.fallbackImage}
-                    alt={nextProject.title}
-                    width={64}
-                    height={64}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              </Link>
+                {/* Next */}
+                <Link
+                  to={`/projects/${nextProject.slug}`}
+                  onMouseEnter={playSynthPulse}
+                  className="group p-6 rounded-2xl border border-border bg-surface hover:border-accent transition-all flex items-center justify-between gap-5 text-right active:scale-[0.99]"
+                >
+                  <div className="flex flex-col gap-1 overflow-hidden ml-auto">
+                    <span className="font-mono text-xs text-muted flex items-center justify-end gap-1">
+                      Next Project
+                      <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <p className="font-display italic text-lg text-heading truncate group-hover:text-cyan transition-colors">
+                      {nextProject.title}
+                    </p>
+                    <span className="text-xs text-muted/70 truncate">{nextProject.category}</span>
+                  </div>
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-border/80">
+                    <ProjectImage
+                      src={nextProject.image}
+                      fallbackSrc={nextProject.fallbackImage}
+                      alt={nextProject.title}
+                      width={64}
+                      height={64}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                </Link>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </HighlightPoint>
 
         {/* ── More Projects Grid ── */}
         {related.length > 0 && (
@@ -755,7 +771,9 @@ export default function ProjectDetail() {
           </section>
         )}
 
-        <ContactSection />
+        <HighlightPoint id="detail-contact" color="#10B981" label="UPLINK // CONNECT">
+          <ContactSection />
+        </HighlightPoint>
       </main>
       <Footer />
     </motion.div>

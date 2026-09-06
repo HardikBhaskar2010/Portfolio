@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight, ExternalLink, Terminal, Cpu, Bot, Shield, Layers, Sparkles } from 'lucide-react';
 import type { Project } from '@/data/projects';
 import { playHoverTick, playClick } from '@/lib/audio';
+import { useHighlightStore } from '@/store/highlightStore';
 
 const PROJECT_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   'vectoris': Terminal,
@@ -36,8 +37,12 @@ export function ProjectGridCard({ project, index }: ProjectGridCardProps) {
       onMouseEnter={() => {
         setIsHovered(true);
         playHoverTick();
+        useHighlightStore.getState().setOverride(project.color, `${project.title.toUpperCase()} // ACTIVE`);
       }}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        useHighlightStore.getState().setOverride(null);
+      }}
       className="group relative flex flex-col justify-between rounded-[24px] lg:rounded-[28px] border border-white/10 bg-[#09090E]/90 backdrop-blur-md p-6 lg:p-8 transition-all duration-500 hover:border-white/20 hover:shadow-2xl hover:shadow-black/60"
     >
       {/* Ambient background glow matching project accent color */}

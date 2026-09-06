@@ -10,6 +10,7 @@ import { ContactSection } from '@/components/sections/ContactSection';
 import { services, experience, tools } from '@/data/tools';
 import { pageEnter, stagger, fadeUp, fadeLeft, fadeRight, scaleIn } from '@/lib/motion';
 import { Seo, buildPersonJsonLd } from '@/lib/seo';
+import { HighlightPoint } from '@/components/ui/HighlightPoint';
 
 export default function About() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -33,126 +34,142 @@ export default function About() {
       <main className="pt-16">
 
         {/* ── Hero ── */}
-        <section ref={heroRef} className="py-24 md:py-32 border-b border-border">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col gap-6 mb-16">
-              <motion.div variants={fadeUp}><SectionLabel>About me</SectionLabel></motion.div>
-              <motion.h1
-                variants={fadeUp}
-                className="font-display italic text-heading"
-                style={{ fontSize: 'clamp(40px, 7vw, 100px)', lineHeight: '0.9' }}
-              >
-                Get to know<br />me better.
-              </motion.h1>
-            </motion.div>
-
-            {/* Who I Am — 2-col */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Portrait with parallax */}
-              <motion.div variants={scaleIn} initial="hidden" animate="visible" className="relative rounded-2xl overflow-hidden">
-                <div className="aspect-[3/4] md:aspect-[4/5] parallax-container">
-                  <motion.img
-                    src="/images/avatar.webp"
-                    alt="Hardik Bhaskar"
-                    width={500}
-                    height={625}
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    style={{ y: imageY, scale: imageScale }}
-                    className="w-full h-full object-cover object-top"
-                  />
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-bg/40 via-transparent to-transparent" />
-                </div>
-                {/* Floating label */}
-                <div className="absolute bottom-5 left-5 glass rounded-xl px-4 py-3">
-                  <p className="font-heading font-bold text-heading text-sm">Hardik Bhaskar</p>
-                  <p className="font-ui text-xs text-cyan mt-0.5">Luna Kitsune</p>
-                </div>
+        <HighlightPoint id="about-hero" color="#00E5FF" label="PERSONA // LUNA KITSUNE">
+          <section ref={heroRef} className="py-24 md:py-32 border-b border-border">
+            <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+              <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col gap-6 mb-16">
+                <motion.div variants={fadeUp}><SectionLabel>About me</SectionLabel></motion.div>
+                <motion.h1
+                  variants={fadeUp}
+                  className="font-display italic text-heading"
+                  style={{ fontSize: 'clamp(40px, 7vw, 100px)', lineHeight: '0.9' }}
+                >
+                  Get to know<br />me better.
+                </motion.h1>
               </motion.div>
 
-              {/* Bio */}
-              <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col gap-6">
-                <motion.h2 variants={fadeUp} className="font-display italic text-heading text-3xl md:text-4xl">
-                  Systems Architect, Low-Level Engineer<br />& AI Systems Builder.
-                </motion.h2>
-                <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
-                  I'm a systems developer and AI builder focused on building robust low-level architectures,
-                  autonomous intelligence systems, and high-performance user interfaces. My work bridges bare-metal
-                  operating systems, native desktop binaries, and cinematic web experiences.
-                </motion.p>
-                <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
-                  I engineer native desktop platforms with <strong className="text-heading font-semibold">Rust</strong> and Tauri v2 (Vectoris),
-                  bare-metal x86_64 operating system kernels in <strong className="text-heading font-semibold">C / C++</strong> and Assembly (MahinaOS),
-                  autonomous multi-agent decision intelligence platforms in <strong className="text-heading font-semibold">Python</strong> and Google ADK 2.0 (AEGIS & Veronica AI),
-                  and modern interactive applications with <strong className="text-heading font-semibold">TypeScript</strong>, React 19, and Three.js.
-                </motion.p>
-                <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
-                  Whether writing bare-metal memory managers, zero-cost abstractions in Rust, or cinematic scroll-driven
-                  3D web animations, I build software where deep performance engineering meets exquisite design craft.
-                </motion.p>
-                <motion.div variants={fadeUp} className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
-                  <span className="font-ui text-sm text-cyan">Available for systems engineering and AI product contracts</span>
+              {/* Who I Am — 2-col */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                {/* Portrait with parallax */}
+                <motion.div variants={scaleIn} initial="hidden" animate="visible" className="relative rounded-2xl overflow-hidden">
+                  <div className="aspect-[3/4] md:aspect-[4/5] parallax-container">
+                    <motion.img
+                      src="/images/avatar.webp"
+                      alt="Hardik Bhaskar"
+                      width={500}
+                      height={625}
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
+                      style={{ y: imageY, scale: imageScale }}
+                      className="w-full h-full object-cover object-top"
+                    />
+                    {/* Overlay gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-bg/40 via-transparent to-transparent" />
+                  </div>
+                  {/* Floating label */}
+                  <div className="absolute bottom-5 left-5 glass rounded-xl px-4 py-3">
+                    <p className="font-heading font-bold text-heading text-sm">Hardik Bhaskar</p>
+                    <p className="font-ui text-xs text-cyan mt-0.5">Luna Kitsune</p>
+                  </div>
                 </motion.div>
-              </motion.div>
+
+                {/* Bio */}
+                <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col gap-6">
+                  <motion.h2 variants={fadeUp} className="font-display italic text-heading text-3xl md:text-4xl">
+                    Systems Architect, Low-Level Engineer<br />& AI Systems Builder.
+                  </motion.h2>
+                  <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
+                    I'm a systems developer and AI builder focused on building robust low-level architectures,
+                    autonomous intelligence systems, and high-performance user interfaces. My work bridges bare-metal
+                    operating systems, native desktop binaries, and cinematic web experiences.
+                  </motion.p>
+                  <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
+                    I engineer native desktop platforms with <strong className="text-heading font-semibold">Rust</strong> and Tauri v2 (Vectoris),
+                    bare-metal x86_64 operating system kernels in <strong className="text-heading font-semibold">C / C++</strong> and Assembly (MahinaOS),
+                    autonomous multi-agent decision intelligence platforms in <strong className="text-heading font-semibold">Python</strong> and Google ADK 2.0 (AEGIS & Veronica AI),
+                    and modern interactive applications with <strong className="text-heading font-semibold">TypeScript</strong>, React 19, and Three.js.
+                  </motion.p>
+                  <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
+                    Whether writing bare-metal memory managers, zero-cost abstractions in Rust, or cinematic scroll-driven
+                    3D web animations, I build software where deep performance engineering meets exquisite design craft.
+                  </motion.p>
+                  <motion.div variants={fadeUp} className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
+                    <span className="font-ui text-sm text-cyan">Available for systems engineering and AI product contracts</span>
+                  </motion.div>
+                </motion.div>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </HighlightPoint>
 
         {/* ── Experience Timeline ── */}
-        <section className="py-24 md:py-32 border-b border-border">
-          <div ref={inViewRef} className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <motion.div variants={stagger} initial="hidden" animate={inView ? 'visible' : 'hidden'} className="flex flex-col gap-12">
-              <div className="flex flex-col gap-4">
-                <motion.div variants={fadeUp}><SectionLabel>Career</SectionLabel></motion.div>
-                <motion.h2 variants={fadeUp} className="font-display italic text-heading" style={{ fontSize: 'clamp(28px, 4vw, 56px)', lineHeight: '0.92' }}>
-                  Experience.
-                </motion.h2>
-              </div>
+        <HighlightPoint id="about-experience" color="#F59E0B" label="TIMELINE // 2024–2026">
+          <section className="py-24 md:py-32 border-b border-border">
+            <div ref={inViewRef} className="max-w-[1200px] mx-auto px-6 md:px-12">
+              <motion.div variants={stagger} initial="hidden" animate={inView ? 'visible' : 'hidden'} className="flex flex-col gap-12">
+                <div className="flex flex-col gap-4">
+                  <motion.div variants={fadeUp}><SectionLabel>Career</SectionLabel></motion.div>
+                  <motion.h2 variants={fadeUp} className="font-display italic text-heading" style={{ fontSize: 'clamp(28px, 4vw, 56px)', lineHeight: '0.92' }}>
+                    Experience.
+                  </motion.h2>
+                </div>
 
-              <div className="relative flex flex-col gap-0">
-                {/* Timeline left line */}
-                <div className="absolute left-0 top-0 bottom-0 w-px bg-border" />
+                <div className="relative flex flex-col gap-0">
+                  {/* Timeline left line */}
+                  <div className="absolute left-0 top-0 bottom-0 w-px bg-border" />
 
-                {experience.map((exp, i) => (
-                  <motion.div
-                    key={i}
-                    variants={fadeLeft}
-                    className="relative pl-8 pb-12 last:pb-0"
-                  >
-                    {/* Dot */}
-                    <div className="absolute left-0 top-1 w-2 h-2 rounded-full bg-cyan border-2 border-bg -translate-x-[3px]" />
+                  {experience.map((exp, i) => (
+                    <motion.div
+                      key={i}
+                      variants={fadeLeft}
+                      className="relative pl-8 pb-12 last:pb-0"
+                    >
+                      {/* Dot */}
+                      <div className="absolute left-0 top-1 w-2 h-2 rounded-full bg-cyan border-2 border-bg -translate-x-[3px]" />
 
-                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-2 mb-3">
-                      <div>
-                        <h3 className="font-heading font-bold text-heading text-lg">{exp.role}</h3>
-                        <p className="font-ui text-sm text-cyan">{exp.company}</p>
+                      <div className="flex flex-col md:flex-row md:items-start justify-between gap-2 mb-3">
+                        <div>
+                          <h3 className="font-heading font-bold text-heading text-lg">{exp.role}</h3>
+                          <p className="font-ui text-sm text-cyan">{exp.company}</p>
+                        </div>
+                        <span className="font-mono text-xs text-muted bg-tag border border-border px-3 py-1 rounded-full">
+                          {exp.period}
+                        </span>
                       </div>
-                      <span className="font-mono text-xs text-muted bg-tag border border-border px-3 py-1 rounded-full">
-                        {exp.period}
-                      </span>
-                    </div>
-                    <p className="font-ui text-sm text-body leading-relaxed max-w-[520px]">
-                      {exp.description}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
+                      <p className="font-ui text-sm text-body leading-relaxed max-w-[520px]">
+                        {exp.description}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        </HighlightPoint>
 
         {/* ── Services ── */}
-        <ServicesSection />
+        <HighlightPoint id="about-services" color="#8B5CF6" label="CAPABILITIES // ARCHITECTURE">
+          <ServicesSection />
+        </HighlightPoint>
 
         {/* ── Tools ── */}
-        <ToolsSection />
+        <HighlightPoint id="about-tools" color="#00E5FF" label="ARSENAL // REACT & NODE">
+          <ToolsSection />
+        </HighlightPoint>
 
-        <Testimonials />
-        <FAQ />
-        <ContactSection />
+        <HighlightPoint id="about-testimonials" color="#E11D48" label="FEEDBACK // VERIFIED">
+          <Testimonials />
+        </HighlightPoint>
+
+        <HighlightPoint id="about-faq" color="#06B6D4" label="QUERY // FAQ">
+          <FAQ />
+        </HighlightPoint>
+
+        <HighlightPoint id="about-contact" color="#10B981" label="UPLINK // CONNECT">
+          <ContactSection />
+        </HighlightPoint>
       </main>
       <Footer />
     </motion.div>

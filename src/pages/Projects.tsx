@@ -12,6 +12,7 @@ import { pageEnter, stagger, fadeUp } from '@/lib/motion';
 import { playHoverTick, playClick } from '@/lib/audio';
 import { getLenis } from '@/lib/lenis';
 import { Seo, buildPersonJsonLd, SITE_URL } from '@/lib/seo';
+import { HighlightPoint } from '@/components/ui/HighlightPoint';
 
 type ViewMode = 'grid' | 'showcase' | 'table';
 
@@ -125,75 +126,78 @@ export default function Projects() {
 
       <main className="pt-20">
         {/* ── 1. Hero Header & Telemetry Metrics ── */}
-        <section className="pt-16 pb-12 md:pt-24 md:pb-16 border-b border-border">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            <motion.div
-              variants={stagger}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-col gap-6"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <motion.div variants={fadeUp}>
-                  <SectionLabel>Archive // 2024 — 2026</SectionLabel>
-                </motion.div>
+        <HighlightPoint id="projects-hero" color="#00E5FF" label="ARCHIVE // 5 SYSTEMS">
+          <section className="pt-16 pb-12 md:pt-24 md:pb-16 border-b border-border">
+            <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+              <motion.div
+                variants={stagger}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col gap-6"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <motion.div variants={fadeUp}>
+                    <SectionLabel>Archive // 2024 — 2026</SectionLabel>
+                  </motion.div>
 
-                {/* Status Indicator */}
+                  {/* Status Indicator */}
+                  <motion.div
+                    variants={fadeUp}
+                    className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs font-medium"
+                  >
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                    </span>
+                    <span>{projects.length} Systems Online</span>
+                  </motion.div>
+                </div>
+
+                <motion.h1
+                  variants={fadeUp}
+                  className="font-display italic text-heading"
+                  style={{ fontSize: 'clamp(44px, 7vw, 104px)', lineHeight: '0.92' }}
+                >
+                  Engineering &amp;<br />Creative Works.
+                </motion.h1>
+
+                <motion.p
+                  variants={fadeUp}
+                  className="font-ui text-body text-base lg:text-lg max-w-[580px] leading-relaxed"
+                >
+                  Interactive web platforms, autonomous AI systems, and modern applications built with React, Node.js, and TypeScript — alongside recent engineering in Rust and local runtimes.
+                </motion.p>
+
+                {/* Telemetry Metrics Strip */}
                 <motion.div
                   variants={fadeUp}
-                  className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs font-medium"
+                  className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 mt-4 border-t border-white/10"
                 >
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                  </span>
-                  <span>{projects.length} Systems Online</span>
+                  <div className="flex flex-col">
+                    <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Total Repos</span>
+                    <span className="font-display italic text-2xl lg:text-3xl text-heading font-semibold">05 Systems</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Primary Stack</span>
+                    <span className="font-display italic text-2xl lg:text-3xl text-cyan font-semibold">React + Node.js</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Recent Focus</span>
+                    <span className="font-display italic text-2xl lg:text-3xl text-heading font-semibold">Rust &amp; Local AI</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Verification</span>
+                    <span className="font-display italic text-2xl lg:text-3xl text-cyan font-semibold">100% Public</span>
+                  </div>
                 </motion.div>
-              </div>
-
-              <motion.h1
-                variants={fadeUp}
-                className="font-display italic text-heading"
-                style={{ fontSize: 'clamp(44px, 7vw, 104px)', lineHeight: '0.92' }}
-              >
-                Engineering &amp;<br />Creative Works.
-              </motion.h1>
-
-              <motion.p
-                variants={fadeUp}
-                className="font-ui text-body text-base lg:text-lg max-w-[580px] leading-relaxed"
-              >
-                Interactive web platforms, autonomous AI systems, and modern applications built with React, Node.js, and TypeScript — alongside recent engineering in Rust and local runtimes.
-              </motion.p>
-
-              {/* Telemetry Metrics Strip */}
-              <motion.div
-                variants={fadeUp}
-                className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 mt-4 border-t border-white/10"
-              >
-                <div className="flex flex-col">
-                  <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Total Repos</span>
-                  <span className="font-display italic text-2xl lg:text-3xl text-heading font-semibold">05 Systems</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Primary Stack</span>
-                  <span className="font-display italic text-2xl lg:text-3xl text-cyan font-semibold">React + Node.js</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Recent Focus</span>
-                  <span className="font-display italic text-2xl lg:text-3xl text-heading font-semibold">Rust &amp; Local AI</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">Verification</span>
-                  <span className="font-display italic text-2xl lg:text-3xl text-cyan font-semibold">100% Public</span>
-                </div>
               </motion.div>
-            </motion.div>
-          </div>
-        </section>
+            </div>
+          </section>
+        </HighlightPoint>
 
         {/* ── 2. Interactive Control Bar (Filter & View Toolbar) ── */}
-        <section className="sticky top-16 z-30 bg-[#05050A]/90 backdrop-blur-xl border-b border-border py-4 transition-all">
+        <HighlightPoint id="projects-control" color="#8B5CF6" label="RADAR // DISCOVERY">
+          <section className="sticky top-16 z-30 bg-[#05050A]/90 backdrop-blur-xl border-b border-border py-4 transition-all">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             {/* Category Filter Pills */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
@@ -301,109 +305,116 @@ export default function Projects() {
             </div>
           </div>
         </section>
+        </HighlightPoint>
 
         {/* ── 3. Primary Projects Showcase (Exactly One Authoritative View) ── */}
-        <section className="py-12 md:py-16">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12">
-            {/* Filter status header */}
-            <div className="flex items-center justify-between mb-8">
-              <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">
-                Showing {filteredProjects.length} of {projects.length} Systems
-              </span>
+        <HighlightPoint id="projects-showcase" color="#06B6D4" label="TELEMETRY // INSPECT">
+          <section className="py-12 md:py-16">
+            <div className="max-w-[1200px] mx-auto px-6 md:px-12">
+              {/* Filter status header */}
+              <div className="flex items-center justify-between mb-8">
+                <span className="font-mono text-xs text-muted/60 uppercase tracking-widest">
+                  Showing {filteredProjects.length} of {projects.length} Systems
+                </span>
 
-              {(selectedCategory !== 'all' || searchQuery) && (
-                <button
-                  onClick={() => {
-                    playHoverTick();
-                    setSelectedCategory('all');
-                    setSearchQuery('');
-                  }}
-                  className="font-ui text-xs text-cyan hover:underline flex items-center gap-1"
-                >
-                  <span>Reset Filters</span>
-                  <X size={12} />
-                </button>
+                {(selectedCategory !== 'all' || searchQuery) && (
+                  <button
+                    onClick={() => {
+                      playHoverTick();
+                      setSelectedCategory('all');
+                      setSearchQuery('');
+                    }}
+                    className="font-ui text-xs text-cyan hover:underline flex items-center gap-1"
+                  >
+                    <span>Reset Filters</span>
+                    <X size={12} />
+                  </button>
+                )}
+              </div>
+
+              {/* Content View Switching */}
+              {filteredProjects.length === 0 ? (
+                /* Empty State */
+                <div className="flex flex-col items-center justify-center py-20 px-6 rounded-[28px] border border-dashed border-white/10 bg-surface/30 text-center">
+                  <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-muted mb-4">
+                    <Filter size={20} />
+                  </div>
+                  <h3 className="font-display italic text-2xl text-heading font-semibold mb-2">
+                    No systems matching "{searchQuery}"
+                  </h3>
+                  <p className="font-ui text-sm text-muted max-w-[400px] leading-relaxed mb-6">
+                    No repositories or projects match your current query or category filter. Try refining your keywords or clear your filters.
+                  </p>
+                  <button
+                    onClick={() => {
+                      playClick();
+                      setSelectedCategory('all');
+                      setSearchQuery('');
+                    }}
+                    className="px-5 py-2 rounded-full bg-cyan text-bg font-ui text-xs font-semibold hover:shadow-lg hover:shadow-cyan/20 active:scale-95 transition-all"
+                  >
+                    View All Systems
+                  </button>
+                </div>
+              ) : viewMode === 'grid' ? (
+                /* Bento Grid View */
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                  {filteredProjects.map((project, index) => (
+                    <ProjectGridCard
+                      key={project.id}
+                      project={project}
+                      index={index}
+                    />
+                  ))}
+                </div>
+              ) : viewMode === 'showcase' ? (
+                /* Interactive Accordion Rail */
+                <div className="w-full">
+                  <ExpandedProjectCards projects={filteredProjects} />
+                </div>
+              ) : (
+                /* System Spec Sheet Table View */
+                <ProjectTableView projects={filteredProjects} />
               )}
             </div>
-
-            {/* Content View Switching */}
-            {filteredProjects.length === 0 ? (
-              /* Empty State */
-              <div className="flex flex-col items-center justify-center py-20 px-6 rounded-[28px] border border-dashed border-white/10 bg-surface/30 text-center">
-                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-muted mb-4">
-                  <Filter size={20} />
-                </div>
-                <h3 className="font-display italic text-2xl text-heading font-semibold mb-2">
-                  No systems matching "{searchQuery}"
-                </h3>
-                <p className="font-ui text-sm text-muted max-w-[400px] leading-relaxed mb-6">
-                  No repositories or projects match your current query or category filter. Try refining your keywords or clear your filters.
-                </p>
-                <button
-                  onClick={() => {
-                    playClick();
-                    setSelectedCategory('all');
-                    setSearchQuery('');
-                  }}
-                  className="px-5 py-2 rounded-full bg-cyan text-bg font-ui text-xs font-semibold hover:shadow-lg hover:shadow-cyan/20 active:scale-95 transition-all"
-                >
-                  View All Systems
-                </button>
-              </div>
-            ) : viewMode === 'grid' ? (
-              /* Bento Grid View */
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                {filteredProjects.map((project, index) => (
-                  <ProjectGridCard
-                    key={project.id}
-                    project={project}
-                    index={index}
-                  />
-                ))}
-              </div>
-            ) : viewMode === 'showcase' ? (
-              /* Interactive Accordion Rail */
-              <div className="w-full">
-                <ExpandedProjectCards projects={filteredProjects} />
-              </div>
-            ) : (
-              /* System Spec Sheet Table View */
-              <ProjectTableView projects={filteredProjects} />
-            )}
-          </div>
-        </section>
+          </section>
+        </HighlightPoint>
 
         {/* ── 4. Refined Inquiries & Collaboration CTA ── */}
-        <section className="py-16 border-t border-border bg-[#07070C]/50">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-            <div className="max-w-[540px]">
-              <SectionLabel>Architecture &amp; Collaboration</SectionLabel>
-              <h2
-                className="font-display italic text-heading mt-3 font-semibold"
-                style={{ fontSize: 'clamp(28px, 4vw, 48px)', lineHeight: '0.96' }}
-              >
-                Building a desktop runtime, AI system, or 3D product?
-              </h2>
-              <p className="font-ui text-sm text-muted mt-3 leading-relaxed">
-                Available for high-impact contracts, low-level systems engineering, local AI architectures, and interactive WebGL experiences.
-              </p>
-            </div>
+        <HighlightPoint id="projects-inquiry" color="#10B981" label="UPLINK // INQUIRE">
+          <section className="py-16 border-t border-border bg-[#07070C]/50">
+            <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+              <div className="max-w-[540px]">
+                <SectionLabel>Architecture &amp; Collaboration</SectionLabel>
+                <h2
+                  className="font-display italic text-heading mt-3 font-semibold"
+                  style={{ fontSize: 'clamp(28px, 4vw, 48px)', lineHeight: '0.96' }}
+                >
+                  Building a desktop runtime, AI system, or 3D product?
+                </h2>
+                <p className="font-ui text-sm text-muted mt-3 leading-relaxed">
+                  Available for high-impact contracts, low-level systems engineering, local AI architectures, and interactive WebGL experiences.
+                </p>
+              </div>
 
-            <a
-              href="#contact"
-              onClick={() => playClick()}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-cyan text-bg font-ui font-semibold text-sm hover:shadow-xl hover:shadow-cyan/25 active:scale-95 transition-all"
-            >
-              <span>Initiate Project Inquiry</span>
-              <Sparkles size={15} />
-            </a>
-          </div>
-        </section>
+              <a
+                href="#contact"
+                onClick={() => playClick()}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-cyan text-bg font-ui font-semibold text-sm hover:shadow-xl hover:shadow-cyan/25 active:scale-95 transition-all"
+              >
+                <span>Initiate Project Inquiry</span>
+                <Sparkles size={15} />
+              </a>
+            </div>
+          </section>
+        </HighlightPoint>
 
         {/* ── 5. Contact Section ── */}
-        <div id="contact">
-          <ContactSection />
-        </div>
+        <HighlightPoint id="projects-contact" color="#10B981" label="TRANSMIT // REACH OUT">
+          <div id="contact">
+            <ContactSection />
+          </div>
+        </HighlightPoint>
       </main>
 
       <Footer />

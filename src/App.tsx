@@ -18,12 +18,15 @@ const About = lazy(() => import('@/pages/About'));
 const ProjectDetail = lazy(() => import('@/pages/ProjectDetail'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
-/* ── Custom Cursor (Compositor-accelerated with translate3d) ── */
+/* ── Custom Cursor (Compositor-accelerated with translate3d, disabled on touch) ── */
 function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const ringRef   = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Disable on touch / coarse pointer devices
+    if (typeof window === 'undefined' || window.matchMedia('(pointer: coarse)').matches) return;
+
     const cursor = cursorRef.current;
     const ring   = ringRef.current;
     if (!cursor || !ring) return;
@@ -41,9 +44,13 @@ function CustomCursor() {
 
     let rafId: number;
     const animate = () => {
-      ringX = lerp(ringX, mouseX, 0.12);
-      ringY = lerp(ringY, mouseY, 0.12);
-      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      const dx = mouseX - ringX;
+      const dy = mouseY - ringY;
+      if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+        ringX = lerp(ringX, mouseX, 0.12);
+        ringY = lerp(ringY, mouseY, 0.12);
+        ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      }
       rafId = requestAnimationFrame(animate);
     };
     rafId = requestAnimationFrame(animate);
@@ -145,18 +152,25 @@ function AppContent() {
   useEffect(() => {
     const fired = new Set<number>();
     const milestones = [25, 50, 75, 100] as const;
+    let ticking = false;
 
     const onScroll = () => {
-      const scrolled = window.scrollY;
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      if (total <= 0) return;
-      const pct = Math.round((scrolled / total) * 100);
-
-      for (const m of milestones) {
-        if (pct >= m && !fired.has(m)) {
-          fired.add(m);
-          track.scrollDepth(m);
-        }
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          const scrolled = window.scrollY;
+          const total = document.documentElement.scrollHeight - window.innerHeight;
+          if (total > 0) {
+            const pct = Math.round((scrolled / total) * 100);
+            for (const m of milestones) {
+              if (pct >= m && !fired.has(m)) {
+                fired.add(m);
+                track.scrollDepth(m);
+              }
+            }
+          }
+          ticking = false;
+        });
       }
     };
 

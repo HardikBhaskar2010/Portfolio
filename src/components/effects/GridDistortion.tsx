@@ -24,7 +24,7 @@ export function GridDistortion() {
     return () => window.removeEventListener('mousemove', move);
   }, [mouseX, mouseY]);
 
-  /* ── Canvas ripple on click ────────────────────────── */
+  /* ── Canvas ripple on click (Only runs RAF when active ripples exist) ── */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -36,17 +36,13 @@ export function GridDistortion() {
       canvas.height = window.innerHeight;
     };
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
 
     type Ripple = { x: number; y: number; r: number; alpha: number };
     const ripples: Ripple[] = [];
-
-    const onClick = (e: MouseEvent) => {
-      ripples.push({ x: e.clientX, y: e.clientY, r: 0, alpha: 0.18 });
-    };
-    window.addEventListener('click', onClick);
-
+    let isDrawing = false;
     let raf: number;
+
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (let i = ripples.length - 1; i >= 0; i--) {
@@ -60,9 +56,23 @@ export function GridDistortion() {
         rip.alpha -= 0.004;
         if (rip.alpha <= 0) ripples.splice(i, 1);
       }
-      raf = requestAnimationFrame(draw);
+
+      if (ripples.length > 0) {
+        raf = requestAnimationFrame(draw);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        isDrawing = false;
+      }
     };
-    draw();
+
+    const onClick = (e: MouseEvent) => {
+      ripples.push({ x: e.clientX, y: e.clientY, r: 0, alpha: 0.18 });
+      if (!isDrawing) {
+        isDrawing = true;
+        raf = requestAnimationFrame(draw);
+      }
+    };
+    window.addEventListener('click', onClick, { passive: true });
 
     return () => {
       cancelAnimationFrame(raf);
