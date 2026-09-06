@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { useLenis } from '@/lib/lenis';
+import { useLenis, getLenis } from '@/lib/lenis';
 import { track } from '@/lib/analytics';
 import { unlockAudio, playTransitionWhoosh } from '@/lib/audio';
 import { GridDistortion } from '@/components/effects/GridDistortion';
@@ -63,6 +63,44 @@ function CustomCursor() {
   );
 }
 
+/* ── Auto-scroll to top on route transitions ───────────────── */
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    // If there is an anchor hash (e.g. #contact), scroll to that section
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) {
+        const lenis = getLenis();
+        if (lenis) {
+          lenis.scrollTo(hash, { duration: 1.2 });
+        } else {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+        return;
+      }
+    }
+
+    // Immediately reset scroll position to top (0, 0)
+    window.scrollTo(0, 0);
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+
+    // Secondary reset on next animation frame to ensure newly mounted route component starts at top
+    const rafId = requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+      getLenis()?.scrollTo(0, { immediate: true });
+    });
+
+    return () => cancelAnimationFrame(rafId);
+  }, [pathname, hash]);
+
+  return null;
+}
+
 /* ── Animated page routes ────────────────────────────────────── */
 function AnimatedRoutes() {
   const location = useLocation();
@@ -92,6 +130,13 @@ function AnimatedRoutes() {
 /* ── Root App content ───────────────────────────────────────── */
 function AppContent() {
   useLenis();
+
+  /* ── Prevent browser from caching scroll position on route transitions ── */
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
 
   /* ── Audio unlock on first touch/click ─────────────────── */
   useEffect(() => {
@@ -130,6 +175,9 @@ function AppContent() {
       <Suspense fallback={null}>
         <ScrollOrb />
       </Suspense>
+
+      {/* Auto-scroll to top on route change */}
+      <ScrollToTop />
 
       {/* Page content — animated in/out by AnimatePresence */}
       <AnimatedRoutes />

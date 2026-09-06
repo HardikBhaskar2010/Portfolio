@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, LayoutGrid, Rows3, Table as TableIcon, Sparkles, Filter, Layers } from 'lucide-react';
 import { Footer } from '@/components/layout/Footer';
@@ -10,6 +10,7 @@ import { ProjectGridCard } from '@/components/ui/ProjectGridCard';
 import { ProjectTableView } from '@/components/ui/ProjectTableView';
 import { pageEnter, stagger, fadeUp } from '@/lib/motion';
 import { playHoverTick, playClick } from '@/lib/audio';
+import { getLenis } from '@/lib/lenis';
 import { Seo, buildPersonJsonLd, SITE_URL } from '@/lib/seo';
 
 type ViewMode = 'grid' | 'showcase' | 'table';
@@ -66,6 +67,12 @@ export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
+
+  // Guarantee page starts at top on initial mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getLenis()?.scrollTo(0, { immediate: true });
+  }, []);
 
   // Filtered projects based on active category & keyword search
   const filteredProjects = useMemo(() => {

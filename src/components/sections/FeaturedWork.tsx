@@ -8,6 +8,7 @@ import { Tag } from '@/components/ui/Tag';
 import { projects } from '@/data/projects';
 import { stagger, scaleIn, fadeUp } from '@/lib/motion';
 import { playSynthPulse, playHoverTick } from '@/lib/audio';
+import { getLenis } from '@/lib/lenis';
 import { ExpandedProjectCards } from '@/components/ui/ExpandedProjectCards';
 import { StackingProjectCards } from '@/components/ui/StackingProjectCards';
 
@@ -83,6 +84,10 @@ export function FeaturedWork({ limit = 6, showViewAll = true }: FeaturedWorkProp
             {showViewAll && (
               <Link
                 to="/projects"
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                  getLenis()?.scrollTo(0, { immediate: true });
+                }}
                 className="inline-flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors group link-underline"
               >
                 View all projects
