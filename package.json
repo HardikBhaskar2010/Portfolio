@@ -7,6 +7,7 @@
     "prebuild": "node scripts/generate-projects.mjs && node scripts/generate-sitemap.mjs",
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "postbuild": "node scripts/indexnow-submit.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "projects:sync": "node scripts/generate-projects.mjs"
