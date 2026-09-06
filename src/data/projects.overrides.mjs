@@ -24,6 +24,7 @@ export const overrides = {
     year:     '2025',
     tools:    ['Python', 'LangChain', 'OpenAI', 'React', 'TypeScript', 'FastAPI'],
     color:    '#7C3AED',
+    fallbackImage: '/images/project-ai-veronica.png',
   },
 
   // ── STEM Idea Generator ────────────────────────────────────────────────
@@ -36,6 +37,7 @@ export const overrides = {
     tools:    ['React', 'TypeScript', 'Node.js', 'FastAPI', 'Google ADK'],
     link:     'https://stemidea.vercel.app',
     color:    '#00E5FF',
+    fallbackImage: '/images/project-stem-adventure.png',
   },
 
   // ── MahinaOS ────────────────────────────────────────────────────────────
@@ -47,6 +49,7 @@ export const overrides = {
     year:     '2025',
     tools:    ['TypeScript', 'React', 'WebGL', 'Framer Motion', 'CSS Houdini'],
     color:    '#A855F7',
+    fallbackImage: '/images/project-mahina-os.png',
   },
 
   // ── AEGIS Decision Intelligence ─────────────────────────────────────────
@@ -59,6 +62,20 @@ export const overrides = {
     tools:    ['Python', 'BigQuery', 'Vertex AI', 'Google ADK', 'FastAPI'],
     link:     'https://decisionforge-one.vercel.app',
     color:    '#F59E0B',
+    fallbackImage: '/images/project-aegis.png',
+  },
+
+  // ── Vectoris ────────────────────────────────────────────────────────────
+  'vectoris': {
+    title:    'Vectoris',
+    subtitle: 'AI-Native Engineering & Takeoff Workstation',
+    category: 'Engineering & AI',
+    tag:      'Desktop / Systems',
+    year:     '2026',
+    tools:    ['Tauri v2', 'Rust', 'React 19', 'TypeScript', 'TailwindCSS', 'Local AI'],
+    link:     'https://github.com/HardikBhaskar2010/Vectoris',
+    color:    '#E11D48',
+    fallbackImage: '/images/project-vectoris.png',
   },
 
 };

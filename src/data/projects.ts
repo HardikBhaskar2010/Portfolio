@@ -10,6 +10,7 @@ export interface Project {
   year: string;
   image: string;
   heroImage: string;
+  fallbackImage?: string;
   description: string;
   longDescription: string;
   featured: boolean;

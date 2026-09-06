@@ -1,8 +1,15 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { projects } from '@/data/projects';
 
-const images = projects.map(p => ({ src: p.image, title: p.title, category: p.category }));
+const images = projects.map(p => ({
+  slug: p.slug,
+  src: p.image,
+  fallbackSrc: p.fallbackImage,
+  title: p.title,
+  category: p.category
+}));
 const doubled = [...images, ...images]; // Seamless loop
 
 export function MarqueeBanner() {
@@ -45,27 +52,45 @@ export function MarqueeBanner() {
   );
 }
 
-function MarqueeCard({ item, index }: { item: { src: string; title: string; category: string }; index: number }) {
+function MarqueeCard({ item, index }: { item: { slug: string; src: string; fallbackSrc?: string; title: string; category: string }; index: number }) {
+  const FALLBACK = '/images/project-placeholder.png';
+  const [imgSrc, setImgSrc] = useState(item.src || item.fallbackSrc || FALLBACK);
+  useEffect(() => {
+    setImgSrc(item.src || item.fallbackSrc || FALLBACK);
+  }, [item.src, item.fallbackSrc]);
+
   return (
-    <div className="relative flex-shrink-0 w-[340px] md:w-[420px] group">
-      {/* Image with parallax scale on hover */}
-      <div className="aspect-video rounded-xl overflow-hidden border border-border bg-surface parallax-container">
-        <motion.img
-          src={item.src}
-          alt={item.title}
-          className="w-full h-full object-cover"
-          whileHover={{ scale: 1.06 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          loading="lazy"
-        />
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-end p-4">
-          <div>
-            <span className="font-ui text-[10px] uppercase tracking-widest text-cyan">{item.category}</span>
-            <p className="font-display italic text-lg text-heading mt-0.5">{item.title}</p>
+    <Link to={`/project/${item.slug}`} className="block focus:outline-none">
+      <div className="relative flex-shrink-0 w-[340px] md:w-[420px] group cursor-pointer">
+        {/* Image with parallax scale on hover */}
+        <div className="aspect-video rounded-xl overflow-hidden border border-border group-hover:border-cyan/40 bg-surface parallax-container transition-colors duration-300">
+          <motion.img
+            src={imgSrc}
+            alt={item.title}
+            className="w-full h-full object-cover"
+            whileHover={{ scale: 1.06 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            loading="lazy"
+            onError={() => {
+              if (item.fallbackSrc && imgSrc !== item.fallbackSrc) {
+                setImgSrc(item.fallbackSrc);
+              } else {
+                setImgSrc(FALLBACK);
+              }
+            }}
+          />
+          {/* Hover overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-bg/85 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-4">
+            <div>
+              <span className="font-ui text-[10px] uppercase tracking-widest text-cyan font-medium">{item.category}</span>
+              <p className="font-display italic text-lg text-heading mt-0.5">{item.title}</p>
+            </div>
+            <span className="font-ui text-xs text-cyan flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity delay-75">
+              Explore →
+            </span>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

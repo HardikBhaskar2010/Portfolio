@@ -10,6 +10,7 @@ import { projects } from '@/data/projects';
 import { pageEnter, stagger, fadeUp, scaleIn } from '@/lib/motion';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ExpandedProjectCards } from '@/components/ui/ExpandedProjectCards';
 
 export default function Projects() {
   const featuredRef = useRef<HTMLDivElement>(null);
@@ -59,7 +60,7 @@ export default function Projects() {
                 animate="visible"
                 className="relative rounded-2xl overflow-hidden border border-border bg-surface group cursor-pointer"
               >
-                <Link to={`/projects/${featured.slug}`}>
+                <Link to={`/project/${featured.slug}`}>
                   {/* Tag */}
                   <div className="absolute top-5 left-5 z-10">
                     <span className="font-ui text-[10px] uppercase tracking-widest text-bg bg-cyan px-3 py-1.5 rounded-full">
@@ -74,6 +75,14 @@ export default function Projects() {
                       alt={featured.title}
                       style={{ y: heroImageY, scale: 1.08 }}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (featured.fallbackImage && !target.src.endsWith(featured.fallbackImage)) {
+                          target.src = featured.fallbackImage;
+                        } else {
+                          target.src = '/images/project-placeholder.png';
+                        }
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-bg/70 via-transparent to-transparent" />
                   </div>

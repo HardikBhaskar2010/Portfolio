@@ -236,27 +236,46 @@ export function Hero() {
             {/* Project preview cards */}
             <div className="flex gap-3 w-full max-w-[340px]">
               {projects.slice(0, 2).map((p, i) => (
-                <motion.div
+                <Link
                   key={p.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.7 + i * 0.15, ease: spring }}
-                  whileHover={{ scale: 1.02 }}
-                  onHoverStart={playSynthPulse}
-                  className="flex-1 bg-surface border border-border rounded-xl overflow-hidden group cursor-pointer"
+                  to={`/project/${p.slug}`}
+                  className="flex-1 block focus:outline-none"
                 >
-                  <div className="aspect-video overflow-hidden">
-                    <img
-                      src={p.image}
-                      alt={p.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                  </div>
-                  <div className="p-3">
-                    <p className="font-ui text-[9px] uppercase tracking-widest text-cyan mb-0.5">{p.category}</p>
-                    <p className="font-display italic text-sm text-heading leading-tight">{p.title}</p>
-                  </div>
-                </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.7 + i * 0.15, ease: spring }}
+                    whileHover={{ y: -4, scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onHoverStart={playSynthPulse}
+                    className="bg-surface border border-border hover:border-cyan/40 rounded-xl overflow-hidden group cursor-pointer transition-colors duration-300 shadow-sm hover:shadow-lg hover:shadow-cyan/5"
+                  >
+                    <div className="aspect-video overflow-hidden relative">
+                      <img
+                        src={p.image}
+                        alt={p.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (p.fallbackImage && !target.src.endsWith(p.fallbackImage)) {
+                            target.src = p.fallbackImage;
+                          } else {
+                            target.src = '/images/project-placeholder.png';
+                          }
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2.5">
+                        <span className="text-[10px] font-ui text-cyan font-medium flex items-center gap-1">
+                          View Project →
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-3">
+                      <p className="font-ui text-[9px] uppercase tracking-widest text-cyan mb-0.5">{p.category}</p>
+                      <p className="font-display italic text-sm text-heading leading-tight group-hover:text-cyan transition-colors">{p.title}</p>
+                    </div>
+                  </motion.div>
+                </Link>
               ))}
             </div>
 

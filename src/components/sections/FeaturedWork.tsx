@@ -1,21 +1,23 @@
 import { useRef, useState, useEffect } from 'react';
 import { type HTMLMotionProps, motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, LayoutGrid, Rows3 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Tag } from '@/components/ui/Tag';
 import { projects } from '@/data/projects';
 import { stagger, scaleIn, fadeUp } from '@/lib/motion';
-import { playSynthPulse } from '@/lib/audio';
+import { playSynthPulse, playHoverTick } from '@/lib/audio';
+import { ExpandedProjectCards } from '@/components/ui/ExpandedProjectCards';
 
 interface FeaturedWorkProps {
   limit?: number;
   showViewAll?: boolean;
 }
 
-export function FeaturedWork({ limit = 4, showViewAll = true }: FeaturedWorkProps) {
+export function FeaturedWork({ limit = 6, showViewAll = true }: FeaturedWorkProps) {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
+  const [viewMode, setViewMode] = useState<'expanded' | 'grid'>('expanded');
   const displayed = projects.slice(0, limit);
 
   return (
@@ -26,7 +28,7 @@ export function FeaturedWork({ limit = 4, showViewAll = true }: FeaturedWorkProp
           variants={stagger}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          className="flex flex-col gap-12"
+          className="flex flex-col gap-10"
         >
           {/* Header */}
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
@@ -42,8 +44,43 @@ export function FeaturedWork({ limit = 4, showViewAll = true }: FeaturedWorkProp
                 Some of my<br />best projects.
               </motion.h2>
             </div>
-            {showViewAll && (
-              <motion.div variants={fadeUp}>
+
+            <motion.div variants={fadeUp} className="flex items-center gap-4">
+              {/* View Switcher: Expanded Rail vs Grid */}
+              <div className="hidden sm:flex items-center gap-1 p-1 bg-surface border border-border rounded-full text-xs">
+                <button
+                  onClick={() => {
+                    playHoverTick();
+                    setViewMode('expanded');
+                  }}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all ${
+                    viewMode === 'expanded'
+                      ? 'bg-cyan text-bg font-semibold shadow-sm'
+                      : 'text-muted hover:text-heading'
+                  }`}
+                  title="Expanded Cards View (Interactive Rail)"
+                >
+                  <Rows3 size={13} />
+                  <span>Interactive Rail</span>
+                </button>
+                <button
+                  onClick={() => {
+                    playHoverTick();
+                    setViewMode('grid');
+                  }}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all ${
+                    viewMode === 'grid'
+                      ? 'bg-cyan text-bg font-semibold shadow-sm'
+                      : 'text-muted hover:text-heading'
+                  }`}
+                  title="Grid View"
+                >
+                  <LayoutGrid size={13} />
+                  <span>Grid</span>
+                </button>
+              </div>
+
+              {showViewAll && (
                 <Link
                   to="/projects"
                   className="inline-flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors group link-underline"
@@ -51,21 +88,28 @@ export function FeaturedWork({ limit = 4, showViewAll = true }: FeaturedWorkProp
                   View all projects
                   <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </Link>
-              </motion.div>
-            )}
+              )}
+            </motion.div>
           </div>
 
-          {/* Projects Grid */}
-          <motion.div
-            variants={stagger}
-            className="grid grid-cols-1 md:grid-cols-2 gap-5"
-          >
-            {displayed.map((project, i) => (
-              <motion.div key={project.id} variants={scaleIn}>
-                <ProjectCard project={project} priority={i < 2} />
-              </motion.div>
-            ))}
-          </motion.div>
+          {/* Primary View: Scrolltide-style Expanded Cards */}
+          {viewMode === 'expanded' ? (
+            <motion.div variants={fadeUp} className="w-full">
+              <ExpandedProjectCards projects={projects} />
+            </motion.div>
+          ) : (
+            /* Secondary View: Classic Responsive 2-col Grid */
+            <motion.div
+              variants={stagger}
+              className="grid grid-cols-1 md:grid-cols-2 gap-5"
+            >
+              {displayed.map((project, i) => (
+                <motion.div key={project.id} variants={scaleIn}>
+                  <ProjectCard project={project} priority={i < 2} />
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>
@@ -74,11 +118,11 @@ export function FeaturedWork({ limit = 4, showViewAll = true }: FeaturedWorkProp
 
 /* ── Fallback Image ── */
 function FallbackImg({
-  src, alt, className, style, priority, ...rest
-}: HTMLMotionProps<"img"> & { priority?: boolean }) {
+  src, fallbackSrc, alt, className, style, priority, ...rest
+}: HTMLMotionProps<"img"> & { priority?: boolean; fallbackSrc?: string }) {
   const FALLBACK = '/images/project-placeholder.png';
-  const [imgSrc, setImgSrc] = useState(src || FALLBACK);
-  useEffect(() => { setImgSrc(src || FALLBACK); }, [src]);
+  const [imgSrc, setImgSrc] = useState(src || fallbackSrc || FALLBACK);
+  useEffect(() => { setImgSrc(src || fallbackSrc || FALLBACK); }, [src, fallbackSrc]);
   return (
     <motion.img
       {...rest as any}
@@ -87,7 +131,13 @@ function FallbackImg({
       className={className || "w-full h-full object-cover"}
       style={style}
       loading={priority ? 'eager' : 'lazy'}
-      onError={() => setImgSrc(FALLBACK)}
+      onError={() => {
+        if (fallbackSrc && imgSrc !== fallbackSrc) {
+          setImgSrc(fallbackSrc);
+        } else {
+          setImgSrc(FALLBACK);
+        }
+      }}
     />
   );
 }
@@ -104,7 +154,7 @@ function ProjectCard({ project, priority }: { project: typeof projects[0]; prior
   const imageY = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
 
   return (
-    <Link to={`/projects/${project.slug}`}>
+    <Link to={`/project/${project.slug}`}>
       <motion.article
         ref={cardRef}
         whileHover={{ y: -6 }}
@@ -116,6 +166,7 @@ function ProjectCard({ project, priority }: { project: typeof projects[0]; prior
         <div className="aspect-video overflow-hidden parallax-container">
           <FallbackImg
             src={project.image}
+            fallbackSrc={project.fallbackImage}
             alt={project.title}
             style={{ y: imageY, scale: 1.1 }}
             priority={priority}

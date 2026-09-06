@@ -7,10 +7,24 @@
 //   3. Merges with projects.overrides.mjs for hand-curated metadata
 //   4. Writes src/data/projects.generated.json
 
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, existsSync, readFileSync } from 'node:fs';
+import { execSync } from 'node:child_process';
 
 const USERNAME  = 'HardikBhaskar2010';
-const TOKEN     = process.env.PORTFOLIO_GITHUB_TOKEN;
+let TOKEN       = process.env.PORTFOLIO_GITHUB_TOKEN;
+
+if (!TOKEN) {
+  try {
+    const ghToken = execSync('gh auth token', { stdio: ['pipe', 'pipe', 'ignore'] }).toString().trim();
+    if (ghToken) {
+      TOKEN = ghToken;
+      console.log('🔑 Using authenticated token from GitHub CLI (gh auth token).');
+    }
+  } catch {
+    // no gh cli token available
+  }
+}
+
 const PALETTE   = ['#00E5FF', '#7C3AED', '#A855F7', '#F59E0B', '#EC4899', '#10B981'];
 const FALLBACK_IMAGE = '/images/project-placeholder.png';
 
@@ -50,7 +64,7 @@ async function rawFile(repoName, filePath) {
   const url = `https://raw.githubusercontent.com/${USERNAME}/${repoName}/HEAD/${filePath}`;
   try {
     const headers = TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {};
-    const res = await fetch(url, { headers });
+    const res = await fetch(url, { headers, signal: AbortSignal.timeout(3000) });
     if (!res.ok) return { ok: false };
     const text = await res.text();
     return { ok: true, text, url };
@@ -60,22 +74,69 @@ async function rawFile(repoName, filePath) {
 }
 
 /**
+ * Try to fetch file content via GitHub Contents API (authenticated, base64 encoded)
+ */
+async function fetchRepoFileContent(repoName, filePath) {
+  try {
+    const data = await gh(`/repos/${USERNAME}/${repoName}/contents/${filePath}`);
+    if (data && data.content && data.encoding === 'base64') {
+      const decoded = Buffer.from(data.content, 'base64').toString('utf8');
+      return { ok: true, text: decoded };
+    }
+  } catch {
+    // API call failed or file doesn't exist
+  }
+  return { ok: false };
+}
+
+/**
  * Fetch both assets/pic.png and assets/description.md from the repo in parallel.
  * Returns { imageUrl, longDescription } — each falls back gracefully.
  */
 async function fetchRepoAssets(repoName, fallbackDescription) {
-  const [picResult, mdResult] = await Promise.all([
+  const slug = slugify(repoName);
+  
+  // 1. Fetch description and image in parallel
+  const [picResult, rawMd] = await Promise.all([
     rawFile(repoName, 'assets/pic.png'),
     rawFile(repoName, 'assets/description.md'),
   ]);
 
-  const imageUrl = picResult.ok
-    ? `https://raw.githubusercontent.com/${USERNAME}/${repoName}/HEAD/assets/pic.png`
-    : FALLBACK_IMAGE;
+  let longDescription = '';
+  if (rawMd.ok && rawMd.text.trim()) {
+    longDescription = rawMd.text.trim();
+  } else {
+    // Try GitHub Contents API
+    const apiMd = await fetchRepoFileContent(repoName, 'assets/description.md');
+    if (apiMd.ok && apiMd.text.trim()) {
+      longDescription = apiMd.text.trim();
+    } else {
+      // Try local fallback file
+      const localPath = `./public/descriptions/${slug}.md`;
+      if (existsSync(localPath)) {
+        try {
+          longDescription = readFileSync(localPath, 'utf8').trim();
+        } catch {}
+      }
+    }
+  }
 
-  const longDescription = mdResult.ok
-    ? mdResult.text.trim()
-    : fallbackDescription;
+  if (!longDescription) {
+    longDescription = fallbackDescription;
+  }
+
+  let imageUrl = FALLBACK_IMAGE;
+  if (picResult.ok) {
+    imageUrl = `https://raw.githubusercontent.com/${USERNAME}/${repoName}/HEAD/assets/pic.png`;
+  } else {
+    // Try checking if pic.png exists via GitHub Contents API
+    try {
+      const picData = await gh(`/repos/${USERNAME}/${repoName}/contents/assets/pic.png`);
+      if (picData && picData.download_url) {
+        imageUrl = picData.download_url;
+      }
+    } catch {}
+  }
 
   return { imageUrl, longDescription };
 }
@@ -137,6 +198,17 @@ const projects = repos.map((repo, i) => {
   const { imageUrl, longDescription } = assetResults[i];
   const slug = slugify(repo.name);
 
+  // Merge hand-written overrides (keyed by slug, case-insensitive)
+  const override =
+    overrides[slug] ??
+    overrides[slug.toLowerCase()] ??
+    overrides[repo.name.toLowerCase()] ??
+    {};
+
+  const finalImage = (imageUrl && imageUrl !== FALLBACK_IMAGE)
+    ? imageUrl
+    : (override.fallbackImage || FALLBACK_IMAGE);
+
   const base = {
     id:              slug,
     slug,
@@ -147,8 +219,8 @@ const projects = repos.map((repo, i) => {
                        (t) => t !== 'portfolio-project' && t !== 'featured'
                      ) ?? repo.language ?? '',
     year:            String(new Date(repo.created_at).getFullYear()),
-    image:           imageUrl,
-    heroImage:       imageUrl,
+    image:           finalImage,
+    heroImage:       finalImage,
     description:     repo.description ?? '',
     longDescription,
     featured:        repo.topics?.includes('featured') ?? false,
@@ -158,13 +230,6 @@ const projects = repos.map((repo, i) => {
     link:            repo.homepage || repo.html_url,
     color:           colorFor(repo.name),
   };
-
-  // Merge hand-written overrides (keyed by slug, case-insensitive)
-  const override =
-    overrides[slug] ??
-    overrides[slug.toLowerCase()] ??
-    overrides[repo.name.toLowerCase()] ??
-    {};
 
   return { ...base, ...override };
 });

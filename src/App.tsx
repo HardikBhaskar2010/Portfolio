@@ -79,6 +79,7 @@ function AnimatedRoutes() {
         <Route path="/"               element={<Home />} />
         <Route path="/projects"       element={<Projects />} />
         <Route path="/projects/:slug" element={<ProjectDetail />} />
+        <Route path="/project/:slug"  element={<ProjectDetail />} />
         <Route path="/about"          element={<About />} />
         <Route path="*"               element={<NotFound />} />
       </Routes>
