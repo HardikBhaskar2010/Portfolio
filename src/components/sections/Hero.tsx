@@ -18,16 +18,16 @@ const NeuralNetworkScene = lazy(() =>
 
 const tagline = ['Designing', 'intelligent', 'digital', 'experiences.'];
 
-/* Each word: slides up from below the clip + deblurs */
+/* Each word: slides up with high-performance compositor animation */
 const lineVariants = {
-  hidden:  { opacity: 0, y: 70, filter: 'blur(12px)', skewY: 3 },
-  visible: { opacity: 1, y: 0, filter: 'blur(0px)', skewY: 0,
-    transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] as [number,number,number,number] } },
+  hidden:  { opacity: 0, y: 36 },
+  visible: { opacity: 1, y: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number,number,number,number] } },
 };
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
 };
 
 const fadeUpDelay = (delay: number) => ({

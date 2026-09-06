@@ -144,6 +144,9 @@
     }
     </script>
 
+    <!-- Preload Hero LCP Image -->
+    <link rel="preload" as="image" href="/images/avatar.webp" type="image/webp" fetchpriority="high" />
+
     <!-- ═══════════════════════════════════════════════════════
          FONTS — Preconnect + Load
     ═══════════════════════════════════════════════════════ -->
@@ -195,7 +198,8 @@
       │  github.com/HardikBhaskar2010/Portfolio              │
       └──────────────────────────────────────────────────────┘
     -->
-    <div id="root">
+    <div id="root"></div>
+    <noscript>
       <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
         <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">Hardik Bhaskar — Interactive Web &amp; 3D Developer</h1>
         <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
@@ -206,7 +210,7 @@
           <a href="/about" style="color: #00E5FF; text-decoration: none; font-weight: 600;">About Hardik →</a>
         </nav>
       </header>
-    </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
