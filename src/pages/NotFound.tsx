@@ -3,10 +3,17 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Footer } from '@/components/layout/Footer';
 import { pageEnter } from '@/lib/motion';
+import { Seo } from '@/lib/seo';
 
 export default function NotFound() {
   return (
     <motion.div variants={pageEnter} initial="hidden" animate="visible" exit="exit" className="page-wrapper min-h-screen flex flex-col">
+      <Seo
+        title="404 — Page Not Found — Hardik Bhaskar"
+        description="This page doesn't exist. Head back to Hardik Bhaskar's portfolio."
+        path="/404"
+        noindex
+      />
       <main className="flex-1 flex items-center justify-center">
         <div className="text-center flex flex-col items-center gap-6 px-6">
           {/* Large 404 */}

@@ -9,6 +9,7 @@ import { FAQ } from '@/components/sections/FAQ';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { services, experience, tools } from '@/data/tools';
 import { pageEnter, stagger, fadeUp, fadeLeft, fadeRight, scaleIn } from '@/lib/motion';
+import { Seo, buildPersonJsonLd } from '@/lib/seo';
 
 export default function About() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -23,6 +24,12 @@ export default function About() {
 
   return (
     <motion.div variants={pageEnter} initial="hidden" animate="visible" exit="exit" className="page-wrapper">
+      <Seo
+        title="About Hardik Bhaskar — Systems Architect & AI Systems Builder"
+        description="Systems developer and AI builder focused on robust low-level architectures, autonomous intelligence systems, and high-performance user interfaces — from bare-metal OS kernels to cinematic 3D web experiences."
+        path="/about"
+        jsonLd={buildPersonJsonLd()}
+      />
       <main className="pt-16">
 
         {/* ── Hero ── */}

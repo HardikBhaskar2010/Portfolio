@@ -10,12 +10,38 @@ import { pageEnter, stagger, fadeUp, scaleIn } from '@/lib/motion';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ExpandedProjectCards } from '@/components/ui/ExpandedProjectCards';
+import { Seo, buildPersonJsonLd, SITE_URL } from '@/lib/seo';
 
 export default function Projects() {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
 
+  const collectionJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${SITE_URL}/projects#collection`,
+    name: 'Projects — Hardik Bhaskar',
+    url: `${SITE_URL}/projects`,
+    about: { '@id': `${SITE_URL}/#person` },
+    author: { '@id': `${SITE_URL}/#person` },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: projects.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: p.title,
+        url: `${SITE_URL}/projects/${p.slug}`,
+      })),
+    },
+  };
+
   return (
     <motion.div variants={pageEnter} initial="hidden" animate="visible" exit="exit" className="page-wrapper">
+      <Seo
+        title="Projects — Hardik Bhaskar"
+        description="A curated collection of AI systems, low-level desktop applications, OS research, and cinematic 3D web experiences built by Hardik Bhaskar using Rust, C++, Python, React, and Three.js."
+        path="/projects"
+        jsonLd={[buildPersonJsonLd(), collectionJsonLd]}
+      />
       <main className="pt-16">
         {/* ── Hero Header ── */}
         <section className="py-24 md:py-32">
