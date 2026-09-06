@@ -52,8 +52,8 @@ function buildEmailHtml(name: string, email: string, message: string) {
                   <td style="vertical-align:middle;">
                     <!-- Logo -->
                     <img
-                      src="https://lunakitsune.vercel.app/images/logo.png"
-                      alt="Luna Kitsune"
+                      src="https://hardikbhaskar.vercel.app/images/logo.png"
+                      alt="Hardik Bhaskar"
                       width="40"
                       height="40"
                       style="border-radius:8px;display:block;"
@@ -88,7 +88,7 @@ function buildEmailHtml(name: string, email: string, message: string) {
                 Someone reached out! ✦
               </p>
               <p style="margin:0;font-size:13px;color:#5c5c7a;">
-                ${sentAt} &nbsp;·&nbsp; lunakitsune.vercel.app
+                ${sentAt} &nbsp;·&nbsp; hardikbhaskar.vercel.app
               </p>
             </td>
           </tr>
@@ -173,9 +173,9 @@ function buildEmailHtml(name: string, email: string, message: string) {
             <td style="padding:20px 36px;border-top:1px solid #1c1c2e;text-align:center;">
               <p style="margin:0 0 6px;font-size:11px;color:#2a2a3e;">
                 This email was sent via your portfolio contact form at
-                <a href="https://lunakitsune.vercel.app"
+                <a href="https://hardikbhaskar.vercel.app"
                   style="color:#3a3a52;text-decoration:none;">
-                  lunakitsune.vercel.app
+                  hardikbhaskar.vercel.app
                 </a>
               </p>
               <p style="margin:0;font-size:10px;color:#1e1e30;">

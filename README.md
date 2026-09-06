@@ -6,7 +6,7 @@
 
 **Full Stack Developer & AI Systems Builder**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-00E5FF?style=for-the-badge&logo=vercel&logoColor=white)](https://lunakitsune.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-00E5FF?style=for-the-badge&logo=vercel&logoColor=white)](https://hardikbhaskar.vercel.app)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Three.js](https://img.shields.io/badge/Three.js-R3F-black?style=for-the-badge&logo=threedotjs&logoColor=white)](https://threejs.org/)

@@ -8,7 +8,7 @@
 
 import { getRoutes } from './routes.mjs';
 
-const SITE_URL    = process.env.VITE_SITE_URL || 'https://lunakitsune.vercel.app';
+const SITE_URL    = process.env.VITE_SITE_URL || 'https://hardikbhaskar.vercel.app';
 const KEY         = 'ba4a24c6fef4406899d311af30c603fc';
 const KEY_LOCATION = `${SITE_URL}/${KEY}.txt`;
 const HOST        = new URL(SITE_URL).hostname;
