@@ -1,6 +1,6 @@
 import { lazy, Suspense, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ArrowDown } from 'lucide-react';
+import { ArrowRight, ArrowDown, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { CurrentFocus } from '@/components/sections/CurrentFocus';
@@ -172,6 +172,16 @@ export function Hero() {
               <Link to="/projects" className="w-full xs:w-auto" onClick={() => { playClick(); track.ctaClick('View case studies', 'hero'); }}>
                 <Button onMouseEnter={playHoverTick} variant="ghost" size="lg" className="w-full justify-center">View case studies</Button>
               </Link>
+              <a
+                href="/docs/Hardik_Bhaskar_Portfolio.pdf"
+                download
+                onMouseEnter={playHoverTick}
+                onClick={() => { playClick(); track.ctaClick('Download Dossier', 'hero'); }}
+                className="w-full xs:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/15 bg-white/[0.03] hover:bg-white/[0.08] hover:border-cyan/40 text-white font-ui text-sm font-medium transition-all duration-200 group"
+              >
+                <Download size={14} className="text-cyan group-hover:translate-y-0.5 transition-transform" />
+                <span>Dossier (PDF)</span>
+              </a>
             </motion.div>
 
             {/* Stats — 4-column with "3 AI Systems Shipped" */}

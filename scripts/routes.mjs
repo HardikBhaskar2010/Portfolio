@@ -88,6 +88,18 @@ export function getRoutes() {
             1,867+ contributions across public and private repositories. Active open-source and architecture systems include Vectoris (Native AI Desktop), Veronica-AI (Autonomous reasoning loop), MahinaOS (bare-metal x86_64 kernel), and AEGIS (Intelligence platform).
           </p>
         </section>
+        <section style="margin: 1.5rem 0; padding: 1.25rem; background: #0c0c10; border: 1px solid #222; border-radius: 12px;">
+          <h2 style="font-size: 1.25rem; font-weight: 600; color: #10B981; margin-bottom: 0.5rem;">Verified Credentials &amp; Certifications</h2>
+          <ul style="color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin-left: 1.25rem;">
+            <li><strong style="color: #FFFFFF;">Google Cloud Gen AI Academy APAC 2026:</strong> Cohort 2 Hackathon — Generative AI &amp; Cloud Solutions (<a href="/docs/certificates/Google_GenAI_Academy_APAC_2026.pdf" style="color: #00E5FF;">PDF</a>)</li>
+            <li><strong style="color: #FFFFFF;">Anthropic Claude 101:</strong> Large Language Model Architecture &amp; Prompt Engineering (<a href="/docs/certificates/Anthropic_Claude_101.pdf" style="color: #00E5FF;">PDF</a>)</li>
+            <li><strong style="color: #FFFFFF;">be10x AI Tools Workshop:</strong> AI Debugging &amp; High-Velocity Prototyping (<a href="/docs/certificates/be10x_AI_Tools_Workshop.pdf" style="color: #00E5FF;">PDF</a>)</li>
+            <li><strong style="color: #FFFFFF;">Ministry of Youth Affairs &amp; Sports (MYBharat):</strong> Viksit Bharat Young Leaders Dialogue 2026 (<a href="/docs/certificates/MYBharat_VBYLD_2026.png" style="color: #00E5FF;">Certificate</a>)</li>
+          </ul>
+          <p style="margin-top: 0.75rem;">
+            <a href="/docs/Hardik_Bhaskar_Portfolio.pdf" style="display: inline-block; padding: 0.5rem 1rem; background: #00E5FF; color: #000; font-weight: 600; text-decoration: none; border-radius: 8px;">Download Executive Portfolio Dossier (PDF) ↓</a>
+          </p>
+        </section>
         <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem; margin-top: 1.5rem; flex-wrap: wrap;">
           <a href="/" style="color: #00E5FF; text-decoration: none; font-weight: 600;">← Home</a>
           <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Projects →</a>

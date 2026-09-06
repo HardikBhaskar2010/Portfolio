@@ -8,6 +8,7 @@ import { Testimonials } from '@/components/sections/Testimonials';
 import { FAQ } from '@/components/sections/FAQ';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { LiveContributions } from '@/components/sections/LiveContributions';
+import { CredentialsVault } from '@/components/sections/CredentialsVault';
 import { services, experience, tools } from '@/data/tools';
 import { pageEnter, stagger, fadeUp, fadeLeft, fadeRight, scaleIn } from '@/lib/motion';
 import { Seo, buildPersonJsonLd } from '@/lib/seo';
@@ -95,9 +96,18 @@ export default function About() {
                     Whether writing bare-metal memory managers, zero-cost abstractions in Rust, or cinematic scroll-driven
                     3D web animations, I build software where deep performance engineering meets exquisite design craft.
                   </motion.p>
-                  <motion.div variants={fadeUp} className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
-                    <span className="font-ui text-sm text-cyan">Available for systems engineering and AI product contracts</span>
+                  <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3 pt-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
+                      <span className="font-ui text-sm text-cyan">Available for systems engineering and AI product contracts</span>
+                    </div>
+                    <a
+                      href="/docs/Hardik_Bhaskar_Portfolio.pdf"
+                      download
+                      className="inline-flex items-center gap-1.5 font-mono text-xs text-white/80 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full border border-white/10 transition-colors"
+                    >
+                      <span>Download Portfolio Dossier (PDF) ↓</span>
+                    </a>
                   </motion.div>
                 </motion.div>
               </div>
@@ -153,6 +163,11 @@ export default function About() {
         {/* ── Live Contributions & Activity ── */}
         <HighlightPoint id="about-contributions" color="#00E5FF" label="UPLINK // LIVE CONTRIBUTIONS">
           <LiveContributions />
+        </HighlightPoint>
+
+        {/* ── Verified Credentials & Card Folders ── */}
+        <HighlightPoint id="about-credentials" color="#10B981" label="ARCHIVES // CARD FOLDERS">
+          <CredentialsVault />
         </HighlightPoint>
 
         {/* ── Services ── */}

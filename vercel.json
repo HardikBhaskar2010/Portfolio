@@ -20,7 +20,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!api|images|favicon.svg|icons.svg|og-preview.png|robots.txt|sitemap.xml).*)",
+      "source": "/((?!api|images|docs|favicon.svg|icons.svg|og-preview.png|robots.txt|sitemap.xml).*)",
       "destination": "/index.html"
     }
   ]

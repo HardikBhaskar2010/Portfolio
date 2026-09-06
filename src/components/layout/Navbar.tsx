@@ -202,6 +202,26 @@ export function Navbar() {
                 <GithubIcon size={15} />
               </motion.a>
 
+              {/* Dossier PDF button */}
+              <motion.a
+                href="/docs/Hardik_Bhaskar_Portfolio.pdf"
+                download
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.94 }}
+                onMouseEnter={playHoverTick}
+                onClick={() => track.ctaClick('Download Dossier', 'navbar')}
+                className="hidden lg:inline-flex items-center gap-1 font-mono text-muted hover:text-heading px-2.5 py-1 rounded-full border border-white/10 hover:border-cyan/40 transition-all duration-200"
+                style={{
+                  fontSize: `${10 - t * 0.5}px`,
+                  background: 'rgba(255,255,255,0.04)',
+                  backdropFilter: 'blur(8px)',
+                }}
+                title="Download Executive Portfolio Dossier (PDF)"
+              >
+                <span>CV</span>
+                <span className="text-cyan text-[9px]">↓</span>
+              </motion.a>
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.96 }}
@@ -293,7 +313,7 @@ export function Navbar() {
                 </motion.div>
               ))}
 
-              <motion.div variants={mobileMenuItem} className="mt-8">
+              <motion.div variants={mobileMenuItem} className="mt-8 flex flex-col gap-3">
                 <button
                   onClick={() => { scrollTo('#contact'); setMenuOpen(false); }}
                   className="inline-flex items-center gap-2 font-ui text-sm uppercase tracking-widest text-bg bg-accent px-6 py-3 rounded-full"
@@ -301,6 +321,16 @@ export function Navbar() {
                   <span className="w-1.5 h-1.5 rounded-full bg-bg animate-pulse" />
                   Let's Talk
                 </button>
+
+                <a
+                  href="/docs/Hardik_Bhaskar_Portfolio.pdf"
+                  download
+                  onClick={() => { track.ctaClick('Download Dossier', 'mobile-menu'); setMenuOpen(false); }}
+                  className="inline-flex items-center gap-2 font-ui text-xs uppercase tracking-widest text-white/90 bg-white/5 border border-white/15 px-6 py-2.5 rounded-full"
+                >
+                  <span>Download CV / Dossier (PDF)</span>
+                  <span className="text-cyan text-sm">↓</span>
+                </a>
               </motion.div>
 
               <motion.div variants={mobileMenuItem} className="mt-8 flex gap-6">

@@ -6,7 +6,13 @@
  * Or hook into package.json "postbuild" script.
  */
 
+import { readFileSync, existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { join, dirname } from 'node:path';
 import { getRoutes } from './routes.mjs';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, '..');
 
 const SITE_URL    = process.env.VITE_SITE_URL || 'https://hardikbhaskar.vercel.app';
 const KEY         = 'ba4a24c6fef4406899d311af30c603fc';
@@ -14,7 +20,18 @@ const KEY_LOCATION = `${SITE_URL}/${KEY}.txt`;
 const HOST        = new URL(SITE_URL).hostname;
 const API_ENDPOINT = 'https://api.indexnow.org/IndexNow';
 
-const URL_LIST = getRoutes().map((r) => `${SITE_URL}${r.path === '/' ? '/' : r.path}`);
+// Parse complete list from public/sitemap.xml so all routes + document URLs are submitted
+function getSitemapUrls() {
+  const sitemapPath = join(ROOT, 'public', 'sitemap.xml');
+  if (existsSync(sitemapPath)) {
+    const xml = readFileSync(sitemapPath, 'utf8');
+    const matches = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
+    if (matches.length > 0) return matches;
+  }
+  return getRoutes().map((r) => `${SITE_URL}${r.path === '/' ? '/' : r.path}`);
+}
+
+const URL_LIST = getSitemapUrls();
 
 
 async function submit() {

@@ -48,4 +48,34 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://hardikbhaskar.vercel.app/docs/Hardik_Bhaskar_Portfolio.pdf</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hardikbhaskar.vercel.app/docs/certificates/Google_GenAI_Academy_APAC_2026.pdf</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hardikbhaskar.vercel.app/docs/certificates/Anthropic_Claude_101.pdf</loc>
+    <lastmod>2026-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hardikbhaskar.vercel.app/docs/certificates/be10x_AI_Tools_Workshop.pdf</loc>
+    <lastmod>2026-01-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://hardikbhaskar.vercel.app/docs/certificates/MYBharat_VBYLD_2026.png</loc>
+    <lastmod>2025-10-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>
