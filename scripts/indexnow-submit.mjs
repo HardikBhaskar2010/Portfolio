@@ -6,22 +6,16 @@
  * Or hook into package.json "postbuild" script.
  */
 
+import { getRoutes } from './routes.mjs';
+
 const SITE_URL    = process.env.VITE_SITE_URL || 'https://lunakitsune.vercel.app';
 const KEY         = 'ba4a24c6fef4406899d311af30c603fc';
 const KEY_LOCATION = `${SITE_URL}/${KEY}.txt`;
 const HOST        = new URL(SITE_URL).hostname;
 const API_ENDPOINT = 'https://api.indexnow.org/IndexNow';
 
-const URL_LIST = [
-  `${SITE_URL}/`,
-  `${SITE_URL}/about`,
-  `${SITE_URL}/projects`,
-  `${SITE_URL}/projects/vectoris`,
-  `${SITE_URL}/projects/veronica-ai`,
-  `${SITE_URL}/projects/aegis-decision-intelligence-platform`,
-  `${SITE_URL}/projects/mahinaos`,
-  `${SITE_URL}/projects/stem-idea-generator`,
-];
+const URL_LIST = getRoutes().map((r) => `${SITE_URL}${r.path === '/' ? '/' : r.path}`);
+
 
 async function submit() {
   const body = JSON.stringify({
