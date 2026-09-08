@@ -24,8 +24,8 @@ export default function Home() {
       className="page-wrapper"
     >
       <Seo
-        title="Hardik Bhaskar — Interactive Web & 3D Developer"
-        description="Scroll-driven 3D web experiences, AI-powered apps & full-stack products. React · Three.js · TypeScript. Available for freelance contracts."
+        title="Hardik Bhaskar — Portfolio | Systems Architect & 3D Developer"
+        description="Official portfolio of Hardik Bhaskar — Systems architect, low-level engineer, and interactive 3D web developer. Explore AI systems, Rust apps, and WebGL projects."
         path="/"
         jsonLd={[buildPersonJsonLd(), buildWebsiteJsonLd(), buildFaqJsonLd(faqs)]}
       />

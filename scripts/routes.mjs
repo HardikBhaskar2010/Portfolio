@@ -65,14 +65,14 @@ export function getRoutes() {
       changefreq: 'weekly',
       priority: '1.0',
       lastmod: today,
-      title: 'Hardik Bhaskar — Interactive Web & 3D Developer',
+      title: 'Hardik Bhaskar — Portfolio | Systems Architect & 3D Developer',
       description:
-        'Scroll-driven 3D web experiences, AI-powered apps & full-stack products. React · Three.js · TypeScript. Available for freelance contracts.',
+        'Official portfolio of Hardik Bhaskar — Systems architect, low-level engineer, and interactive 3D web developer. Explore AI systems, Rust apps, and WebGL projects.',
       ogImage: '/og-preview.png',
       jsonLd: [buildPersonJsonLd(), buildWebsiteJsonLd(), buildFaqJsonLd(faqs)],
       fallbackHtml: `
     <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
-      <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">Hardik Bhaskar — Interactive Web &amp; 3D Developer</h1>
+      <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">Hardik Bhaskar — Portfolio | Systems Architect &amp; 3D Developer</h1>
       <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
         Building cinematic web experiences, AI systems, and futuristic interactive products. React · Three.js · TypeScript.
       </p>

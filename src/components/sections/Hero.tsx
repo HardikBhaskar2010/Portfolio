@@ -121,7 +121,7 @@ export function Hero() {
                   style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}
                 >
                   <span className="sr-only">
-                    Hardik Bhaskar — Interactive Web &amp; 3D Developer
+                    Hardik Bhaskar — Portfolio | Systems Architect &amp; 3D Developer
                   </span>
                   {tagline.map((word, i) => (
                     <motion.span

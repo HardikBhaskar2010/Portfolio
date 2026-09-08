@@ -116,9 +116,14 @@ export function buildWebsiteJsonLd() {
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
-    name: 'Hardik Bhaskar — Portfolio',
+    name: 'Hardik Bhaskar',
+    alternateName: [
+      'Hardik Bhaskar Portfolio',
+      'Hardik Bhaskar Developer',
+      'Hardik Bhaskar — Portfolio',
+    ],
     description:
-      'Cinematic web experiences, AI-powered systems, and futuristic interactive products.',
+      'Official portfolio of Hardik Bhaskar — Systems architect, low-level engineer, and interactive 3D web developer.',
     author: { '@id': `${SITE_URL}/#person` },
     inLanguage: 'en-US',
     potentialAction: {

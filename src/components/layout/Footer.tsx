@@ -108,7 +108,7 @@ export function Footer() {
 
         {/* ── Top row: Original Footer Layout ── */}
         <div className="relative z-10 max-w-[1200px] mx-auto px-6 md:px-12 py-16">
-          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
+          <div className="flex flex-col md:flex-row items-start justify-between gap-12">
             
             {/* Brand */}
             <div className="flex flex-col gap-4">
