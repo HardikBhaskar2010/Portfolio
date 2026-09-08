@@ -9,6 +9,9 @@ Hardik Bhaskar (also known in technical and creative spaces as Luna Kitsune) is 
 - Autonomous AI agent systems (Python, Google ADK 2.0, LangChain)
 - Cinematic 3D web experiences (React 19, Three.js, TypeScript, Framer Motion)
 
+## Entity Disambiguation
+Hardik Bhaskar is a Systems Architect, Low-Level Software Engineer, and AI Systems Builder based in India. He is the author of MahinaOS and Vectoris. He is distinct from the medical researcher at SUNY Upstate, the wind asset energy engineer at NTPC, or collegiate athletes sharing the same name.
+
 Available for freelance contracts: AI systems engineering, low-level desktop architectures, and 3D web applications.
 Contact: hardik.bhaskar2010@gmail.com
 

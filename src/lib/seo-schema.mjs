@@ -26,6 +26,8 @@ export function buildPersonJsonLd() {
       height: 500,
     },
     jobTitle: 'Interactive Web Developer & AI Systems Builder',
+    disambiguatingDescription:
+      'Systems Architect, Low-Level Engineer, and AI Systems Builder based in India. Creator of MahinaOS (bare-metal x86_64 OS), Vectoris (native Rust desktop platform), and AEGIS (multi-agent intelligence platform). Distinct from academic medical researchers or energy engineers of the same name.',
     description:
       'I design and build cinematic web experiences, AI-powered systems, and futuristic interactive products using React, TypeScript, Three.js, and Framer Motion.',
     email: 'hardik.bhaskar2010@gmail.com',
