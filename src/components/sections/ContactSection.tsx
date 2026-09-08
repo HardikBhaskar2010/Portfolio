@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ArrowRight, Mail, Phone, ExternalLink, Calendar } from 'lucide-react';
+import { ArrowRight, Mail, ExternalLink, Calendar } from 'lucide-react';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Button } from '@/components/ui/Button';
 import { stagger, fadeUp, scaleIn } from '@/lib/motion';
@@ -147,14 +147,6 @@ export function ContactSection() {
                 >
                   <Mail size={13} />
                   hardik.bhaskar2010@gmail.com
-                </a>
-                <a
-                  href="tel:+919599891970"
-                  className="flex items-center gap-2 font-ui text-sm text-muted hover:text-heading transition-colors duration-200"
-                  onClick={() => track.emailClick('contact-section')}
-                >
-                  <Phone size={13} />
-                  +91 9599891970
                 </a>
               </div>
             </motion.div>

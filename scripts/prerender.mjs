@@ -92,11 +92,21 @@ function setNoscriptContent(html, content) {
   return html.replace('</body>', `  ${tag}\n  </body>`);
 }
 
+const buildTimeIso = new Date().toISOString();
+let rootHtml = setMetaProperty(template, 'og:updated_time', buildTimeIso);
+writeFileSync(templatePath, rootHtml, 'utf8');
+
 let generatedCount = 0;
 
 for (const route of routes) {
-  // Skip root '/' route — dist/index.html already serves '/'
-  if (route.path === '/') continue;
+  // For root '/' route — update dist/index.html with complete JSON-LD including FAQPage
+  if (route.path === '/') {
+    if (route.jsonLd) {
+      rootHtml = setJsonLd(rootHtml, route.jsonLd);
+      writeFileSync(templatePath, rootHtml, 'utf8');
+    }
+    continue;
+  }
 
   const canonicalUrl = `${SITE_URL}${route.path}`;
   const ogImageUrl = route.ogImage.startsWith('http')
@@ -105,7 +115,7 @@ for (const route of routes) {
   const imageType = ogImageUrl.endsWith('.webp') ? 'image/webp' : 'image/png';
   const imageAlt = `${route.title} Preview`;
 
-  let html = template;
+  let html = rootHtml;
 
   // 1. Primary tags
   html = setTitle(html, route.title);
@@ -120,6 +130,7 @@ for (const route of routes) {
   html = setMetaProperty(html, 'og:image:secure_url', ogImageUrl);
   html = setMetaProperty(html, 'og:image:type', imageType);
   html = setMetaProperty(html, 'og:image:alt', imageAlt);
+  html = setMetaProperty(html, 'og:updated_time', buildTimeIso);
 
   // Declare dimensions ONLY for the standard 1200x630 banner.
   // For project screenshots (arbitrary aspect ratios), strip declared dimensions

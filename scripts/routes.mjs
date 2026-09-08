@@ -10,6 +10,8 @@ import {
   buildPersonJsonLd,
   buildWebsiteJsonLd,
   buildProjectJsonLd,
+  buildFaqJsonLd,
+  buildBreadcrumbJsonLd,
 } from '../src/lib/seo-schema.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -25,8 +27,23 @@ export function getProjects() {
   }
 }
 
+export function getFaqs() {
+  const faqsPath = join(ROOT, 'src', 'data', 'faqs.ts');
+  try {
+    const content = readFileSync(faqsPath, 'utf8');
+    const match = content.match(/export const faqs[^=]*=\s*({[\s\S]*?});/);
+    if (match) {
+      return new Function(`return ${match[1]}`)();
+    }
+  } catch (err) {
+    console.warn('⚠️ Could not read faqs.ts:', err.message);
+  }
+  return {};
+}
+
 export function getRoutes() {
   const projects = getProjects();
+  const faqs = getFaqs();
   const today = new Date().toISOString().split('T')[0];
 
   const collectionJsonLd = {
@@ -52,7 +69,7 @@ export function getRoutes() {
       description:
         'Scroll-driven 3D web experiences, AI-powered apps & full-stack products. React · Three.js · TypeScript. Available for freelance contracts.',
       ogImage: '/og-preview.png',
-      jsonLd: [buildPersonJsonLd(), buildWebsiteJsonLd()],
+      jsonLd: [buildPersonJsonLd(), buildWebsiteJsonLd(), buildFaqJsonLd(faqs)],
       fallbackHtml: `
     <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
       <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">Hardik Bhaskar — Interactive Web &amp; 3D Developer</h1>
@@ -75,7 +92,14 @@ export function getRoutes() {
       description:
         'Systems developer and AI builder focused on robust low-level architectures, autonomous intelligence systems, and high-performance user interfaces — from bare-metal OS kernels to cinematic 3D web experiences.',
       ogImage: '/og-preview.png',
-      jsonLd: buildPersonJsonLd(),
+      jsonLd: [
+        buildPersonJsonLd(),
+        buildBreadcrumbJsonLd([
+          { name: 'Home', path: '/' },
+          { name: 'About', path: '/about' },
+        ]),
+        buildFaqJsonLd(faqs),
+      ],
       fallbackHtml: `
       <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
         <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">About Hardik Bhaskar — Systems Architect &amp; AI Systems Builder</h1>
@@ -117,7 +141,14 @@ export function getRoutes() {
       description:
         'A curated collection of web applications, AI systems, and interactive experiences built by Hardik Bhaskar using React, Node.js, TypeScript, Python, and Rust.',
       ogImage: '/og-preview.png',
-      jsonLd: [buildPersonJsonLd(), collectionJsonLd],
+      jsonLd: [
+        buildPersonJsonLd(),
+        collectionJsonLd,
+        buildBreadcrumbJsonLd([
+          { name: 'Home', path: '/' },
+          { name: 'Projects', path: '/projects' },
+        ]),
+      ],
       fallbackHtml: `
       <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
         <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">Projects — Hardik Bhaskar</h1>
@@ -151,6 +182,8 @@ export function getRoutes() {
           ? `${project.year}-12-31`
           : today;
 
+      const ogImage = project.fallbackImage || project.image || '/og-preview.png';
+
       return {
         path: `/projects/${project.slug}`,
         changefreq: 'monthly',
@@ -158,8 +191,15 @@ export function getRoutes() {
         lastmod,
         title: `${project.title} — Hardik Bhaskar`,
         description: metaDescription,
-        ogImage: project.image || '/og-preview.png',
-        jsonLd: buildProjectJsonLd(project),
+        ogImage,
+        jsonLd: [
+          buildProjectJsonLd(project),
+          buildBreadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Projects', path: '/projects' },
+            { name: project.title, path: `/projects/${project.slug}` },
+          ]),
+        ],
         fallbackHtml: `
       <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
         <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">${project.title}</h1>

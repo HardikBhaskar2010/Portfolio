@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { ArrowUp, Mail, Phone } from 'lucide-react';
+import { ArrowUp, Mail } from 'lucide-react';
 import { scrollToTop } from '@/lib/lenis';
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
 
@@ -87,7 +87,7 @@ export function Footer() {
             loop
             muted
             playsInline
-            preload="auto"
+            preload="none"
             onLoadedMetadata={handlePlaybackSetup}
             onPlay={handlePlaybackSetup}
             onTimeUpdate={(e) => {
@@ -174,13 +174,6 @@ export function Footer() {
                 <Mail size={12} className="flex-shrink-0 text-[#00E5FF]" />
                 hardik.bhaskar2010@gmail.com
               </a>
-              <a
-                href="tel:+919599891970"
-                className="flex items-center gap-2 font-ui text-sm text-slate-200 hover:text-[#00E5FF] transition-colors duration-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
-              >
-                <Phone size={12} className="flex-shrink-0 text-[#00E5FF]" />
-                +91 9599891970
-              </a>
             </div>
 
           </div>
@@ -190,7 +183,7 @@ export function Footer() {
         <div className="relative z-10 border-t border-border/80 bg-[#05050A]/70 backdrop-blur-sm">
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p className="font-ui text-xs text-slate-400">
-              &copy; 2025 Hardik Bhaskar &mdash; Luna Kitsune. All rights reserved.
+              &copy; {new Date().getFullYear()} Hardik Bhaskar. All rights reserved.
             </p>
             <button
               onClick={scrollToTop}

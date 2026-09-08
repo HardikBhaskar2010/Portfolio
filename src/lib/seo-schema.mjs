@@ -22,13 +22,17 @@ export function buildPersonJsonLd() {
     image: {
       '@type': 'ImageObject',
       url: `${SITE_URL}/images/avatar.webp`,
-      width: 400,
-      height: 400,
+      width: 500,
+      height: 500,
     },
     jobTitle: 'Interactive Web Developer & AI Systems Builder',
     description:
       'I design and build cinematic web experiences, AI-powered systems, and futuristic interactive products using React, TypeScript, Three.js, and Framer Motion.',
     email: 'hardik.bhaskar2010@gmail.com',
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Freelance / Self-Employed',
+    },
     knowsAbout: [
       'Rust',
       'C / C++',
@@ -119,9 +123,52 @@ export function buildWebsiteJsonLd() {
     inLanguage: 'en-US',
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${SITE_URL}/projects?q={search_term_string}`,
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/projects?q={search_term_string}`,
+      },
       'query-input': 'required name=search_term_string',
     },
+  };
+}
+
+/**
+ * schema.org FAQPage — pass all FAQ items or grouped object.
+ * @param {Record<string, Array<{q: string, a: string}>> | Array<{q: string, a: string}>} faqsByTab
+ */
+export function buildFaqJsonLd(faqsByTab) {
+  const allFaqs = Array.isArray(faqsByTab)
+    ? faqsByTab
+    : Object.values(faqsByTab).flat();
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: allFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q || faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a || faq.answer,
+      },
+    })),
+  };
+}
+
+/**
+ * schema.org BreadcrumbList
+ * @param {Array<{name: string, path: string}>} items
+ */
+export function buildBreadcrumbJsonLd(items) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.path.startsWith('http') ? item.path : `${SITE_URL}${item.path}`,
+    })),
   };
 }
 
@@ -146,15 +193,28 @@ function deriveRepoUrl(project) {
   return `https://github.com/HardikBhaskar2010/${repoName}`;
 }
 
-/** schema.org CreativeWork — rendered on each /projects/:slug page */
+/**
+ * Determines if a project is a shipped software application (not just source code).
+ */
+function isShippedApp(project) {
+  return Boolean(project.link && !project.link.includes('github.com'));
+}
+
+/** schema.org CreativeWork or SoftwareApplication — rendered on each /projects/:slug page */
 export function buildProjectJsonLd(project) {
-  const imageUrl = project.image?.startsWith('http')
+  const localImage = project.fallbackImage
+    ? `${SITE_URL}${project.fallbackImage.startsWith('/') ? project.fallbackImage : `/${project.fallbackImage}`}`
+    : null;
+
+  const imageUrl = localImage || (project.image?.startsWith('http')
     ? project.image
-    : `${SITE_URL}${project.image || '/og-preview.png'}`;
+    : `${SITE_URL}${project.image ? (project.image.startsWith('/') ? project.image : `/${project.image}`) : '/og-preview.png'}`);
+
+  const type = isShippedApp(project) ? 'SoftwareApplication' : 'CreativeWork';
 
   const node = {
     '@context': 'https://schema.org',
-    '@type': 'CreativeWork',
+    '@type': type,
     '@id': `${SITE_URL}/projects/${project.slug}#project`,
     name: project.title,
     description: project.description,
@@ -165,8 +225,15 @@ export function buildProjectJsonLd(project) {
     url: `${SITE_URL}/projects/${project.slug}`,
   };
 
+  if (type === 'SoftwareApplication') {
+    node.applicationCategory = 'DeveloperApplication';
+    node.operatingSystem = 'Web / Cross-Platform';
+    if (project.link) node.installUrl = project.link;
+  }
+
   if (project.year) {
     node.datePublished = `${project.year}-01-01`;
+    node.dateModified = `${project.year}-12-31`;
   }
 
   return node;

@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, LayoutGrid, Rows3, Table as TableIcon, Sparkles, Filter, Layers } from 'lucide-react';
 import { Footer } from '@/components/layout/Footer';
@@ -11,7 +12,7 @@ import { ProjectTableView } from '@/components/ui/ProjectTableView';
 import { pageEnter, stagger, fadeUp } from '@/lib/motion';
 import { playHoverTick, playClick } from '@/lib/audio';
 import { getLenis } from '@/lib/lenis';
-import { Seo, buildPersonJsonLd, SITE_URL } from '@/lib/seo';
+import { Seo, buildPersonJsonLd, buildBreadcrumbJsonLd, SITE_URL } from '@/lib/seo';
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
 
 type ViewMode = 'grid' | 'showcase' | 'table';
@@ -65,9 +66,40 @@ function matchesSearch(project: Project, query: string): boolean {
 }
 
 export default function Projects() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>(() => searchParams.get('q') || '');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
+
+  // Debounced URL param sync to keep URL clean and enable Google Sitelinks SearchAction
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const currentParam = searchParams.get('q') || '';
+      if (searchQuery.trim()) {
+        if (currentParam !== searchQuery.trim()) {
+          setSearchParams(
+            (prev) => {
+              const next = new URLSearchParams(prev);
+              next.set('q', searchQuery.trim());
+              return next;
+            },
+            { replace: true }
+          );
+        }
+      } else if (currentParam) {
+        setSearchParams(
+          (prev) => {
+            const next = new URLSearchParams(prev);
+            next.delete('q');
+            return next;
+          },
+          { replace: true }
+        );
+      }
+    }, 250);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery, searchParams, setSearchParams]);
 
   // Guarantee page starts at top on initial mount
   useEffect(() => {
@@ -121,7 +153,14 @@ export default function Projects() {
         title="Projects — Hardik Bhaskar"
         description="A curated collection of AI systems, low-level desktop applications, OS research, and cinematic 3D web experiences built by Hardik Bhaskar using Rust, C++, Python, React, and Three.js."
         path="/projects"
-        jsonLd={[buildPersonJsonLd(), collectionJsonLd]}
+        jsonLd={[
+          buildPersonJsonLd(),
+          collectionJsonLd,
+          buildBreadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Projects', path: '/projects' },
+          ]),
+        ]}
       />
 
       <main className="pt-20">

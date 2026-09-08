@@ -22,7 +22,7 @@ import { projects } from '@/data/projects';
 import { pageEnter, stagger, fadeUp, scaleIn } from '@/lib/motion';
 import { track } from '@/lib/analytics';
 import { playHoverTick, playClick, playSynthPulse } from '@/lib/audio';
-import { Seo, buildProjectJsonLd } from '@/lib/seo';
+import { Seo, buildProjectJsonLd, buildBreadcrumbJsonLd } from '@/lib/seo';
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
 import { useHighlightStore } from '@/store/highlightStore';
 
@@ -353,8 +353,15 @@ export default function ProjectDetail() {
         title={`${project.title} — Hardik Bhaskar`}
         description={metaDescription}
         path={`/projects/${project.slug}`}
-        ogImage={project.image}
-        jsonLd={buildProjectJsonLd(project)}
+        ogImage={project.fallbackImage || project.image}
+        jsonLd={[
+          buildProjectJsonLd(project),
+          buildBreadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Projects', path: '/projects' },
+            { name: project.title, path: `/projects/${project.slug}` },
+          ]),
+        ]}
       />
       <main>
         {/* ── Top Floating Header / Breadcrumbs ── */}

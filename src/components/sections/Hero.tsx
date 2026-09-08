@@ -120,11 +120,15 @@ export function Hero() {
                   className="font-display italic text-heading leading-[0.87] tracking-tight block"
                   style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}
                 >
+                  <span className="sr-only">
+                    Hardik Bhaskar — Interactive Web &amp; 3D Developer
+                  </span>
                   {tagline.map((word, i) => (
                     <motion.span
                       key={i}
                       variants={lineVariants}
                       className="block"
+                      aria-hidden="true"
                     >
                       {word}
                       {i === tagline.length - 1 && (

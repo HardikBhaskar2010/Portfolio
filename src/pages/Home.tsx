@@ -11,7 +11,8 @@ import { ContactSection } from '@/components/sections/ContactSection';
 import { SystemLabel } from '@/components/effects/SystemLabel';
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
 import { pageEnter } from '@/lib/motion';
-import { Seo, buildPersonJsonLd, buildWebsiteJsonLd } from '@/lib/seo';
+import { Seo, buildPersonJsonLd, buildWebsiteJsonLd, buildFaqJsonLd } from '@/lib/seo';
+import { faqs } from '@/data/faqs';
 
 export default function Home() {
   return (
@@ -26,7 +27,7 @@ export default function Home() {
         title="Hardik Bhaskar — Interactive Web & 3D Developer"
         description="Scroll-driven 3D web experiences, AI-powered apps & full-stack products. React · Three.js · TypeScript. Available for freelance contracts."
         path="/"
-        jsonLd={[buildPersonJsonLd(), buildWebsiteJsonLd()]}
+        jsonLd={[buildPersonJsonLd(), buildWebsiteJsonLd(), buildFaqJsonLd(faqs)]}
       />
       <main>
         {/* ── Hero — no SystemLabel, has its own cinematic entrance ── */}

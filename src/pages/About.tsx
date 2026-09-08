@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { Link } from 'react-router-dom';
 import { Footer } from '@/components/layout/Footer';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Tag } from '@/components/ui/Tag';
@@ -10,9 +11,12 @@ import { ContactSection } from '@/components/sections/ContactSection';
 import { LiveContributions } from '@/components/sections/LiveContributions';
 import { CredentialsVault } from '@/components/sections/CredentialsVault';
 import { services, experience, tools } from '@/data/tools';
+import { faqs } from '@/data/faqs';
 import { pageEnter, stagger, fadeUp, fadeLeft, fadeRight, scaleIn } from '@/lib/motion';
-import { Seo, buildPersonJsonLd } from '@/lib/seo';
+import { Seo, buildPersonJsonLd, buildBreadcrumbJsonLd, buildFaqJsonLd } from '@/lib/seo';
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
+import { getToolIcon } from '@/components/ui/ToolIcon';
+import { Video, Bot, Sparkles, Box, Zap, Compass } from 'lucide-react';
 
 export default function About() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -31,7 +35,14 @@ export default function About() {
         title="About Hardik Bhaskar — Systems Architect & AI Systems Builder"
         description="Systems developer and AI builder focused on robust low-level architectures, autonomous intelligence systems, and high-performance user interfaces — from bare-metal OS kernels to cinematic 3D web experiences."
         path="/about"
-        jsonLd={buildPersonJsonLd()}
+        jsonLd={[
+          buildPersonJsonLd(),
+          buildBreadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'About', path: '/about' },
+          ]),
+          buildFaqJsonLd(faqs),
+        ]}
       />
       <main className="pt-16">
 
@@ -46,7 +57,10 @@ export default function About() {
                   className="font-display italic text-heading"
                   style={{ fontSize: 'clamp(40px, 7vw, 100px)', lineHeight: '0.9' }}
                 >
-                  Get to know<br />me better.
+                  <span className="sr-only">About Hardik Bhaskar — Systems Architect &amp; AI Systems Builder</span>
+                  <span aria-hidden="true">
+                    Get to know<br />me better.
+                  </span>
                 </motion.h1>
               </motion.div>
 
@@ -87,9 +101,9 @@ export default function About() {
                     operating systems, native desktop binaries, and cinematic web experiences.
                   </motion.p>
                   <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
-                    I engineer native desktop platforms with <strong className="text-heading font-semibold">Rust</strong> and Tauri v2 (Vectoris),
-                    bare-metal x86_64 operating system kernels in <strong className="text-heading font-semibold">C / C++</strong> and Assembly (MahinaOS),
-                    autonomous multi-agent decision intelligence platforms in <strong className="text-heading font-semibold">Python</strong> and Google ADK 2.0 (AEGIS & Veronica AI),
+                    I engineer native desktop platforms with <strong className="text-heading font-semibold">Rust</strong> and Tauri v2 (<Link to="/projects/vectoris" className="text-cyan underline underline-offset-4 hover:text-cyan/80 transition-colors">Vectoris</Link>),
+                    bare-metal x86_64 operating system kernels in <strong className="text-heading font-semibold">C / C++</strong> and Assembly (<Link to="/projects/mahinaos" className="text-cyan underline underline-offset-4 hover:text-cyan/80 transition-colors">MahinaOS</Link>),
+                    autonomous multi-agent decision intelligence platforms in <strong className="text-heading font-semibold">Python</strong> and Google ADK 2.0 (<Link to="/projects/aegis-decision-intelligence-platform" className="text-cyan underline underline-offset-4 hover:text-cyan/80 transition-colors">AEGIS</Link> &amp; <Link to="/projects/veronica-ai" className="text-cyan underline underline-offset-4 hover:text-cyan/80 transition-colors">Veronica AI</Link>),
                     and modern interactive applications with <strong className="text-heading font-semibold">TypeScript</strong>, React 19, and Three.js.
                   </motion.p>
                   <motion.p variants={fadeUp} className="font-ui text-body text-base leading-[1.9]">
@@ -197,6 +211,25 @@ export default function About() {
   );
 }
 
+function getServiceIcon(category: string) {
+  switch (category) {
+    case 'FRONTEND':
+      return <Video size={22} className="text-cyan group-hover:scale-110 transition-transform duration-300" />;
+    case 'AI SYSTEMS':
+      return <Bot size={22} className="text-violet-400 group-hover:scale-110 transition-transform duration-300" />;
+    case 'UI/UX':
+      return <Sparkles size={22} className="text-emerald-400 group-hover:scale-110 transition-transform duration-300" />;
+    case '3D WEB':
+      return <Box size={22} className="text-cyan group-hover:scale-110 transition-transform duration-300" />;
+    case 'PERFORMANCE':
+      return <Zap size={22} className="text-amber-400 group-hover:scale-110 transition-transform duration-300" />;
+    case 'BRANDING':
+      return <Compass size={22} className="text-fuchsia-400 group-hover:scale-110 transition-transform duration-300" />;
+    default:
+      return <Sparkles size={22} className="text-cyan group-hover:scale-110 transition-transform duration-300" />;
+  }
+}
+
 function ServicesSection() {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
   return (
@@ -220,7 +253,12 @@ function ServicesSection() {
                 className="bg-surface border border-border rounded-2xl p-7 flex flex-col gap-4 group"
               >
                 <div className="flex items-start justify-between">
-                  <span className="text-3xl">{service.icon}</span>
+                  <motion.div
+                    whileHover={{ rotate: 10, scale: 1.1 }}
+                    className="w-11 h-11 rounded-xl bg-surface/80 border border-border flex items-center justify-center shadow-sm"
+                  >
+                    {getServiceIcon(service.category)}
+                  </motion.div>
                   <Tag>{service.category}</Tag>
                 </div>
                 <h3 className="font-display italic text-xl text-heading group-hover:text-white transition-colors">
@@ -257,11 +295,17 @@ function ToolsSection() {
                 <span className="font-ui text-[10px] uppercase tracking-[0.2em] text-tagText">{category}</span>
                 <div className="mt-6 flex flex-col gap-4">
                   {items.map((tool) => (
-                    <div key={tool.name} className="flex items-center gap-4">
-                      <span className="text-2xl w-8">{tool.icon}</span>
+                    <div key={tool.name} className="flex items-center gap-4 group/item">
+                      <motion.div
+                        whileHover={{ scale: 1.15, rotate: 6 }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                        className="w-9 h-9 rounded-lg bg-surface border border-border flex items-center justify-center flex-shrink-0 group-hover/item:border-cyan/40 transition-colors"
+                      >
+                        {getToolIcon(tool.name, 20)}
+                      </motion.div>
                       <div className="flex-1">
                         <div className="flex items-center justify-between mb-1">
-                          <p className="font-heading font-semibold text-sm text-heading">{tool.name}</p>
+                          <p className="font-heading font-semibold text-sm text-heading group-hover/item:text-cyan transition-colors">{tool.name}</p>
                         </div>
                         <p className="font-ui text-xs text-muted">{tool.desc}</p>
                       </div>

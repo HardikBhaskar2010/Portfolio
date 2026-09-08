@@ -17,16 +17,20 @@ import {
   buildPersonJsonLd,
   buildWebsiteJsonLd,
   buildProjectJsonLd,
+  buildFaqJsonLd,
+  buildBreadcrumbJsonLd,
 } from './seo-schema.mjs';
-import type { ProjectForJsonLd } from './seo-schema.d.mts';
+import type { ProjectForJsonLd, BreadcrumbItem, FaqItem } from './seo-schema.d.mts';
 
 export {
   SITE_URL,
   buildPersonJsonLd,
   buildWebsiteJsonLd,
   buildProjectJsonLd,
+  buildFaqJsonLd,
+  buildBreadcrumbJsonLd,
 };
-export type { ProjectForJsonLd };
+export type { ProjectForJsonLd, BreadcrumbItem, FaqItem };
 
 // ── <Seo> component ─────────────────────────────────────────────────────────
 

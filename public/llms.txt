@@ -1,0 +1,54 @@
+# Hardik Bhaskar — Portfolio
+> Interactive Web & 3D Developer | Systems Architect | AI Systems Builder
+> Available for freelance contracts and engineering consulting. Based in India.
+
+## About
+Hardik Bhaskar (also known in technical and creative spaces as Luna Kitsune) is a full-stack systems developer and AI builder specializing in:
+- Bare-metal OS engineering (C17, x86_64 Assembly)
+- Native desktop applications (Rust, Tauri v2)
+- Autonomous AI agent systems (Python, Google ADK 2.0, LangChain)
+- Cinematic 3D web experiences (React 19, Three.js, TypeScript, Framer Motion)
+
+Available for freelance contracts: AI systems engineering, low-level desktop architectures, and 3D web applications.
+Contact: hardik.bhaskar2010@gmail.com
+
+## Key Pages
+- Homepage: https://hardikbhaskar.vercel.app/
+- About & Background: https://hardikbhaskar.vercel.app/about
+- Portfolio of Projects: https://hardikbhaskar.vercel.app/projects
+- Portfolio Dossier (PDF): https://hardikbhaskar.vercel.app/docs/Hardik_Bhaskar_Portfolio.pdf
+
+## Featured Systems & Projects
+- MahinaOS (2024 — Present): Experimental bare-metal x86_64 micro-operating system written in C++ and Assembly. Features luna-init PID 1, VGA framebuffer driver, and custom virtual memory manager.
+  URL: https://hardikbhaskar.vercel.app/projects/mahinaos
+  Code: https://github.com/HardikBhaskar2010/MahinaOS
+
+- Vectoris (2025 — Present): High-performance native desktop AI takeoff platform for electrical engineering blueprints built with Tauri v2, Rust 2021, and React 19. Implements zero-cost IPC bridges and local AI execution pipelines.
+  URL: https://hardikbhaskar.vercel.app/projects/vectoris
+  Code: https://github.com/VectorisAI/Vectoris
+
+- AEGIS Decision Intelligence Platform (2025): Multi-agent enterprise intelligence system deployed with Google Cloud Vertex AI, BigQuery telemetry, and autonomous decision optimization.
+  Live: https://decisionforge-one.vercel.app
+  URL: https://hardikbhaskar.vercel.app/projects/aegis-decision-intelligence-platform
+  Code: https://github.com/HardikBhaskar2010/AEGIS-Decision-Intelligence-Platform
+
+- Veronica AI (2025): Sovereign conversational intelligence system with localized memory graphs, multi-turn reasoning loops, and private knowledge retrieval.
+  URL: https://hardikbhaskar.vercel.app/projects/veronica-ai
+  Code: https://github.com/HardikBhaskar2010/Veronica-AI
+
+- STEM Idea Adventure (2024): Interactive AI-driven K-12 STEM education platform powered by Google ADK 2.0 and adaptive challenge generators.
+  Live: https://stemidea.vercel.app
+  URL: https://hardikbhaskar.vercel.app/projects/stem-idea-generator
+  Code: https://github.com/HardikBhaskar2010/STEM-IDEA-GENERATOR
+
+## Verified Credentials
+- Google Cloud Gen AI Academy APAC 2026 — Cohort 2 Hackathon (Generative AI & Cloud Solutions)
+- Anthropic Claude 101 — Large Language Model Architecture & Prompt Engineering
+- be10x AI Tools Workshop — AI Debugging & High-Velocity Prototyping
+- Viksit Bharat Young Leaders Dialogue 2026 — Ministry of Youth Affairs and Sports, Government of India
+
+## Connect & Social Profiles
+- GitHub: https://github.com/HardikBhaskar2010
+- LinkedIn: https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/
+- Twitter / X: https://x.com/kitsune_luna05
+- Email: hardik.bhaskar2010@gmail.com
