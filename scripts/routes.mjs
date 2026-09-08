@@ -146,7 +146,10 @@ export function getRoutes() {
         project.description.length > 155
           ? `${project.description.slice(0, 152)}…`
           : project.description;
-      const lastmod = project.year ? `${project.year}-12-31` : today;
+      const lastmod =
+        project.year && `${project.year}-12-31` <= today
+          ? `${project.year}-12-31`
+          : today;
 
       return {
         path: `/projects/${project.slug}`,
