@@ -83,6 +83,15 @@ function removeMetaProperty(html, property) {
   return html.replace(regex, '');
 }
 
+function setRootContent(html, content) {
+  const regex = /<div id="root">[\s\S]*?<\/div>/i;
+  const tag = `<div id="root">\n${content}\n    </div>`;
+  if (regex.test(html)) {
+    return html.replace(regex, tag);
+  }
+  return html;
+}
+
 function setNoscriptContent(html, content) {
   const regex = /<noscript>[\s\S]*?<\/noscript>/i;
   const tag = `<noscript>\n${content}\n    </noscript>`;
@@ -99,12 +108,15 @@ writeFileSync(templatePath, rootHtml, 'utf8');
 let generatedCount = 0;
 
 for (const route of routes) {
-  // For root '/' route — update dist/index.html with complete JSON-LD including FAQPage
+  // For root '/' route — update dist/index.html with complete JSON-LD and semantic root content
   if (route.path === '/') {
     if (route.jsonLd) {
       rootHtml = setJsonLd(rootHtml, route.jsonLd);
-      writeFileSync(templatePath, rootHtml, 'utf8');
     }
+    if (route.fallbackHtml) {
+      rootHtml = setRootContent(rootHtml, route.fallbackHtml);
+    }
+    writeFileSync(templatePath, rootHtml, 'utf8');
     continue;
   }
 
@@ -155,11 +167,10 @@ for (const route of routes) {
     html = setJsonLd(html, route.jsonLd);
   }
 
-  // 5. Semantic non-JS fallback inside <noscript>
-  // <div id="root"></div> remains completely empty so #root:empty::after handles the
-  // background cleanly and React mounts with zero flash-of-content or CLS.
+  // 5. Semantic prerendered content inside <div id="root">
+  // Ensures Bingbot, Googlebot, and non-JS clients find a real <h1> and semantic DOM tree.
   if (route.fallbackHtml) {
-    html = setNoscriptContent(html, route.fallbackHtml);
+    html = setRootContent(html, route.fallbackHtml);
   }
 
   // 6. Write to dist/<route>/index.html (directory index)
