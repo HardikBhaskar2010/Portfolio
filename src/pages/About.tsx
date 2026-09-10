@@ -9,11 +9,12 @@ import { Testimonials } from '@/components/sections/Testimonials';
 import { FAQ } from '@/components/sections/FAQ';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { LiveContributions } from '@/components/sections/LiveContributions';
+import { HowIBuildSection } from '@/components/sections/HowIBuildSection';
 import { CredentialsVault } from '@/components/sections/CredentialsVault';
 import { services, experience, tools } from '@/data/tools';
 import { faqs } from '@/data/faqs';
 import { pageEnter, stagger, fadeUp, fadeLeft, fadeRight, scaleIn } from '@/lib/motion';
-import { Seo, buildPersonJsonLd, buildBreadcrumbJsonLd, buildFaqJsonLd } from '@/lib/seo';
+import { Seo, SITE_URL, buildPersonJsonLd, buildBreadcrumbJsonLd, buildFaqJsonLd } from '@/lib/seo';
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
 import { getToolIcon } from '@/components/ui/ToolIcon';
 import { Video, Bot, Sparkles, Box, Zap, Compass } from 'lucide-react';
@@ -32,8 +33,8 @@ export default function About() {
   return (
     <motion.div variants={pageEnter} initial="hidden" animate="visible" exit="exit" className="page-wrapper">
       <Seo
-        title="About Hardik Bhaskar — Systems Architect & AI Systems Builder"
-        description="Systems developer and AI builder focused on robust low-level architectures, autonomous intelligence systems, and high-performance user interfaces — from bare-metal OS kernels to cinematic 3D web experiences."
+        title="About Hardik Bhaskar — Engineering Workflow, Process & AI Systems Builder"
+        description="Hardik Bhaskar is a systems architect and AI builder who turns ambiguous problems into tested, shipped systems. Explore his 9-stage engineering workflow — from problem validation and architecture through AI-accelerated implementation, review, testing, and ownership — and learn how he builds Rust desktop platforms, bare-metal OS kernels, and autonomous AI systems."
         path="/about"
         jsonLd={[
           buildPersonJsonLd(),
@@ -42,6 +43,25 @@ export default function About() {
             { name: 'About', path: '/about' },
           ]),
           buildFaqJsonLd(faqs),
+          {
+            '@context': 'https://schema.org',
+            '@type': 'HowTo',
+            name: 'How Hardik Bhaskar Builds Software — Engineering Workflow',
+            description:
+              'A 9-stage engineering workflow for turning ambiguous problems into tested, shipped systems. Problem definition, validation, specification, architecture, AI-accelerated implementation, review, testing, iteration, and deliberate release.',
+            author: { '@id': `${SITE_URL}/#person` },
+            step: [
+              { '@type': 'HowToStep', position: 1, name: 'Problem', text: 'Understand the actual problem — not the feature request, but the underlying friction that makes it real.' },
+              { '@type': 'HowToStep', position: 2, name: 'Validate', text: 'Verify the problem is real and the proposed direction makes sense before committing to a solution.' },
+              { '@type': 'HowToStep', position: 3, name: 'Specify', text: 'Define requirements, constraints, edge cases, and acceptance criteria in writing before architecture.' },
+              { '@type': 'HowToStep', position: 4, name: 'Architect', text: 'Decide how the system should work, what tradeoffs to make, and why — the core engineering decision.' },
+              { '@type': 'HowToStep', position: 5, name: 'Implement', text: 'Build the system. AI accelerates the work — typed interfaces, test scaffolding, boilerplate, documentation — but engineering judgment drives it.' },
+              { '@type': 'HowToStep', position: 6, name: 'Review', text: 'Critically review the implementation against the specification and architecture — not just confirm it runs.' },
+              { '@type': 'HowToStep', position: 7, name: 'Test', text: 'Manual and automated testing including edge cases, failure modes, and regressions — as engineering, not ceremony.' },
+              { '@type': 'HowToStep', position: 8, name: 'Iterate', text: 'Improve based on what testing and real usage reveal. Repeat until the system is right, not just passing.' },
+              { '@type': 'HowToStep', position: 9, name: 'Ship', text: 'Deliberately put the system into use and own what happens next. Shipping begins the responsibility, not ends it.' },
+            ],
+          },
         ]}
       />
       <main className="pt-16">
@@ -172,6 +192,11 @@ export default function About() {
               </motion.div>
             </div>
           </section>
+        </HighlightPoint>
+
+        {/* ── How I Build ── */}
+        <HighlightPoint id="about-how-i-build" color="#F59E0B" label="PROCESS // ENGINEERING">
+          <HowIBuildSection />
         </HighlightPoint>
 
         {/* ── Live Contributions & Activity ── */}
