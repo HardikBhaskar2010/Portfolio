@@ -1,4 +1,4 @@
-import { useEffect, useRef, lazy, Suspense } from 'react';
+import { useEffect, useRef, lazy, Suspense, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
@@ -10,6 +10,7 @@ import { GridDistortion } from '@/components/effects/GridDistortion';
 import GradientWaves from '@/components/ui/GradientWaves';
 import { Navbar } from '@/components/layout/Navbar';
 import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
+import { IntroScreen } from '@/components/ui/IntroScreen';
 import Home from '@/pages/Home';
 
 // Lazy-load subpages and 3D scenes to split bundle and accelerate initial paint
@@ -146,6 +147,12 @@ function AnimatedRoutes() {
 /* ── Root App content ───────────────────────────────────────── */
 function AppContent() {
   useLenis();
+  const [showIntro, setShowIntro] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('nointro') === 'true') return false;
+    return true;
+  });
 
   /* ── Prevent browser from caching scroll position on route transitions ── */
   useEffect(() => {
@@ -189,6 +196,8 @@ function AppContent() {
 
   return (
     <>
+      {showIntro && <IntroScreen onComplete={() => setShowIntro(false)} />}
+
       {/* ── Backmost Layer: GradientWaves (React Bits) ── */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
         <GradientWaves
