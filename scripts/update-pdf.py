@@ -179,9 +179,9 @@ def main():
     writer.add_annotation(page_number=1, annotation=create_link_annot(170, 18, 125, 15, "https://github.com/HardikBhaskar2010"))
 
     # ── PDF Metadata ───────────────────────────────────────────
-    title = 'Hardik Bhaskar — Systems Architect & AI Systems Builder'
+    title = 'Hardik Bhaskar - Systems Architect & AI Systems Builder'
     author = 'Hardik Bhaskar'
-    subject = 'Portfolio — Systems Architecture, AI Systems & Software Engineering'
+    subject = 'Portfolio - Systems Architecture, AI Systems & Software Engineering'
     keywords = 'Hardik Bhaskar, Systems Architect, AI Systems Builder, Operating Systems, Autonomous AI, MahinaOS, Veronica, AEGIS'
 
     writer.add_metadata({
