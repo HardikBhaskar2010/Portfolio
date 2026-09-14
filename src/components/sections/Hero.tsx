@@ -180,7 +180,7 @@ export function Hero() {
                 href="/docs/Hardik_Bhaskar_Portfolio.pdf"
                 download
                 onMouseEnter={playHoverTick}
-                onClick={() => { playClick(); track.ctaClick('Download Dossier', 'hero'); }}
+                onClick={() => { playClick(); track.downloadDossier('hero'); }}
                 className="w-full xs:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/15 bg-white/[0.03] hover:bg-white/[0.08] hover:border-cyan/40 text-white font-ui text-sm font-medium transition-all duration-200 group"
               >
                 <Download size={14} className="text-cyan group-hover:translate-y-0.5 transition-transform" />

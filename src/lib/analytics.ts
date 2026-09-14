@@ -1,64 +1,183 @@
 /**
- * analytics.ts — Vercel Analytics event-tracking helpers
+ * analytics.ts — Unified Vercel Analytics & Microsoft Clarity Event Tracker
+ *
+ * Provides typed helpers to synchronize user behavior, custom events,
+ * and high-value session upgrades to both Vercel Analytics and Microsoft Clarity.
  *
  * Usage:
- *   import { track } from '@/lib/analytics';
+ *   import { track, clarity } from '@/lib/analytics';
  *   track.ctaClick('Let\'s work together', 'hero');
+ *   clarity.upgrade('contact_submitted');
  */
 import { track as vercelTrack } from '@vercel/analytics';
 
 /* ─────────────────────────────────────────────────────────────
-   TYPED EVENTS  (everything tracked in one place)
+   MICROSOFT CLARITY TYPED INTERFACE
+───────────────────────────────────────────────────────────── */
+
+declare global {
+  interface Window {
+    clarity?: {
+      (action: 'event', eventName: string): void;
+      (action: 'set', key: string, value: string | number | boolean): void;
+      (action: 'identify', customId: string, sessionMetadata?: string, pageMetadata?: string, friendlyName?: string): void;
+      (action: 'upgrade', reason: string): void;
+      (action: 'consent', consent?: boolean): void;
+      (action: string, ...args: unknown[]): void;
+      q?: unknown[];
+    };
+  }
+}
+
+/**
+ * Microsoft Clarity programmatic helpers
+ */
+export const clarity = {
+  /** Track custom event in Clarity */
+  event: (eventName: string) => {
+    try {
+      if (typeof window !== 'undefined' && typeof window.clarity === 'function') {
+        window.clarity('event', eventName);
+      }
+    } catch {
+      // Safe fallback if blocked by privacy shields
+    }
+  },
+
+  /** Set custom dimension/tag for filtering recordings and heatmaps */
+  tag: (key: string, value: string | number | boolean) => {
+    try {
+      if (typeof window !== 'undefined' && typeof window.clarity === 'function') {
+        window.clarity('set', key, value);
+      }
+    } catch {}
+  },
+
+  /**
+   * Prioritize and bookmark the current session recording in Clarity.
+   * Useful for key conversion events (e.g. form submission, dossier download).
+   */
+  upgrade: (reason: string) => {
+    try {
+      if (typeof window !== 'undefined' && typeof window.clarity === 'function') {
+        window.clarity('upgrade', reason);
+      }
+    } catch {}
+  },
+
+  /** Identify custom user or session attribute */
+  identify: (customId: string, sessionMetadata?: string, pageMetadata?: string, friendlyName?: string) => {
+    try {
+      if (typeof window !== 'undefined' && typeof window.clarity === 'function') {
+        window.clarity('identify', customId, sessionMetadata, pageMetadata, friendlyName);
+      }
+    } catch {}
+  },
+};
+
+/* ─────────────────────────────────────────────────────────────
+   TYPED UNIFIED EVENTS (Dispatches to both Vercel & Clarity)
 ───────────────────────────────────────────────────────────── */
 
 export const track = {
-
   /* ── Navigation ────────────────────────────────────────── */
-  navClick: (label: string) =>
-    vercelTrack('nav_click', { label }),
+  navClick: (label: string) => {
+    vercelTrack('nav_click', { label });
+    clarity.event('nav_click');
+    clarity.tag('nav_target', label);
+  },
 
-  /* ── Hero CTAs ──────────────────────────────────────────── */
-  ctaClick: (label: string, location: string) =>
-    vercelTrack('cta_click', { label, location }),
+  /* ── Hero & Page CTAs ───────────────────────────────────── */
+  ctaClick: (label: string, location: string) => {
+    vercelTrack('cta_click', { label, location });
+    clarity.event('cta_click');
+    clarity.tag('cta_label', label);
+    clarity.tag('cta_location', location);
+    if (label.toLowerCase().includes('dossier') || label.toLowerCase().includes('pdf')) {
+      clarity.upgrade('dossier_download_intent');
+    }
+  },
+
+  /* ── Dossier / PDF Downloads ────────────────────────────── */
+  downloadDossier: (location: string) => {
+    vercelTrack('download_dossier', { location });
+    clarity.event('download_dossier');
+    clarity.tag('dossier_location', location);
+    clarity.upgrade('dossier_downloaded');
+  },
 
   /* ── Project interactions ───────────────────────────────── */
-  projectView: (title: string, slug: string) =>
-    vercelTrack('project_view', { title, slug }),
+  projectView: (title: string, slug: string) => {
+    vercelTrack('project_view', { title, slug });
+    clarity.event('project_view');
+    clarity.tag('active_project', slug);
+  },
 
-  projectLinkClick: (title: string, url: string) =>
-    vercelTrack('project_link_click', { title, url }),
+  projectLinkClick: (title: string, url: string) => {
+    vercelTrack('project_link_click', { title, url });
+    clarity.event('project_link_click');
+    clarity.tag('project_target_url', url);
+  },
 
   /* ── Contact ────────────────────────────────────────────── */
-  contactFormStart: () =>
-    vercelTrack('contact_form_start'),
+  contactFormStart: () => {
+    vercelTrack('contact_form_start');
+    clarity.event('contact_form_start');
+  },
 
-  contactFormSubmit: (success: boolean) =>
-    vercelTrack('contact_form_submit', { success }),
+  contactFormSubmit: (success: boolean) => {
+    vercelTrack('contact_form_submit', { success });
+    clarity.event('contact_form_submit');
+    clarity.tag('contact_success', success);
+    if (success) {
+      clarity.upgrade('contact_form_submitted');
+    }
+  },
 
   /* ── Social links ───────────────────────────────────────── */
-  socialClick: (platform: string, location: string) =>
-    vercelTrack('social_click', { platform, location }),
+  socialClick: (platform: string, location: string) => {
+    vercelTrack('social_click', { platform, location });
+    clarity.event('social_click');
+    clarity.tag('social_platform', platform);
+  },
 
   /* ── Email / phone taps ─────────────────────────────────── */
-  emailClick: (location: string) =>
-    vercelTrack('email_click', { location }),
+  emailClick: (location: string) => {
+    vercelTrack('email_click', { location });
+    clarity.event('email_click');
+    clarity.tag('email_location', location);
+    clarity.upgrade('email_intent');
+  },
 
-  phoneClick: (location: string) =>
-    vercelTrack('phone_click', { location }),
+  phoneClick: (location: string) => {
+    vercelTrack('phone_click', { location });
+    clarity.event('phone_click');
+    clarity.tag('phone_location', location);
+  },
 
   /* ── Scroll milestones ──────────────────────────────────── */
-  scrollDepth: (percent: 25 | 50 | 75 | 100) =>
-    vercelTrack('scroll_depth', { percent }),
+  scrollDepth: (percent: 25 | 50 | 75 | 100) => {
+    vercelTrack('scroll_depth', { percent });
+    clarity.event(`scroll_${percent}`);
+    clarity.tag('scroll_depth', percent);
+  },
 
   /* ── Page-level ─────────────────────────────────────────── */
-  pageView: (page: string) =>
-    vercelTrack('page_view_custom', { page }),
+  pageView: (page: string) => {
+    vercelTrack('page_view_custom', { page });
+    clarity.event('page_view');
+    clarity.tag('page_path', page);
+  },
 
   /* ── Mobile menu ────────────────────────────────────────── */
-  mobileMenuOpen: () =>
-    vercelTrack('mobile_menu_open'),
+  mobileMenuOpen: () => {
+    vercelTrack('mobile_menu_open');
+    clarity.event('mobile_menu_open');
+  },
 
   /* ── Marquee / tech badge hover ─────────────────────────── */
-  techBadgeHover: (tech: string) =>
-    vercelTrack('tech_badge_hover', { tech }),
+  techBadgeHover: (tech: string) => {
+    vercelTrack('tech_badge_hover', { tech });
+    clarity.event('tech_badge_hover');
+  },
 };

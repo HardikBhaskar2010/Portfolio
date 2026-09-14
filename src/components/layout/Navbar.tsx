@@ -210,7 +210,7 @@ export function Navbar() {
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.94 }}
                 onMouseEnter={playHoverTick}
-                onClick={() => track.ctaClick('Download Dossier', 'navbar')}
+                onClick={() => track.downloadDossier('navbar')}
                 className="hidden lg:inline-flex items-center gap-1 font-mono text-muted hover:text-heading px-2.5 py-1 rounded-full border border-white/10 hover:border-cyan/40 transition-all duration-200"
                 style={{
                   fontSize: `${10 - t * 0.5}px`,
@@ -326,7 +326,7 @@ export function Navbar() {
                 <a
                   href="/docs/Hardik_Bhaskar_Portfolio.pdf"
                   download
-                  onClick={() => { track.ctaClick('Download Dossier', 'mobile-menu'); setMenuOpen(false); }}
+                  onClick={() => { track.downloadDossier('mobile-menu'); setMenuOpen(false); }}
                   className="inline-flex items-center gap-2 font-ui text-xs uppercase tracking-widest text-white/90 bg-white/5 border border-white/15 px-6 py-2.5 rounded-full"
                 >
                   <span>Download CV / Dossier (PDF)</span>

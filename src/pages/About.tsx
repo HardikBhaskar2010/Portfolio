@@ -18,6 +18,7 @@ import { Seo, SITE_URL, buildPersonJsonLd, buildBreadcrumbJsonLd, buildFaqJsonLd
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
 import { getToolIcon } from '@/components/ui/ToolIcon';
 import { Video, Bot, Sparkles, Box, Zap, Compass } from 'lucide-react';
+import { track } from '@/lib/analytics';
 
 export default function About() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -139,6 +140,7 @@ export default function About() {
                     <a
                       href="/docs/Hardik_Bhaskar_Portfolio.pdf"
                       download
+                      onClick={() => track.downloadDossier('about')}
                       className="inline-flex items-center gap-1.5 font-mono text-xs text-white/80 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full border border-white/10 transition-colors"
                     >
                       <span>Download Portfolio Dossier (PDF) ↓</span>
