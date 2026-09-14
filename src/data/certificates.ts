@@ -29,8 +29,8 @@ export interface PortfolioDossier {
 }
 
 export const portfolioDossier: PortfolioDossier = {
-  title: 'Hardik Bhaskar — Executive Portfolio & Technical Dossier',
-  subtitle: 'Full 2-Page Architecture Brief & Flagship Build Logs',
+  title: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
+  subtitle: 'Executive Portfolio & Technical Dossier · 2-Page Architecture Brief',
   version: '2026.1',
   pages: 2,
   format: 'PDF',

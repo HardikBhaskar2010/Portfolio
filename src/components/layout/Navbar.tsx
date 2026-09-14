@@ -333,11 +333,13 @@ export function Navbar() {
                 </a>
               </motion.div>
 
-              <motion.div variants={mobileMenuItem} className="mt-8 flex gap-6">
+              <motion.div variants={mobileMenuItem} className="mt-8 flex gap-4 flex-wrap">
                 {[
-                  { label: 'Twitter',  href: 'https://x.com/kitsune_luna05' },
-                  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/' },
-                  { label: 'GitHub',   href: 'https://github.com/HardikBhaskar2010/' },
+                  { label: 'GitHub',    href: 'https://github.com/HardikBhaskar2010/' },
+                  { label: 'LinkedIn',  href: 'https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/' },
+                  { label: 'Twitter',   href: 'https://x.com/kitsune_luna05' },
+                  { label: 'Instagram', href: 'https://www.instagram.com/lunakitsune.dev/' },
+                  { label: 'Reddit',    href: 'https://www.reddit.com/user/According_Still9291/' },
                 ].map(s => (
                   <a key={s.label} href={s.href} target="_blank" rel="noreferrer"
                     onClick={() => track.socialClick(s.label, 'mobile-menu')}

@@ -25,11 +25,11 @@ export function buildPersonJsonLd() {
       width: 500,
       height: 500,
     },
-    jobTitle: 'Interactive Web Developer & AI Systems Builder',
+    jobTitle: 'Systems Architect & AI Systems Builder',
     disambiguatingDescription:
       'Systems Architect, Low-Level Engineer, and AI Systems Builder based in India. Creator of MahinaOS (bare-metal x86_64 OS), Vectoris (native Rust desktop platform), and AEGIS (multi-agent intelligence platform). Distinct from academic medical researchers or energy engineers of the same name.',
     description:
-      'I design and build cinematic web experiences, AI-powered systems, and futuristic interactive products using React, TypeScript, Three.js, and Framer Motion.',
+      'Hardik Bhaskar is a Systems Architect and AI Systems Builder focused on operating systems, autonomous AI, intelligent software systems, and engineering.',
     email: 'hardik.bhaskar2010@gmail.com',
     worksFor: {
       '@type': 'Organization',
@@ -95,14 +95,21 @@ export function buildPersonJsonLd() {
     ],
     subjectOf: {
       '@type': 'DigitalDocument',
-      name: 'Hardik Bhaskar Executive Portfolio & Technical Dossier',
+      name: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
+      headline: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
+      description: 'Portfolio — Systems Architecture, AI Systems & Software Engineering',
       url: `${SITE_URL}/docs/Hardik_Bhaskar_Portfolio.pdf`,
       fileFormat: 'application/pdf',
+      author: {
+        '@id': `${SITE_URL}/#person`,
+      },
     },
     sameAs: [
       'https://github.com/HardikBhaskar2010',
       'https://x.com/kitsune_luna05',
       'https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/',
+      'https://www.instagram.com/lunakitsune.dev/',
+      'https://www.reddit.com/user/According_Still9291/',
     ],
     nationality: {
       '@type': 'Country',
@@ -118,15 +125,27 @@ export function buildWebsiteJsonLd() {
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
-    name: 'Hardik Bhaskar',
+    name: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
     alternateName: [
+      'Hardik Bhaskar',
       'Hardik Bhaskar Portfolio',
       'Hardik Bhaskar Developer',
       'Hardik Bhaskar — Portfolio',
     ],
     description:
-      'Official portfolio of Hardik Bhaskar — Systems architect, low-level engineer, and interactive 3D web developer.',
+      'Official portfolio of Hardik Bhaskar — Systems Architect & AI Systems Builder focused on operating systems, autonomous AI, intelligent software systems, and engineering.',
     author: { '@id': `${SITE_URL}/#person` },
+    publisher: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: 'Hardik Bhaskar',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/favicon-512x512.png`,
+        width: 512,
+        height: 512,
+      },
+    },
     inLanguage: 'en-US',
     potentialAction: {
       '@type': 'SearchAction',

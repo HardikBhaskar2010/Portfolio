@@ -11,9 +11,11 @@ const links = [
 ];
 
 const socials = [
-  { label: 'Twitter / X', href: 'https://x.com/kitsune_luna05' },
-  { label: 'LinkedIn',    href: 'https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/' },
   { label: 'GitHub',      href: 'https://github.com/HardikBhaskar2010/' },
+  { label: 'LinkedIn',    href: 'https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/' },
+  { label: 'Twitter / X', href: 'https://x.com/kitsune_luna05' },
+  { label: 'Instagram',   href: 'https://www.instagram.com/lunakitsune.dev/' },
+  { label: 'Reddit',      href: 'https://www.reddit.com/user/According_Still9291/' },
 ];
 
 export function Footer() {
@@ -129,7 +131,7 @@ export function Footer() {
                 </span>
               </div>
               <p className="font-ui text-sm text-slate-200 max-w-[280px] leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                Building cinematic web experiences, AI systems &amp; futuristic interactive products.
+                Building operating systems, autonomous AI, and intelligent software systems.
               </p>
               <div className="flex items-center gap-3 flex-wrap">
                 {socials.map((s) => (

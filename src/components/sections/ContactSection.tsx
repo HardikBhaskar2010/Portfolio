@@ -50,9 +50,11 @@ export function ContactSection() {
   };
 
   const socials = [
-    { label: 'Twitter / X', href: 'https://x.com/kitsune_luna05' },
-    { label: 'LinkedIn',    href: 'https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/' },
     { label: 'GitHub',      href: 'https://github.com/HardikBhaskar2010/' },
+    { label: 'LinkedIn',    href: 'https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/' },
+    { label: 'Twitter / X', href: 'https://x.com/kitsune_luna05' },
+    { label: 'Instagram',   href: 'https://www.instagram.com/lunakitsune.dev/' },
+    { label: 'Reddit',      href: 'https://www.reddit.com/user/According_Still9291/' },
   ];
 
   return (
@@ -118,7 +120,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <p className="font-heading font-semibold text-heading text-sm">Hardik Bhaskar</p>
-                  <p className="font-ui text-xs text-cyan">Interactive Web Developer · AI Systems Builder</p>
+                  <p className="font-ui text-xs text-cyan">Systems Architect · AI Systems Builder</p>
                   <p className="font-ui text-[10px] text-muted mt-0.5">Based in India · Works globally</p>
                 </div>
               </div>

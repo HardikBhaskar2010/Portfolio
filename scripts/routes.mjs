@@ -65,16 +65,16 @@ export function getRoutes() {
       changefreq: 'weekly',
       priority: '1.0',
       lastmod: today,
-      title: 'Hardik Bhaskar — Portfolio | Systems Architect & 3D Developer',
+      title: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
       description:
-        'Official portfolio of Hardik Bhaskar — Systems architect, low-level engineer, and interactive 3D web developer. Explore AI systems, Rust apps, and WebGL projects.',
+        'Official portfolio of Hardik Bhaskar — Systems Architect & AI Systems Builder focused on operating systems, autonomous AI, intelligent software systems, and engineering.',
       ogImage: '/og-preview.png',
       jsonLd: [buildPersonJsonLd(), buildWebsiteJsonLd(), buildFaqJsonLd(faqs)],
       fallbackHtml: `
     <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
-      <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">Hardik Bhaskar — Portfolio | Systems Architect &amp; 3D Developer</h1>
+      <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">Hardik Bhaskar — Systems Architect &amp; AI Systems Builder</h1>
       <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
-        Building cinematic web experiences, AI systems, and futuristic interactive products. React · Three.js · TypeScript.
+        Building operating systems, autonomous AI, and intelligent software systems.
       </p>
       <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
         <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Explore Projects →</a>

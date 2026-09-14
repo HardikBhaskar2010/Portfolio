@@ -121,7 +121,7 @@ export function Hero() {
                   style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}
                 >
                   <span className="sr-only">
-                    Hardik Bhaskar — Portfolio | Systems Architect &amp; 3D Developer
+                    Hardik Bhaskar — Systems Architect &amp; AI Systems Builder
                   </span>
                   {tagline.map((word, i) => (
                     <motion.span
@@ -149,10 +149,10 @@ export function Hero() {
               variants={fadeUpDelay(0.75)}
               initial="hidden"
               animate="visible"
-              className="font-ui text-body text-base leading-[1.85] max-w-[440px] mb-8"
+              className="font-ui text-body text-base leading-[1.85] max-w-[460px] mb-8"
             >
-              Hi, I'm <span className="text-heading font-medium">Hardik Bhaskar</span>. I build low-level systems in <span className="text-heading font-medium">Rust</span> &amp; <span className="text-heading font-medium">C++</span>,
-              bare-metal operating systems, autonomous AI agents, and cinematic 3D web applications.{' '}
+              Building operating systems, autonomous AI, and intelligent software systems. Low-level systems in <span className="text-heading font-medium">Rust</span> &amp; <span className="text-heading font-medium">C++</span>,
+              bare-metal kernels, and autonomous AI platforms.{' '}
               <span className="text-cyan">Available for systems engineering and AI product contracts.</span>
             </motion.p>
 

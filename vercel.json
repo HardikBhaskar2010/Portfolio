@@ -20,7 +20,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!api|images|docs|videos|favicon\\.svg|icons\\.svg|og-preview\\.png|og-preview\\.webp|robots\\.txt|sitemap\\.xml|llms\\.txt).*)",
+      "source": "/((?!api|images|docs|videos|favicon|apple-touch-icon|icons|og-preview|google|site\\.webmanifest|robots\\.txt|sitemap\\.xml|llms\\.txt|ba4a24c6fef4406899d311af30c603fc\\.txt|.*?\\.(?:ico|png|svg|webp|jpg|jpeg|gif|pdf|txt|xml|json|webmanifest|html)).*)",
       "destination": "/index.html"
     }
   ]
