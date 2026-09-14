@@ -1,6 +1,11 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { playTransitionWhoosh, playHoverTick } from '@/lib/audio';
+import {
+  playApertureSplitSound,
+  playSystemReadyChime,
+  playHoverTick,
+  unlockAudio,
+} from '@/lib/audio';
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$*!%&<>';
 const TARGET_NAME = 'HARDIK BHASKAR';
@@ -52,6 +57,13 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
   const prefersReducedMotion = typeof window !== 'undefined'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Pre-unlock AudioContext on first pointer touch or click anywhere
+  useEffect(() => {
+    const handleFirstGesture = () => unlockAudio();
+    window.addEventListener('pointerdown', handleFirstGesture, { once: true });
+    return () => window.removeEventListener('pointerdown', handleFirstGesture);
+  }, []);
+
   const triggerExit = useCallback(() => {
     if (hasFinishedRef.current) return;
     hasFinishedRef.current = true;
@@ -60,8 +72,10 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
     setNameText(TARGET_NAME);
     setActiveStage(BOOT_STAGES[BOOT_STAGES.length - 1]);
 
-    // Play subtle whoosh exit audio
-    playTransitionWhoosh();
+    // Play pneumatic shutter aperture split audio (laser unlatch + resonant whoosh)
+    if (!prefersReducedMotion) {
+      playApertureSplitSound();
+    }
 
     // Trigger Split-Open Shutter + Content Fade Out
     setPhase('exiting');
@@ -69,13 +83,14 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
       setPhase('done');
       onComplete();
     }, 750);
-  }, [onComplete]);
+  }, [onComplete, prefersReducedMotion]);
 
   // Keyboard shortcut listener (ESC, Enter, Space to skip instantly)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
+        unlockAudio();
         triggerExit();
       }
     };
@@ -110,7 +125,7 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
       setDisplayNum(currentNum);
       setNameText(scrambleText(TARGET_NAME, eased));
 
-      // Audio micro-ticks at quarters
+      // Audio micro-ticks at quarters (25%, 50%, 75%)
       const milestone = Math.floor(currentNum / 25) * 25;
       if (milestone > lastTickMilestone && milestone < 100) {
         lastTickMilestone = milestone;
@@ -129,6 +144,8 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
         rafId = requestAnimationFrame(frame);
       } else {
         setNameText(TARGET_NAME);
+        // Play dual-harmonic chime signaling 100% initialization completion
+        playSystemReadyChime();
         setTimeout(triggerExit, 250);
       }
     };

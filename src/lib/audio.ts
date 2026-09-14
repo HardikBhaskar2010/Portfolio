@@ -115,3 +115,90 @@ export function playTransitionWhoosh() {
     source.start();
   } catch {}
 }
+
+/** IntroScreen 100% completion — futuristic dual-harmonic chime */
+export function playSystemReadyChime() {
+  try {
+    const ac = getCtx();
+    if (ac.state === 'suspended') ac.resume();
+
+    // Tone 1: Fundamental
+    const osc1 = ac.createOscillator();
+    const gain1 = ac.createGain();
+    osc1.connect(gain1);
+    gain1.connect(ac.destination);
+
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(587.33, ac.currentTime); // D5
+    gain1.gain.setValueAtTime(0.045, ac.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.22);
+    osc1.start(ac.currentTime);
+    osc1.stop(ac.currentTime + 0.22);
+
+    // Tone 2: Harmonic Fifth (staggered by 45ms)
+    const osc2 = ac.createOscillator();
+    const gain2 = ac.createGain();
+    osc2.connect(gain2);
+    gain2.connect(ac.destination);
+
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(880, ac.currentTime + 0.045); // A5
+    gain2.gain.setValueAtTime(0.0001, ac.currentTime);
+    gain2.gain.setValueAtTime(0.05, ac.currentTime + 0.045);
+    gain2.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.32);
+    osc2.start(ac.currentTime + 0.045);
+    osc2.stop(ac.currentTime + 0.32);
+  } catch {}
+}
+
+/** IntroScreen Split-Open — pneumatic shutter release & stereo laser whoosh */
+export function playApertureSplitSound() {
+  try {
+    const ac = getCtx();
+    if (ac.state === 'suspended') ac.resume();
+
+    // 1. High-frequency seam snap / laser unlatch
+    const snapOsc = ac.createOscillator();
+    const snapGain = ac.createGain();
+    snapOsc.connect(snapGain);
+    snapGain.connect(ac.destination);
+
+    snapOsc.type = 'triangle';
+    snapOsc.frequency.setValueAtTime(1800, ac.currentTime);
+    snapOsc.frequency.exponentialRampToValueAtTime(240, ac.currentTime + 0.09);
+
+    snapGain.gain.setValueAtTime(0.05, ac.currentTime);
+    snapGain.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.09);
+
+    snapOsc.start(ac.currentTime);
+    snapOsc.stop(ac.currentTime + 0.09);
+
+    // 2. Wide pneumatic whoosh as shutters slide apart
+    const bufLen = Math.floor(ac.sampleRate * 0.35);
+    const buffer = ac.createBuffer(1, bufLen, ac.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufLen; i++) data[i] = Math.random() * 2 - 1;
+
+    const source = ac.createBufferSource();
+    source.buffer = buffer;
+
+    const filter = ac.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(200, ac.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(2800, ac.currentTime + 0.18);
+    filter.frequency.exponentialRampToValueAtTime(350, ac.currentTime + 0.35);
+    filter.Q.setValueAtTime(1.8, ac.currentTime);
+
+    const whooshGain = ac.createGain();
+    whooshGain.gain.setValueAtTime(0.06, ac.currentTime);
+    whooshGain.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.35);
+
+    source.connect(filter);
+    filter.connect(whooshGain);
+    whooshGain.connect(ac.destination);
+
+    source.start(ac.currentTime);
+    source.stop(ac.currentTime + 0.35);
+  } catch {}
+}
+
