@@ -231,7 +231,8 @@ export function Hero() {
               <div className="h-64 overflow-hidden relative">
                 <img
                   src="/images/avatar.webp"
-                  alt="Hardik Bhaskar"
+                  alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
+                  title="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
                   width={340}
                   height={256}
                   loading="eager"
@@ -251,9 +252,9 @@ export function Hero() {
               </div>
               <div className="p-5 flex flex-col gap-1">
                 <p className="font-heading font-bold text-heading text-base">Hardik Bhaskar</p>
-                <p className="font-ui text-xs text-cyan">Interactive Web Developer · AI Systems Builder</p>
+                <p className="font-ui text-xs text-cyan">Systems Architect · AI Systems Builder</p>
                 <p className="font-ui text-xs text-muted mt-1 leading-relaxed">
-                  Building 3D web experiences & intelligent systems.
+                  Building operating systems, autonomous AI &amp; intelligent systems.
                 </p>
               </div>
             </motion.div>
@@ -278,7 +279,8 @@ export function Hero() {
                     <div className="aspect-video overflow-hidden relative">
                       <img
                         src={p.image}
-                        alt={p.title}
+                        alt={`${p.title} — ${p.subtitle || 'Systems Architecture'} by Hardik Bhaskar`}
+                        title={`${p.title} — Hardik Bhaskar`}
                         width={160}
                         height={90}
                         loading="lazy"

@@ -67,7 +67,11 @@ export function Seo({
       <title>{title}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={canonicalUrl} />
-      {noindex && <meta name="robots" content="noindex, follow" />}
+      {noindex ? (
+        <meta name="robots" content="noindex, follow" />
+      ) : (
+        <meta name="robots" content="index, follow, max-image-preview:large" />
+      )}
 
       {/* Open Graph */}
       <meta property="og:title" content={title} />
@@ -75,6 +79,7 @@ export function Seo({
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={ogImageUrl} />
       <meta property="og:image:secure_url" content={ogImageUrl} />
+      <meta property="og:image:alt" content={title} />
       {ogImage === '/og-preview.png' && (
         <>
           <meta property="og:image:width" content="1200" />
@@ -86,6 +91,7 @@ export function Seo({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImageUrl} />
+      <meta name="twitter:image:alt" content={title} />
       <meta name="twitter:url" content={canonicalUrl} />
 
       {/* JSON-LD structured data */}

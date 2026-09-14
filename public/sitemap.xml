@@ -1,51 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://hardikbhaskar.vercel.app/</loc>
     <lastmod>2026-09-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/avatar.webp</image:loc>
+      <image:title>Hardik Bhaskar — Systems Architect &amp; AI Systems Builder</image:title>
+      <image:caption>Official profile portrait of Hardik Bhaskar, Systems Architect &amp; AI Systems Builder</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/favicon-512x512.png</image:loc>
+      <image:title>Hardik Bhaskar — Kitsune Dev Brand Emblem</image:title>
+      <image:caption>Hardik Bhaskar official brand emblem and developer identity</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-vectoris.webp</image:loc>
+      <image:title>Vectoris — AI-Native Engineering &amp; Takeoff Workstation</image:title>
+      <image:caption>Vectoris desktop platform blueprint perception and MEP takeoff interface by Hardik Bhaskar</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-mahina-os.webp</image:loc>
+      <image:title>MahinaOS — Bare-Metal x86_64 Operating System</image:title>
+      <image:caption>MahinaOS deterministic kernel, early boot graphics, and desktop shell by Hardik Bhaskar</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-ai-veronica.webp</image:loc>
+      <image:title>Veronica AI — Sovereign Conversational Intelligence System</image:title>
+      <image:caption>Veronica AI persistent memory graph and agent orchestration system by Hardik Bhaskar</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-aegis.webp</image:loc>
+      <image:title>AEGIS — Multi-Agent Decision Intelligence Platform</image:title>
+      <image:caption>AEGIS multi-agent reasoning and decision intelligence platform by Hardik Bhaskar</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://hardikbhaskar.vercel.app/about</loc>
     <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/avatar.webp</image:loc>
+      <image:title>Hardik Bhaskar — Portrait &amp; Engineering Biography</image:title>
+      <image:caption>Hardik Bhaskar, Systems Architect &amp; AI Systems Builder based in India</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/docs/certificates/MYBharat_VBYLD_2026.png</image:loc>
+      <image:title>Viksit Bharat Young Leaders Dialogue 2026 Certificate</image:title>
+      <image:caption>Ministry of Youth Affairs and Sports Government of India recognition awarded to Hardik Bhaskar</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/favicon-512x512.png</image:loc>
+      <image:title>Hardik Bhaskar — Kitsune Dev Official Emblem</image:title>
+      <image:caption>Hardik Bhaskar Kitsune Dev brand emblem</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://hardikbhaskar.vercel.app/projects</loc>
     <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-vectoris.webp</image:loc>
+      <image:title>Vectoris — AI-Native Engineering &amp; Takeoff Workstation by Hardik Bhaskar</image:title>
+      <image:caption>Vectoris — Vectoris — AI-Native Project Management &amp; Project Intelligence Workspace for Electrical and MEP Engineering</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-mahina-os.webp</image:loc>
+      <image:title>Mahina OS — Experimental OS Interface by Hardik Bhaskar</image:title>
+      <image:caption>Mahina OS — A reimagined operating system interface — brutally minimal, intentionally different. MahinaOS is an experimental OS-shell aesthetic built for those who think modern computing has gotten too comfortable.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-ai-veronica.webp</image:loc>
+      <image:title>Veronica AI — Conversational AI System by Hardik Bhaskar</image:title>
+      <image:caption>Veronica AI — A next-generation conversational AI system with custom agent orchestration, persistent memory graphs, and emotionally adaptive dialogue — built to feel genuinely intelligent.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-aegis.webp</image:loc>
+      <image:title>AEGIS — AI Decision Intelligence Platform by Hardik Bhaskar</image:title>
+      <image:caption>AEGIS — AI decision intelligence platform that orchestrates agentic data pipelines on BigQuery and Vertex AI — turning raw enterprise data into structured, evidence-based strategic decisions.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-stem-adventure.webp</image:loc>
+      <image:title>STEM Idea Adventure — Interactive Learning Platform by Hardik Bhaskar</image:title>
+      <image:caption>STEM Idea Adventure — AI-powered STEM idea generator that creates personalized science experiments, engineering challenges, and learning paths for K-12 students using multi-agent AI.</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://hardikbhaskar.vercel.app/projects/vectoris</loc>
     <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-vectoris.webp</image:loc>
+      <image:title>Vectoris — AI-Native Engineering &amp; Takeoff Workstation by Hardik Bhaskar</image:title>
+      <image:caption>Vectoris architecture, interface, and system design overview engineered by Hardik Bhaskar</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://hardikbhaskar.vercel.app/projects/mahinaos</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-mahina-os.webp</image:loc>
+      <image:title>Mahina OS — Experimental OS Interface by Hardik Bhaskar</image:title>
+      <image:caption>Mahina OS architecture, interface, and system design overview engineered by Hardik Bhaskar</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://hardikbhaskar.vercel.app/projects/veronica-ai</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-ai-veronica.webp</image:loc>
+      <image:title>Veronica AI — Conversational AI System by Hardik Bhaskar</image:title>
+      <image:caption>Veronica AI architecture, interface, and system design overview engineered by Hardik Bhaskar</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://hardikbhaskar.vercel.app/projects/aegis-decision-intelligence-platform</loc>
     <lastmod>2025-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-aegis.webp</image:loc>
+      <image:title>AEGIS — AI Decision Intelligence Platform by Hardik Bhaskar</image:title>
+      <image:caption>AEGIS architecture, interface, and system design overview engineered by Hardik Bhaskar</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://hardikbhaskar.vercel.app/projects/stem-idea-generator</loc>
     <lastmod>2024-12-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-stem-adventure.webp</image:loc>
+      <image:title>STEM Idea Adventure — Interactive Learning Platform by Hardik Bhaskar</image:title>
+      <image:caption>STEM Idea Adventure architecture, interface, and system design overview engineered by Hardik Bhaskar</image:caption>
+    </image:image>
   </url>
 </urlset>

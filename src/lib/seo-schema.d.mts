@@ -1,6 +1,7 @@
 export interface ProjectForJsonLd {
   slug: string;
   title: string;
+  subtitle?: string;
   description: string;
   image: string;
   fallbackImage?: string;

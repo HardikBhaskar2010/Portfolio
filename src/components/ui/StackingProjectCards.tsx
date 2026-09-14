@@ -146,7 +146,7 @@ function StackingCard({
               <StackingCardImg
                 src={project.image}
                 fallback={project.fallbackImage}
-                alt={`${project.title} screenshot`}
+                alt={`${project.title} — ${project.subtitle || project.tag || 'Systems Architecture'} by Hardik Bhaskar`}
               />
 
               {/* Glass reflection and hover prompt overlay */}
@@ -267,6 +267,7 @@ function StackingCardImg({
     <img
       src={imgSrc}
       alt={alt}
+      title={alt}
       width={500}
       height={312}
       loading="lazy"

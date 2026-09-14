@@ -69,6 +69,38 @@ export function getRoutes() {
       description:
         'Official portfolio of Hardik Bhaskar — Systems Architect & AI Systems Builder focused on operating systems, autonomous AI, intelligent software systems, and engineering.',
       ogImage: '/og-preview.png',
+      images: [
+        {
+          loc: `${SITE_URL}/images/avatar.webp`,
+          title: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
+          caption: 'Official profile portrait of Hardik Bhaskar, Systems Architect & AI Systems Builder',
+        },
+        {
+          loc: `${SITE_URL}/favicon-512x512.png`,
+          title: 'Hardik Bhaskar — Kitsune Dev Brand Emblem',
+          caption: 'Hardik Bhaskar official brand emblem and developer identity',
+        },
+        {
+          loc: `${SITE_URL}/images/project-vectoris.webp`,
+          title: 'Vectoris — AI-Native Engineering & Takeoff Workstation',
+          caption: 'Vectoris desktop platform blueprint perception and MEP takeoff interface by Hardik Bhaskar',
+        },
+        {
+          loc: `${SITE_URL}/images/project-mahina-os.webp`,
+          title: 'MahinaOS — Bare-Metal x86_64 Operating System',
+          caption: 'MahinaOS deterministic kernel, early boot graphics, and desktop shell by Hardik Bhaskar',
+        },
+        {
+          loc: `${SITE_URL}/images/project-ai-veronica.webp`,
+          title: 'Veronica AI — Sovereign Conversational Intelligence System',
+          caption: 'Veronica AI persistent memory graph and agent orchestration system by Hardik Bhaskar',
+        },
+        {
+          loc: `${SITE_URL}/images/project-aegis.webp`,
+          title: 'AEGIS — Multi-Agent Decision Intelligence Platform',
+          caption: 'AEGIS multi-agent reasoning and decision intelligence platform by Hardik Bhaskar',
+        },
+      ],
       jsonLd: [buildPersonJsonLd(), buildWebsiteJsonLd(), buildFaqJsonLd(faqs)],
       fallbackHtml: `
     <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
@@ -76,6 +108,10 @@ export function getRoutes() {
       <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
         Building operating systems, autonomous AI, and intelligent software systems.
       </p>
+      <figure style="margin: 1.5rem 0; max-width: 480px;">
+        <img src="/images/avatar.webp" alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder" width="480" height="360" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #333;" />
+        <figcaption style="color: #94A3B8; font-size: 0.875rem; margin-top: 0.5rem;">Hardik Bhaskar — Systems Architect &amp; AI Systems Builder</figcaption>
+      </figure>
       <nav aria-label="Main Navigation" style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
         <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Explore Projects →</a>
         <a href="/about" style="color: #00E5FF; text-decoration: none; font-weight: 600;">About Hardik →</a>
@@ -92,6 +128,23 @@ export function getRoutes() {
       description:
         'Systems developer and AI builder focused on robust low-level architectures, autonomous intelligence systems, and high-performance user interfaces — from bare-metal OS kernels to cinematic 3D web experiences.',
       ogImage: '/og-preview.png',
+      images: [
+        {
+          loc: `${SITE_URL}/images/avatar.webp`,
+          title: 'Hardik Bhaskar — Portrait & Engineering Biography',
+          caption: 'Hardik Bhaskar, Systems Architect & AI Systems Builder based in India',
+        },
+        {
+          loc: `${SITE_URL}/docs/certificates/MYBharat_VBYLD_2026.png`,
+          title: 'Viksit Bharat Young Leaders Dialogue 2026 Certificate',
+          caption: 'Ministry of Youth Affairs and Sports Government of India recognition awarded to Hardik Bhaskar',
+        },
+        {
+          loc: `${SITE_URL}/favicon-512x512.png`,
+          title: 'Hardik Bhaskar — Kitsune Dev Official Emblem',
+          caption: 'Hardik Bhaskar Kitsune Dev brand emblem',
+        },
+      ],
       jsonLd: [
         buildPersonJsonLd(),
         buildBreadcrumbJsonLd([
@@ -106,6 +159,10 @@ export function getRoutes() {
         <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
           Systems developer and AI builder focused on robust low-level architectures, autonomous intelligence systems, and high-performance user interfaces — from bare-metal OS kernels to cinematic 3D web experiences.
         </p>
+        <figure style="margin: 1.5rem 0; max-width: 500px;">
+          <img src="/images/avatar.webp" alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder" width="500" height="625" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #333;" />
+          <figcaption style="color: #94A3B8; font-size: 0.875rem; margin-top: 0.5rem;">Hardik Bhaskar — Systems Architect, Low-Level Engineer &amp; AI Systems Builder</figcaption>
+        </figure>
         <section style="margin: 1.5rem 0; padding: 1.25rem; background: #0c0c10; border: 1px solid #222; border-radius: 12px;">
           <h2 style="font-size: 1.25rem; font-weight: 600; color: #00E5FF; margin-bottom: 0.5rem;">Verified GitHub Telemetry &amp; Live Shipping Cadence</h2>
           <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.5rem;">
@@ -141,6 +198,14 @@ export function getRoutes() {
       description:
         'A curated collection of web applications, AI systems, and interactive experiences built by Hardik Bhaskar using React, Node.js, TypeScript, Python, and Rust.',
       ogImage: '/og-preview.png',
+      images: projects.map((p) => {
+        const localImg = p.fallbackImage ? `${SITE_URL}${p.fallbackImage}` : `${SITE_URL}/og-preview.png`;
+        return {
+          loc: localImg,
+          title: `${p.title} — ${p.subtitle || p.category} by Hardik Bhaskar`,
+          caption: `${p.title} — ${p.description}`,
+        };
+      }),
       jsonLd: [
         buildPersonJsonLd(),
         collectionJsonLd,
@@ -155,13 +220,14 @@ export function getRoutes() {
         <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
           A curated collection of AI systems, low-level desktop applications, OS research, and cinematic 3D web experiences.
         </p>
-        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem;">
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1.5rem;">
           ${projects
             .map(
               (p) => `
-          <li>
-            <a href="/projects/${p.slug}" style="color: #00E5FF; text-decoration: none; font-weight: 600;">${p.title}</a>
+          <li style="border: 1px solid #222; border-radius: 12px; padding: 1rem; background: #0c0c10;">
+            <a href="/projects/${p.slug}" style="color: #00E5FF; text-decoration: none; font-weight: 600; font-size: 1.125rem;">${p.title}</a>
             <span style="color: #94A3B8;"> — ${p.subtitle || p.category || ''}</span>
+            <p style="color: #8A8A93; font-size: 0.95rem; margin-top: 0.5rem; line-height: 1.5;">${p.description}</p>
           </li>`
             )
             .join('')}
@@ -183,6 +249,9 @@ export function getRoutes() {
           : today;
 
       const ogImage = project.fallbackImage || project.image || '/og-preview.png';
+      const projectImg = project.fallbackImage
+        ? `${SITE_URL}${project.fallbackImage}`
+        : (project.image?.startsWith('http') ? project.image : `${SITE_URL}${project.image || '/og-preview.png'}`);
 
       return {
         path: `/projects/${project.slug}`,
@@ -192,6 +261,13 @@ export function getRoutes() {
         title: `${project.title} — Hardik Bhaskar`,
         description: metaDescription,
         ogImage,
+        images: [
+          {
+            loc: projectImg,
+            title: `${project.title} — ${project.subtitle || project.tag} by Hardik Bhaskar`,
+            caption: `${project.title} architecture, interface, and system design overview engineered by Hardik Bhaskar`,
+          },
+        ],
         jsonLd: [
           buildProjectJsonLd(project),
           buildBreadcrumbJsonLd([
@@ -202,7 +278,12 @@ export function getRoutes() {
         ],
         fallbackHtml: `
       <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
-        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #FFFFFF;">${project.title}</h1>
+        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: #FFFFFF;">${project.title}</h1>
+        <p style="font-size: 1.125rem; color: #00E5FF; margin-bottom: 1rem; font-weight: 500;">${project.subtitle || ''}</p>
+        <figure style="margin: 1.5rem 0; max-width: 720px;">
+          <img src="${project.fallbackImage || project.image}" alt="${project.title} — ${project.subtitle || project.description} by Hardik Bhaskar" width="720" height="405" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #333;" />
+          <figcaption style="color: #94A3B8; font-size: 0.875rem; margin-top: 0.5rem;">${project.title} — Architecture and interface overview engineered by Hardik Bhaskar</figcaption>
+        </figure>
         <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
           ${project.description}
         </p>

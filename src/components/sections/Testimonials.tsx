@@ -87,7 +87,8 @@ function QuoteCard({ quote, name, role, company, avatar }: typeof testimonials[0
       <div className="flex items-center gap-3 pt-4 border-t border-border">
         <img
           src={avatar}
-          alt={name}
+          alt={`${name} — ${role} at ${company}`}
+          title={`${name} — ${role}`}
           width={40}
           height={40}
           loading="lazy"

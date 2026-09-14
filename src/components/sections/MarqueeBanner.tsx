@@ -66,7 +66,8 @@ function MarqueeCard({ item, index }: { item: { slug: string; src: string; fallb
         <div className="aspect-video rounded-xl overflow-hidden border border-border group-hover:border-cyan/40 bg-surface parallax-container transition-colors duration-300">
           <motion.img
             src={imgSrc}
-            alt={item.title}
+            alt={`${item.title} — ${item.category} by Hardik Bhaskar`}
+            title={`${item.title} — Engineered by Hardik Bhaskar`}
             width={420}
             height={236}
             loading="lazy"

@@ -143,7 +143,8 @@ export function Navbar() {
               >
                 <img
                   src="/images/logo.webp"
-                  alt="Hardik Bhaskar logo"
+                  alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder Logo"
+                  title="Hardik Bhaskar — Kitsune Dev"
                   width={32}
                   height={32}
                   loading="eager"

@@ -122,6 +122,7 @@ function FallbackImg({
       {...rest as any}
       src={imgSrc}
       alt={alt}
+      title={alt}
       width={700}
       height={394}
       decoding="async"
@@ -165,7 +166,7 @@ function ProjectCard({ project, priority }: { project: typeof projects[0]; prior
           <FallbackImg
             src={project.image}
             fallbackSrc={project.fallbackImage}
-            alt={project.title}
+            alt={`${project.title} — ${project.subtitle || project.category} by Hardik Bhaskar`}
             style={{ y: imageY, scale: 1.1 }}
             priority={priority}
           />

@@ -110,7 +110,8 @@ export function ContactSection() {
                 <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-border flex-shrink-0">
                   <img
                     src="/images/avatar.webp"
-                    alt="Hardik Bhaskar"
+                    alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
+                    title="Hardik Bhaskar"
                     width={56}
                     height={56}
                     loading="lazy"

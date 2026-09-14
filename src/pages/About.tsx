@@ -91,7 +91,8 @@ export default function About() {
                   <div className="aspect-[3/4] md:aspect-[4/5] parallax-container">
                     <motion.img
                       src="/images/avatar.webp"
-                      alt="Hardik Bhaskar"
+                      alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
+                      title="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
                       width={500}
                       height={625}
                       loading="eager"

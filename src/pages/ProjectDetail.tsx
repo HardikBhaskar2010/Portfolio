@@ -240,6 +240,7 @@ function ProjectImage({
       {...rest}
       src={imgSrc}
       alt={alt}
+      title={rest.title || alt}
       className={className}
       style={style}
       onError={() => {
@@ -523,7 +524,8 @@ export default function ProjectDetail() {
                   <ProjectImage
                     src={project.image}
                     fallbackSrc={project.fallbackImage}
-                    alt={project.title}
+                    alt={`${project.title} — ${project.subtitle || project.tag || project.category} Architecture Overview by Hardik Bhaskar`}
+                    title={`${project.title} — Engineered by Hardik Bhaskar`}
                     width={1200}
                     height={675}
                     loading="eager"
@@ -669,7 +671,8 @@ export default function ProjectDetail() {
                     <ProjectImage
                       src={prevProject.image}
                       fallbackSrc={prevProject.fallbackImage}
-                      alt={prevProject.title}
+                      alt={`${prevProject.title} — ${prevProject.category} by Hardik Bhaskar`}
+                      title={`${prevProject.title} by Hardik Bhaskar`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
@@ -705,7 +708,8 @@ export default function ProjectDetail() {
                     <ProjectImage
                       src={nextProject.image}
                       fallbackSrc={nextProject.fallbackImage}
-                      alt={nextProject.title}
+                      alt={`${nextProject.title} — ${nextProject.category} by Hardik Bhaskar`}
+                      title={`${nextProject.title} by Hardik Bhaskar`}
                       width={64}
                       height={64}
                       loading="lazy"
@@ -749,7 +753,8 @@ export default function ProjectDetail() {
                         <ProjectImage
                           src={p.image}
                           fallbackSrc={p.fallbackImage}
-                          alt={p.title}
+                          alt={`${p.title} — ${p.subtitle || p.category} by Hardik Bhaskar`}
+                          title={`${p.title} by Hardik Bhaskar`}
                           width={560}
                           height={315}
                           loading="lazy"

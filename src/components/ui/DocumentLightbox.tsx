@@ -157,9 +157,11 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
                 <div className="flex items-center justify-center w-full h-full p-2">
                   <img
                     src={document.fileUrl}
-                    alt={document.title}
+                    alt={`${document.title} — Official Verification Credential for Hardik Bhaskar`}
+                    title={`${document.title} — Hardik Bhaskar`}
                     className="max-h-[75vh] w-auto max-w-full object-contain rounded-lg shadow-2xl border border-white/10"
                     loading="eager"
+                    decoding="async"
                   />
                 </div>
               )}

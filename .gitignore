@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Planning and guide documents
+/Implementation_Plan.md
+/PORTFOLIO_UPGRADE_PLAN.md
+/3D_IMPLEMENTATION_GUIDE.md
+/Plan.md

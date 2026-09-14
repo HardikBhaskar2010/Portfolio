@@ -185,7 +185,8 @@ export function AboutPreview() {
               <div className="parallax-container h-56 md:h-72">
                 <motion.img
                   src="/images/avatar.webp"
-                  alt="Hardik Bhaskar"
+                  alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
+                  title="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
                   width={400}
                   height={288}
                   loading="lazy"
@@ -197,7 +198,7 @@ export function AboutPreview() {
               <div className="p-6">
                 <p className="font-heading font-bold text-heading text-lg">Hardik Bhaskar</p>
                 <p className="font-ui text-xs text-cyan uppercase tracking-widest mt-1">
-                  Interactive Web Developer · AI Systems Builder
+                  Systems Architect · AI Systems Builder
                 </p>
                 <p className="font-ui text-[10px] text-muted mt-1">
                   Based in India · Works globally

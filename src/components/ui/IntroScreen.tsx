@@ -95,7 +95,8 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
             <div className="w-16 h-16 rounded-2xl overflow-hidden border border-border shadow-lg shadow-cyan/10">
               <img
                 src="/images/logo.webp"
-                alt="Hardik Bhaskar logo"
+                alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder Logo"
+                title="Hardik Bhaskar — Kitsune Dev"
                 width={64}
                 height={64}
                 loading="eager"

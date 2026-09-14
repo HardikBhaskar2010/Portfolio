@@ -106,7 +106,8 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                   >
                     <img
                       src={project.image}
-                      alt={project.title}
+                      alt={`${project.title} — ${project.subtitle || project.category} by Hardik Bhaskar`}
+                      title={`${project.title} — Engineered by Hardik Bhaskar`}
                       width={600}
                       height={375}
                       loading="lazy"
@@ -133,7 +134,7 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                   <div className="absolute inset-0 -z-10 overflow-hidden">
                     <img
                       src={project.image}
-                      alt={project.title}
+                      alt={`${project.title} background preview by Hardik Bhaskar`}
                       width={400}
                       height={500}
                       loading="lazy"
@@ -237,7 +238,8 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                   <div className="aspect-[16/9] rounded-xl overflow-hidden border border-white/10 relative">
                     <img
                       src={project.image}
-                      alt={project.title}
+                      alt={`${project.title} — ${project.subtitle || project.category} by Hardik Bhaskar`}
+                      title={`${project.title} — Engineered by Hardik Bhaskar`}
                       width={400}
                       height={225}
                       loading="lazy"

@@ -118,7 +118,8 @@ export function Footer() {
                 <div className="w-9 h-9 rounded-full overflow-hidden border border-border flex-shrink-0 bg-black/40">
                   <img
                     src="/images/logo.webp"
-                    alt="Hardik Bhaskar logo"
+                    alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder Logo"
+                    title="Hardik Bhaskar — Systems Architect"
                     width={36}
                     height={36}
                     loading="lazy"
