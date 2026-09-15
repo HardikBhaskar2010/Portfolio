@@ -6,10 +6,11 @@ import { SectionLabel } from '@/components/ui/SectionLabel';
 import { Button } from '@/components/ui/Button';
 import { stagger, fadeUp, scaleIn } from '@/lib/motion';
 import { track } from '@/lib/analytics';
+import { playClick } from '@/lib/audio';
 
 export function ContactSection() {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', message: '', website: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,6 +23,7 @@ export function ContactSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    playClick();
     setLoading(true);
     setError(null);
 
@@ -95,7 +97,7 @@ export function ContactSection() {
               <a
                 href="https://calendly.com/lunakitsune/30min"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 onClick={() => track.ctaClick('Book a call', 'contact-section')}
               >
                 <Button variant="ghost" size="lg" icon={<Calendar size={14} />}>
@@ -133,7 +135,7 @@ export function ContactSection() {
                     key={s.label}
                     href={s.href}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 font-ui text-sm text-muted hover:text-heading transition-colors duration-200 link-underline"
                   >
                     {s.label}
@@ -177,7 +179,7 @@ export function ContactSection() {
                     I'll reply to <span className="text-cyan">{form.email}</span> within 24 hours.
                   </p>
                   <button
-                    onClick={() => { setSent(false); setForm({ name: '', email: '', message: '' }); }}
+                    onClick={() => { setSent(false); setForm({ name: '', email: '', message: '', website: '' }); }}
                     className="font-ui text-xs text-muted hover:text-heading transition-colors underline underline-offset-4 mt-2"
                   >
                     Send another message
@@ -185,6 +187,20 @@ export function ContactSection() {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                  {/* Bot Honeypot Field (Hidden from humans, traps automated scrapers) */}
+                  <div className="hidden" aria-hidden="true" style={{ display: 'none' }}>
+                    <label htmlFor="contact-website">Website</label>
+                    <input
+                      id="contact-website"
+                      type="text"
+                      name="website"
+                      value={form.website}
+                      onChange={e => handleFieldChange('website', e.target.value)}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
+
                   <div>
                     <label className="font-ui text-[10px] uppercase tracking-widest text-tagText block mb-2">
                       Full name
@@ -192,10 +208,11 @@ export function ContactSection() {
                     <input
                       type="text"
                       required
+                      maxLength={100}
                       value={form.name}
                       onChange={e => handleFieldChange('name', e.target.value)}
                       placeholder="Your name"
-                      className="w-full bg-bg border border-border rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted transition-all duration-200"
+                      className="w-full bg-bg border border-border focus:border-cyan/60 focus:ring-1 focus:ring-cyan/30 focus:outline-none rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted transition-all duration-200"
                     />
                   </div>
 
@@ -206,10 +223,11 @@ export function ContactSection() {
                     <input
                       type="email"
                       required
+                      maxLength={254}
                       value={form.email}
                       onChange={e => handleFieldChange('email', e.target.value)}
                       placeholder="you@example.com"
-                      className="w-full bg-bg border border-border rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted transition-all duration-200"
+                      className="w-full bg-bg border border-border focus:border-cyan/60 focus:ring-1 focus:ring-cyan/30 focus:outline-none rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted transition-all duration-200"
                     />
                   </div>
 
@@ -220,10 +238,11 @@ export function ContactSection() {
                     <textarea
                       required
                       rows={5}
+                      maxLength={5000}
                       value={form.message}
                       onChange={e => handleFieldChange('message', e.target.value)}
                       placeholder="Tell me about your project..."
-                      className="w-full bg-bg border border-border rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted resize-none transition-all duration-200"
+                      className="w-full bg-bg border border-border focus:border-cyan/60 focus:ring-1 focus:ring-cyan/30 focus:outline-none rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted resize-none transition-all duration-200"
                     />
                   </div>
 
@@ -242,8 +261,9 @@ export function ContactSection() {
                     type="submit"
                     disabled={loading}
                     whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full bg-accent text-bg font-ui font-medium text-sm py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-white/90 transition-colors disabled:opacity-60"
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ duration: 0.14, ease: [0.23, 1, 0.32, 1] }}
+                    className="w-full bg-accent text-bg font-ui font-medium text-sm py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-white/90 active:scale-[0.97] transition-all disabled:opacity-60"
                   >
                     {loading ? (
                       <motion.span
@@ -263,7 +283,7 @@ export function ContactSection() {
                     <a
                       href="https://calendly.com/lunakitsune/30min"
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="text-cyan hover:underline underline-offset-4"
                     >
                       Book 30 min here →

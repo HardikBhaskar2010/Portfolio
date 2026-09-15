@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
 Sitemap: https://hardikbhaskar.vercel.app/sitemap.xml

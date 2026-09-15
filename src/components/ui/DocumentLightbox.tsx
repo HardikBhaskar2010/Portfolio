@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download, ExternalLink, ShieldCheck, FileText } from 'lucide-react';
+import { X, Download, ExternalLink, FileText } from 'lucide-react';
 import { playClick } from '@/lib/audio';
+import { getLenis } from '@/lib/lenis';
 import { PdfViewer } from '@/components/ui/PdfViewer';
 
 export interface DocumentModalProps {
@@ -23,6 +24,10 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
   useEffect(() => {
     if (!isOpen) return;
 
+    // Halt smooth-scroll loop on the background page while modal is active
+    const lenis = getLenis();
+    lenis?.stop();
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         playClick();
@@ -37,6 +42,7 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
     return () => {
       window.document.body.style.overflow = originalOverflow;
       window.removeEventListener('keydown', handleKeyDown);
+      lenis?.start();
     };
   }, [isOpen, onClose]);
 
@@ -52,6 +58,7 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
           role="dialog"
           aria-modal="true"
           aria-label={document.title}
+          data-lenis-prevent="true"
           className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 md:p-8"
         >
           {/* Backdrop with blur */}
@@ -69,15 +76,17 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
 
           {/* Modal Container */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 16 }}
+            initial={{ opacity: 0, scale: 0.96, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 12 }}
-            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, scale: 0.96, y: 8 }}
+            transition={{ type: 'spring', duration: 0.35, bounce: 0 }}
+            data-lenis-prevent="true"
             className="relative w-full max-w-5xl max-h-[92vh] flex flex-col bg-[#0A0A10] border border-white/10 rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.8)] overflow-hidden z-10"
             style={{
               boxShadow: `0 0 0 1px rgba(255,255,255,0.08), 0 20px 60px -15px ${accent}25`,
             }}
           >
+
             {/* Top HUD Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-white/[0.02]">
               <div className="flex items-center gap-3 min-w-0">

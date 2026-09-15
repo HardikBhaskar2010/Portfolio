@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Volume2, VolumeX } from 'lucide-react';
 
 const GithubIcon = ({ size = 14 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -12,7 +12,7 @@ import clsx from 'clsx';
 import { mobileMenuContainer, mobileMenuItem } from '@/lib/motion';
 import { scrollTo, getLenis } from '@/lib/lenis';
 import { track } from '@/lib/analytics';
-import { playHoverTick, playClick } from '@/lib/audio';
+import { playHoverTick, isAudioMuted, toggleAudioMuted } from '@/lib/audio';
 
 const navLinks = [
   { label: 'Home',     to: '/' },
@@ -68,9 +68,23 @@ function useRealScrollY() {
 export function Navbar() {
   const scrollY     = useRealScrollY();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [muted, setMuted] = useState(() => isAudioMuted());
   const location                 = useLocation();
 
-  useEffect(() => { setMenuOpen(false); }, [location]);
+  const [prevLocation, setPrevLocation] = useState(location.pathname);
+  if (prevLocation !== location.pathname) {
+    setPrevLocation(location.pathname);
+    setMenuOpen(false);
+  }
+
+  useEffect(() => {
+    const handleMuteChange = (e: Event) => {
+      const custom = e as CustomEvent<{ muted: boolean }>;
+      setMuted(custom.detail?.muted ?? isAudioMuted());
+    };
+    window.addEventListener('portfolio:audio-mute-change', handleMuteChange);
+    return () => window.removeEventListener('portfolio:audio-mute-change', handleMuteChange);
+  }, []);
 
   /* ── Convergence thresholds ── */
   const COMPACT_START = 80;
@@ -83,6 +97,7 @@ export function Navbar() {
   /* ── Responsive inset: smaller on mobile ─────────────── */
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const maxInset = isMobile ? 4 : 10;  // % side inset at full compact
+
 
   return (
     <>
@@ -188,11 +203,29 @@ export function Navbar() {
 
             {/* CTA + Hamburger */}
             <div className="flex items-center gap-2 flex-shrink-0">
+              {/* Sound toggle button */}
+              <motion.button
+                type="button"
+                whileHover={{ scale: 1.12 }}
+                whileTap={{ scale: 0.92 }}
+                onMouseEnter={playHoverTick}
+                onClick={() => {
+                  const next = toggleAudioMuted();
+                  setMuted(next);
+                }}
+                className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 text-muted hover:text-heading hover:border-white/30 transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(8px)' }}
+                aria-label={muted ? 'Unmute sound effects' : 'Mute sound effects'}
+                title={muted ? 'Unmute sound effects' : 'Mute sound effects'}
+              >
+                {muted ? <VolumeX size={14} className="text-muted/60" /> : <Volume2 size={14} className="text-cyan" />}
+              </motion.button>
+
               {/* GitHub icon link — separate, left of Let's Talk */}
               <motion.a
                 href="https://github.com/HardikBhaskar2010/"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.12 }}
                 whileTap={{ scale: 0.92 }}
                 onClick={() => track.socialClick('GitHub', 'navbar')}
@@ -202,6 +235,7 @@ export function Navbar() {
               >
                 <GithubIcon size={15} />
               </motion.a>
+
 
               {/* Dossier PDF button */}
               <motion.a
@@ -323,15 +357,30 @@ export function Navbar() {
                   Let's Talk
                 </button>
 
-                <a
-                  href="/docs/Hardik_Bhaskar_Portfolio.pdf"
-                  download
-                  onClick={() => { track.downloadDossier('mobile-menu'); setMenuOpen(false); }}
-                  className="inline-flex items-center gap-2 font-ui text-xs uppercase tracking-widest text-white/90 bg-white/5 border border-white/15 px-6 py-2.5 rounded-full"
-                >
-                  <span>Download CV / Dossier (PDF)</span>
-                  <span className="text-cyan text-sm">↓</span>
-                </a>
+                <div className="flex items-center gap-3">
+                  <a
+                    href="/docs/Hardik_Bhaskar_Portfolio.pdf"
+                    download
+                    onClick={() => { track.downloadDossier('mobile-menu'); setMenuOpen(false); }}
+                    className="inline-flex flex-1 items-center justify-between font-ui text-xs uppercase tracking-widest text-white/90 bg-white/5 border border-white/15 px-5 py-2.5 rounded-full"
+                  >
+                    <span>Download CV / Dossier (PDF)</span>
+                    <span className="text-cyan text-sm">↓</span>
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = toggleAudioMuted();
+                      setMuted(next);
+                    }}
+                    className="inline-flex items-center gap-1.5 font-ui text-xs uppercase tracking-widest text-muted hover:text-heading bg-white/5 border border-white/10 px-3.5 py-2.5 rounded-full"
+                    aria-label={muted ? 'Unmute sound effects' : 'Mute sound effects'}
+                  >
+                    {muted ? <VolumeX size={14} className="text-muted/60" /> : <Volume2 size={14} className="text-cyan" />}
+                    <span>{muted ? 'Muted' : 'Sound'}</span>
+                  </button>
+                </div>
               </motion.div>
 
               <motion.div variants={mobileMenuItem} className="mt-8 flex gap-4 flex-wrap">
@@ -342,7 +391,7 @@ export function Navbar() {
                   { label: 'Instagram', href: 'https://www.instagram.com/lunakitsune.dev/' },
                   { label: 'Reddit',    href: 'https://www.reddit.com/user/According_Still9291/' },
                 ].map(s => (
-                  <a key={s.label} href={s.href} target="_blank" rel="noreferrer"
+                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                     onClick={() => track.socialClick(s.label, 'mobile-menu')}
                     className="font-ui text-xs uppercase tracking-widest text-muted hover:text-heading transition-colors link-underline"
                   >

@@ -211,7 +211,7 @@
     </style>
 
     <!-- ═══════════════════════════════════════════════════════
-         MICROSOFT CLARITY ANALYTICS
+         MICROSOFT CLARITY ANALYTICS (Consent Mode Configured)
     ═══════════════════════════════════════════════════════ -->
     <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
@@ -219,6 +219,13 @@
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, "clarity", "script", "yicwccx7q2");
+      // Default to consent: false unless user previously granted analytics consent
+      try {
+        var _hasConsent = localStorage.getItem('analytics_consent') === 'granted';
+        window.clarity('consent', _hasConsent);
+      } catch (e) {
+        window.clarity('consent', false);
+      }
     </script>
   </head>
 

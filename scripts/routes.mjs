@@ -17,6 +17,16 @@ import {
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
+export function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 export function getProjects() {
   const projectsPath = join(ROOT, 'src', 'data', 'projects.generated.json');
   try {
@@ -28,18 +38,15 @@ export function getProjects() {
 }
 
 export function getFaqs() {
-  const faqsPath = join(ROOT, 'src', 'data', 'faqs.ts');
+  const faqsPath = join(ROOT, 'src', 'data', 'faqs.json');
   try {
-    const content = readFileSync(faqsPath, 'utf8');
-    const match = content.match(/export const faqs[^=]*=\s*({[\s\S]*?});/);
-    if (match) {
-      return new Function(`return ${match[1]}`)();
-    }
+    return JSON.parse(readFileSync(faqsPath, 'utf8'));
   } catch (err) {
-    console.warn('⚠️ Could not read faqs.ts:', err.message);
+    console.warn('⚠️ Could not read faqs.json:', err.message);
+    return {};
   }
-  return {};
 }
+
 
 export function getRoutes() {
   const projects = getProjects();
@@ -225,9 +232,9 @@ export function getRoutes() {
             .map(
               (p) => `
           <li style="border: 1px solid #222; border-radius: 12px; padding: 1rem; background: #0c0c10;">
-            <a href="/projects/${p.slug}" style="color: #00E5FF; text-decoration: none; font-weight: 600; font-size: 1.125rem;">${p.title}</a>
-            <span style="color: #94A3B8;"> — ${p.subtitle || p.category || ''}</span>
-            <p style="color: #8A8A93; font-size: 0.95rem; margin-top: 0.5rem; line-height: 1.5;">${p.description}</p>
+            <a href="/projects/${encodeURIComponent(p.slug)}" style="color: #00E5FF; text-decoration: none; font-weight: 600; font-size: 1.125rem;">${escapeHtml(p.title)}</a>
+            <span style="color: #94A3B8;"> — ${escapeHtml(p.subtitle || p.category || '')}</span>
+            <p style="color: #8A8A93; font-size: 0.95rem; margin-top: 0.5rem; line-height: 1.5;">${escapeHtml(p.description)}</p>
           </li>`
             )
             .join('')}
@@ -278,19 +285,19 @@ export function getRoutes() {
         ],
         fallbackHtml: `
       <header style="padding: 2.5rem 1.5rem; max-width: 1200px; margin: 0 auto; color: #FFFFFF; font-family: system-ui, -apple-system, sans-serif;">
-        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: #FFFFFF;">${project.title}</h1>
-        <p style="font-size: 1.125rem; color: #00E5FF; margin-bottom: 1rem; font-weight: 500;">${project.subtitle || ''}</p>
+        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: #FFFFFF;">${escapeHtml(project.title)}</h1>
+        <p style="font-size: 1.125rem; color: #00E5FF; margin-bottom: 1rem; font-weight: 500;">${escapeHtml(project.subtitle || '')}</p>
         <figure style="margin: 1.5rem 0; max-width: 720px;">
-          <img src="${project.fallbackImage || project.image}" alt="${project.title} — ${project.subtitle || project.description} by Hardik Bhaskar" width="720" height="405" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #333;" />
-          <figcaption style="color: #94A3B8; font-size: 0.875rem; margin-top: 0.5rem;">${project.title} — Architecture and interface overview engineered by Hardik Bhaskar</figcaption>
+          <img src="${escapeHtml(project.fallbackImage || project.image)}" alt="${escapeHtml(project.title)} — ${escapeHtml(project.subtitle || project.description)} by Hardik Bhaskar" width="720" height="405" style="max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #333;" />
+          <figcaption style="color: #94A3B8; font-size: 0.875rem; margin-top: 0.5rem;">${escapeHtml(project.title)} — Architecture and interface overview engineered by Hardik Bhaskar</figcaption>
         </figure>
         <p style="font-size: 1.125rem; line-height: 1.6; max-width: 680px; color: #94A3B8; margin-bottom: 1.5rem;">
-          ${project.description}
+          ${escapeHtml(project.description)}
         </p>
         <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
           ${
             project.link
-              ? `<a href="${project.link}" target="_blank" rel="noopener noreferrer" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Live Project / Repository ↗</a>`
+              ? `<a href="${escapeHtml(project.link)}" target="_blank" rel="noopener noreferrer" style="color: #00E5FF; text-decoration: none; font-weight: 600;">Live Project / Repository ↗</a>`
               : ''
           }
           <a href="/projects" style="color: #00E5FF; text-decoration: none; font-weight: 600;">← Back to all projects</a>

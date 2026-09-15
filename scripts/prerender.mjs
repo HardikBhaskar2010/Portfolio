@@ -74,9 +74,11 @@ function setMetaName(html, name, content) {
 
 function setJsonLd(html, jsonLd) {
   const regex = /<script\s+type="application\/ld\+json">[\s\S]*?<\/script>/i;
-  const tag = `<script type="application/ld+json">\n${JSON.stringify(jsonLd, null, 2)}\n    </script>`;
+  const safeJson = JSON.stringify(jsonLd, null, 2).replace(/</g, '\\u003c');
+  const tag = `<script type="application/ld+json">\n${safeJson}\n    </script>`;
   return html.replace(regex, tag);
 }
+
 
 function removeMetaProperty(html, property) {
   const regex = new RegExp(`\\s*<meta(?=[^>]*\\bproperty=["']${property}["'])[^>]*>`, 'gi');

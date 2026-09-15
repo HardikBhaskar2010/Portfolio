@@ -11,6 +11,7 @@ import GradientWaves from '@/components/ui/GradientWaves';
 import { Navbar } from '@/components/layout/Navbar';
 import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
 import { IntroScreen } from '@/components/ui/IntroScreen';
+import { ConsentBanner } from '@/components/ui/ConsentBanner';
 import Home from '@/pages/Home';
 
 // Lazy-load subpages and 3D scenes to split bundle and accelerate initial paint
@@ -151,8 +152,22 @@ function AppContent() {
     if (typeof window === 'undefined') return false;
     const params = new URLSearchParams(window.location.search);
     if (params.get('nointro') === 'true') return false;
+    try {
+      if (sessionStorage.getItem('intro_seen') === 'true') return false;
+    } catch {
+      // Storage access blocked or restricted
+    }
     return true;
   });
+
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+    try {
+      sessionStorage.setItem('intro_seen', 'true');
+    } catch {
+      // Ignore storage error
+    }
+  };
 
   /* ── Prevent browser from caching scroll position on route transitions ── */
   useEffect(() => {
@@ -196,7 +211,8 @@ function AppContent() {
 
   return (
     <>
-      {showIntro && <IntroScreen onComplete={() => setShowIntro(false)} />}
+      {showIntro && <IntroScreen onComplete={handleIntroComplete} />}
+      <ConsentBanner />
 
       {/* ── Backmost Layer: GradientWaves (React Bits) ── */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">

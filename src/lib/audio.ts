@@ -11,18 +11,65 @@ function getCtx(): AudioContext {
   return ctx;
 }
 
+const AUDIO_MUTE_KEY = 'portfolio_audio_muted';
+
+function checkInitialMute(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    const saved = localStorage.getItem(AUDIO_MUTE_KEY);
+    if (saved !== null) return saved === 'true';
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return true;
+    }
+  } catch {
+    /* ignore storage error */
+  }
+  return false;
+}
+
+let mutedState: boolean = checkInitialMute();
+
+export function isAudioMuted(): boolean {
+  return mutedState;
+}
+
+export function setAudioMuted(muted: boolean): void {
+  mutedState = muted;
+  try {
+    localStorage.setItem(AUDIO_MUTE_KEY, String(muted));
+    window.dispatchEvent(new CustomEvent('portfolio:audio-mute-change', { detail: { muted } }));
+  } catch {
+    /* ignore storage error */
+  }
+}
+
+export function toggleAudioMuted(): boolean {
+  const next = !mutedState;
+  setAudioMuted(next);
+  if (!next) {
+    // Immediate sensory feedback confirming audio is unmuted
+    playHoverTick();
+  }
+  return next;
+}
+
 /** Call once on first user interaction to unblock AudioContext */
 export function unlockAudio() {
+  if (isAudioMuted()) return;
   try {
     if (!ctx) ctx = new AudioContext();
     if (ctx.state === 'suspended') ctx.resume();
-  } catch {}
+  } catch {
+    /* ignore audio unlock error */
+  }
 }
 
 /** Navbar / link hover — ultra-brief high-pitched tick */
 export function playHoverTick() {
+  if (isAudioMuted()) return;
   try {
     const ac  = getCtx();
+
     const osc  = ac.createOscillator();
     const gain = ac.createGain();
     osc.connect(gain);
@@ -37,11 +84,14 @@ export function playHoverTick() {
 
     osc.start(ac.currentTime);
     osc.stop(ac.currentTime + 0.09);
-  } catch {}
+  } catch {
+    /* ignore audio error */
+  }
 }
 
 /** Button click — soft triangle synth snap */
 export function playClick() {
+  if (isAudioMuted()) return;
   try {
     const ac  = getCtx();
     const osc  = ac.createOscillator();
@@ -58,11 +108,14 @@ export function playClick() {
 
     osc.start(ac.currentTime);
     osc.stop(ac.currentTime + 0.16);
-  } catch {}
+  } catch {
+    /* ignore audio error */
+  }
 }
 
 /** Card hover — subtle low synth pulse */
 export function playSynthPulse() {
+  if (isAudioMuted()) return;
   try {
     const ac     = getCtx();
     const osc    = ac.createOscillator();
@@ -84,11 +137,14 @@ export function playSynthPulse() {
 
     osc.start(ac.currentTime);
     osc.stop(ac.currentTime + 0.32);
-  } catch {}
+  } catch {
+    /* ignore audio error */
+  }
 }
 
 /** Page transition — white-noise whoosh band-pass sweep */
 export function playTransitionWhoosh() {
+  if (isAudioMuted()) return;
   try {
     const ac = getCtx();
     const bufLen = Math.floor(ac.sampleRate * 0.28);
@@ -113,11 +169,14 @@ export function playTransitionWhoosh() {
     filter.connect(gain);
     gain.connect(ac.destination);
     source.start();
-  } catch {}
+  } catch {
+    /* ignore audio error */
+  }
 }
 
 /** IntroScreen 100% completion — futuristic dual-harmonic chime */
 export function playSystemReadyChime() {
+  if (isAudioMuted()) return;
   try {
     const ac = getCtx();
     if (ac.state === 'suspended') ac.resume();
@@ -148,13 +207,17 @@ export function playSystemReadyChime() {
     gain2.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.32);
     osc2.start(ac.currentTime + 0.045);
     osc2.stop(ac.currentTime + 0.32);
-  } catch {}
+  } catch {
+    /* ignore audio error */
+  }
 }
 
 /** IntroScreen Split-Open — pneumatic shutter release & stereo laser whoosh */
 export function playApertureSplitSound() {
+  if (isAudioMuted()) return;
   try {
     const ac = getCtx();
+
     if (ac.state === 'suspended') ac.resume();
 
     // 1. High-frequency seam snap / laser unlatch
@@ -199,6 +262,8 @@ export function playApertureSplitSound() {
 
     source.start(ac.currentTime);
     source.stop(ac.currentTime + 0.35);
-  } catch {}
+  } catch {
+    /* ignore audio error */
+  }
 }
 

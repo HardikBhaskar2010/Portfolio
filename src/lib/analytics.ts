@@ -4,10 +4,7 @@
  * Provides typed helpers to synchronize user behavior, custom events,
  * and high-value session upgrades to both Vercel Analytics and Microsoft Clarity.
  *
- * Usage:
- *   import { track, clarity } from '@/lib/analytics';
- *   track.ctaClick('Let\'s work together', 'hero');
- *   clarity.upgrade('contact_submitted');
+ * Includes GDPR/ePrivacy compliant Consent Mode integration.
  */
 import { track as vercelTrack } from '@vercel/analytics';
 
@@ -28,6 +25,39 @@ declare global {
     };
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   CONSENT MODE MANAGER
+───────────────────────────────────────────────────────────── */
+
+export type ConsentStatus = 'granted' | 'denied' | 'unset';
+
+export const consentManager = {
+  /** Retrieve active consent state from localStorage */
+  getStatus: (): ConsentStatus => {
+    if (typeof window === 'undefined') return 'unset';
+    try {
+      const stored = localStorage.getItem('analytics_consent');
+      if (stored === 'granted' || stored === 'denied') return stored;
+    } catch {
+      // Fallback for sandboxed or private browsing environments
+    }
+    return 'unset';
+  },
+
+  /** Update user consent preference and notify tracking providers */
+  setConsent: (granted: boolean) => {
+    if (typeof window === 'undefined') return;
+    try {
+      localStorage.setItem('analytics_consent', granted ? 'granted' : 'denied');
+      if (typeof window.clarity === 'function') {
+        window.clarity('consent', granted);
+      }
+    } catch {
+      // Fallback for storage errors
+    }
+  },
+};
 
 /**
  * Microsoft Clarity programmatic helpers
@@ -50,19 +80,22 @@ export const clarity = {
       if (typeof window !== 'undefined' && typeof window.clarity === 'function') {
         window.clarity('set', key, value);
       }
-    } catch {}
+    } catch {
+      // Safe fallback
+    }
   },
 
   /**
    * Prioritize and bookmark the current session recording in Clarity.
-   * Useful for key conversion events (e.g. form submission, dossier download).
    */
   upgrade: (reason: string) => {
     try {
       if (typeof window !== 'undefined' && typeof window.clarity === 'function') {
         window.clarity('upgrade', reason);
       }
-    } catch {}
+    } catch {
+      // Safe fallback
+    }
   },
 
   /** Identify custom user or session attribute */
@@ -71,7 +104,14 @@ export const clarity = {
       if (typeof window !== 'undefined' && typeof window.clarity === 'function') {
         window.clarity('identify', customId, sessionMetadata, pageMetadata, friendlyName);
       }
-    } catch {}
+    } catch {
+      // Safe fallback
+    }
+  },
+
+  /** Set explicit tracking consent */
+  consent: (granted: boolean) => {
+    consentManager.setConsent(granted);
   },
 };
 

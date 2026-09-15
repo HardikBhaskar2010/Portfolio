@@ -4,19 +4,49 @@ export const config = {
   runtime: 'edge',
 };
 
+// In-memory sliding window rate limiter per Edge isolate (Max 5 requests per 10 minutes per IP)
+const rateLimitMap = new Map<string, { count: number; expiresAt: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const windowMs = 10 * 60 * 1000;
+  const maxRequests = 5;
+
+  const entry = rateLimitMap.get(ip);
+  if (!entry || now > entry.expiresAt) {
+    rateLimitMap.set(ip, { count: 1, expiresAt: now + windowMs });
+    return false;
+  }
+
+  if (entry.count >= maxRequests) {
+    return true;
+  }
+
+  entry.count += 1;
+  return false;
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
 /* ────────────────────────────────────────────────────────────
-   Gmail-safe email template
+   Gmail-safe email template (Strictly HTML-escaped)
    Rules: inline CSS only, table-based layout, no web fonts,
           HTTPS images only, no CSS variables
    ────────────────────────────────────────────────────────── */
 function buildEmailHtml(name: string, email: string, message: string) {
-  const safeMessage = message
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\n/g, '<br>');
-
-  const firstName = name.split(' ')[0];
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
+  const firstName = safeName.split(' ')[0];
   const sentAt = new Date().toLocaleString('en-IN', {
     timeZone: 'Asia/Kolkata',
     dateStyle: 'long',
@@ -28,7 +58,7 @@ function buildEmailHtml(name: string, email: string, message: string) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>New Portfolio Message from ${name}</title>
+  <title>New Portfolio Message from ${safeName}</title>
 </head>
 <body style="margin:0;padding:0;background-color:#05050a;font-family:Arial,Helvetica,sans-serif;">
 
@@ -111,8 +141,7 @@ function buildEmailHtml(name: string, email: string, message: string) {
                           <p style="margin:0 0 4px;font-size:10px;color:#3a3a52;
                                      letter-spacing:0.18em;text-transform:uppercase;">Name</p>
                           <p style="margin:0;font-size:16px;font-weight:700;color:#f0f0f8;">
-                            ${firstName}
-                            <span style="font-weight:400;color:#c4c4d4;">${name.includes(' ') ? '&nbsp;' + name.split(' ').slice(1).join(' ') : ''}</span>
+                            ${safeName}
                           </p>
                         </td>
                       </tr>
@@ -122,10 +151,10 @@ function buildEmailHtml(name: string, email: string, message: string) {
                         <td style="border-top:1px solid #1c1c2e;padding-top:14px;">
                           <p style="margin:0 0 4px;font-size:10px;color:#3a3a52;
                                      letter-spacing:0.18em;text-transform:uppercase;">Email</p>
-                          <a href="mailto:${email}"
+                          <a href="mailto:${safeEmail}"
                             style="margin:0;font-size:14px;color:#00e5ff;
                                    text-decoration:none;font-weight:500;">
-                            ${email}
+                            ${safeEmail}
                           </a>
                         </td>
                       </tr>
@@ -155,7 +184,7 @@ function buildEmailHtml(name: string, email: string, message: string) {
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td align="center">
-                    <a href="mailto:${email}?subject=Re: Your message to Hardik Bhaskar"
+                    <a href="mailto:${safeEmail}?subject=Re:%20Your%20message%20to%20Hardik%20Bhaskar"
                       style="display:inline-block;background-color:#ffffff;color:#05050a;
                              font-size:13px;font-weight:700;letter-spacing:0.04em;
                              text-decoration:none;padding:14px 36px;border-radius:99px;">
@@ -199,20 +228,51 @@ export default async function handler(req: Request) {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
+      headers: {
+        'Content-Type': 'application/json',
+        'Allow': 'POST',
+      },
+    });
+  }
+
+  // 1. Edge sliding window rate limiting
+  const forwardedFor = req.headers.get('x-forwarded-for');
+  const ip = forwardedFor ? forwardedFor.split(',')[0].trim() : 'unknown';
+  if (isRateLimited(ip)) {
+    return new Response(
+      JSON.stringify({ error: 'Too many requests. Please wait a few minutes before trying again.' }),
+      {
+        status: 429,
+        headers: {
+          'Content-Type': 'application/json',
+          'Retry-After': '600',
+        },
+      }
+    );
+  }
+
+  // 2. Body parsing and validation
+  let name: string;
+  let email: string;
+  let message: string;
+  let honeypot: string;
+  try {
+    const body = await req.json();
+    name     = String(body.name    ?? '').trim();
+    email    = String(body.email   ?? '').trim();
+    message  = String(body.message ?? '').trim();
+    honeypot = String(body.website ?? '').trim();
+  } catch {
+    return new Response(JSON.stringify({ error: 'Invalid JSON request body' }), {
+      status: 400,
       headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  /* ── Parse ── */
-  let name = '', email = '', message = '';
-  try {
-    const body = await req.json();
-    name    = String(body.name    ?? '').trim();
-    email   = String(body.email   ?? '').trim();
-    message = String(body.message ?? '').trim();
-  } catch {
-    return new Response(JSON.stringify({ error: 'Invalid request body' }), {
-      status: 400,
+  // Honeypot check for automated spambots (field is hidden from human visitors)
+  if (honeypot) {
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
   }
@@ -224,20 +284,48 @@ export default async function handler(req: Request) {
     });
   }
 
+  // Strict field length boundaries
+  if (name.length > 100 || email.length > 254 || message.length > 5000) {
+    return new Response(JSON.stringify({ error: 'Input exceeds maximum allowed length' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  // RFC-compliant email syntax check
+  if (!EMAIL_REGEX.test(email)) {
+    return new Response(JSON.stringify({ error: 'Please enter a valid email address' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Sanitize subject line to eliminate CRLF (\r, \n) injection
+  const safeSubjectName = name.replace(/[\r\n\t]/g, ' ').slice(0, 50);
+
   /* ── Send via Resend (key from env — never hardcoded) ── */
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  const resendApiKey = process.env.RESEND_API_KEY;
+  if (!resendApiKey) {
+    console.error('[Contact API] Missing RESEND_API_KEY environment variable.');
+    return new Response(JSON.stringify({ error: 'Contact service is temporarily unavailable.' }), {
+      status: 503,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const resend = new Resend(resendApiKey);
 
   const { error } = await resend.emails.send({
     from:    'onboarding@resend.dev',
     to:      ['hardik.bhaskar2010@gmail.com'],
     replyTo: email,
-    subject: `✦ ${name} sent you a message — Portfolio`,
+    subject: `✦ ${safeSubjectName} sent you a message — Portfolio`,
     html:    buildEmailHtml(name, email, message),
   });
 
   if (error) {
-    console.error('[Resend]', error);
-    return new Response(JSON.stringify({ error: 'Failed to send email' }), {
+    console.error('[Resend Error]', error);
+    return new Response(JSON.stringify({ error: 'Failed to send email. Please try again later.' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
