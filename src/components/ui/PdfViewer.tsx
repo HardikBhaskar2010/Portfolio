@@ -1,5 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Loader2, AlertCircle, Download, ExternalLink } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  ZoomOut,
+  Loader2,
+  AlertCircle,
+  Download,
+  ExternalLink,
+  Maximize2,
+} from 'lucide-react';
 import { playClick } from '@/lib/audio';
 import type { PDFDocumentProxy, RenderTask } from 'pdfjs-dist';
 
@@ -17,14 +27,14 @@ async function getPdfJs() {
           import.meta.url
         ).toString();
       } catch {
-        pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+        pdfjs.GlobalWorkerOptions.workerSrc =
+          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
       }
     }
     return pdfjs;
   })();
   return pdfjsPromise;
 }
-
 
 export interface PdfViewerProps {
   url: string;
@@ -33,16 +43,25 @@ export interface PdfViewerProps {
   accentColor?: string;
 }
 
-export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' }: PdfViewerProps) {
+export function PdfViewer({
+  url,
+  title,
+  className = '',
+  accentColor = '#00E5FF',
+}: PdfViewerProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const renderTaskRef = useRef<RenderTask | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [pdfDoc, setPdfDoc] = useState<PDFDocumentProxy | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [scale, setScale] = useState<number>(1.2);
+  const [scale, setScale] = useState<number>(0.85);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [isPanning, setIsPanning] = useState(false);
+  const panStartRef = useRef({ x: 0, y: 0, scrollLeft: 0, scrollTop: 0 });
 
   const [prevUrl, setPrevUrl] = useState(url);
   if (prevUrl !== url) {
@@ -51,6 +70,21 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
     setError(null);
     setCurrentPage(1);
   }
+
+  // Global mouseup release listener to prevent sticky pan state
+  useEffect(() => {
+    const handleGlobalMouseUp = () => setIsPanning(false);
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
+  }, []);
+
+  // Reset scroll position on page change
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+      containerRef.current.scrollLeft = 0;
+    }
+  }, [currentPage]);
 
   // Load PDF Document
   useEffect(() => {
@@ -66,6 +100,27 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
         setPdfDoc(doc);
         setTotalPages(doc.numPages);
         setLoading(false);
+
+        // Auto-fit initial scale to available container space
+        doc
+          .getPage(1)
+          .then((firstPage) => {
+            if (isCancelled) return;
+            const vp = firstPage.getViewport({ scale: 1.0 });
+            if (containerRef.current) {
+              const availW = containerRef.current.clientWidth - 48;
+              const availH = containerRef.current.clientHeight - 48;
+              if (availW > 100 && availH > 100) {
+                const fitScale = Math.min(availW / vp.width, availH / vp.height);
+                setScale(Math.min(1.2, Math.max(0.45, +fitScale.toFixed(2))));
+                return;
+              }
+            }
+            setScale(0.85);
+          })
+          .catch(() => {
+            setScale(0.85);
+          });
       })
       .catch((err: unknown) => {
         if (isCancelled) return;
@@ -135,11 +190,6 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
     };
   }, [pdfDoc, currentPage, scale]);
 
-
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [isPanning, setIsPanning] = useState(false);
-  const panStartRef = useRef({ x: 0, y: 0, scrollLeft: 0, scrollTop: 0 });
-
   const handlePrevPage = () => {
     if (currentPage > 1) {
       playClick();
@@ -156,17 +206,54 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
 
   const handleZoomIn = () => {
     playClick();
-    setScale((s) => Math.min(2.5, +(s + 0.2).toFixed(1)));
+    setScale((s) => Math.min(2.5, +(s + 0.15).toFixed(2)));
   };
 
   const handleZoomOut = () => {
     playClick();
-    setScale((s) => Math.max(0.6, +(s - 0.2).toFixed(1)));
+    setScale((s) => Math.max(0.4, +(s - 0.15).toFixed(2)));
+  };
+
+  const handleFitPage = async () => {
+    if (!pdfDoc || !containerRef.current) return;
+    playClick();
+    try {
+      const page = await pdfDoc.getPage(currentPage);
+      const vp = page.getViewport({ scale: 1.0 });
+      const availW = containerRef.current.clientWidth - 48;
+      const availH = containerRef.current.clientHeight - 48;
+      if (availW > 0 && availH > 0) {
+        const fitScale = Math.min(availW / vp.width, availH / vp.height);
+        setScale(Math.min(1.4, Math.max(0.4, +fitScale.toFixed(2))));
+      }
+    } catch {
+      setScale(0.85);
+    }
+  };
+
+  const handleFitWidth = async () => {
+    if (!pdfDoc || !containerRef.current) return;
+    playClick();
+    try {
+      const page = await pdfDoc.getPage(currentPage);
+      const vp = page.getViewport({ scale: 1.0 });
+      const availW = containerRef.current.clientWidth - 64;
+      if (availW > 0) {
+        const fitScale = availW / vp.width;
+        setScale(Math.min(2.0, Math.max(0.45, +fitScale.toFixed(2))));
+      }
+    } catch {
+      setScale(1.1);
+    }
   };
 
   const handleResetZoom = () => {
     playClick();
-    setScale((s) => (s === 1.0 ? 1.4 : 1.0));
+    if (scale !== 1.0) {
+      setScale(1.0);
+    } else {
+      handleFitPage();
+    }
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -197,9 +284,10 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     if (e.ctrlKey || e.metaKey) {
       e.preventDefault();
-      const delta = e.deltaY < 0 ? 0.15 : -0.15;
-      setScale((s) => Math.min(2.5, Math.max(0.6, +(s + delta).toFixed(2))));
+      const delta = e.deltaY < 0 ? 0.12 : -0.12;
+      setScale((s) => Math.min(2.5, Math.max(0.4, +(s + delta).toFixed(2))));
     }
+    // Standard mouse wheel scrolls containerRef natively
   };
 
   // Keyboard navigation & zoom shortcuts
@@ -219,11 +307,11 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
       } else if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '=')) {
         e.preventDefault();
         playClick();
-        setScale((s) => Math.min(2.5, +(s + 0.2).toFixed(1)));
+        setScale((s) => Math.min(2.5, +(s + 0.15).toFixed(2)));
       } else if ((e.ctrlKey || e.metaKey) && (e.key === '-' || e.key === '_')) {
         e.preventDefault();
         playClick();
-        setScale((s) => Math.max(0.6, +(s - 0.2).toFixed(1)));
+        setScale((s) => Math.max(0.4, +(s - 0.15).toFixed(2)));
       } else if ((e.ctrlKey || e.metaKey) && e.key === '0') {
         e.preventDefault();
         playClick();
@@ -235,29 +323,31 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
   }, [currentPage, totalPages]);
 
   return (
-    <div className={`relative flex flex-col w-full h-full bg-[#05050A] rounded-xl overflow-hidden ${className}`}>
+    <div
+      className={`relative flex flex-col w-full h-full min-h-0 bg-[#05050A] overflow-hidden ${className}`}
+    >
       {/* ── Top Floating Navigation Toolbar ── */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.03] border-b border-white/10 text-xs text-white/80 select-none z-10">
+      <div className="flex-shrink-0 flex items-center justify-between px-3 sm:px-4 py-2 bg-[#080812] border-b border-white/10 text-xs text-white/80 select-none z-20 gap-2">
         {/* Page navigation */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           <button
             onClick={handlePrevPage}
             disabled={currentPage <= 1 || loading}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 active:scale-95 disabled:opacity-30 disabled:pointer-events-none transition-all"
+            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 active:scale-95 disabled:opacity-30 disabled:pointer-events-none transition-all text-white/80 hover:text-white"
             title="Previous Page (← / PageUp)"
             aria-label="Previous Page"
           >
             <ChevronLeft size={16} />
           </button>
 
-          <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-black/50 border border-white/10 text-white/90">
+          <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-black/60 border border-white/10 text-white/90">
             {currentPage} / {totalPages}
           </span>
 
           <button
             onClick={handleNextPage}
             disabled={currentPage >= totalPages || loading}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 active:scale-95 disabled:opacity-30 disabled:pointer-events-none transition-all"
+            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 active:scale-95 disabled:opacity-30 disabled:pointer-events-none transition-all text-white/80 hover:text-white"
             title="Next Page (→ / PageDown)"
             aria-label="Next Page"
           >
@@ -265,18 +355,39 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
           </button>
 
           {scale > 1 && !loading && !error && (
-            <span className="hidden md:inline-flex items-center gap-1 font-mono text-[10px] text-muted px-2 py-0.5 rounded bg-white/5 border border-white/10 ml-2">
-              <span>Drag to pan</span>
+            <span className="hidden lg:inline-flex items-center gap-1 font-mono text-[10px] text-muted px-2 py-0.5 rounded bg-white/5 border border-white/10 ml-1">
+              <span>Scroll or drag to pan</span>
             </span>
           )}
         </div>
 
-        {/* Zoom controls */}
-        <div className="flex items-center gap-1.5">
+        {/* View / Fit Presets & Zoom Controls */}
+        <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
+          <button
+            onClick={handleFitPage}
+            disabled={loading}
+            className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-mono bg-white/5 hover:bg-white/10 hover:text-cyan active:scale-95 text-white/70 border border-white/5 transition-all"
+            title="Fit entire page in view"
+          >
+            <Maximize2 size={11} />
+            <span>Fit Page</span>
+          </button>
+
+          <button
+            onClick={handleFitWidth}
+            disabled={loading}
+            className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-mono bg-white/5 hover:bg-white/10 hover:text-cyan active:scale-95 text-white/70 border border-white/5 transition-all"
+            title="Fit page to width"
+          >
+            Fit Width
+          </button>
+
+          <div className="h-4 w-px bg-white/10 mx-0.5 hidden sm:block" />
+
           <button
             onClick={handleZoomOut}
-            disabled={scale <= 0.6 || loading}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 active:scale-95 disabled:opacity-30 transition-all"
+            disabled={scale <= 0.4 || loading}
+            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 active:scale-95 disabled:opacity-30 transition-all text-white/80 hover:text-white"
             title="Zoom Out (Ctrl -)"
             aria-label="Zoom Out"
           >
@@ -285,8 +396,8 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
 
           <button
             onClick={handleResetZoom}
-            className="font-mono text-xs px-2 py-1 rounded-md bg-white/5 hover:bg-white/10 hover:text-cyan active:scale-95 text-muted transition-all"
-            title="Click to toggle fit / 100% (Ctrl 0)"
+            className="font-mono text-xs px-2 py-1 rounded-md bg-white/5 hover:bg-white/10 hover:text-cyan active:scale-95 text-muted transition-all min-w-[50px] text-center"
+            title="Click to toggle 100% / Fit (Ctrl 0)"
             aria-label="Reset zoom"
           >
             {Math.round(scale * 100)}%
@@ -295,7 +406,7 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
           <button
             onClick={handleZoomIn}
             disabled={scale >= 2.5 || loading}
-            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 active:scale-95 disabled:opacity-30 transition-all"
+            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 active:scale-95 disabled:opacity-30 transition-all text-white/80 hover:text-white"
             title="Zoom In (Ctrl +)"
             aria-label="Zoom In"
           >
@@ -308,7 +419,7 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
       <div
         ref={containerRef}
         data-lenis-prevent="true"
-        className={`relative flex-1 overflow-auto bg-[#030306] select-none ${
+        className={`relative flex-1 min-h-0 w-full overflow-auto bg-[#030306] select-none ${
           isPanning ? 'cursor-grabbing' : scale > 1 ? 'cursor-grab' : 'cursor-default'
         }`}
         style={{
@@ -358,9 +469,14 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
             </div>
           </div>
         ) : (
-          <div className="min-w-full min-h-full flex items-center justify-center p-4 sm:p-8 m-auto w-fit h-fit">
-            <div className="shadow-[0_20px_60px_rgba(0,0,0,0.8)] rounded-lg overflow-hidden border border-white/10 bg-white flex-shrink-0 transition-shadow duration-300">
-              <canvas ref={canvasRef} className="block max-w-none pointer-events-none" />
+          <div className="w-max min-w-full min-h-full flex flex-col items-center p-4 sm:p-8">
+            <div
+              className="my-auto shadow-[0_20px_60px_rgba(0,0,0,0.9)] rounded-lg overflow-hidden border border-white/15 bg-white flex-shrink-0 transition-shadow duration-300"
+              style={{
+                boxShadow: `0 24px 70px -15px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.15)`,
+              }}
+            >
+              <canvas ref={canvasRef} className="block pointer-events-none" />
             </div>
           </div>
         )}
@@ -368,4 +484,3 @@ export function PdfViewer({ url, title, className = '', accentColor = '#00E5FF' 
     </div>
   );
 }
-

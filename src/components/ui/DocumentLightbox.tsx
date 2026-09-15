@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, ExternalLink, FileText } from 'lucide-react';
 import { playClick } from '@/lib/audio';
@@ -21,6 +22,12 @@ export interface DocumentModalProps {
 }
 
 export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -46,12 +53,12 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
     };
   }, [isOpen, onClose]);
 
-  if (!document) return null;
+  if (!document || !mounted) return null;
 
   const accent = document.accentColor || '#00E5FF';
   const isPdf = document.fileType === 'pdf' || document.fileUrl.endsWith('.pdf');
 
-  return (
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
         <div
@@ -59,7 +66,7 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
           aria-modal="true"
           aria-label={document.title}
           data-lenis-prevent="true"
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 md:p-8"
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-2 sm:p-4 md:p-6"
         >
           {/* Backdrop with blur */}
           <motion.div
@@ -71,7 +78,7 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
               playClick();
               onClose();
             }}
-            className="absolute inset-0 bg-black/85 backdrop-blur-xl"
+            className="absolute inset-0 bg-black/90 backdrop-blur-2xl"
           />
 
           {/* Modal Container */}
@@ -81,14 +88,14 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
             exit={{ opacity: 0, scale: 0.96, y: 8 }}
             transition={{ type: 'spring', duration: 0.35, bounce: 0 }}
             data-lenis-prevent="true"
-            className="relative w-full max-w-5xl max-h-[92vh] flex flex-col bg-[#0A0A10] border border-white/10 rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.8)] overflow-hidden z-10"
+            className="relative w-full max-w-5xl h-[90vh] max-h-[90vh] flex flex-col bg-[#0A0A10] border border-white/10 rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.8)] overflow-hidden z-10"
             style={{
               boxShadow: `0 0 0 1px rgba(255,255,255,0.08), 0 20px 60px -15px ${accent}25`,
             }}
           >
 
             {/* Top HUD Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-white/[0.02]">
+            <div className="flex-shrink-0 flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-white/10 bg-white/[0.02]">
               <div className="flex items-center gap-3 min-w-0">
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -154,21 +161,21 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
             </div>
 
             {/* Document Viewer Body */}
-            <div className="relative flex-1 min-h-[440px] md:min-h-[640px] bg-[#050508] flex items-center justify-center p-2 sm:p-4 overflow-hidden">
+            <div className="relative flex-1 min-h-0 w-full bg-[#050508] flex flex-col overflow-hidden">
               {isPdf ? (
                 <PdfViewer
                   url={document.fileUrl}
                   title={document.title}
                   accentColor={accent}
-                  className="w-full h-full"
+                  className="w-full h-full flex-1 min-h-0"
                 />
               ) : (
-                <div className="flex items-center justify-center w-full h-full p-2">
+                <div className="flex-1 min-h-0 w-full overflow-auto flex items-center justify-center p-4">
                   <img
                     src={document.fileUrl}
                     alt={`${document.title} — Official Verification Credential for Hardik Bhaskar`}
                     title={`${document.title} — Hardik Bhaskar`}
-                    className="max-h-[75vh] w-auto max-w-full object-contain rounded-lg shadow-2xl border border-white/10"
+                    className="max-h-full w-auto max-w-full object-contain rounded-lg shadow-2xl border border-white/10"
                     loading="eager"
                     decoding="async"
                   />
@@ -177,7 +184,7 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
             </div>
 
             {/* Footer status bar */}
-            <div className="flex items-center justify-between px-5 py-2.5 border-t border-white/10 bg-white/[0.01] text-[11px] font-mono text-muted">
+            <div className="flex-shrink-0 flex items-center justify-between px-4 sm:px-5 py-2.5 border-t border-white/10 bg-white/[0.01] text-[11px] font-mono text-muted">
               <span className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan" />
                 SECURE ARTIFACT // PROTOCOL V4
@@ -189,4 +196,6 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
       )}
     </AnimatePresence>
   );
+
+  return createPortal(modalContent, window.document.body);
 }
