@@ -1,5 +1,34 @@
+# robots.txt for https://hardikbhaskar.vercel.app
+# Optimized for Bingbot, Googlebot, and IndexNow crawl efficiency
+
 User-agent: *
 Allow: /
+# Disallow internal API endpoints
 Disallow: /api/
+# Disallow raw markdown source files to eliminate duplicate content crawl waste
+Disallow: /descriptions/
+# Prevent search engines from crawling infinite query parameter variations & tracking parameters
+Disallow: /*?*
+Disallow: /*?
+Disallow: /*&
 
+# Explicit configuration for Bingbot (Microsoft Bing)
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /descriptions/
+Disallow: /*?*
+Disallow: /*?
+Disallow: /*&
+
+# Explicit configuration for legacy MSNBot
+User-agent: msnbot
+Allow: /
+Disallow: /api/
+Disallow: /descriptions/
+Disallow: /*?*
+Disallow: /*?
+Disallow: /*&
+
+# XML Sitemap reference
 Sitemap: https://hardikbhaskar.vercel.app/sitemap.xml

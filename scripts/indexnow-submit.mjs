@@ -18,7 +18,10 @@ const SITE_URL    = process.env.VITE_SITE_URL || 'https://hardikbhaskar.vercel.a
 const KEY         = 'ba4a24c6fef4406899d311af30c603fc';
 const KEY_LOCATION = `${SITE_URL}/${KEY}.txt`;
 const HOST        = new URL(SITE_URL).hostname;
-const API_ENDPOINT = 'https://api.indexnow.org/IndexNow';
+const ENDPOINTS = [
+  'https://api.indexnow.org/IndexNow',
+  'https://www.bing.com/IndexNow',
+];
 
 // Parse complete list from public/sitemap.xml so all routes + document URLs are submitted
 function getSitemapUrls() {
@@ -33,7 +36,6 @@ function getSitemapUrls() {
 
 const URL_LIST = getSitemapUrls();
 
-
 async function submit() {
   const body = JSON.stringify({
     host: HOST,
@@ -42,25 +44,24 @@ async function submit() {
     urlList: URL_LIST,
   });
 
-  console.log(`🔔 IndexNow: submitting ${URL_LIST.length} URLs to ${API_ENDPOINT}…`);
+  for (const endpoint of ENDPOINTS) {
+    console.log(`🔔 IndexNow: submitting ${URL_LIST.length} URLs to ${endpoint}…`);
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body,
+      });
 
-  try {
-    const res = await fetch(API_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=utf-8' },
-      body,
-    });
-
-    if (res.ok) {
-      console.log(`✓ IndexNow: HTTP ${res.status} — URLs accepted`);
-    } else {
-      const text = await res.text().catch(() => '');
-      console.error(`✗ IndexNow: HTTP ${res.status} — ${text}`);
-      process.exit(1);
+      if (res.ok) {
+        console.log(`✓ IndexNow (${new URL(endpoint).hostname}): HTTP ${res.status} — URLs accepted`);
+      } else {
+        const text = await res.text().catch(() => '');
+        console.warn(`⚠ IndexNow (${new URL(endpoint).hostname}): HTTP ${res.status} — ${text}`);
+      }
+    } catch (err) {
+      console.warn(`⚠ IndexNow (${new URL(endpoint).hostname}): network warning — ${err.message}`);
     }
-  } catch (err) {
-    // Network errors during CI/CD shouldn't break the build — just warn.
-    console.warn(`⚠  IndexNow: network error (non-fatal) — ${err.message}`);
   }
 }
 
