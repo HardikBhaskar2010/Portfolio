@@ -83,44 +83,70 @@ export function GridDistortion() {
 
   return (
     <>
-      {/* SVG dot-grid with feTurbulence displacement */}
-      <div className="fixed inset-0 -z-20 pointer-events-none">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <filter id="grid-distort">
-              <feTurbulence
-                type="fractalNoise"
-                baseFrequency="0.0035"
-                numOctaves="2"
-                seed="2"
-                result="noise"
-              />
-              <feDisplacementMap
-                in="SourceGraphic"
-                in2="noise"
-                scale="5"
-                xChannelSelector="R"
-                yChannelSelector="G"
-              />
-            </filter>
-            <pattern id="dot-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="1" cy="1" r="0.8" fill="rgba(255,255,255,0.055)" />
-            </pattern>
-          </defs>
-          <rect
-            width="100%"
-            height="100%"
-            fill="url(#dot-grid)"
-            filter="url(#grid-distort)"
-          />
-        </svg>
+      {/* SVG dot-grid with matching 3D cylindrical perspective */}
+      <div
+        className="fixed inset-0 -z-20 pointer-events-none overflow-hidden"
+        style={{
+          perspective: '850px',
+          perspectiveOrigin: '50% 65%',
+        }}
+      >
+        <div
+          className="w-full h-full"
+          style={{
+            transformOrigin: '50% 100%',
+            transform: 'rotateX(12deg) scale(1.05)',
+          }}
+        >
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="grid-distort">
+                <feTurbulence
+                  type="fractalNoise"
+                  baseFrequency="0.0035"
+                  numOctaves="2"
+                  seed="2"
+                  result="noise"
+                />
+                <feDisplacementMap
+                  in="SourceGraphic"
+                  in2="noise"
+                  scale="5"
+                  xChannelSelector="R"
+                  yChannelSelector="G"
+                />
+              </filter>
+              <pattern id="dot-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="0.8" fill="rgba(255,255,255,0.055)" />
+              </pattern>
+            </defs>
+            <rect
+              width="100%"
+              height="100%"
+              fill="url(#dot-grid)"
+              filter="url(#grid-distort)"
+            />
+          </svg>
+        </div>
       </div>
 
-      {/* Canvas ripple layer */}
-      <canvas
-        ref={canvasRef}
-        className="fixed inset-0 -z-10 pointer-events-none opacity-70"
-      />
+      {/* Canvas ripple layer with matching 3D perspective */}
+      <div
+        className="fixed inset-0 -z-10 pointer-events-none overflow-hidden"
+        style={{
+          perspective: '850px',
+          perspectiveOrigin: '50% 65%',
+        }}
+      >
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full opacity-70 block"
+          style={{
+            transformOrigin: '50% 100%',
+            transform: 'rotateX(12deg) scale(1.05)',
+          }}
+        />
+      </div>
 
       {/* Outer diffuse glow blob */}
       <motion.div

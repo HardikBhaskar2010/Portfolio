@@ -40,10 +40,13 @@ export const FLUID_CONFIG = {
   centerDimming: 0.65,          // Dimming factor in center to preserve card/text readability
   grainIntensity: 0.028,        // High-frequency film grain to prevent dark gradient banding
 
-  // Idle drift, Telemetry Orb & Cylindrical Curvature
+  // Idle drift, Telemetry Orb & 3D Canvas Curvature
   idleDriftSpeed: 0.32,         // Autonomous gentle current when idle
   orbEmission: true,            // Telemetry orb emits subtle cyan current
-  cylindricalCurvature: 1.0,    // 3D cylindrical horizon curvature at viewport bottom (0.0 - 1.5)
+  canvasPerspective: 850,       // 3D perspective for canvas container in px
+  canvasTilt: 12.0,             // Physical 3D backward tilt of canvas at bottom (degrees)
+  canvasScale: 1.05,            // Scale factor to preserve screen coverage under 3D tilt
+  cylindricalCurvature: 1.0,    // 3D cylindrical horizon curvature in WebGL shader (0.0 - 2.0)
 };
 
 // ── WebGL Shader Sources (GLSL ES 3.00) ────────────────────────────────────
@@ -216,17 +219,44 @@ float hash21(vec2 p) {
 }
 
 void main() {
-  // ── Cylindrical Horizon Curvature ──
-  // Warps coordinate space along horizontal cylinder in the bottom 35% of viewport
-  float cylT = smoothstep(0.35, 0.0, v_uv.y) * u_cylindricalCurvature;
+  // ── True 3D Cylindrical Horizon Wrap ──
+  // Screen space: v_uv.y = 0.0 is the bottom, v_uv.y = 1.0 is the top.
+  // The cylinder curve is active in the bottom 42% of the viewport.
   vec2 uv = v_uv;
-  uv.x = 0.5 + (v_uv.x - 0.5) * (1.0 + 0.08 * cylT * cylT);
-  uv.y = v_uv.y - 0.025 * cylT * (1.0 - pow(abs(v_uv.x - 0.5) * 1.8, 2.0));
+  float cylinderNormalZ = 1.0;
+  float specularCrest = 0.0;
+  float curveFactor = 0.0;
 
-  vec3 dye = texture(u_dye, uv).rgb;
+  if (v_uv.y < 0.42 && u_cylindricalCurvature > 0.0) {
+    // Progress t from 0 at y=0.42 to 1 at bottom edge y=0.0
+    float t = (0.42 - v_uv.y) / 0.42;
+    curveFactor = pow(t, 1.3) * u_cylindricalCurvature;
 
-  // 1. Ambient bottom atmosphere (deep violet glow rising from bottom, mapped to curved cylinder)
-  float bottomRamp = pow(clamp(1.0 - uv.y, 0.0, 1.0), 1.5);
+    // Angle theta along the cylinder surface (bends backward into screen up to ~65 degrees)
+    float theta = curveFactor * 1.15; // in radians
+    cylinderNormalZ = cos(theta); // surface normal tilts away into depth
+
+    // Cylindrical arc displacement: center dips slightly, sides roll
+    float xDist = (v_uv.x - 0.5) * 2.0;
+    float arcOffset = (1.0 - xDist * xDist * 0.4) * 0.045 * curveFactor;
+
+    // Perspective foreshortening: as the cylinder curves into depth z, x converges
+    float zDepth = sin(theta) * 0.35;
+    uv.x = 0.5 + (v_uv.x - 0.5) / (1.0 + zDepth * 0.7);
+    uv.y = 0.42 - (0.42 - v_uv.y) * (1.0 + curveFactor * 0.6) - arcOffset;
+
+    // Specular horizon crest along the cylinder bend (illuminated grazing light)
+    float rimPeak = smoothstep(0.04, 0.22, t) * smoothstep(0.60, 0.22, t);
+    specularCrest = rimPeak * sin(theta) * 0.45;
+  }
+
+  // Sample fluid with clamped UVs
+  vec2 sampledUV = clamp(uv, vec2(0.001), vec2(0.999));
+  vec3 dye = texture(u_dye, sampledUV).rgb;
+
+  // 1. Ambient bottom atmosphere (deep violet glow rising from curved cylinder)
+  float bottomDist = clamp(1.0 - uv.y, 0.0, 1.0);
+  float bottomRamp = pow(bottomDist, 1.6);
   vec3 bottomAtmosphere = u_ambientColor * bottomRamp * u_bottomGlowIntensity;
 
   // 2. Ambient subtle side edge glows
@@ -239,13 +269,27 @@ void main() {
   float centerDist = length(centered);
   float centerDim = smoothstep(0.18, 0.68, centerDist) * (1.0 - u_centerDimming) + u_centerDimming;
 
-  // 4. Combine base background + ambient atmosphere + fluid dynamics
-  vec3 color = u_baseColor + bottomAtmosphere + edgeAtmosphere + (dye * u_brightness * centerDim);
+  // 4. Cylindrical Depth Shading:
+  // As the cylinder curves away from the viewer, surface normal tilts away,
+  // causing natural diffuse falloff into the deep indigo/black void
+  float depthShading = mix(1.0, clamp(cylinderNormalZ, 0.35, 1.0), 0.65);
 
-  // 5. Soft Reinhard tone-mapping to prevent harsh burnouts
+  // 5. Specular highlight along the cylinder crest (cyan-tinted grazing light)
+  vec3 crestHighlight = vec3(0.0, 0.90, 1.0) * specularCrest * 0.65;
+
+  // Combine base background + ambient atmosphere + fluid dynamics with depth shading
+  vec3 fluidComponent = dye * u_brightness * centerDim * depthShading;
+  vec3 color = u_baseColor + (bottomAtmosphere * depthShading) + edgeAtmosphere + fluidComponent + crestHighlight;
+
+  // Fade out smoothly if curved past cylinder edge
+  if (uv.y < 0.0) {
+    color = mix(color, u_baseColor, clamp(-uv.y * 5.0, 0.0, 1.0));
+  }
+
+  // Soft Reinhard tone-mapping to prevent harsh burnouts
   color = color / (1.0 + color * 0.45);
 
-  // 6. Anti-banding fine film grain
+  // Anti-banding fine film grain
   float grain = (hash21(gl_FragCoord.xy + fract(u_time * 7.13)) - 0.5) * u_grainIntensity;
   color += grain;
 
@@ -783,14 +827,24 @@ export function FluidBackground() {
   }
 
   return (
-    <canvas
-      ref={canvasRef}
+    <div
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none select-none -z-30 w-full h-full"
+      className="fixed inset-0 pointer-events-none select-none -z-30 overflow-hidden"
       style={{
-        display: 'block',
+        perspective: `${FLUID_CONFIG.canvasPerspective}px`,
+        perspectiveOrigin: '50% 65%',
       }}
-    />
+    >
+      <canvas
+        ref={canvasRef}
+        className="w-full h-full block pointer-events-none select-none"
+        style={{
+          transformOrigin: '50% 100%',
+          transform: `rotateX(${FLUID_CONFIG.canvasTilt}deg) scale(${FLUID_CONFIG.canvasScale})`,
+          willChange: 'transform',
+        }}
+      />
+    </div>
   );
 }
 
