@@ -74,6 +74,57 @@ export function BottomBlur() {
           background: BOTTOM_BLUR_CONFIG.fallbackGradient,
         }}
       />
+
+      {/* ── Cylindrical Horizon Rim Arc (HUD / Telemetry Curved Edge) ── */}
+      <div className="absolute top-0 left-0 right-0 h-10 pointer-events-none overflow-visible">
+        <svg
+          className="w-full h-8 overflow-visible"
+          viewBox="0 0 100 20"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="cyl-horizon-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#00E5FF" stopOpacity="0" />
+              <stop offset="25%" stopColor="#00E5FF" stopOpacity="0.08" />
+              <stop offset="50%" stopColor="#00E5FF" stopOpacity="0.38" />
+              <stop offset="65%" stopColor="#7C3AED" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#7C3AED" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="cyl-horizon-line" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#00E5FF" stopOpacity="0" />
+              <stop offset="35%" stopColor="#00E5FF" stopOpacity="0.18" />
+              <stop offset="50%" stopColor="#00E5FF" stopOpacity="0.65" />
+              <stop offset="65%" stopColor="#7C3AED" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#7C3AED" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {/* Diffuse glow halo */}
+          <path
+            d="M 0,18 Q 50,3 100,18"
+            fill="none"
+            stroke="url(#cyl-horizon-glow)"
+            strokeWidth="3.5"
+            opacity="0.8"
+          />
+          {/* Crisp illuminated rim wire */}
+          <path
+            d="M 0,18 Q 50,3 100,18"
+            fill="none"
+            stroke="url(#cyl-horizon-line)"
+            strokeWidth="1.1"
+          />
+        </svg>
+
+        {/* Micro-telemetry cylindrical coordinate badge */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#07070C]/90 border border-cyan/25 backdrop-blur-md text-[9px] font-mono text-cyan/80 tracking-widest uppercase shadow-[0_0_12px_rgba(0,229,255,0.15)]">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan" />
+          </span>
+          <span>CYLINDER // R-1200</span>
+        </div>
+      </div>
     </div>
   );
 }

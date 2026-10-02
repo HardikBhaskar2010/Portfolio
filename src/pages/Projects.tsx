@@ -14,6 +14,7 @@ import { playHoverTick, playClick } from '@/lib/audio';
 import { getLenis } from '@/lib/lenis';
 import { Seo, buildPersonJsonLd, buildBreadcrumbJsonLd, SITE_URL } from '@/lib/seo';
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
+import { CylindricalItem } from '@/components/effects/CylindricalScroll';
 
 type ViewMode = 'grid' | 'showcase' | 'table';
 
@@ -396,14 +397,15 @@ export default function Projects() {
                   </button>
                 </div>
               ) : viewMode === 'grid' ? (
-                /* Bento Grid View */
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                /* Bento Grid View with 3D Cylindrical Roll */
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 [perspective:1400px]">
                   {filteredProjects.map((project, index) => (
-                    <ProjectGridCard
-                      key={project.id}
-                      project={project}
-                      index={index}
-                    />
+                    <CylindricalItem key={project.id} className="h-full">
+                      <ProjectGridCard
+                        project={project}
+                        index={index}
+                      />
+                    </CylindricalItem>
                   ))}
                 </div>
               ) : viewMode === 'showcase' ? (

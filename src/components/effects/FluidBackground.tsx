@@ -40,9 +40,10 @@ export const FLUID_CONFIG = {
   centerDimming: 0.65,          // Dimming factor in center to preserve card/text readability
   grainIntensity: 0.028,        // High-frequency film grain to prevent dark gradient banding
 
-  // Idle drift & Telemetry Orb
+  // Idle drift, Telemetry Orb & Cylindrical Curvature
   idleDriftSpeed: 0.32,         // Autonomous gentle current when idle
   orbEmission: true,            // Telemetry orb emits subtle cyan current
+  cylindricalCurvature: 1.0,    // 3D cylindrical horizon curvature at viewport bottom (0.0 - 1.5)
 };
 
 // ── WebGL Shader Sources (GLSL ES 3.00) ────────────────────────────────────
@@ -205,6 +206,7 @@ uniform float u_edgeGlowIntensity;
 uniform float u_centerDimming;
 uniform float u_grainIntensity;
 uniform float u_time;
+uniform float u_cylindricalCurvature;
 
 // Pseudo-random high-frequency dither hash
 float hash21(vec2 p) {
@@ -214,10 +216,17 @@ float hash21(vec2 p) {
 }
 
 void main() {
-  vec3 dye = texture(u_dye, v_uv).rgb;
+  // ── Cylindrical Horizon Curvature ──
+  // Warps coordinate space along horizontal cylinder in the bottom 35% of viewport
+  float cylT = smoothstep(0.35, 0.0, v_uv.y) * u_cylindricalCurvature;
+  vec2 uv = v_uv;
+  uv.x = 0.5 + (v_uv.x - 0.5) * (1.0 + 0.08 * cylT * cylT);
+  uv.y = v_uv.y - 0.025 * cylT * (1.0 - pow(abs(v_uv.x - 0.5) * 1.8, 2.0));
 
-  // 1. Ambient bottom atmosphere (deep violet glow rising from bottom)
-  float bottomRamp = pow(1.0 - v_uv.y, 1.5);
+  vec3 dye = texture(u_dye, uv).rgb;
+
+  // 1. Ambient bottom atmosphere (deep violet glow rising from bottom, mapped to curved cylinder)
+  float bottomRamp = pow(clamp(1.0 - uv.y, 0.0, 1.0), 1.5);
   vec3 bottomAtmosphere = u_ambientColor * bottomRamp * u_bottomGlowIntensity;
 
   // 2. Ambient subtle side edge glows
@@ -716,6 +725,7 @@ export function FluidBackground() {
       gl.uniform1f(gl.getUniformLocation(displayProgram, 'u_edgeGlowIntensity'), FLUID_CONFIG.edgeGlowIntensity);
       gl.uniform1f(gl.getUniformLocation(displayProgram, 'u_centerDimming'), FLUID_CONFIG.centerDimming);
       gl.uniform1f(gl.getUniformLocation(displayProgram, 'u_grainIntensity'), FLUID_CONFIG.grainIntensity);
+      gl.uniform1f(gl.getUniformLocation(displayProgram, 'u_cylindricalCurvature'), FLUID_CONFIG.cylindricalCurvature);
       gl.uniform1f(gl.getUniformLocation(displayProgram, 'u_time'), now * 0.001);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
     };

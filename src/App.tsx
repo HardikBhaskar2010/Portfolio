@@ -240,7 +240,7 @@ function AppContent() {
       <ScrollToTop />
 
       {/* Page content — animated in/out by AnimatePresence */}
-      <div className="relative z-10">
+      <div className="relative z-10 [perspective:1400px]">
         <AnimatedRoutes />
       </div>
 
