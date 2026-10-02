@@ -97,28 +97,31 @@ async function fetchRepoFileContent(repoName, filePath, owner = DEFAULT_USERNAME
 async function fetchRepoAssets(repoName, fallbackDescription, existingProject = null, owner = DEFAULT_USERNAME) {
   const slug = slugify(repoName);
   
-  // 1. Fetch description and image in parallel
-  const [picResult, rawMd] = await Promise.all([
-    rawFile(repoName, 'assets/pic.png', owner),
-    rawFile(repoName, 'assets/description.md', owner),
-  ]);
+  // 1. Fetch description and image in parallel across common conventions
+  const imageCandidates = ['assets/preview.png', 'assets/pic.png', 'public/preview.png'];
+  const descCandidates  = ['assets/description.md', 'assets/info.md', 'info.md'];
 
   let longDescription = '';
-  if (rawMd.ok && rawMd.text.trim()) {
-    longDescription = rawMd.text.trim();
-  } else {
-    // Try GitHub Contents API
-    const apiMd = await fetchRepoFileContent(repoName, 'assets/description.md', owner);
+  for (const file of descCandidates) {
+    const rawMd = await rawFile(repoName, file, owner);
+    if (rawMd.ok && rawMd.text.trim()) {
+      longDescription = rawMd.text.trim();
+      break;
+    }
+    const apiMd = await fetchRepoFileContent(repoName, file, owner);
     if (apiMd.ok && apiMd.text.trim()) {
       longDescription = apiMd.text.trim();
-    } else {
-      // Try local fallback file
-      const localPath = `./public/descriptions/${slug}.md`;
-      if (existsSync(localPath)) {
-        try {
-          longDescription = readFileSync(localPath, 'utf8').trim();
-        } catch {}
-      }
+      break;
+    }
+  }
+
+  if (!longDescription) {
+    // Try local fallback file
+    const localPath = `./public/descriptions/${slug}.md`;
+    if (existsSync(localPath)) {
+      try {
+        longDescription = readFileSync(localPath, 'utf8').trim();
+      } catch {}
     }
   }
 
@@ -127,19 +130,24 @@ async function fetchRepoAssets(repoName, fallbackDescription, existingProject = 
   }
 
   let imageUrl = existingProject?.image || FALLBACK_IMAGE;
-  if (picResult.ok) {
-    imageUrl = `https://raw.githubusercontent.com/${owner}/${repoName}/HEAD/assets/pic.png`;
-  } else {
-    // Try checking if pic.png exists via GitHub Contents API
+  for (const imgPath of imageCandidates) {
+    const picResult = await rawFile(repoName, imgPath, owner);
+    if (picResult.ok) {
+      imageUrl = `https://raw.githubusercontent.com/${owner}/${repoName}/HEAD/${imgPath}`;
+      break;
+    }
     try {
-      const picData = await gh(`/repos/${owner}/${repoName}/contents/assets/pic.png`);
+      const picData = await gh(`/repos/${owner}/${repoName}/contents/${imgPath}`);
       if (picData && picData.download_url) {
         imageUrl = picData.download_url;
+        break;
       }
-    } catch {
-      if (existingProject?.image && existingProject.image !== FALLBACK_IMAGE) {
-        imageUrl = existingProject.image;
-      }
+    } catch {}
+  }
+
+  if (!imageUrl || imageUrl === FALLBACK_IMAGE) {
+    if (existingProject?.image && existingProject.image !== FALLBACK_IMAGE) {
+      imageUrl = existingProject.image;
     }
   }
 

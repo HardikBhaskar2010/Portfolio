@@ -93,6 +93,11 @@ export function getRoutes() {
           caption: 'Vectoris desktop platform blueprint perception and MEP takeoff interface by Hardik Bhaskar',
         },
         {
+          loc: `${SITE_URL}/images/project-kage.webp`,
+          title: 'KAGE — Developer-First Autonomous Browser & Workstation',
+          caption: 'KAGE autonomous developer browser, CEF runtime, and Liquid Glass UI by Hardik Bhaskar',
+        },
+        {
           loc: `${SITE_URL}/images/project-mahina-os.webp`,
           title: 'MahinaOS — Bare-Metal x86_64 Operating System',
           caption: 'MahinaOS deterministic kernel, early boot graphics, and desktop shell by Hardik Bhaskar',
@@ -173,7 +178,7 @@ export function getRoutes() {
         <section style="margin: 1.5rem 0; padding: 1.25rem; background: #0c0c10; border: 1px solid #222; border-radius: 12px;">
           <h2 style="font-size: 1.25rem; font-weight: 600; color: #00E5FF; margin-bottom: 0.5rem;">Verified GitHub Telemetry &amp; Live Shipping Cadence</h2>
           <p style="color: #94A3B8; font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.5rem;">
-            1,867+ contributions across public and private repositories. Active open-source and architecture systems include Vectoris (Native AI Desktop), Veronica-AI (Autonomous reasoning loop), MahinaOS (bare-metal x86_64 kernel), and AEGIS (Intelligence platform).
+            1,867+ contributions across public and private repositories. Active open-source and architecture systems include KAGE (Autonomous Developer Browser in Rust &amp; CEF), Vectoris (Native AI Desktop), Veronica-AI (Autonomous reasoning loop), MahinaOS (bare-metal x86_64 kernel), and AEGIS (Intelligence platform).
           </p>
         </section>
         <section style="margin: 1.5rem 0; padding: 1.25rem; background: #0c0c10; border: 1px solid #222; border-radius: 12px;">

@@ -82,4 +82,21 @@ export const overrides = {
     fallbackImage: '/images/project-vectoris.webp',
   },
 
+  // ── KAGE ────────────────────────────────────────────────────────────────
+  'kage': {
+    title:         'KAGE (影)',
+    subtitle:      'Developer-First Autonomous Browser & Workstation',
+    category:      'Systems & Browser',
+    tag:           'Browser / Rust',
+    year:          '2026',
+    featured:      true,
+    tools:         ['Tauri v2', 'Rust', 'Chromium (CEF)', 'React 18', 'TypeScript', 'CDP', 'SQLite'],
+    link:          'https://github.com/HardikBhaskar2010/Kage',
+    repoUrl:       'https://github.com/HardikBhaskar2010/Kage',
+    color:         '#EC4899',
+    image:         'https://raw.githubusercontent.com/HardikBhaskar2010/Kage/main/assets/preview.png',
+    heroImage:     'https://raw.githubusercontent.com/HardikBhaskar2010/Kage/main/assets/preview.png',
+    fallbackImage: '/images/project-kage.webp',
+  },
+
 };

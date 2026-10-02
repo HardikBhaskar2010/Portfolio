@@ -32,7 +32,7 @@ export function buildPersonJsonLd() {
     },
     jobTitle: 'Systems Architect & AI Systems Builder',
     disambiguatingDescription:
-      'Systems Architect, Low-Level Engineer, and AI Systems Builder based in India. Creator of MahinaOS (bare-metal x86_64 OS), Vectoris (native Rust desktop platform), and AEGIS (multi-agent intelligence platform). Distinct from academic medical researchers or energy engineers of the same name.',
+      'Systems Architect, Low-Level Engineer, and AI Systems Builder based in India. Creator of KAGE (developer-first autonomous browser in Rust & CEF), MahinaOS (bare-metal x86_64 OS), Vectoris (native Rust desktop platform), and AEGIS (multi-agent intelligence platform). Distinct from academic medical researchers or energy engineers of the same name.',
     description:
       'Hardik Bhaskar is a Systems Architect and AI Systems Builder focused on operating systems, autonomous AI, intelligent software systems, and engineering.',
     email: 'hardik.bhaskar2010@gmail.com',
@@ -44,6 +44,9 @@ export function buildPersonJsonLd() {
       'Rust',
       'C / C++',
       'Operating Systems',
+      'Chromium / CEF',
+      'Browser Architecture',
+      'Chrome DevTools Protocol (CDP)',
       'AI Systems',
       'Autonomous Agents',
       'Google Cloud Platform',
