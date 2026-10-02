@@ -159,7 +159,7 @@ function ProjectCard({ project, priority }: { project: typeof projects[0]; prior
         whileHover={{ y: -6 }}
         onHoverStart={playSynthPulse}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="group relative rounded-2xl overflow-hidden border border-border bg-surface cursor-pointer"
+        className="group relative rounded-2xl overflow-hidden border border-white/[0.08] bg-[#09090E]/75 backdrop-blur-xl hover:border-cyan/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.6),0_0_24px_rgba(0,229,255,0.06)] transition-all duration-300 cursor-pointer"
       >
         {/* Image area */}
         <div className="aspect-video overflow-hidden parallax-container">

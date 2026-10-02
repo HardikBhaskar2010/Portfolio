@@ -43,7 +43,7 @@ export function ProjectGridCard({ project, index }: ProjectGridCardProps) {
         setIsHovered(false);
         useHighlightStore.getState().setOverride(null);
       }}
-      className="group relative flex flex-col justify-between rounded-[24px] lg:rounded-[28px] border border-white/10 bg-[#09090E]/90 backdrop-blur-md p-6 lg:p-8 transition-all duration-500 hover:border-white/20 hover:shadow-2xl hover:shadow-black/60"
+      className="group relative flex flex-col justify-between rounded-[24px] lg:rounded-[28px] border border-white/[0.08] bg-[#09090E]/75 backdrop-blur-xl p-6 lg:p-8 transition-all duration-500 hover:border-cyan/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.6),0_0_24px_rgba(0,229,255,0.06)]"
     >
       {/* Ambient background glow matching project accent color */}
       <div

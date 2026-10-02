@@ -76,7 +76,7 @@ function StackingCard({
           transformOrigin: 'top center',
           zIndex: 10 + index,
         }}
-        className="relative w-full max-w-[1050px] h-[520px] md:h-[540px] rounded-2xl md:rounded-3xl border border-white/[0.12] bg-[#0c0e14]/95 backdrop-blur-2xl overflow-hidden shadow-[0_-22px_60px_-15px_rgba(0,0,0,0.92),0_30px_80px_-15px_rgba(0,0,0,0.95)] transition-colors duration-300 hover:border-white/20"
+        className="relative w-full max-w-[1050px] h-[520px] md:h-[540px] rounded-2xl md:rounded-3xl border border-white/[0.10] bg-[#0c0e14]/80 backdrop-blur-2xl overflow-hidden shadow-[0_-22px_60px_-15px_rgba(0,0,0,0.92),0_30px_80px_-15px_rgba(0,0,0,0.95)] transition-all duration-300 hover:border-cyan/30 hover:shadow-[0_0_30px_rgba(0,229,255,0.08)]"
       >
         {/* Top cardstock illuminated edge highlight */}
         <div
