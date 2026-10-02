@@ -7,7 +7,6 @@ import { useLenis, getLenis } from '@/lib/lenis';
 import { track } from '@/lib/analytics';
 import { unlockAudio, playTransitionWhoosh } from '@/lib/audio';
 import { GridDistortion } from '@/components/effects/GridDistortion';
-import { FluidBackground } from '@/components/effects/FluidBackground';
 import GradientWaves from '@/components/ui/GradientWaves';
 import { BottomBlur } from '@/components/ui/BottomBlur';
 import { Navbar } from '@/components/layout/Navbar';
@@ -224,59 +223,30 @@ function AppContent() {
       {showIntro && <IntroScreen onComplete={handleIntroComplete} />}
       <ConsentBanner />
 
-      {/* ── Backmost Layer: 3D Curved Canvas System (GradientWaves + FluidBackground) ── */}
-      <div
-        className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none"
-        style={{
-          perspective: '850px',
-          perspectiveOrigin: '50% 65%',
-        }}
-      >
-        {/* 1. Signature Raymarched Wave Terrain Horizon (React Bits) */}
-        <div
-          className="w-full h-full absolute inset-0"
-          style={{
-            transformOrigin: '50% 100%',
-            transform: 'rotateX(12deg) scale(1.06)',
-            willChange: 'transform',
-          }}
-        >
-          <GradientWaves
-            horizonColor="#5227FF"
-            waveColor="#FF9FFC"
-            crestColor="#FFFFFF"
-            speed={0.4}
-            amplitude={2.5}
-            waveScale={0.6}
-            waveRatio={0.9}
-            swell={35}
-            turbulence={20}
-            tilt={1.11}
-            zoom={1.0}
-            height={5.5}
-            fogDepth={15}
-            detail="medium"
-            brightness={1.0}
-            opacity={0.92}
-            mouseInteraction={true}
-            parallaxStrength={0.5}
-            grain={true}
-            grainIntensity={0.04}
-          />
-        </div>
-
-        {/* 2. Interactive WebGL Navier-Stokes Fluid Layer */}
-        <div
-          className="w-full h-full absolute inset-0"
-          style={{
-            transformOrigin: '50% 100%',
-            transform: 'rotateX(12deg) scale(1.06)',
-            willChange: 'transform',
-            mixBlendMode: 'screen',
-          }}
-        >
-          <FluidBackground />
-        </div>
+      {/* ── Backmost Layer: GradientWaves (React Bits) ── */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
+        <GradientWaves
+          horizonColor="#5227FF"
+          waveColor="#FF9FFC"
+          crestColor="#FFFFFF"
+          speed={0.4}
+          amplitude={2.5}
+          waveScale={0.6}
+          waveRatio={0.9}
+          swell={35}
+          turbulence={20}
+          tilt={1.11}
+          zoom={1.0}
+          height={5.5}
+          fogDepth={15}
+          detail="medium"
+          brightness={1.0}
+          opacity={1.0}
+          mouseInteraction={true}
+          parallaxStrength={0.5}
+          grain={true}
+          grainIntensity={0.05}
+        />
       </div>
 
       {/* ── Background grid + glow effect (BELOW everything) ── */}
@@ -293,7 +263,7 @@ function AppContent() {
       <ScrollToTop />
 
       {/* Page content — animated in/out by AnimatePresence */}
-      <div className="relative z-10 [perspective:1400px]">
+      <div className="relative z-10">
         <AnimatedRoutes />
       </div>
 

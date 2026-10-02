@@ -10,7 +10,6 @@ import { Services } from '@/components/sections/Services';
 import { ContactSection } from '@/components/sections/ContactSection';
 import { SystemLabel } from '@/components/effects/SystemLabel';
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
-import { CylindricalItem } from '@/components/effects/CylindricalScroll';
 import { pageEnter } from '@/lib/motion';
 import { Seo, buildPersonJsonLd, buildWebsiteJsonLd, buildFaqJsonLd } from '@/lib/seo';
 import { faqs } from '@/data/faqs';
@@ -40,63 +39,49 @@ export default function Home() {
         <MarqueeBanner />
 
         {/* ── SYSTEM_01: About preview ── */}
-        <CylindricalItem>
-          <SystemLabel id="SYSTEM_01" index="01" total="05">
-            <HighlightPoint id="about-section" color="#10B981" label="PROFILE // HARDIK">
-              <AboutPreview />
-            </HighlightPoint>
-          </SystemLabel>
-        </CylindricalItem>
+        <SystemLabel id="SYSTEM_01" index="01" total="05">
+          <HighlightPoint id="about-section" color="#10B981" label="PROFILE // HARDIK">
+            <AboutPreview />
+          </HighlightPoint>
+        </SystemLabel>
 
         {/* ── PROJECT_ARCHIVE: Featured work ── */}
-        <CylindricalItem>
-          <SystemLabel id="PROJECT_ARCHIVE" index="02" total="05">
-            <HighlightPoint id="featured-work" color="#E11D48" label="ARCHIVE // 5 SYSTEMS">
-              <FeaturedWork limit={4} showViewAll />
-            </HighlightPoint>
-          </SystemLabel>
-        </CylindricalItem>
+        <SystemLabel id="PROJECT_ARCHIVE" index="02" total="05">
+          <HighlightPoint id="featured-work" color="#E11D48" label="ARCHIVE // 5 SYSTEMS">
+            <FeaturedWork limit={4} showViewAll />
+          </HighlightPoint>
+        </SystemLabel>
 
         {/* ── SERVICES: What I Build ── */}
-        <CylindricalItem>
-          <SystemLabel id="SERVICES" index="03" total="06">
-            <HighlightPoint id="services" color="#F59E0B" label="CAPABILITIES // FULL-STACK">
-              <Services />
-            </HighlightPoint>
-          </SystemLabel>
-        </CylindricalItem>
+        <SystemLabel id="SERVICES" index="03" total="06">
+          <HighlightPoint id="services" color="#F59E0B" label="CAPABILITIES // FULL-STACK">
+            <Services />
+          </HighlightPoint>
+        </SystemLabel>
 
         {/* ── NEURAL_FEEDBACK: Testimonials ── */}
-        <CylindricalItem>
-          <SystemLabel id="NEURAL_FEEDBACK" index="04" total="06">
-            <HighlightPoint id="testimonials" color="#8B5CF6" label="FEEDBACK // VERIFIED">
-              <Testimonials />
-            </HighlightPoint>
-          </SystemLabel>
-        </CylindricalItem>
+        <SystemLabel id="NEURAL_FEEDBACK" index="04" total="06">
+          <HighlightPoint id="testimonials" color="#8B5CF6" label="FEEDBACK // VERIFIED">
+            <Testimonials />
+          </HighlightPoint>
+        </SystemLabel>
 
         {/* ── QUERY_ENGINE: FAQ ── */}
-        <CylindricalItem>
-          <SystemLabel id="QUERY_ENGINE" index="05" total="06">
-            <HighlightPoint id="faq" color="#06B6D4" label="QUERY // KNOWLEDGE">
-              <FAQ />
-            </HighlightPoint>
-          </SystemLabel>
-        </CylindricalItem>
+        <SystemLabel id="QUERY_ENGINE" index="05" total="06">
+          <HighlightPoint id="faq" color="#06B6D4" label="QUERY // KNOWLEDGE">
+            <FAQ />
+          </HighlightPoint>
+        </SystemLabel>
 
         {/* ── OPEN_CHANNEL: Contact ── */}
-        <CylindricalItem>
-          <SystemLabel id="OPEN_CHANNEL" index="06" total="06">
-            <HighlightPoint id="contact" color="#10B981" label="UPLINK // TRANSMIT">
-              <ContactSection />
-            </HighlightPoint>
-          </SystemLabel>
-        </CylindricalItem>
+        <SystemLabel id="OPEN_CHANNEL" index="06" total="06">
+          <HighlightPoint id="contact" color="#10B981" label="UPLINK // TRANSMIT">
+            <ContactSection />
+          </HighlightPoint>
+        </SystemLabel>
       </main>
 
-      <CylindricalItem>
-        <Footer />
-      </CylindricalItem>
+      <Footer />
     </motion.div>
   );
 }
