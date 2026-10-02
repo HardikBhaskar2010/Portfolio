@@ -7,8 +7,46 @@ import { useLenis, getLenis } from '@/lib/lenis';
 import { track } from '@/lib/analytics';
 import { unlockAudio, playTransitionWhoosh } from '@/lib/audio';
 import { GridDistortion } from '@/components/effects/GridDistortion';
-import GradientWaves from '@/components/ui/GradientWaves';
+import Hyperspeed from '@/components/ui/Hyperspeed';
 import { BottomBlur } from '@/components/ui/BottomBlur';
+
+const hyperspeedOptions = {
+  onSpeedUp: () => {},
+  onSlowDown: () => {},
+  distortion: 'turbulentDistortion',
+  length: 400,
+  roadWidth: 10,
+  islandWidth: 2,
+  lanesPerRoad: 4,
+  fov: 90,
+  fovSpeedUp: 150,
+  speedUp: 2,
+  carLightsFade: 0.4,
+  totalSideLightSticks: 20,
+  lightPairsPerRoadWay: 40,
+  shoulderLinesWidthPercentage: 0.05,
+  brokenLinesWidthPercentage: 0.1,
+  brokenLinesLengthPercentage: 0.5,
+  lightStickWidth: [0.12, 0.5] as [number, number],
+  lightStickHeight: [1.3, 1.7] as [number, number],
+  movingAwaySpeed: [60, 80] as [number, number],
+  movingCloserSpeed: [-120, -160] as [number, number],
+  carLightsLength: [400 * 0.03, 400 * 0.2] as [number, number],
+  carLightsRadius: [0.05, 0.14] as [number, number],
+  carWidthPercentage: [0.3, 0.5] as [number, number],
+  carShiftX: [-0.8, 0.8] as [number, number],
+  carFloorSeparation: [0, 5] as [number, number],
+  colors: {
+    roadColor: 0x080808,
+    islandColor: 0x0a0a0a,
+    background: 0x000000,
+    shoulderLines: 0xffffff,
+    brokenLines: 0xffffff,
+    leftCars: [0xd856bf, 0x6750a2, 0xc247ac],
+    rightCars: [0x03b3c3, 0x0e5ea5, 0x324555],
+    sticks: 0x03b3c3
+  }
+};
 import { Navbar } from '@/components/layout/Navbar';
 import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
 import { IntroScreen } from '@/components/ui/IntroScreen';
@@ -223,30 +261,9 @@ function AppContent() {
       {showIntro && <IntroScreen onComplete={handleIntroComplete} />}
       <ConsentBanner />
 
-      {/* ── Backmost Layer: GradientWaves (React Bits) ── */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
-        <GradientWaves
-          horizonColor="#5227FF"
-          waveColor="#FF9FFC"
-          crestColor="#FFFFFF"
-          speed={0.4}
-          amplitude={2.5}
-          waveScale={0.6}
-          waveRatio={0.9}
-          swell={35}
-          turbulence={20}
-          tilt={1.11}
-          zoom={1.0}
-          height={5.5}
-          fogDepth={15}
-          detail="medium"
-          brightness={1.0}
-          opacity={1.0}
-          mouseInteraction={true}
-          parallaxStrength={0.5}
-          grain={true}
-          grainIntensity={0.05}
-        />
+      {/* ── Backmost Layer: Hyperspeed (React Bits) ── */}
+      <div className="fixed inset-0 z-0 overflow-hidden select-none">
+        <Hyperspeed effectOptions={hyperspeedOptions} />
       </div>
 
       {/* ── Background grid + glow effect (BELOW everything) ── */}
