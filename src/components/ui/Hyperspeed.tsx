@@ -53,6 +53,8 @@ interface HyperspeedOptions {
   carFloorSeparation: [number, number];
   colors: Colors;
   isHyper?: boolean;
+  cameraY?: number;
+  bloomIntensity?: number;
 }
 
 export interface HyperspeedProps {
@@ -88,6 +90,8 @@ const defaultOptions: HyperspeedOptions = {
   carWidthPercentage: [0.3, 0.5],
   carShiftX: [-0.8, 0.8],
   carFloorSeparation: [0, 5],
+  cameraY: 4.8,
+  bloomIntensity: 2.4,
   colors: {
     roadColor: 0x080808,
     islandColor: 0x0a0a0a,
@@ -274,8 +278,8 @@ const distortions: Distortions = {
         getY(progress) - getY(progress + 0.007),
         0
       );
-      const lookAtAmp = new THREE.Vector3(-2, -5, 0);
-      const lookAtOffset = new THREE.Vector3(0, 0, -10);
+      const lookAtAmp = new THREE.Vector3(-2, -3.2, 0);
+      const lookAtOffset = new THREE.Vector3(0, 3.2, -10);
       return distortion.multiply(lookAtAmp).add(lookAtOffset);
     }
   },
@@ -968,7 +972,7 @@ class App {
 
     this.camera = new THREE.PerspectiveCamera(options.fov, initW / initH, 0.1, 10000);
     this.camera.position.z = -5;
-    this.camera.position.y = 8;
+    this.camera.position.y = options.cameraY ?? 4.8;
     this.camera.position.x = 0;
 
     this.scene = new THREE.Scene();
@@ -1049,8 +1053,9 @@ class App {
     this.bloomPass = new EffectPass(
       this.camera,
       new BloomEffect({
-        luminanceThreshold: 0.2,
-        luminanceSmoothing: 0,
+        luminanceThreshold: 0.08,
+        luminanceSmoothing: 0.3,
+        intensity: this.options.bloomIntensity ?? 2.4,
         resolutionScale: 1
       })
     );
