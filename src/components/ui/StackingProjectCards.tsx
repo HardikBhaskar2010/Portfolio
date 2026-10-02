@@ -129,7 +129,7 @@ function StackingCard({
           {/* Left Column: Authentic Screenshot (6 cols) */}
           <div className="md:col-span-6 h-full flex items-center">
             <Link
-              to={`/project/${project.slug}`}
+              to={`/projects/${project.slug}`}
               onClick={() => playSynthPulse()}
               onMouseEnter={playHoverTick}
               className="group/img block w-full h-[220px] sm:h-[260px] md:h-full max-h-[380px] relative rounded-xl md:rounded-2xl border border-white/10 bg-black/60 overflow-hidden shadow-2xl transition-all duration-300 hover:border-white/25"
@@ -174,7 +174,7 @@ function StackingCard({
               {/* Title */}
               <h3 className="font-display italic text-heading text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.05]">
                 <Link
-                  to={`/project/${project.slug}`}
+                  to={`/projects/${project.slug}`}
                   onClick={() => playSynthPulse()}
                   onMouseEnter={playHoverTick}
                   className="hover:text-cyan transition-colors"
@@ -216,7 +216,7 @@ function StackingCard({
             {/* Action Buttons */}
             <div className="mt-6 pt-5 border-t border-white/[0.08] flex items-center flex-wrap gap-3">
               <Link
-                to={`/project/${project.slug}`}
+                to={`/projects/${project.slug}`}
                 onClick={() => playSynthPulse()}
                 onMouseEnter={playHoverTick}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-ui text-xs md:text-sm font-semibold bg-cyan text-bg hover:bg-cyan/90 transition-all active:scale-[0.97] shadow-sm"

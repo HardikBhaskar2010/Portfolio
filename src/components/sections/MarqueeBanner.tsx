@@ -60,7 +60,7 @@ function MarqueeCard({ item, index }: { item: { slug: string; src: string; fallb
   }, [item.src, item.fallbackSrc]);
 
   return (
-    <Link to={`/project/${item.slug}`} className="block focus:outline-none">
+    <Link to={`/projects/${item.slug}`} className="block focus:outline-none">
       <div className="relative flex-shrink-0 w-[340px] md:w-[420px] group cursor-pointer">
         {/* Image with parallax scale on hover */}
         <div className="aspect-video rounded-xl overflow-hidden border border-border group-hover:border-cyan/40 bg-surface parallax-container transition-colors duration-300">

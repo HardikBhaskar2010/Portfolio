@@ -16,6 +16,11 @@
       "source": "/project/:slug",
       "destination": "/projects/:slug",
       "permanent": true
+    },
+    {
+      "source": "/project",
+      "destination": "/projects",
+      "permanent": true
     }
   ],
   "rewrites": [

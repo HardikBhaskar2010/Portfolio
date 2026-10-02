@@ -153,7 +153,7 @@ function ProjectCard({ project, priority }: { project: typeof projects[0]; prior
   const imageY = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
 
   return (
-    <Link to={`/project/${project.slug}`}>
+    <Link to={`/projects/${project.slug}`}>
       <motion.article
         ref={cardRef}
         whileHover={{ y: -6 }}

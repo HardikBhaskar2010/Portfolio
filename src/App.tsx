@@ -1,5 +1,5 @@
 import { useEffect, useRef, lazy, Suspense, useState } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation, Navigate, useParams } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
@@ -120,6 +120,12 @@ function ScrollToTop() {
   return null;
 }
 
+/* ── Legacy redirect helper (/project/:slug -> /projects/:slug) ── */
+function LegacyProjectRedirect() {
+  const { slug } = useParams<{ slug: string }>();
+  return <Navigate to={slug ? `/projects/${slug}` : '/projects'} replace />;
+}
+
 /* ── Animated page routes ────────────────────────────────────── */
 function AnimatedRoutes() {
   const location = useLocation();
@@ -137,6 +143,8 @@ function AnimatedRoutes() {
           <Route path="/"               element={<Home />} />
           <Route path="/projects"       element={<Projects />} />
           <Route path="/projects/:slug" element={<ProjectDetail />} />
+          <Route path="/project/:slug"  element={<LegacyProjectRedirect />} />
+          <Route path="/project"        element={<Navigate to="/projects" replace />} />
           <Route path="/about"          element={<About />} />
           <Route path="*"               element={<NotFound />} />
         </Routes>
