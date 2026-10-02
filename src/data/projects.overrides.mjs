@@ -93,7 +93,7 @@ export const overrides = {
     tools:         ['Tauri v2', 'Rust', 'Chromium (CEF)', 'React 18', 'TypeScript', 'CDP', 'SQLite'],
     link:          'https://github.com/HardikBhaskar2010/Kage',
     repoUrl:       'https://github.com/HardikBhaskar2010/Kage',
-    color:         '#EC4899',
+    color:         '#F43F5E',
     image:         'https://raw.githubusercontent.com/HardikBhaskar2010/Kage/main/assets/preview.png',
     heroImage:     'https://raw.githubusercontent.com/HardikBhaskar2010/Kage/main/assets/preview.png',
     fallbackImage: '/images/project-kage.webp',

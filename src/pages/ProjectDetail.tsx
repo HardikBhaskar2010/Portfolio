@@ -32,19 +32,21 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
   const elements: React.ReactNode[] = [];
   let bulletItems: string[] = [];
   let numberedItems: string[] = [];
+  let codeBlockLines: string[] = [];
+  let inCodeBlock = false;
   let key = 0;
 
   const flushLists = () => {
     if (bulletItems.length) {
       elements.push(
-        <ul key={key++} className="space-y-3 font-ui text-body text-base leading-relaxed mb-8">
+        <ul key={key++} className="space-y-3 font-ui text-base leading-relaxed mb-8">
           {bulletItems.map((li, i) => (
             <li key={i} className="flex items-start gap-3 group">
               <span
                 className="inline-block w-1.5 h-1.5 rounded-full mt-2.5 flex-shrink-0 transition-transform group-hover:scale-125"
                 style={{ backgroundColor: accentColor }}
               />
-              <div className="flex-1 text-muted/95 leading-relaxed">
+              <div className="flex-1 text-slate-300 leading-relaxed">
                 {renderInline(li)}
               </div>
             </li>
@@ -56,20 +58,20 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
 
     if (numberedItems.length) {
       elements.push(
-        <ol key={key++} className="space-y-3 font-ui text-body text-base leading-relaxed mb-8">
+        <ol key={key++} className="space-y-3.5 font-ui text-base leading-relaxed mb-8">
           {numberedItems.map((item, i) => (
             <li key={i} className="flex items-start gap-3.5 group">
               <span
                 className="font-mono text-xs font-semibold px-2 py-0.5 rounded-md mt-0.5 flex-shrink-0 border"
                 style={{
                   color: accentColor,
-                  borderColor: `${accentColor}40`,
+                  borderColor: `${accentColor}35`,
                   backgroundColor: `${accentColor}12`
                 }}
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <div className="flex-1 text-muted/95 leading-relaxed">
+              <div className="flex-1 text-slate-300 leading-relaxed">
                 {renderInline(item)}
               </div>
             </li>
@@ -87,8 +89,8 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
       const [, label, rest] = colonMatch;
       return (
         <>
-          <strong className="text-heading font-medium tracking-tight mr-1.5">{label}:</strong>
-          {renderInlineTokens(rest)}
+          <strong className="text-white font-semibold tracking-tight mr-1.5">{label}:</strong>
+          <span className="text-slate-300">{renderInlineTokens(rest)}</span>
         </>
       );
     }
@@ -103,7 +105,7 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
         return (
           <code
             key={i}
-            className="font-mono text-xs px-2 py-0.5 rounded border border-white/10 bg-white/[0.05] text-cyan/95 mx-1"
+            className="font-mono text-xs px-2 py-0.5 rounded border border-white/10 bg-white/[0.06] text-cyan font-medium mx-1"
           >
             {part.slice(1, -1)}
           </code>
@@ -111,20 +113,42 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
       }
       if (part.startsWith('**') && part.endsWith('**')) {
         return (
-          <strong key={i} className="text-heading font-semibold">
+          <strong key={i} className="text-white font-semibold">
             {part.slice(2, -2)}
           </strong>
         );
       }
       if (part.startsWith('*') && part.endsWith('*')) {
-        return <em key={i} className="text-muted/80">{part.slice(1, -1)}</em>;
+        return <em key={i} className="text-slate-200 italic">{part.slice(1, -1)}</em>;
       }
-      return part;
+      return <span key={i}>{part}</span>;
     });
   };
 
   for (const raw of lines) {
     const line = raw.trimEnd();
+
+    // Code block fences
+    if (line.trim().startsWith('```')) {
+      flushLists();
+      if (inCodeBlock) {
+        elements.push(
+          <div key={key++} className="my-6 rounded-xl border border-white/10 bg-black/60 p-4 font-mono text-xs text-slate-300 overflow-x-auto shadow-inner">
+            <pre className="leading-relaxed"><code>{codeBlockLines.join('\n')}</code></pre>
+          </div>
+        );
+        codeBlockLines = [];
+        inCodeBlock = false;
+      } else {
+        inCodeBlock = true;
+      }
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeBlockLines.push(raw);
+      continue;
+    }
 
     // Blank line — flush any active lists
     if (!line.trim()) {
@@ -138,6 +162,13 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
       continue;
     }
 
+    // Horizontal divider (--- or ***)
+    if (line.match(/^---+$/) || line.match(/^\*\*\*+$/)) {
+      flushLists();
+      elements.push(<hr key={key++} className="my-8 border-border/70" />);
+      continue;
+    }
+
     // Section header (## Heading)
     const h2 = line.match(/^##\s+(.*)/);
     if (h2) {
@@ -146,10 +177,10 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
         <div key={key++} className="mt-12 mb-6 pt-6 border-t border-border/70">
           <div className="flex items-center gap-3 mb-2">
             <span
-              className="w-2 h-2 rounded-full"
+              className="w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.4)]"
               style={{ backgroundColor: accentColor }}
             />
-            <h2 className="font-display italic text-heading text-2xl md:text-3xl">
+            <h2 className="font-display italic text-white text-2xl md:text-3xl">
               {h2[1]}
             </h2>
           </div>
@@ -165,9 +196,9 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
       elements.push(
         <h3
           key={key++}
-          className="font-heading font-semibold text-heading text-lg md:text-xl mt-8 mb-3 flex items-center gap-2"
+          className="font-heading font-semibold text-white text-lg md:text-xl mt-8 mb-3 flex items-center gap-2"
         >
-          <span className="text-xs font-mono text-muted/60 tracking-wider">§</span>
+          <span className="text-xs font-mono text-cyan tracking-wider font-bold">§</span>
           {h3[1]}
         </h3>
       );
@@ -197,7 +228,7 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
       elements.push(
         <blockquote
           key={key++}
-          className="border-l-2 pl-4 py-2 my-6 font-ui italic text-muted/90 bg-white/[0.02] rounded-r-lg"
+          className="border-l-2 pl-4 py-2 my-6 font-ui italic text-slate-300 bg-white/[0.03] rounded-r-lg"
           style={{ borderColor: accentColor }}
         >
           {renderInline(quote[1])}
@@ -209,9 +240,17 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
     // Normal Paragraph
     flushLists();
     elements.push(
-      <p key={key++} className="font-ui text-body text-base md:text-[17px] leading-[1.85] mb-6 text-muted/95">
+      <p key={key++} className="font-ui text-slate-300 text-base md:text-[17px] leading-[1.85] mb-6">
         {renderInline(line)}
       </p>
+    );
+  }
+
+  if (inCodeBlock && codeBlockLines.length) {
+    elements.push(
+      <div key={key++} className="my-6 rounded-xl border border-white/10 bg-black/60 p-4 font-mono text-xs text-slate-300 overflow-x-auto shadow-inner">
+        <pre className="leading-relaxed"><code>{codeBlockLines.join('\n')}</code></pre>
+      </div>
     );
   }
 
@@ -454,7 +493,7 @@ export default function ProjectDetail() {
 
               <motion.p
                 variants={fadeUp}
-                className="font-ui text-body text-lg md:text-xl leading-relaxed text-muted/95"
+                className="font-ui text-slate-300 text-lg md:text-xl leading-relaxed"
               >
                 {project.description}
               </motion.p>
@@ -572,7 +611,7 @@ export default function ProjectDetail() {
                         {project.tools.map(t => (
                           <span
                             key={t}
-                            className="font-mono text-xs text-tagText bg-tag border border-border/80 px-2.5 py-1 rounded-md hover:border-cyan/40 transition-colors"
+                            className="font-mono text-xs text-slate-200 bg-white/[0.05] border border-white/10 px-2.5 py-1 rounded-md hover:border-cyan/40 transition-colors"
                           >
                             {t}
                           </span>
@@ -615,7 +654,7 @@ export default function ProjectDetail() {
                   {/* Terminal Clone Affordance */}
                   <div className="p-5 rounded-2xl border border-border bg-bg/80 flex flex-col gap-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs text-muted flex items-center gap-1.5">
+                      <span className="font-mono text-xs text-slate-300 flex items-center gap-1.5">
                         <Terminal size={12} className="text-cyan" />
                         Clone Repository
                       </span>
@@ -638,7 +677,7 @@ export default function ProjectDetail() {
                         )}
                       </button>
                     </div>
-                    <div className="bg-black/50 p-3 rounded-xl border border-border/50 font-mono text-[11px] text-muted select-all overflow-x-auto">
+                    <div className="bg-black/60 p-3 rounded-xl border border-white/10 font-mono text-[11px] text-slate-200 select-all overflow-x-auto">
                       <code>{cloneCommand}</code>
                     </div>
                   </div>
