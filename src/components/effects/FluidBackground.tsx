@@ -26,8 +26,7 @@ export const FLUID_CONFIG = {
   scrollForceMultiplier: 1.6,   // Scroll reaction strength
 
   // Color Palette (Normalized RGB [0..1])
-  // Dark navy/black base with fluid in deep indigo and violet, cyan & magenta highlights
-  baseColor: [0.024, 0.024, 0.043] as [number, number, number],         // #06060B near-black base
+  baseColor: [0.0, 0.0, 0.0] as [number, number, number],               // Pure black base for seamless alpha/screen blending
   ambientIndigo: [0.18, 0.08, 0.38] as [number, number, number],       // Deep indigo/violet
   ambientViolet: [0.28, 0.11, 0.58] as [number, number, number],       // Radiant violet
   highlightCyan: [0.0, 0.90, 1.0] as [number, number, number],          // #00E5FF cyan
@@ -293,7 +292,8 @@ void main() {
   float grain = (hash21(gl_FragCoord.xy + fract(u_time * 7.13)) - 0.5) * u_grainIntensity;
   color += grain;
 
-  fragColor = vec4(clamp(color, 0.0, 1.0), 1.0);
+  float alpha = clamp(length(color) * 1.6, 0.0, 1.0);
+  fragColor = vec4(clamp(color, 0.0, 1.0), alpha);
 }
 `;
 
@@ -409,7 +409,12 @@ function createDoubleFBO(
 
 // ── Main Fluid Component ───────────────────────────────────────────────────
 
-export function FluidBackground() {
+export interface FluidBackgroundProps {
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+export function FluidBackground({ className = '', style }: FluidBackgroundProps = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [hasWebGL, setHasWebGL] = useState(true);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -432,7 +437,7 @@ export function FluidBackground() {
 
     // Acquire WebGL2 Context with optimal flags
     const gl = canvas.getContext('webgl2', {
-      alpha: false,
+      alpha: true,
       antialias: false,
       depth: false,
       stencil: false,
@@ -815,36 +820,16 @@ export function FluidBackground() {
 
   // Fallback for non-WebGL browsers or prefers-reduced-motion
   if (!hasWebGL || prefersReducedMotion) {
-    return (
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 pointer-events-none select-none -z-30 overflow-hidden"
-        style={{
-          background: 'radial-gradient(ellipse at 50% 100%, #1f103d 0%, #0c0818 45%, #05050A 100%)',
-        }}
-      />
-    );
+    return null;
   }
 
   return (
-    <div
+    <canvas
+      ref={canvasRef}
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none select-none -z-30 overflow-hidden"
-      style={{
-        perspective: `${FLUID_CONFIG.canvasPerspective}px`,
-        perspectiveOrigin: '50% 65%',
-      }}
-    >
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full block pointer-events-none select-none"
-        style={{
-          transformOrigin: '50% 100%',
-          transform: `rotateX(${FLUID_CONFIG.canvasTilt}deg) scale(${FLUID_CONFIG.canvasScale})`,
-          willChange: 'transform',
-        }}
-      />
-    </div>
+      className={`w-full h-full block pointer-events-none select-none ${className}`.trim()}
+      style={style}
+    />
   );
 }
 

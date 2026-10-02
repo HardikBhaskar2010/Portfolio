@@ -85,7 +85,7 @@ export function GridDistortion() {
     <>
       {/* SVG dot-grid with matching 3D cylindrical perspective */}
       <div
-        className="fixed inset-0 -z-20 pointer-events-none overflow-hidden"
+        className="fixed inset-0 z-[1] pointer-events-none overflow-hidden"
         style={{
           perspective: '850px',
           perspectiveOrigin: '50% 65%',
@@ -132,7 +132,7 @@ export function GridDistortion() {
 
       {/* Canvas ripple layer with matching 3D perspective */}
       <div
-        className="fixed inset-0 -z-10 pointer-events-none overflow-hidden"
+        className="fixed inset-0 z-[2] pointer-events-none overflow-hidden"
         style={{
           perspective: '850px',
           perspectiveOrigin: '50% 65%',
@@ -150,7 +150,7 @@ export function GridDistortion() {
 
       {/* Outer diffuse glow blob */}
       <motion.div
-        className="fixed pointer-events-none -z-10 rounded-full"
+        className="fixed pointer-events-none z-[3] rounded-full"
         style={{
           width: 440,
           height: 440,
@@ -165,7 +165,7 @@ export function GridDistortion() {
 
       {/* Inner tight glow */}
       <motion.div
-        className="fixed pointer-events-none -z-10 rounded-full"
+        className="fixed pointer-events-none z-[3] rounded-full"
         style={{
           width: 90,
           height: 90,
