@@ -292,6 +292,57 @@
   }
 }
 
+@media (max-width: 767px) {
+  .preloader-panel-0 {
+    left: 0%;
+    width: 33.334%;
+  }
+
+  .preloader-panel-1 {
+    left: 33.333%;
+    width: 33.334%;
+  }
+
+  .preloader-panel-2 {
+    left: 66.666%;
+    width: 33.334%;
+  }
+
+  .preloader-panel-3,
+  .preloader-panel-4 {
+    display: none;
+  }
+
+  /* Mobile Center Panel (index 1 / M2): starts at 840ms */
+  .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-left {
+    will-change: transform;
+    animation: preloader-split-left var(--dur-420) var(--ease-out) var(--delay-preloader-mobile-center-panel) forwards;
+  }
+  .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-right {
+    will-change: transform;
+    animation: preloader-split-right var(--dur-420) var(--ease-out) var(--delay-preloader-mobile-center-panel) forwards;
+  }
+  .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-seam {
+    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-mobile-center-panel) forwards;
+  }
+
+  /* Mobile Flank Panels (indices 0 and 2 / M1, M3): delay 75ms (915ms) */
+  .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-left,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-left {
+    will-change: transform;
+    animation: preloader-split-left var(--dur-420) var(--ease-out) var(--delay-preloader-mobile-flank-panels) forwards;
+  }
+  .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-right,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-right {
+    will-change: transform;
+    animation: preloader-split-right var(--dur-420) var(--ease-out) var(--delay-preloader-mobile-flank-panels) forwards;
+  }
+  .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-seam,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-seam {
+    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-mobile-flank-panels) forwards;
+  }
+}
+
 /* ─────────────────────────────────────────────────────────────
    REDUCED MOTION OVERRIDE
 ───────────────────────────────────────────────────────────── */
