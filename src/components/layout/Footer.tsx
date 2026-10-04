@@ -24,6 +24,9 @@ export function Footer() {
 
   useEffect(() => {
     const isReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = typeof window !== 'undefined' && (window.matchMedia('(max-width: 768px)').matches || navigator.maxTouchPoints > 0);
+    const isSaveData = typeof navigator !== 'undefined' && (navigator as any).connection?.saveData === true;
+    const shouldAutoPlay = !isMobile && !isSaveData && !isReduced;
     const targetRate = isReduced ? 0.08 : 0.15;
 
     const setSpeed = () => {
@@ -32,8 +35,6 @@ export function Footer() {
       }
     };
 
-    setSpeed();
-
     const footerEl = footerRef.current;
     if (!footerEl) return;
 
@@ -41,13 +42,15 @@ export function Footer() {
       ([entry]) => {
         if (!videoRef.current) return;
         if (entry.isIntersecting) {
-          setSpeed();
-          videoRef.current.play().catch(() => {});
+          if (shouldAutoPlay) {
+            setSpeed();
+            videoRef.current.play().catch(() => {});
+          }
         } else {
           videoRef.current.pause();
         }
       },
-      { rootMargin: '200px 0px', threshold: 0.01 }
+      { rootMargin: '100px 0px', threshold: 0.01 }
     );
 
     observer.observe(footerEl);
@@ -56,7 +59,7 @@ export function Footer() {
       if (!videoRef.current) return;
       if (document.hidden) {
         videoRef.current.pause();
-      } else {
+      } else if (shouldAutoPlay) {
         setSpeed();
         videoRef.current.play().catch(() => {});
       }
@@ -75,21 +78,30 @@ export function Footer() {
     e.currentTarget.playbackRate = isReduced ? 0.08 : 0.15;
   };
 
+  const handleUserInteraction = () => {
+    if (videoRef.current && videoRef.current.paused) {
+      const isReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      videoRef.current.playbackRate = isReduced ? 0.08 : 0.15;
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
   return (
     <HighlightPoint id="footer-singularity" color="#FF7700" label="SINGULARITY // ANCHOR">
       <footer
         ref={footerRef}
+        onClick={handleUserInteraction}
         className="relative overflow-hidden border-t border-border mt-0 bg-[#05050A]"
       >
         {/* ── Background ASCII Black Hole Cinematic Video Loop ── */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
           <video
             ref={videoRef}
-            autoPlay
             loop
             muted
             playsInline
             preload="none"
+            poster="/videos/blackhole-poster.webp"
             onLoadedMetadata={handlePlaybackSetup}
             onPlay={handlePlaybackSetup}
             onTimeUpdate={(e) => {

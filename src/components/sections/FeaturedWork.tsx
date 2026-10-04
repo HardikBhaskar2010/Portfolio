@@ -117,10 +117,17 @@ function FallbackImg({
   const FALLBACK = '/images/project-placeholder.webp';
   const [imgSrc, setImgSrc] = useState(src || fallbackSrc || FALLBACK);
   useEffect(() => { setImgSrc(src || fallbackSrc || FALLBACK); }, [src, fallbackSrc]);
+  const baseMatch = typeof imgSrc === 'string' ? imgSrc.match(/^\/images\/(project-[a-z0-9-]+)\.webp$/) : null;
+  const srcSet = baseMatch
+    ? `/images/${baseMatch[1]}-600.webp 600w, /images/${baseMatch[1]}.webp 1200w`
+    : undefined;
+
   return (
     <motion.img
       {...rest as any}
       src={imgSrc}
+      srcSet={srcSet}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 700px"
       alt={alt}
       title={alt}
       width={700}

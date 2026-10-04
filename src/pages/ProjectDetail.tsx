@@ -276,6 +276,10 @@ function ProjectImage({
 
   return (
     <img
+      width={rest.width || 1200}
+      height={rest.height || 675}
+      loading={rest.loading || 'lazy'}
+      decoding="async"
       {...rest}
       src={imgSrc}
       alt={alt}

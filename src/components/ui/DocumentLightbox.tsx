@@ -175,6 +175,8 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
                     src={document.fileUrl}
                     alt={`${document.title} — Official Verification Credential for Hardik Bhaskar`}
                     title={`${document.title} — Hardik Bhaskar`}
+                    width={1200}
+                    height={800}
                     className="max-h-full w-auto max-w-full object-contain rounded-lg shadow-2xl border border-white/10"
                     loading="eager"
                     decoding="async"

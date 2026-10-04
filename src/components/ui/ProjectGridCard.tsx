@@ -84,6 +84,8 @@ export function ProjectGridCard({ project, index }: ProjectGridCardProps) {
       >
         <img
           src={project.image}
+          srcSet={project.image?.startsWith('/images/project-') ? `${project.image.replace('.webp', '-600.webp')} 600w, ${project.image} 1200w` : undefined}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
           alt={`${project.title} — ${project.subtitle || project.tag || 'Systems Architecture'} by Hardik Bhaskar`}
           title={`${project.title} — Engineered by Hardik Bhaskar`}
           width={600}

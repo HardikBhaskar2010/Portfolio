@@ -24,6 +24,8 @@ export const overrides = {
     year:     '2025',
     tools:    ['Python', 'LangChain', 'OpenAI', 'React', 'TypeScript', 'FastAPI'],
     color:    '#7C3AED',
+    image:    '/images/project-ai-veronica.webp',
+    heroImage: '/images/project-ai-veronica.webp',
     fallbackImage: '/images/project-ai-veronica.webp',
   },
 
@@ -37,6 +39,8 @@ export const overrides = {
     tools:    ['React', 'TypeScript', 'Node.js', 'FastAPI', 'Google ADK'],
     link:     'https://stemidea.vercel.app',
     color:    '#00E5FF',
+    image:    '/images/project-stem-adventure.webp',
+    heroImage: '/images/project-stem-adventure.webp',
     fallbackImage: '/images/project-stem-adventure.webp',
   },
 
@@ -49,6 +53,8 @@ export const overrides = {
     year:     '2025',
     tools:    ['TypeScript', 'React', 'WebGL', 'Framer Motion', 'CSS Houdini'],
     color:    '#A855F7',
+    image:    '/images/project-mahina-os.webp',
+    heroImage: '/images/project-mahina-os.webp',
     fallbackImage: '/images/project-mahina-os.webp',
   },
 
@@ -62,6 +68,8 @@ export const overrides = {
     tools:    ['Python', 'BigQuery', 'Vertex AI', 'Google ADK', 'FastAPI'],
     link:     'https://decisionforge-one.vercel.app',
     color:    '#F59E0B',
+    image:    '/images/project-aegis.webp',
+    heroImage: '/images/project-aegis.webp',
     fallbackImage: '/images/project-aegis.webp',
   },
 
@@ -77,8 +85,8 @@ export const overrides = {
     link:     'https://github.com/VectorisAI/Vectoris',
     repoUrl:  'https://github.com/VectorisAI/Vectoris',
     color:    '#E11D48',
-    image:    'https://raw.githubusercontent.com/VectorisAI/Vectoris/main/assets/pic.png',
-    heroImage: 'https://raw.githubusercontent.com/VectorisAI/Vectoris/main/assets/pic.png',
+    image:    '/images/project-vectoris.webp',
+    heroImage: '/images/project-vectoris.webp',
     fallbackImage: '/images/project-vectoris.webp',
   },
 
@@ -94,8 +102,8 @@ export const overrides = {
     link:          'https://github.com/HardikBhaskar2010/Kage',
     repoUrl:       'https://github.com/HardikBhaskar2010/Kage',
     color:         '#F43F5E',
-    image:         'https://raw.githubusercontent.com/HardikBhaskar2010/Kage/main/assets/preview.png',
-    heroImage:     'https://raw.githubusercontent.com/HardikBhaskar2010/Kage/main/assets/preview.png',
+    image:         '/images/project-kage.webp',
+    heroImage:     '/images/project-kage.webp',
     fallbackImage: '/images/project-kage.webp',
   },
 

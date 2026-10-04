@@ -28,6 +28,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# Scratch & temporary test artifacts
+scratch/
+
 # Planning and guide documents
 /Implementation_Plan.md
 /PORTFOLIO_UPGRADE_PLAN.md

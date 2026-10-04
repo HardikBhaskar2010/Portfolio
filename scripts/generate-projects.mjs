@@ -268,9 +268,9 @@ const projects = repos.map((repo, i) => {
     overrides[repo.name.toLowerCase()] ??
     {};
 
-  const finalImage = (imageUrl && imageUrl !== FALLBACK_IMAGE)
+  const finalImage = override.image ?? ((imageUrl && imageUrl !== FALLBACK_IMAGE)
     ? imageUrl
-    : (override.fallbackImage || FALLBACK_IMAGE);
+    : (override.fallbackImage || FALLBACK_IMAGE));
 
   const base = {
     id:              slug,

@@ -263,9 +263,16 @@ function StackingCardImg({
     setHasError(false);
   }, [src, fallback]);
 
+  const baseMatch = typeof imgSrc === 'string' ? imgSrc.match(/^\/images\/(project-[a-z0-9-]+)\.webp$/) : null;
+  const srcSet = baseMatch
+    ? `/images/${baseMatch[1]}-600.webp 600w, /images/${baseMatch[1]}.webp 1200w`
+    : undefined;
+
   return (
     <img
       src={imgSrc}
+      srcSet={srcSet}
+      sizes="(max-width: 768px) 100vw, 500px"
       alt={alt}
       title={alt}
       width={500}
