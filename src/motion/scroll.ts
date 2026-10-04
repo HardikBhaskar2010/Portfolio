@@ -6,6 +6,7 @@
  */
 
 import { isMotionPaused, isOsReducedMotion } from './motionPreference.ts';
+import { useHighlightStore } from '../store/highlightStore.ts';
 
 let cachedGsap: typeof import('gsap').gsap | null = null;
 let cachedScrollTrigger: typeof import('gsap/ScrollTrigger').ScrollTrigger | null = null;
@@ -77,6 +78,12 @@ export async function initScrollTriggerContext(setup: ScrollSetupFn): Promise<()
     }
   );
 
+  const handleStRefresh = () => {
+    useHighlightStore.getState().refreshCachedRects();
+  };
+
+  ScrollTrigger.addEventListener('refresh', handleStRefresh);
+
   const handlePauseChange = (e: Event) => {
     const custom = e as CustomEvent<{ paused: boolean }>;
     if (custom.detail?.paused) {
@@ -89,6 +96,7 @@ export async function initScrollTriggerContext(setup: ScrollSetupFn): Promise<()
   window.addEventListener('portfolio:motion-pause-change', handlePauseChange);
 
   return () => {
+    ScrollTrigger.removeEventListener('refresh', handleStRefresh);
     window.removeEventListener('portfolio:motion-pause-change', handlePauseChange);
     mm.revert();
   };

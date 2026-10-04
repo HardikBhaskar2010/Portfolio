@@ -203,64 +203,32 @@ export function ScrollOrb() {
     color?: string;
   } | null>(null);
 
-  // Cache element positions using ResizeObserver to eliminate getBoundingClientRect() in rAF
+  // Sync element positions directly from highlightStore's cached rects
   useEffect(() => {
     const updateCache = () => {
-      const latestHighlights = useHighlightStore.getState().highlights;
+      const cached = useHighlightStore.getState().cachedRects;
       const newCache = new Map<string, CachedHighlightPosition>();
-      const scrollY = window.scrollY;
-      const scrollX = window.scrollX;
-
-      for (const key in latestHighlights) {
-        const item = latestHighlights[key];
-        if (item && item.element) {
-          const rect = item.element.getBoundingClientRect();
-          newCache.set(key, {
-            id: key,
-            docTop: rect.top + scrollY,
-            docBottom: rect.bottom + scrollY,
-            docLeft: rect.left + scrollX,
-            height: rect.height,
-            color: item.color,
-          });
-        }
+      for (const key in cached) {
+        const item = cached[key];
+        newCache.set(key, {
+          id: item.id,
+          docTop: item.docTop,
+          docBottom: item.docBottom,
+          docLeft: item.docLeft,
+          height: item.height,
+          color: item.color,
+        });
       }
       cachedPositionsRef.current = newCache;
     };
 
     updateCache();
-
-    const ro = new ResizeObserver(() => {
+    const unsubscribe = useHighlightStore.subscribe(() => {
       updateCache();
     });
-
-    const unsubscribe = useHighlightStore.subscribe((state) => {
-      ro.disconnect();
-      for (const key in state.highlights) {
-        const item = state.highlights[key];
-        if (item && item.element) {
-          ro.observe(item.element);
-        }
-      }
-      updateCache();
-    });
-
-    const currentHighlights = useHighlightStore.getState().highlights;
-    for (const key in currentHighlights) {
-      const item = currentHighlights[key];
-      if (item && item.element) {
-        ro.observe(item.element);
-      }
-    }
-
-    window.addEventListener('resize', updateCache, { passive: true });
-    window.addEventListener('orientationchange', updateCache, { passive: true });
 
     return () => {
       unsubscribe();
-      ro.disconnect();
-      window.removeEventListener('resize', updateCache);
-      window.removeEventListener('orientationchange', updateCache);
     };
   }, []);
 
