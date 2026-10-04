@@ -83,14 +83,17 @@ test('Static Motion Audit: Zero em dashes or en dashes across project source and
     'src/motion/tokens.ts',
     'src/motion/tokens.css',
     'src/motion/opening.css',
+    'src/motion/preloader.css',
     'src/motion/scroll.ts',
     'src/motion/skipListener.ts',
+    'src/components/ui/Preloader.tsx',
     'src/components/sections/ScrollFlow.tsx',
     'src/components/sections/Hero.tsx',
     'src/components/sections/ContactSection.tsx',
     'src/components/layout/Navbar.tsx',
     'src/store/highlightStore.ts',
-    'MOTION.md'
+    'MOTION.md',
+    'PRELOADER.md'
   ];
 
   for (const relPath of filesToCheck) {
@@ -105,4 +108,69 @@ test('Static Motion Audit: Zero em dashes or en dashes across project source and
       );
     }
   }
+});
+
+test('Static Motion Audit: preloader.css animates only transform, opacity, and stroke-dashoffset', () => {
+  const preloaderCssPath = path.join(ROOT, 'src', 'motion', 'preloader.css');
+  assert.equal(fs.existsSync(preloaderCssPath), true, 'src/motion/preloader.css must exist');
+  const css = fs.readFileSync(preloaderCssPath, 'utf8');
+
+  // Find all keyframes blocks
+  const keyframesMatches = css.match(/@keyframes\s+[\w-]+\s*\{[\s\S]*?\}\s*\}/g) || [];
+  assert.ok(keyframesMatches.length > 0, 'Must contain @keyframes definitions in preloader.css');
+
+  const bannedProperties = [
+    'filter:',
+    'backdrop-filter:',
+    'box-shadow:',
+    'width:',
+    'height:',
+    'top:',
+    'left:',
+    'right:',
+    'bottom:',
+    'margin:',
+    'background-position:'
+  ];
+
+  for (const kf of keyframesMatches) {
+    for (const prop of bannedProperties) {
+      assert.equal(
+        kf.includes(prop),
+        false,
+        `Keyframe block must not animate banned property ${prop} in preloader.css: ${kf}`
+      );
+    }
+  }
+});
+
+test('Static Motion Audit: Preloader accessibility contract enforces aria-hidden and tabIndex -1', () => {
+  const preloaderComponentPath = path.join(ROOT, 'src', 'components', 'ui', 'Preloader.tsx');
+  assert.equal(fs.existsSync(preloaderComponentPath), true, 'Preloader.tsx must exist');
+  const code = fs.readFileSync(preloaderComponentPath, 'utf8');
+
+  assert.equal(code.includes('aria-hidden="true"'), true, 'Preloader must have aria-hidden="true"');
+  assert.equal(code.includes('tabIndex={-1}'), true, 'Preloader must have tabIndex={-1}');
+
+  // Preloader must not contain focusable interactive elements
+  const bannedInteractive = ['<button', '<input', '<textarea', '<select', '<a href'];
+  for (const tag of bannedInteractive) {
+    assert.equal(
+      code.includes(tag),
+      false,
+      `Preloader must not contain focusable element ${tag}`
+    );
+  }
+});
+
+test('Static Motion Audit: Preloader end-state contract ensures attribute removal', () => {
+  const appPath = path.join(ROOT, 'src', 'App.tsx');
+  assert.equal(fs.existsSync(appPath), true, 'App.tsx must exist');
+  const appCode = fs.readFileSync(appPath, 'utf8');
+
+  assert.equal(
+    appCode.includes("document.documentElement.removeAttribute('data-preloader')"),
+    true,
+    'App.tsx handleIntroComplete must remove data-preloader attribute'
+  );
 });

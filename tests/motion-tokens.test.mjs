@@ -79,6 +79,30 @@ test('Motion Tokens: CSS variables match TypeScript tokens source of truth', () 
     { name: '--delay-mobile-focus-content', val: '1040ms' },
     { name: '--delay-mobile-preview-content', val: '1090ms' },
     { name: '--delay-mobile-settle', val: '1400ms' },
+    // Preloader delay checks
+    { name: '--delay-preloader-milestone1', val: '0ms' },
+    { name: '--delay-preloader-milestone2', val: '120ms' },
+    { name: '--delay-preloader-milestone3', val: '240ms' },
+    { name: '--delay-preloader-milestone4', val: '360ms' },
+    { name: '--delay-preloader-resolve', val: '480ms' },
+    { name: '--delay-preloader-hello', val: '600ms' },
+    { name: '--delay-preloader-hello-hold', val: '840ms' },
+    { name: '--delay-preloader-hello-fade', val: '960ms' },
+    { name: '--delay-preloader-center-panel', val: '1080ms' },
+    { name: '--delay-preloader-mid-panels', val: '1155ms' },
+    { name: '--delay-preloader-outer-panels', val: '1230ms' },
+    { name: '--delay-preloader-overlay-fade', val: '1930ms' },
+    { name: '--delay-preloader-settle', val: '2050ms' },
+    { name: '--delay-preloader-mobile-milestone1', val: '0ms' },
+    { name: '--delay-preloader-mobile-milestone2', val: '120ms' },
+    { name: '--delay-preloader-mobile-resolve', val: '240ms' },
+    { name: '--delay-preloader-mobile-hello', val: '360ms' },
+    { name: '--delay-preloader-mobile-hello-hold', val: '600ms' },
+    { name: '--delay-preloader-mobile-hello-fade', val: '720ms' },
+    { name: '--delay-preloader-mobile-center-panel', val: '840ms' },
+    { name: '--delay-preloader-mobile-flank-panels', val: '915ms' },
+    { name: '--delay-preloader-mobile-overlay-fade', val: '1260ms' },
+    { name: '--delay-preloader-mobile-settle', val: '1380ms' },
   ];
   for (const { name, val } of delayChecks) {
     const cssMatch = tokensCssContent.includes(`${name}: ${val};`);
@@ -93,4 +117,5 @@ test('Motion Tokens: Zero raw milliseconds outside allowed scale in tokens.ts', 
   assert.equal(tokensTsContent.includes('export const EASING'), true);
   assert.equal(tokensTsContent.includes('export const DELAY'), true);
   assert.equal(tokensTsContent.includes('export const OPENING_DELAY'), true);
+  assert.equal(tokensTsContent.includes('export const PRELOADER_DELAY'), true);
 });
