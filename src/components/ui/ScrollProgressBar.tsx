@@ -19,8 +19,8 @@ export function ScrollProgressBar() {
         right: 0,
         height: '2px',
         zIndex: 9999,
-        background: 'linear-gradient(90deg, #00E5FF, #7C3AED)',
-        boxShadow: '0 0 10px rgba(0,229,255,0.6)',
+        background: 'linear-gradient(90deg, #9DB7D5, #17345C)',
+        boxShadow: '0 0 10px rgba(157, 183, 213, 0.6)',
       }}
     />
   );

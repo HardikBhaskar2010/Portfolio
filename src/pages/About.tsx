@@ -34,8 +34,8 @@ export default function About() {
   return (
     <motion.div variants={pageEnter} initial="hidden" animate="visible" exit="exit" className="page-wrapper">
       <Seo
-        title="About Hardik Bhaskar — Engineering Workflow, Process & AI Systems Builder"
-        description="Hardik Bhaskar is a systems architect and AI builder who turns ambiguous problems into tested, shipped systems. Explore his 9-stage engineering workflow — from problem validation and architecture through AI-accelerated implementation, review, testing, and ownership — and learn how he builds Rust desktop platforms, bare-metal OS kernels, and autonomous AI systems."
+        title="About Hardik Bhaskar: Engineering Workflow, Process & AI Systems Builder"
+        description="Hardik Bhaskar is a systems architect and AI builder who turns ambiguous problems into tested, shipped systems. Explore his 9-stage engineering workflow: from problem validation and architecture through AI-accelerated implementation, review, testing, and ownership: and learn how he builds Rust desktop platforms, bare-metal OS kernels, and autonomous AI systems."
         path="/about"
         jsonLd={[
           buildPersonJsonLd(),
@@ -47,18 +47,18 @@ export default function About() {
           {
             '@context': 'https://schema.org',
             '@type': 'HowTo',
-            name: 'How Hardik Bhaskar Builds Software — Engineering Workflow',
+            name: 'How Hardik Bhaskar Builds Software: Engineering Workflow',
             description:
               'A 9-stage engineering workflow for turning ambiguous problems into tested, shipped systems. Problem definition, validation, specification, architecture, AI-accelerated implementation, review, testing, iteration, and deliberate release.',
             author: { '@id': `${SITE_URL}/#person` },
             step: [
-              { '@type': 'HowToStep', position: 1, name: 'Problem', text: 'Understand the actual problem — not the feature request, but the underlying friction that makes it real.' },
+              { '@type': 'HowToStep', position: 1, name: 'Problem', text: 'Understand the actual problem: not the feature request, but the underlying friction that makes it real.' },
               { '@type': 'HowToStep', position: 2, name: 'Validate', text: 'Verify the problem is real and the proposed direction makes sense before committing to a solution.' },
               { '@type': 'HowToStep', position: 3, name: 'Specify', text: 'Define requirements, constraints, edge cases, and acceptance criteria in writing before architecture.' },
-              { '@type': 'HowToStep', position: 4, name: 'Architect', text: 'Decide how the system should work, what tradeoffs to make, and why — the core engineering decision.' },
-              { '@type': 'HowToStep', position: 5, name: 'Implement', text: 'Build the system. AI accelerates the work — typed interfaces, test scaffolding, boilerplate, documentation — but engineering judgment drives it.' },
-              { '@type': 'HowToStep', position: 6, name: 'Review', text: 'Critically review the implementation against the specification and architecture — not just confirm it runs.' },
-              { '@type': 'HowToStep', position: 7, name: 'Test', text: 'Manual and automated testing including edge cases, failure modes, and regressions — as engineering, not ceremony.' },
+              { '@type': 'HowToStep', position: 4, name: 'Architect', text: 'Decide how the system should work, what tradeoffs to make, and why: the core engineering decision.' },
+              { '@type': 'HowToStep', position: 5, name: 'Implement', text: 'Build the system. AI accelerates the work: typed interfaces, test scaffolding, boilerplate, documentation: but engineering judgment drives it.' },
+              { '@type': 'HowToStep', position: 6, name: 'Review', text: 'Critically review the implementation against the specification and architecture: not just confirm it runs.' },
+              { '@type': 'HowToStep', position: 7, name: 'Test', text: 'Manual and automated testing including edge cases, failure modes, and regressions: as engineering, not ceremony.' },
               { '@type': 'HowToStep', position: 8, name: 'Iterate', text: 'Improve based on what testing and real usage reveal. Repeat until the system is right, not just passing.' },
               { '@type': 'HowToStep', position: 9, name: 'Ship', text: 'Deliberately put the system into use and own what happens next. Shipping begins the responsibility, not ends it.' },
             ],
@@ -68,7 +68,7 @@ export default function About() {
       <main className="pt-16">
 
         {/* ── Hero ── */}
-        <HighlightPoint id="about-hero" color="#00E5FF" label="PERSONA // LUNA KITSUNE">
+        <HighlightPoint id="about-hero" color="#9DB7D5" label="PERSONA // LUNA KITSUNE">
           <section ref={heroRef} className="py-24 md:py-32 border-b border-border">
             <div className="max-w-[1200px] mx-auto px-6 md:px-12">
               <motion.div variants={stagger} initial="hidden" animate="visible" className="flex flex-col gap-6 mb-16">
@@ -78,22 +78,22 @@ export default function About() {
                   className="font-display italic text-heading"
                   style={{ fontSize: 'clamp(40px, 7vw, 100px)', lineHeight: '0.9' }}
                 >
-                  <span className="sr-only">About Hardik Bhaskar — Systems Architect &amp; AI Systems Builder</span>
+                  <span className="sr-only">About Hardik Bhaskar: Systems Architect &amp; AI Systems Builder</span>
                   <span aria-hidden="true">
                     Get to know<br />me better.
                   </span>
                 </motion.h1>
               </motion.div>
 
-              {/* Who I Am — 2-col */}
+              {/* Who I Am: 2-col */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Portrait with parallax */}
                 <motion.div variants={scaleIn} initial="hidden" animate="visible" className="relative rounded-2xl overflow-hidden">
                   <div className="aspect-[3/4] md:aspect-[4/5] parallax-container">
                     <motion.img
                       src="/images/avatar.webp"
-                      alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
-                      title="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
+                      alt="Hardik Bhaskar: Systems Architect &amp; AI Systems Builder"
+                      title="Hardik Bhaskar: Systems Architect &amp; AI Systems Builder"
                       width={500}
                       height={625}
                       loading="eager"
@@ -153,7 +153,7 @@ export default function About() {
         </HighlightPoint>
 
         {/* ── Experience Timeline ── */}
-        <HighlightPoint id="about-experience" color="#F59E0B" label="TIMELINE // 2024–2026">
+        <HighlightPoint id="about-experience" color="#F59E0B" label="TIMELINE // 2024-2026">
           <section className="py-24 md:py-32 border-b border-border">
             <div ref={inViewRef} className="max-w-[1200px] mx-auto px-6 md:px-12">
               <motion.div variants={stagger} initial="hidden" animate={inView ? 'visible' : 'hidden'} className="flex flex-col gap-12">
@@ -203,7 +203,7 @@ export default function About() {
         </HighlightPoint>
 
         {/* ── Live Contributions & Activity ── */}
-        <HighlightPoint id="about-contributions" color="#00E5FF" label="UPLINK // LIVE CONTRIBUTIONS">
+        <HighlightPoint id="about-contributions" color="#9DB7D5" label="UPLINK // LIVE CONTRIBUTIONS">
           <LiveContributions />
         </HighlightPoint>
 
@@ -218,7 +218,7 @@ export default function About() {
         </HighlightPoint>
 
         {/* ── Tools ── */}
-        <HighlightPoint id="about-tools" color="#00E5FF" label="ARSENAL // REACT & NODE">
+        <HighlightPoint id="about-tools" color="#9DB7D5" label="ARSENAL // REACT & NODE">
           <ToolsSection />
         </HighlightPoint>
 

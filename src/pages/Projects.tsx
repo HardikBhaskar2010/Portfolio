@@ -126,7 +126,7 @@ export default function Projects() {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     '@id': `${SITE_URL}/projects#collection`,
-    name: 'Projects — Hardik Bhaskar',
+    name: 'Projects | Hardik Bhaskar',
     url: `${SITE_URL}/projects`,
     about: { '@id': `${SITE_URL}/#person` },
     author: { '@id': `${SITE_URL}/#person` },
@@ -150,7 +150,7 @@ export default function Projects() {
       className="page-wrapper"
     >
       <Seo
-        title="Projects — Hardik Bhaskar"
+        title="Projects | Hardik Bhaskar"
         description="A curated collection of AI systems, low-level desktop applications, OS research, and cinematic 3D web experiences built by Hardik Bhaskar using Rust, C++, Python, React, and Three.js."
         path="/projects"
         jsonLd={[
@@ -165,7 +165,7 @@ export default function Projects() {
 
       <main className="pt-20">
         {/* ── 1. Hero Header & Telemetry Metrics ── */}
-        <HighlightPoint id="projects-hero" color="#00E5FF" label="ARCHIVE // 5 SYSTEMS">
+        <HighlightPoint id="projects-hero" color="#9DB7D5" label="ARCHIVE // 5 SYSTEMS">
           <section className="pt-16 pb-12 md:pt-24 md:pb-16 border-b border-border">
             <div className="max-w-[1200px] mx-auto px-6 md:px-12">
               <motion.div
@@ -176,7 +176,7 @@ export default function Projects() {
               >
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <motion.div variants={fadeUp}>
-                    <SectionLabel>Archive // 2024 — 2026</SectionLabel>
+                    <SectionLabel>Archive // 2024-2026</SectionLabel>
                   </motion.div>
 
                   {/* Status Indicator */}
@@ -204,7 +204,7 @@ export default function Projects() {
                   variants={fadeUp}
                   className="font-ui text-body text-base lg:text-lg max-w-[580px] leading-relaxed"
                 >
-                  Interactive web platforms, autonomous AI systems, and modern applications built with React, Node.js, and TypeScript — alongside recent engineering in Rust and local runtimes.
+                  Interactive web platforms, autonomous AI systems, and modern applications built with React, Node.js, and TypeScript: alongside recent engineering in Rust and local runtimes.
                 </motion.p>
 
                 {/* Telemetry Metrics Strip */}
@@ -236,7 +236,7 @@ export default function Projects() {
 
         {/* ── 2. Interactive Control Bar (Filter & View Toolbar) ── */}
         <HighlightPoint id="projects-control" color="#8B5CF6" label="RADAR // DISCOVERY">
-          <section className="sticky top-16 z-30 bg-[#05050A]/90 backdrop-blur-xl border-b border-border py-4 transition-all">
+          <section className="sticky top-16 z-30 bg-[var(--bg-base)]/90 backdrop-blur-xl border-b border-border py-4 transition-all">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             {/* Category Filter Pills */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">

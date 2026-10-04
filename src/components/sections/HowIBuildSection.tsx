@@ -4,21 +4,21 @@ import { Link } from 'react-router-dom';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { stagger, fadeUp, scaleIn } from '@/lib/motion';
 
-/* ─── Workflow step data — 9 stages ─────────────────────────── */
+/* ─── Workflow step data: 9 stages ─────────────────────────── */
 const steps = [
   {
     num: '01',
     label: 'Problem',
     heading: 'What exists',
-    body: 'What is the actual problem? Not the feature request — the underlying friction that makes the problem real.',
-    accent: '#00E5FF',
+    body: 'What is the actual problem? Not the feature request: the underlying friction that makes the problem real.',
+    accent: '#9DB7D5',
   },
   {
     num: '02',
     label: 'Validate',
     heading: 'Is it worth solving',
     body: 'Is my understanding of the problem correct? Is this worth building? Pull on it before committing to it.',
-    accent: '#00E5FF',
+    accent: '#9DB7D5',
   },
   {
     num: '03',
@@ -38,7 +38,7 @@ const steps = [
     num: '05',
     label: 'Implement',
     heading: 'Build the system',
-    body: 'Writing the code — with AI where it accelerates the work: typed interfaces, test scaffolding, boilerplate, documentation.',
+    body: 'Writing the code: with AI where it accelerates the work: typed interfaces, test scaffolding, boilerplate, documentation.',
     accent: '#8B5CF6',
   },
   {
@@ -52,22 +52,22 @@ const steps = [
     num: '07',
     label: 'Test',
     heading: 'Manual & automated',
-    body: 'Edge cases, failure modes, regression. Both kinds of testing, not as ceremony — as engineering.',
+    body: 'Edge cases, failure modes, regression. Both kinds of testing, not as ceremony: as engineering.',
     accent: '#10B981',
   },
   {
     num: '08',
     label: 'Iterate',
     heading: 'Improve on feedback',
-    body: 'What did testing and real use reveal? Go back. Fix it. Not until it passes — until it is right.',
+    body: 'What did testing and real use reveal? Go back. Fix it. Not until it passes: until it is right.',
     accent: '#10B981',
   },
   {
     num: '09',
     label: 'Ship',
     heading: 'Deliberate release',
-    body: 'Put the system into use. Own what happens next. Shipping is not the end of the responsibility — it is where it begins.',
-    accent: '#00E5FF',
+    body: 'Put the system into use. Own what happens next. Shipping is not the end of the responsibility: it is where it begins.',
+    accent: '#9DB7D5',
   },
 ] as const;
 
@@ -110,7 +110,7 @@ function StepCard({
       className="group relative flex flex-col gap-3 bg-surface border border-border rounded-2xl p-6 overflow-hidden h-full"
       style={{ willChange: 'transform, opacity' }}
     >
-      {/* Top accent line — color per step group */}
+      {/* Top accent line: color per step group */}
       <div
         className="absolute inset-x-0 top-0 h-px opacity-50 group-hover:opacity-90 transition-opacity duration-300"
         style={{
@@ -190,18 +190,18 @@ export function HowIBuildSection() {
               variants={fadeUp}
               className="font-ui text-body text-base leading-[1.85] max-w-[560px]"
             >
-              I use AI where it accelerates the work — implementation, exploration, test
-              generation, documentation. The decisions that determine whether a system is correct —
+              I use AI where it accelerates the work: implementation, exploration, test
+              generation, documentation. The decisions that determine whether a system is correct -
               problem definition, requirements, architecture, constraints, review, and final
-              ownership — are engineering decisions. They stay with me.
+              ownership: are engineering decisions. They stay with me.
             </motion.p>
           </div>
 
-          {/* ── 9-step grid — 3 col on desktop, 2 on tablet, 1 on mobile ── */}
+          {/* ── 9-step grid: 3 col on desktop, 2 on tablet, 1 on mobile ── */}
           <div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
             role="list"
-            aria-label="Engineering workflow — 9 stages"
+            aria-label="Engineering workflow: 9 stages"
           >
             {steps.map((step, i) => (
               <div key={step.num} role="listitem">
@@ -249,22 +249,22 @@ export function HowIBuildSection() {
                   aria-hidden="true"
                 />
                 <span className="font-ui text-[10px] uppercase tracking-[0.2em] text-tagText">
-                  Vectoris — AI-Native Engineering Workstation
+                  Vectoris: AI-Native Engineering Workstation
                 </span>
               </div>
 
-              {/* Story — progression, not metrics */}
+              {/* Story: progression, not metrics */}
               <p className="font-ui text-sm text-body leading-[1.9]">
                 The problem wasn't "build an AI tool." It was: electrical estimators spend hundreds
                 of hours manually tracing circuit paths across 400+ blueprint sheets, introducing
                 costly measurement errors that affect real project bids. Validating that problem
-                — understanding the actual workflow, the failure modes, and the edge cases —
+               : understanding the actual workflow, the failure modes, and the edge cases -
                 took weeks before the first line of architecture was written.
               </p>
               <p className="font-ui text-sm text-body leading-[1.9]">
                 From there came requirements: local-first by necessity (blueprint IP can't leave
                 the machine), deterministic geometry extraction, no cloud dependency during active
-                work. Then system architecture — Tauri v2, Rust, on-device vision models — chosen
+                work. Then system architecture: Tauri v2, Rust, on-device vision models: chosen
                 for those constraints specifically, not as defaults. AI accelerated the
                 implementation: typed interfaces, test scaffolding, documentation. Then review,
                 then testing, then iteration on what testing revealed.

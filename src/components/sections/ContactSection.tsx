@@ -112,7 +112,7 @@ export function ContactSection() {
                 <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-border flex-shrink-0">
                   <img
                     src="/images/avatar.webp"
-                    alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
+                    alt="Hardik Bhaskar: Systems Architect &amp; AI Systems Builder"
                     title="Hardik Bhaskar"
                     width={56}
                     height={56}
@@ -157,7 +157,7 @@ export function ContactSection() {
             </motion.div>
           </div>
 
-          {/* Right — Form */}
+          {/* Right: Form */}
           <motion.div variants={scaleIn}>
             <div className="bg-surface border border-border rounded-2xl p-8 md:p-10">
               {sent ? (

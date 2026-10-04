@@ -33,7 +33,7 @@ export function SystemLabel({ id, index, total, children, className }: SystemLab
   return (
     <section ref={ref} className={`relative ${className ?? ''}`}>
 
-      {/* ── Scanning top border — sweeps left → right on scroll in ── */}
+      {/* ── Scanning top border: sweeps left → right on scroll in ── */}
       <motion.div
         className="absolute top-0 left-0 h-px"
         style={{ background: 'linear-gradient(90deg, rgba(0,229,255,0.6), rgba(124,58,237,0.4), transparent)' }}

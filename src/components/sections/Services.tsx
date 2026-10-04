@@ -28,13 +28,13 @@ const services: Service[] = [
     title: 'Interactive Web Experiences',
     subtitle: 'Scroll-driven · 3D · Motion',
     description:
-      'Animated landing pages, 3D product viewers, and scroll-driven storytelling that makes visitors stop and stare. Built with precision — 60fps, every device.',
+      'Animated landing pages, 3D product viewers, and scroll-driven storytelling that makes visitors stop and stare. Built with precision: 60fps, every device.',
     stack: ['Three.js', 'React Three Fiber', 'Framer Motion', 'GSAP'],
     price: 'From $800',
-    timeline: '7–14 days',
+    timeline: '7-14 days',
     glassClass: 'liquid-glass-cyan',
-    accentColor: '#00E5FF',
-    glowColor: '#00E5FF',
+    accentColor: '#9DB7D5',
+    glowColor: '#9DB7D5',
     featured: true,
   },
   {
@@ -45,7 +45,7 @@ const services: Service[] = [
       'Custom AI tools, chat interfaces, intelligent dashboards, and API backends. From OpenAI integration to full LangChain agent pipelines.',
     stack: ['FastAPI', 'React', 'LangChain', 'Supabase'],
     price: 'From $1,500',
-    timeline: '14–21 days',
+    timeline: '14-21 days',
     glassClass: 'liquid-glass-violet',
     accentColor: '#C084FC',
     glowColor: '#A855F7',
@@ -55,10 +55,10 @@ const services: Service[] = [
     title: 'Full-Stack SaaS Products',
     subtitle: 'Auth · DB · Deploy · Scale',
     description:
-      'End-to-end product development — from auth and database design to deployment and monitoring. Built to ship fast and scale further.',
+      'End-to-end product development: from auth and database design to deployment and monitoring. Built to ship fast and scale further.',
     stack: ['React', 'Next.js', 'Supabase', 'TypeScript'],
     price: 'From $3,000',
-    timeline: '4–8 weeks',
+    timeline: '4-8 weeks',
     glassClass: 'liquid-glass-neutral',
     accentColor: '#F0F0F8',
     glowColor: '#FFFFFF',
@@ -241,7 +241,7 @@ export function Services() {
               What I build.
             </motion.h2>
             <motion.p variants={fadeUp} className="font-ui text-body text-base leading-relaxed">
-              Three ways to work together — pick the one that fits your project.
+              Three ways to work together: pick the one that fits your project.
             </motion.p>
           </div>
 

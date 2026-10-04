@@ -10,7 +10,7 @@ export const SITE_URL =
   (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL) ||
   'https://hardikbhaskar.vercel.app';
 
-/** schema.org Person — represents Hardik Bhaskar across all pages */
+/** schema.org Person: represents Hardik Bhaskar across all pages */
 export function buildPersonJsonLd() {
   return {
     '@context': 'https://schema.org',
@@ -24,7 +24,7 @@ export function buildPersonJsonLd() {
       '@id': `${SITE_URL}/#avatar`,
       url: `${SITE_URL}/images/avatar.webp`,
       contentUrl: `${SITE_URL}/images/avatar.webp`,
-      caption: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
+      caption: 'Hardik Bhaskar | Systems Architect & AI Systems Builder',
       name: 'Hardik Bhaskar',
       width: 500,
       height: 500,
@@ -62,7 +62,7 @@ export function buildPersonJsonLd() {
     hasCredential: [
       {
         '@type': 'EducationalOccupationalCredential',
-        name: 'Google Cloud Gen AI Academy APAC 2026 — Cohort 2 Hackathon',
+        name: 'Google Cloud Gen AI Academy APAC 2026: Cohort 2 Hackathon',
         recognizedBy: {
           '@type': 'Organization',
           name: 'Google Cloud & Hack2skill',
@@ -72,7 +72,7 @@ export function buildPersonJsonLd() {
       },
       {
         '@type': 'EducationalOccupationalCredential',
-        name: 'Claude 101 — Large Language Model Mastery',
+        name: 'Claude 101: Large Language Model Mastery',
         recognizedBy: {
           '@type': 'Organization',
           name: 'Anthropic',
@@ -102,15 +102,15 @@ export function buildPersonJsonLd() {
         image: {
           '@type': 'ImageObject',
           url: `${SITE_URL}/docs/certificates/MYBharat_VBYLD_2026.png`,
-          caption: 'Viksit Bharat Young Leaders Dialogue 2026 Certificate — Awarded to Hardik Bhaskar by Ministry of Youth Affairs and Sports',
+          caption: 'Viksit Bharat Young Leaders Dialogue 2026 Certificate: Awarded to Hardik Bhaskar by Ministry of Youth Affairs and Sports',
         },
       },
     ],
     subjectOf: {
       '@type': 'DigitalDocument',
-      name: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
-      headline: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
-      description: 'Portfolio — Systems Architecture, AI Systems & Software Engineering',
+      name: 'Hardik Bhaskar | Systems Architect & AI Systems Builder',
+      headline: 'Hardik Bhaskar | Systems Architect & AI Systems Builder',
+      description: 'Portfolio: Systems Architecture, AI Systems & Software Engineering',
       url: `${SITE_URL}/docs/Hardik_Bhaskar_Portfolio.pdf`,
       fileFormat: 'application/pdf',
       author: {
@@ -131,22 +131,22 @@ export function buildPersonJsonLd() {
   };
 }
 
-/** schema.org WebSite — homepage only */
+/** schema.org WebSite: homepage only */
 export function buildWebsiteJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
-    name: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
+    name: 'Hardik Bhaskar | Systems Architect & AI Systems Builder',
     alternateName: [
       'Hardik Bhaskar',
       'Hardik Bhaskar Portfolio',
       'Hardik Bhaskar Developer',
-      'Hardik Bhaskar — Portfolio',
+      'Hardik Bhaskar: Portfolio',
     ],
     description:
-      'Official portfolio of Hardik Bhaskar — Systems Architect & AI Systems Builder focused on operating systems, autonomous AI, intelligent software systems, and engineering.',
+      'Official portfolio of Hardik Bhaskar | Systems Architect & AI Systems Builder focused on operating systems, autonomous AI, intelligent software systems, and engineering.',
     author: { '@id': `${SITE_URL}/#person` },
     publisher: {
       '@type': 'Person',
@@ -172,7 +172,7 @@ export function buildWebsiteJsonLd() {
 }
 
 /**
- * schema.org FAQPage — pass all FAQ items or grouped object.
+ * schema.org FAQPage: pass all FAQ items or grouped object.
  * @param {Record<string, Array<{q: string, a: string}>> | Array<{q: string, a: string}>} faqsByTab
  */
 export function buildFaqJsonLd(faqsByTab) {
@@ -239,7 +239,7 @@ function isShippedApp(project) {
   return Boolean(project.link && !project.link.includes('github.com'));
 }
 
-/** schema.org CreativeWork or SoftwareApplication — rendered on each /projects/:slug page */
+/** schema.org CreativeWork or SoftwareApplication: rendered on each /projects/:slug page */
 export function buildProjectJsonLd(project) {
   const localImage = project.fallbackImage
     ? `${SITE_URL}${project.fallbackImage.startsWith('/') ? project.fallbackImage : `/${project.fallbackImage}`}`
@@ -263,7 +263,7 @@ export function buildProjectJsonLd(project) {
       '@id': `${SITE_URL}/projects/${project.slug}#primaryimage`,
       url: imageUrl,
       contentUrl: imageUrl,
-      caption: `${project.title} — ${project.subtitle || project.description} by Hardik Bhaskar`,
+      caption: `${project.title}: ${project.subtitle || project.description} by Hardik Bhaskar`,
       name: `${project.title} Architectural Preview`,
       author: { '@id': `${SITE_URL}/#person` },
       representativeOfPage: true,

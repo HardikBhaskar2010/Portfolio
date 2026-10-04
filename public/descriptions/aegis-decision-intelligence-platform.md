@@ -36,6 +36,6 @@ AEGIS structures its analytical pipeline as an asynchronous Directed Acyclic Gra
 
 ## Production Benchmarks
 
-- Query-to-Brief Latency: Reduced full-pipeline situation analysis from 35 minutes of manual triage to 4.2 seconds end-to-end.
-- Analytical Precision: 99.4% precision in NL-to-SQL schema translation across 14 relational municipal BigQuery datasets.
+- Query-to-Brief Latency: Compressed multi-source cross-domain telemetry into automated executive situation briefs.
+- Analytical Precision: Type-safe NL-to-SQL schema translation across relational municipal BigQuery datasets.
 - Telemetry Throughput: Real-time streaming ingestion capable of processing 10,000+ civic events per second via asynchronous WebSocket pipelines.

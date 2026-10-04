@@ -8,9 +8,9 @@ const items = [
 ];
 
 const TAG_STYLES: Record<string, string> = {
-  LIVE:     'border-green-500/40 text-green-400/80',
-  BUILDING: 'border-cyan/40 text-cyan/80',
-  RESEARCH: 'border-white/15 text-white/35',
+  LIVE:     'border-[var(--status-available)]/50 text-[var(--status-available)]',
+  BUILDING: 'border-[var(--accent)]/50 text-[var(--accent)]',
+  RESEARCH: 'border-[var(--border-strong)] text-[var(--text-muted)]',
 };
 
 export function CurrentFocus() {
@@ -33,26 +33,26 @@ export function CurrentFocus() {
         className="absolute -inset-px rounded-xl pointer-events-none"
         animate={{
           boxShadow: [
-            '0 0 0px rgba(0,229,255,0)',
-            '0 0 18px rgba(0,229,255,0.12)',
-            '0 0 0px rgba(0,229,255,0)',
+            '0 0 0px rgba(157,183,213,0)',
+            '0 0 18px rgba(157,183,213,0.12)',
+            '0 0 0px rgba(157,183,213,0)',
           ],
         }}
         transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       <div
-        className="relative bg-surface border border-border rounded-xl px-5 py-4 font-mono text-sm min-w-[290px]"
+        className="relative bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 font-mono text-sm min-w-[290px]"
         style={{ backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}
       >
         {/* Header row */}
         <div className="flex items-center gap-2.5 mb-4">
           <motion.span
-            className="inline-block w-2 h-2 rounded-full bg-green-400 flex-shrink-0"
+            className="inline-block w-2 h-2 rounded-full bg-[var(--status-available)] flex-shrink-0"
             animate={{ opacity: [1, 0.3, 1] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />
-          <span className="text-[10px] uppercase tracking-[0.22em] text-white/30">
+          <span className="text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]">
             Currently Building
           </span>
         </div>
@@ -68,8 +68,8 @@ export function CurrentFocus() {
                 transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
                 className="flex items-center justify-between gap-3"
               >
-                <span className="text-cyan/50 flex-shrink-0">→</span>
-                <span className="text-white/75 flex-1 text-[13px]">{item.text}</span>
+                <span className="text-[var(--accent)] flex-shrink-0">→</span>
+                <span className="text-[var(--text-primary)] flex-1 text-[13px]">{item.text}</span>
                 <span
                   className={`text-[9px] tracking-widest px-2 py-0.5 rounded-full border flex-shrink-0 ${TAG_STYLES[item.tag] ?? TAG_STYLES.RESEARCH}`}
                 >
@@ -86,8 +86,8 @@ export function CurrentFocus() {
               animate={{ opacity: [1, 0] }}
               transition={{ duration: 0.55, repeat: Infinity }}
             >
-              <span className="text-white/20">→</span>
-              <span className="w-14 h-px bg-white/15" />
+              <span className="text-[var(--text-muted)]">→</span>
+              <span className="w-14 h-px bg-[var(--border-strong)]" />
             </motion.div>
           )}
         </div>

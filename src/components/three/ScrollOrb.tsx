@@ -160,7 +160,7 @@ export function ScrollOrb() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Active Story & Theme State
-  const [activeColor, setActiveColor] = useState('#00E5FF');
+  const [activeColor, setActiveColor] = useState('#9DB7D5');
   const [activeLabel, setActiveLabel] = useState('SYSTEM // ONLINE');
   const [isHovered, setIsHovered] = useState(false);
   const [shockwaveCount, setShockwaveCount] = useState(0);
@@ -238,7 +238,7 @@ export function ScrollOrb() {
       const overrideColor = useHighlightStore.getState().overrideColor;
       const overrideLabel = useHighlightStore.getState().overrideLabel;
 
-      const resolvedColor = overrideColor || bestItem?.color || '#00E5FF';
+      const resolvedColor = overrideColor || bestItem?.color || '#9DB7D5';
       const resolvedLabel = overrideLabel || bestItem?.label || 'SYSTEM // ONLINE';
 
       // Only update React state if the value actually changed

@@ -49,13 +49,13 @@ export function Testimonials() {
               value="97%"
               label="Positive Client Feedback"
               body="Collaborated with teams across SaaS & digital products. Every project delivered on time."
-              accent="#00E5FF"
+              accent="#9DB7D5"
             />
             <StatBanner
               value="+42%"
               label="Average Conversion Uplift"
               body="Design & performance improvements that measurably move business metrics."
-              accent="#7C3AED"
+              accent="#17345C"
             />
           </motion.div>
 
@@ -87,8 +87,8 @@ function QuoteCard({ quote, name, role, company, avatar }: typeof testimonials[0
       <div className="flex items-center gap-3 pt-4 border-t border-border">
         <img
           src={avatar}
-          alt={`${name} — ${role} at ${company}`}
-          title={`${name} — ${role}`}
+          alt={`${name}: ${role} at ${company}`}
+          title={`${name}: ${role}`}
           width={40}
           height={40}
           loading="lazy"

@@ -41,6 +41,6 @@ In Mahina, no source code is accepted or compiled unless its behavior, data stru
 
 ## Performance & System Benchmarks
 
-- Idle Memory Footprint: Under 142 Megabytes of total system RAM including active compositor and desktop shell.
-- Cold Boot Time: Less than 850 milliseconds from bootloader handoff to interactive desktop shell in QEMU virtualization.
+- Idle Memory Footprint: Compact memory footprint with zero dynamic allocation in early boot.
+- Cold Boot Time: Direct handoff from bootloader to interactive desktop shell in QEMU virtualization.
 - Binary Footprint: Entire userland toolchain and system utilities occupy less than 18 Megabytes of storage.

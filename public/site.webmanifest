@@ -1,5 +1,5 @@
 {
-  "name": "Hardik Bhaskar — Systems Architect & AI Systems Builder",
+  "name": "Hardik Bhaskar: Systems Architect & AI Systems Builder",
   "short_name": "Hardik Bhaskar",
   "icons": [
     {
@@ -13,8 +13,8 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#05050A",
-  "background_color": "#05050A",
+  "theme_color": "#071629",
+  "background_color": "#071629",
   "display": "standalone",
   "start_url": "/"
 }

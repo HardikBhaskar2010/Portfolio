@@ -7,14 +7,14 @@ let lenisInstance: Lenis | null = null;
 
 export function getLenis() { return lenisInstance; }
 
-/* ─── Scroll store — read in R3F useFrame without React state ── */
+/* ─── Scroll store: read in R3F useFrame without React state ── */
 export const scrollStore = {
   progress: 0,
   velocity: 0,
   scroll: 0,
 };
 
-/* ─── Main Lenis hook — call once at App root ───────────────── */
+/* ─── Main Lenis hook: call once at App root ───────────────── */
 export function useLenis() {
   useEffect(() => {
     const lenis = new Lenis({

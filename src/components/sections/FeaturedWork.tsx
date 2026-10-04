@@ -98,7 +98,7 @@ export function FeaturedWork({ limit = 6, showViewAll = true }: FeaturedWorkProp
         </motion.div>
       </div>
 
-      {/* Primary Project Showcase — Clean non-transformed container for robust sticky stacking */}
+      {/* Primary Project Showcase: Clean non-transformed container for robust sticky stacking */}
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12">
         {viewMode === 'stacking' ? (
           <StackingProjectCards projects={displayed} />
@@ -156,7 +156,7 @@ function ProjectCard({ project, priority }: { project: typeof projects[0]; prior
     offset: ['start end', 'end start'],
   });
 
-  /* Image moves at 80% of scroll speed — creates parallax within card */
+  /* Image moves at 80% of scroll speed: creates parallax within card */
   const imageY = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
 
   return (
@@ -173,7 +173,7 @@ function ProjectCard({ project, priority }: { project: typeof projects[0]; prior
           <FallbackImg
             src={project.image}
             fallbackSrc={project.fallbackImage}
-            alt={`${project.title} — ${project.subtitle || project.category} by Hardik Bhaskar`}
+            alt={`${project.title}: ${project.subtitle || project.category} by Hardik Bhaskar`}
             style={{ y: imageY, scale: 1.1 }}
             priority={priority}
           />

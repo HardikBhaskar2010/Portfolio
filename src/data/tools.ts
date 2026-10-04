@@ -83,31 +83,31 @@ export const experience = [
   {
     role: 'Systems & Desktop Engineer',
     company: 'Vectoris',
-    period: '2025 — Present',
+    period: '2025: Present',
     description: 'Engineered a high-performance native desktop AI takeoff platform with Tauri v2, Rust 2021, and React 19. Designed IPC bridges and local AI execution pipelines.',
   },
   {
     role: 'Operating Systems Architect',
     company: 'MahinaOS',
-    period: '2024 — Present',
+    period: '2024: Present',
     description: 'Developed an x86_64 bare-metal micro-operating system from scratch using C++, C, and Assembly. Built luna-init PID 1, VGA framebuffer driver, and memory manager.',
   },
   {
     role: 'AI Systems Developer',
     company: 'Veronica AI & AEGIS Project',
-    period: '2025 — Present',
+    period: '2025: Present',
     description: 'Architecting multi-agent decision intelligence and conversational AI systems with Google ADK 2.0, Python, BigQuery telemetry, and memory persistence.',
   },
   {
     role: 'Founder & Lead Developer',
     company: 'STEM Idea Adventure',
-    period: '2024 — Present',
+    period: '2024: Present',
     description: 'Founded and built an interactive STEM education platform from scratch. Led product strategy, design, and full-stack development.',
   },
   {
     role: 'Interactive Web & 3D Developer',
     company: 'Independent Projects Lab',
-    period: '2023 — Present',
+    period: '2023: Present',
     description: 'Delivering cinematic Three.js WebGL experiences, animation-rich interfaces, and performance-optimized frontends for modern web applications.',
   },
 ];

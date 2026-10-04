@@ -4,11 +4,11 @@
  * Single source of truth for per-route SEO metadata.
  *
  * Exports:
- *  - SITE_URL            — canonical production domain
- *  - buildPersonJsonLd   — schema.org Person node (Hardik Bhaskar)
- *  - buildWebsiteJsonLd  — schema.org WebSite node
- *  - buildProjectJsonLd  — schema.org CreativeWork/SoftwareSourceCode node
- *  - <Seo>               — thin wrapper around react-helmet-async <Helmet>
+ *  - SITE_URL           : canonical production domain
+ *  - buildPersonJsonLd  : schema.org Person node (Hardik Bhaskar)
+ *  - buildWebsiteJsonLd : schema.org WebSite node
+ *  - buildProjectJsonLd : schema.org CreativeWork/SoftwareSourceCode node
+ *  - <Seo>              : thin wrapper around react-helmet-async <Helmet>
  */
 
 import { Helmet } from 'react-helmet-async';
@@ -35,7 +35,7 @@ export type { ProjectForJsonLd, BreadcrumbItem, FaqItem };
 // ── <Seo> component ─────────────────────────────────────────────────────────
 
 interface SeoProps {
-  /** Full page title — shown in browser tab and SERP */
+  /** Full page title: shown in browser tab and SERP */
   title: string;
   /** ~155-char meta description for SERP */
   description: string;

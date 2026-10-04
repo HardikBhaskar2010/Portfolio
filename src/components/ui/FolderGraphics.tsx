@@ -110,7 +110,7 @@ export function GoogleCloud3D({ className = 'w-36 h-36' }: { className?: string 
           <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.8" />
         </linearGradient>
         <filter id="gc-glow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="12" stdDeviation="16" floodColor="#00E5FF" floodOpacity="0.45" />
+          <feDropShadow dx="0" dy="12" stdDeviation="16" floodColor="#9DB7D5" floodOpacity="0.45" />
         </filter>
       </defs>
 
@@ -127,7 +127,7 @@ export function GoogleCloud3D({ className = 'w-36 h-36' }: { className?: string 
 
         {/* Center Floating Core Star / Neural Nexus */}
         <circle cx="80" cy="78" r="14" fill="#FFFFFF" opacity="0.9" />
-        <circle cx="80" cy="78" r="8" fill="#00E5FF" />
+        <circle cx="80" cy="78" r="8" fill="#9DB7D5" />
 
         {/* Orbital Ring with Nodes */}
         <ellipse cx="80" cy="78" rx="46" ry="20" stroke="url(#gc-grad-emerald)" strokeWidth="3" strokeDasharray="6 4" fill="none" transform="rotate(-15 80 78)" />
@@ -173,7 +173,7 @@ export function ClaudeSpark3D({ className = 'w-36 h-36' }: { className?: string 
         <path d="M 140 80 L 94 88 L 82 80 L 94 72 Z" fill="url(#claude-grad-warm)" />
 
         {/* Diagonal Bevels */}
-        <path d="M 38 38 L 70 70 L 80 80 L 70 80 Z" fill="#FBBF24" opacity="0.8" />
+        <path d="M 38 38 L 70 70 L 80 80 L 70 80 Z" fill="#9DB7D5" opacity="0.8" />
         <path d="M 122 38 L 80 80 L 90 70 L 90 80 Z" fill="url(#claude-highlight)" opacity="0.9" />
         <path d="M 122 122 L 80 80 L 90 90 L 80 90 Z" fill="#B45309" opacity="0.75" />
         <path d="M 38 122 L 80 80 L 70 90 L 80 90 Z" fill="#78350F" opacity="0.75" />
@@ -298,11 +298,11 @@ export function DossierSingularity3D({ className = 'w-36 h-36' }: { className?: 
         <linearGradient id="dossier-grad" x1="20" y1="20" x2="140" y2="140" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#E0E7FF" />
           <stop offset="30%" stopColor="#A855F7" />
-          <stop offset="70%" stopColor="#00E5FF" />
+          <stop offset="70%" stopColor="#9DB7D5" />
           <stop offset="100%" stopColor="#06B6D4" />
         </linearGradient>
         <filter id="dossier-glow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="12" stdDeviation="16" floodColor="#00E5FF" floodOpacity="0.5" />
+          <feDropShadow dx="0" dy="12" stdDeviation="16" floodColor="#9DB7D5" floodOpacity="0.5" />
         </filter>
       </defs>
 
@@ -312,8 +312,8 @@ export function DossierSingularity3D({ className = 'w-36 h-36' }: { className?: 
         <ellipse cx="80" cy="80" rx="54" ry="24" stroke="url(#dossier-grad)" strokeWidth="4" transform="rotate(35 80 80)" fill="none" opacity="0.8" />
         
         {/* Central Core */}
-        <circle cx="80" cy="80" r="18" fill="#05050A" stroke="#00E5FF" strokeWidth="2" />
-        <circle cx="80" cy="80" r="10" fill="#00E5FF" opacity="0.9" />
+        <circle cx="80" cy="80" r="18" fill="#071629" stroke="#9DB7D5" strokeWidth="2" />
+        <circle cx="80" cy="80" r="10" fill="#9DB7D5" opacity="0.9" />
         <circle cx="80" cy="80" r="4" fill="#FFFFFF" />
       </g>
     </svg>

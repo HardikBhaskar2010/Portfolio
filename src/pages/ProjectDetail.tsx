@@ -150,7 +150,7 @@ function MarkdownBody({ md, accentColor }: { md: string; accentColor: string }) 
       continue;
     }
 
-    // Blank line — flush any active lists
+    // Blank line: flush any active lists
     if (!line.trim()) {
       flushLists();
       continue;
@@ -329,7 +329,7 @@ export default function ProjectDetail() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Seo
-          title="Project Not Found — Hardik Bhaskar"
+          title="Project Not Found | Hardik Bhaskar"
           description="This project doesn't exist. Browse all projects by Hardik Bhaskar."
           path="/projects"
           noindex
@@ -394,7 +394,7 @@ export default function ProjectDetail() {
       className="page-wrapper min-h-screen"
     >
       <Seo
-        title={`${project.title} — Hardik Bhaskar`}
+        title={`${project.title} | Hardik Bhaskar`}
         description={metaDescription}
         path={`/projects/${project.slug}`}
         ogImage={project.fallbackImage || project.image}
@@ -567,8 +567,8 @@ export default function ProjectDetail() {
                   <ProjectImage
                     src={project.image}
                     fallbackSrc={project.fallbackImage}
-                    alt={`${project.title} — ${project.subtitle || project.tag || project.category} Architecture Overview by Hardik Bhaskar`}
-                    title={`${project.title} — Engineered by Hardik Bhaskar`}
+                    alt={`${project.title}: ${project.subtitle || project.tag || project.category} Architecture Overview by Hardik Bhaskar`}
+                    title={`${project.title}: Engineered by Hardik Bhaskar`}
                     width={1200}
                     height={675}
                     loading="eager"
@@ -714,7 +714,7 @@ export default function ProjectDetail() {
                     <ProjectImage
                       src={prevProject.image}
                       fallbackSrc={prevProject.fallbackImage}
-                      alt={`${prevProject.title} — ${prevProject.category} by Hardik Bhaskar`}
+                      alt={`${prevProject.title}: ${prevProject.category} by Hardik Bhaskar`}
                       title={`${prevProject.title} by Hardik Bhaskar`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -751,7 +751,7 @@ export default function ProjectDetail() {
                     <ProjectImage
                       src={nextProject.image}
                       fallbackSrc={nextProject.fallbackImage}
-                      alt={`${nextProject.title} — ${nextProject.category} by Hardik Bhaskar`}
+                      alt={`${nextProject.title}: ${nextProject.category} by Hardik Bhaskar`}
                       title={`${nextProject.title} by Hardik Bhaskar`}
                       width={64}
                       height={64}
@@ -796,7 +796,7 @@ export default function ProjectDetail() {
                         <ProjectImage
                           src={p.image}
                           fallbackSrc={p.fallbackImage}
-                          alt={`${p.title} — ${p.subtitle || p.category} by Hardik Bhaskar`}
+                          alt={`${p.title}: ${p.subtitle || p.category} by Hardik Bhaskar`}
                           title={`${p.title} by Hardik Bhaskar`}
                           width={560}
                           height={315}

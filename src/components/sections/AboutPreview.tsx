@@ -64,7 +64,7 @@ export function AboutPreview() {
         {/* ── Main Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 md:gap-6">
 
-          {/* Left Column — 3/5 */}
+          {/* Left Column: 3/5 */}
           <motion.div
             variants={stagger}
             initial="hidden"
@@ -178,15 +178,15 @@ export function AboutPreview() {
             </motion.div>
           </motion.div>
 
-          {/* Right Column — 2/5 */}
+          {/* Right Column: 2/5 */}
           <div className="lg:col-span-2 flex flex-col gap-4 md:gap-6 order-1 lg:order-2">
             {/* Avatar Card with parallax */}
             <div className="bg-surface border border-border rounded-2xl overflow-hidden">
               <div className="parallax-container h-56 md:h-72">
                 <motion.img
                   src="/images/avatar.webp"
-                  alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
-                  title="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
+                  alt="Hardik Bhaskar: Systems Architect &amp; AI Systems Builder"
+                  title="Hardik Bhaskar: Systems Architect &amp; AI Systems Builder"
                   width={400}
                   height={288}
                   loading="lazy"
@@ -209,7 +209,7 @@ export function AboutPreview() {
               </div>
             </div>
 
-            {/* 3D Bento Cell — floating icosahedron */}
+            {/* 3D Bento Cell: floating icosahedron */}
             <motion.div
               variants={scaleIn}
               initial="hidden"
@@ -219,7 +219,7 @@ export function AboutPreview() {
             >
               <WebGLGuard fallback={<div className="w-full h-full flex items-center justify-center"><span className="font-ui text-xs text-tagText">Three.js</span></div>}>
                 <Suspense fallback={null}>
-                  <FloatingGeomCanvas type="icosahedron" color="#00E5FF" speed={0.8} size={0.9} />
+                  <FloatingGeomCanvas type="icosahedron" color="#9DB7D5" speed={0.8} size={0.9} />
                 </Suspense>
               </WebGLGuard>
               <div className="absolute bottom-3 left-4">
@@ -227,7 +227,7 @@ export function AboutPreview() {
               </div>
             </motion.div>
 
-            {/* Role Card — premium skills first */}
+            {/* Role Card: premium skills first */}
             <motion.div
               variants={scaleIn}
               initial="hidden"

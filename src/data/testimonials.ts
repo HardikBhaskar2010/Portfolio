@@ -10,7 +10,7 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [
   {
     id: 't1',
-    quote: "Hardik doesn't just build UIs — he crafts experiences. The motion design and performance on our SaaS dashboard exceeded every expectation. Truly elite frontend work.",
+    quote: "Hardik doesn't just build UIs: he crafts experiences. The motion design and performance on our SaaS dashboard exceeded every expectation. Truly elite frontend work.",
     name: 'Aryan Mehta',
     role: 'CTO',
     company: 'Pulse Analytics',
@@ -26,7 +26,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     id: 't3',
-    quote: "The Three.js experience he built for our product launch was jaw-dropping. I've worked with many developers — Hardik stands in a completely different league when it comes to interactive web.",
+    quote: "The Three.js experience he built for our product launch was jaw-dropping. I've worked with many developers: Hardik stands in a completely different league when it comes to interactive web.",
     name: 'Siddharth Rao',
     role: 'Creative Director',
     company: 'Void Studios',

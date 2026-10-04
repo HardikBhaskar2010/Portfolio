@@ -6,8 +6,8 @@ import * as THREE from 'three';
 const PARTICLE_COUNT      = 120;
 const SPREAD              = 14;         // bounding box half-size
 const CONNECTION_DISTANCE = 3.5;
-const PARTICLE_COLOR      = '#00E5FF';  // cyan
-const LINE_COLOR          = '#7C3AED';  // violet
+const PARTICLE_COLOR      = '#9DB7D5';  // cyan
+const LINE_COLOR          = '#17345C';  // violet
 const PARTICLE_SIZE       = 0.06;
 const DRIFT_SPEED         = 0.0008;
 const MOUSE_PARALLAX      = 0.4;
@@ -108,7 +108,7 @@ function Particles() {
 
   return (
     <>
-      {/* Particles — single InstancedMesh draw call for all 120 */}
+      {/* Particles: single InstancedMesh draw call for all 120 */}
       <instancedMesh ref={meshRef} args={[undefined, undefined, PARTICLE_COUNT]}>
         <sphereGeometry args={[PARTICLE_SIZE, 6, 6]} />
         <meshBasicMaterial color={PARTICLE_COLOR} />
@@ -122,7 +122,7 @@ function Particles() {
   );
 }
 
-// ─── Public export — wrap in Canvas ─────────────────────────────────────────
+// ─── Public export: wrap in Canvas ─────────────────────────────────────────
 export function NeuralNetworkScene() {
   return (
     <Canvas

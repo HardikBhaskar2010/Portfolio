@@ -29,7 +29,7 @@ export interface PortfolioDossier {
 }
 
 export const portfolioDossier: PortfolioDossier = {
-  title: 'Hardik Bhaskar — Systems Architect & AI Systems Builder',
+  title: 'Hardik Bhaskar: Systems Architect & AI Systems Builder',
   subtitle: 'Executive Portfolio & Technical Dossier · 2-Page Architecture Brief',
   version: '2026.1',
   pages: 2,
@@ -49,7 +49,7 @@ export const certificates: Certificate[] = [
   {
     id: 'google-cloud-genai-2026',
     title: 'Google Cloud Gen AI Academy APAC 2026',
-    subtitle: 'Cohort 2 Hackathon — Generative AI & Cloud Architecture',
+    subtitle: 'Cohort 2 Hackathon: Generative AI & Cloud Architecture',
     issuer: 'Google Cloud & Hack2skill',
     issuerCode: 'GOOGLE CLOUD',
     date: '31/08/2026',
@@ -61,13 +61,13 @@ export const certificates: Certificate[] = [
     skills: ['Google Cloud', 'ADK 2.0', 'Gemini API', 'BigQuery', 'Multi-Agent Graphs', 'Decision Intelligence'],
     fileUrl: '/docs/certificates/Google_GenAI_Academy_APAC_2026.pdf',
     fileType: 'pdf',
-    accentColor: '#00E5FF',
-    glowColor: 'rgba(0, 229, 255, 0.15)',
+    accentColor: '#9DB7D5',
+    glowColor: 'rgba(157, 183, 213, 0.15)',
     relatedProjectSlug: 'aegis',
   },
   {
     id: 'anthropic-claude-101',
-    title: 'Claude 101 — Large Language Model Mastery',
+    title: 'Claude 101: Large Language Model Mastery',
     subtitle: 'Certificate of Completion',
     issuer: 'Anthropic',
     issuerCode: 'ANTHROPIC',
@@ -79,8 +79,8 @@ export const certificates: Certificate[] = [
     skills: ['Claude 3.5 Sonnet', 'Anthropic API', 'System Prompts', 'Tool Calling', 'Agent Workflows'],
     fileUrl: '/docs/certificates/Anthropic_Claude_101.pdf',
     fileType: 'pdf',
-    accentColor: '#D97706',
-    glowColor: 'rgba(217, 119, 6, 0.15)',
+    accentColor: '#60758E',
+    glowColor: 'rgba(96, 117, 142, 0.15)',
     relatedProjectSlug: 'veronica-ai',
   },
   {
@@ -97,8 +97,8 @@ export const certificates: Certificate[] = [
     skills: ['AI Debugging', 'Prompt Chaining', 'Data Analytics', 'Rapid Prototyping'],
     fileUrl: '/docs/certificates/be10x_AI_Tools_Workshop.pdf',
     fileType: 'pdf',
-    accentColor: '#10B981',
-    glowColor: 'rgba(16, 185, 129, 0.15)',
+    accentColor: '#6EE7B7',
+    glowColor: 'rgba(110, 231, 183, 0.15)',
   },
   {
     id: 'mybharat-vbyld-2026',
@@ -114,7 +114,7 @@ export const certificates: Certificate[] = [
     skills: ['Technology Leadership', 'National Dialogue', 'Innovation Policy', 'Youth Empowerment'],
     fileUrl: '/docs/certificates/MYBharat_VBYLD_2026.png',
     fileType: 'png',
-    accentColor: '#F59E0B',
-    glowColor: 'rgba(245, 158, 11, 0.15)',
+    accentColor: '#9DB7D5',
+    glowColor: 'rgba(157, 183, 213, 0.15)',
   },
 ];

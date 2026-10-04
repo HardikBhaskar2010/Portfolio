@@ -106,8 +106,8 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                   >
                     <img
                       src={project.image}
-                      alt={`${project.title} — ${project.subtitle || project.category} by Hardik Bhaskar`}
-                      title={`${project.title} — Engineered by Hardik Bhaskar`}
+                      alt={`${project.title}: ${project.subtitle || project.category} by Hardik Bhaskar`}
+                      title={`${project.title}: Engineered by Hardik Bhaskar`}
                       width={600}
                       height={375}
                       loading="lazy"
@@ -238,8 +238,8 @@ export function ExpandedProjectCards({ projects }: ExpandedProjectCardsProps) {
                   <div className="aspect-[16/9] rounded-xl overflow-hidden border border-white/10 relative">
                     <img
                       src={project.image}
-                      alt={`${project.title} — ${project.subtitle || project.category} by Hardik Bhaskar`}
-                      title={`${project.title} — Engineered by Hardik Bhaskar`}
+                      alt={`${project.title}: ${project.subtitle || project.category} by Hardik Bhaskar`}
+                      title={`${project.title}: Engineered by Hardik Bhaskar`}
                       width={400}
                       height={225}
                       loading="lazy"

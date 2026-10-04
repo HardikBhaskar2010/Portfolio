@@ -65,7 +65,7 @@ function StackingCard({
 
   const padIndex = String(index + 1).padStart(2, '0');
   const padTotal = String(total).padStart(2, '0');
-  const accentColor = project.color || '#00E5FF';
+  const accentColor = project.color || '#9DB7D5';
 
   return (
     <div className="h-screen flex items-center justify-center sticky top-0 px-2 sm:px-4 md:px-6">
@@ -76,7 +76,7 @@ function StackingCard({
           transformOrigin: 'top center',
           zIndex: 10 + index,
         }}
-        className="relative w-full max-w-[1050px] h-[520px] md:h-[540px] rounded-2xl md:rounded-3xl border border-white/[0.10] bg-[#0c0e14]/80 backdrop-blur-2xl overflow-hidden shadow-[0_-22px_60px_-15px_rgba(0,0,0,0.92),0_30px_80px_-15px_rgba(0,0,0,0.95)] transition-all duration-300 hover:border-cyan/30 hover:shadow-[0_0_30px_rgba(0,229,255,0.08)]"
+        className="relative w-full max-w-[1050px] h-[520px] md:h-[540px] rounded-2xl md:rounded-3xl border border-white/[0.10] bg-[#0c0e14]/80 backdrop-blur-2xl overflow-hidden shadow-[0_-22px_60px_-15px_rgba(0,0,0,0.92),0_30px_80px_-15px_rgba(0,0,0,0.95)] transition-all duration-300 hover:border-cyan/30 hover:shadow-[0_0_30px_rgba(157, 183, 213, 0.08)]"
       >
         {/* Top cardstock illuminated edge highlight */}
         <div
@@ -146,7 +146,7 @@ function StackingCard({
               <StackingCardImg
                 src={project.image}
                 fallback={project.fallbackImage}
-                alt={`${project.title} — ${project.subtitle || project.tag || 'Systems Architecture'} by Hardik Bhaskar`}
+                alt={`${project.title}: ${project.subtitle || project.tag || 'Systems Architecture'} by Hardik Bhaskar`}
               />
 
               {/* Glass reflection and hover prompt overlay */}

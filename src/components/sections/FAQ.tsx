@@ -36,7 +36,7 @@ export function FAQ() {
           animate={inView ? 'visible' : 'hidden'}
           className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start"
         >
-          {/* Left — Label + Heading */}
+          {/* Left: Label + Heading */}
           <div className="flex flex-col gap-6 lg:sticky lg:top-24">
             <motion.div variants={fadeUp}>
               <SectionLabel>Common questions</SectionLabel>
@@ -66,14 +66,14 @@ export function FAQ() {
                 onMouseEnter={playHoverTick}
                 className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-white/15 bg-white/[0.04] hover:bg-white/[0.09] hover:border-cyan/40 text-xs font-ui font-medium text-white/90 hover:text-white transition-all duration-200 active:scale-[0.97] group shadow-sm backdrop-blur-md"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan shadow-[0_0_8px_#00E5FF] animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan shadow-[0_0_8px_#9DB7D5] animate-pulse" />
                 <span>Have a specific question? Ask directly</span>
                 <ArrowRight size={13} className="text-cyan transition-transform duration-150 ease-out group-hover:translate-x-0.5" />
               </a>
             </motion.div>
           </div>
 
-          {/* Right — Tabs + Accordion */}
+          {/* Right: Tabs + Accordion */}
           <motion.div variants={scaleIn} className="flex flex-col gap-6">
             {/* Tab Switcher */}
             <div className="flex items-center gap-1 p-1 bg-surface border border-border rounded-full w-fit">
@@ -151,7 +151,7 @@ function AccordionItem({ question, answer, isOpen, onToggle, isLast }: Accordion
           transition={{ duration: 0.25, ease: spring }}
           className={`flex-shrink-0 w-7 h-7 rounded-full border flex items-center justify-center transition-colors ${
             isOpen
-              ? 'border-cyan/40 text-cyan bg-cyan/10 shadow-[0_0_12px_rgba(0,229,255,0.15)]'
+              ? 'border-cyan/40 text-cyan bg-cyan/10 shadow-[0_0_12px_rgba(157, 183, 213, 0.15)]'
               : 'border-border text-muted group-hover:border-heading/30'
           }`}
         >

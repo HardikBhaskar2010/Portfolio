@@ -1,5 +1,5 @@
 /**
- * ToolIcon — maps tool names to real iconsax-react icons.
+ * ToolIcon: maps tool names to real iconsax-react icons.
  * Uses the "Bulk" variant (two-tone filled) for a premium dark-mode look.
  * Color coding: Cyan → Design/Dev | Violet → AI | Muted → Collaboration
  */
@@ -33,8 +33,8 @@ import { GitBranch, Triangle, Wind, Braces, Bot } from 'lucide-react';
 
 const SZ   = 18;
 const BULK  = 'Bulk' as const;
-const CYAN  = '#00E5FF';
-const VLT   = '#7C3AED';
+const CYAN  = '#9DB7D5';
+const VLT   = '#17345C';
 const MUTED = '#94A3B8';
 const ORG   = '#F97316';
 const EMER  = '#10B981';

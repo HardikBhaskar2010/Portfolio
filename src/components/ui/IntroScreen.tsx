@@ -178,13 +178,13 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
               duration: prefersReducedMotion ? 0.25 : 0.72,
               ease: [0.77, 0, 0.175, 1],
             }}
-            className="absolute top-0 left-0 right-0 h-[50vh] bg-[#05050A] border-b border-cyan/25 overflow-hidden z-10 will-change-transform"
+            className="absolute top-0 left-0 right-0 h-[50vh] bg-[#071629] border-b border-cyan/25 overflow-hidden z-10 will-change-transform"
           >
             {/* Top ambient radial glow */}
             <div
               className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none opacity-20"
               style={{
-                background: 'radial-gradient(circle, rgba(0,229,255,0.2) 0%, rgba(124,58,237,0.12) 40%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(157, 183, 213, 0.2) 0%, rgba(23, 52, 92, 0.12) 40%, transparent 70%)',
                 filter: 'blur(60px)',
               }}
             />
@@ -209,13 +209,13 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
               duration: prefersReducedMotion ? 0.25 : 0.72,
               ease: [0.77, 0, 0.175, 1],
             }}
-            className="absolute bottom-0 left-0 right-0 h-[50vh] bg-[#05050A] border-t border-cyan/25 overflow-hidden z-10 will-change-transform"
+            className="absolute bottom-0 left-0 right-0 h-[50vh] bg-[#071629] border-t border-cyan/25 overflow-hidden z-10 will-change-transform"
           >
             {/* Bottom ambient radial glow */}
             <div
               className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none opacity-20"
               style={{
-                background: 'radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(0,229,255,0.12) 40%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(23, 52, 92, 0.2) 0%, rgba(157, 183, 213, 0.12) 40%, transparent 70%)',
                 filter: 'blur(60px)',
               }}
             />
@@ -237,7 +237,7 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
               opacity: phase === 'exiting' ? [0.9, 1, 0] : (progress >= 0.8 ? 0.6 : 0),
             }}
             transition={{ duration: phase === 'exiting' ? 0.45 : 0.3, ease: 'easeOut' }}
-            className="absolute top-1/2 left-0 right-0 h-[2px] -translate-y-1/2 bg-gradient-to-r from-transparent via-cyan to-transparent z-30 shadow-[0_0_15px_#00E5FF,0_0_35px_rgba(124,58,237,0.9)] pointer-events-none"
+            className="absolute top-1/2 left-0 right-0 h-[2px] -translate-y-1/2 bg-gradient-to-r from-transparent via-cyan to-transparent z-30 shadow-[0_0_15px_#9DB7D5,0_0_35px_rgba(23, 52, 92, 0.9)] pointer-events-none"
           />
 
           {/* ── FOREGROUND CONTENT LAYER (Fades out quickly upon split exit) ── */}
@@ -297,7 +297,7 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
                   transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
                   className="absolute w-24 h-24 md:w-28 md:h-28 rounded-full border border-violet/30 pointer-events-none"
                 >
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-cyan shadow-[0_0_8px_#00E5FF]" />
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-cyan shadow-[0_0_8px_#9DB7D5]" />
                 </motion.div>
 
                 {/* Logo badge with neon aura */}
@@ -305,11 +305,11 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
                   initial={{ scale: 0.92, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border border-cyan/40 shadow-[0_0_24px_rgba(0,229,255,0.2)] bg-surface2/80 p-0.5"
+                  className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border border-cyan/40 shadow-[0_0_24px_rgba(157, 183, 213, 0.2)] bg-surface2/80 p-0.5"
                 >
                   <img
                     src="/images/logo.webp"
-                    alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder Logo"
+                    alt="Hardik Bhaskar: Systems Architect &amp; AI Systems Builder Logo"
                     title="Hardik Bhaskar"
                     width={80}
                     height={80}
@@ -345,10 +345,10 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
               <div className="flex flex-col items-center w-full max-w-md px-4">
                 {/* Massive Tabular Percentage Numerals */}
                 <div className="flex items-baseline justify-center gap-1 mb-4">
-                  <span className="font-mono text-5xl md:text-7xl font-extrabold tracking-tighter text-white tabular-nums drop-shadow-[0_0_20px_rgba(0,229,255,0.3)]">
+                  <span className="font-mono text-5xl md:text-7xl font-extrabold tracking-tighter text-white tabular-nums drop-shadow-[0_0_20px_rgba(157, 183, 213, 0.3)]">
                     {String(displayNum).padStart(3, '0')}
                   </span>
-                  <span className="font-mono text-xl md:text-2xl font-semibold text-cyan drop-shadow-[0_0_10px_#00E5FF]">
+                  <span className="font-mono text-xl md:text-2xl font-semibold text-cyan drop-shadow-[0_0_10px_#9DB7D5]">
                     %
                   </span>
                 </div>
@@ -367,9 +367,9 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
                     className="h-full rounded-full relative"
                     style={{
                       width: `${progress * 100}%`,
-                      background: 'linear-gradient(90deg, #00E5FF 0%, #7C3AED 50%, #00E5FF 100%)',
+                      background: 'linear-gradient(90deg, #9DB7D5 0%, #17345C 50%, #9DB7D5 100%)',
                       backgroundSize: '200% 100%',
-                      boxShadow: '0 0 14px rgba(0, 229, 255, 0.7)',
+                      boxShadow: '0 0 14px rgba(157, 183, 213, 0.7)',
                     }}
                     animate={{
                       backgroundPosition: ['0% 0%', '200% 0%'],
@@ -386,7 +386,7 @@ export function IntroScreen({ onComplete }: IntroScreenProps) {
                     className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white"
                     style={{
                       left: `calc(${progress * 100}% - 4px)`,
-                      boxShadow: '0 0 10px 2px #00E5FF, 0 0 20px 4px rgba(124,58,237,0.8)',
+                      boxShadow: '0 0 10px 2px #9DB7D5, 0 0 20px 4px rgba(23, 52, 92, 0.8)',
                     }}
                   />
                 </div>

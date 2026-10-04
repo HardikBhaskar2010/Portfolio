@@ -91,7 +91,7 @@ export function Footer() {
       <footer
         ref={footerRef}
         onClick={handleUserInteraction}
-        className="relative overflow-hidden border-t border-border mt-0 bg-[#05050A]"
+        className="relative overflow-hidden border-t border-border mt-0 bg-[#071629]"
       >
         {/* ── Background ASCII Black Hole Cinematic Video Loop ── */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
@@ -115,9 +115,9 @@ export function Footer() {
           </video>
 
           {/* Edge fades and readability scrim keeping text ultra-crisp while showcasing ASCII animation */}
-          <div className="absolute inset-0 bg-[#05050A]/40 pointer-events-none" />
-          <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-[#05050A] via-[#05050A]/70 to-transparent pointer-events-none" />
-          <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-[#05050A] via-[#05050A]/70 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-[#071629]/40 pointer-events-none" />
+          <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-[#071629] via-[#071629]/70 to-transparent pointer-events-none" />
+          <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-[#071629] via-[#071629]/70 to-transparent pointer-events-none" />
         </div>
 
         {/* ── Top row: Original Footer Layout ── */}
@@ -130,8 +130,8 @@ export function Footer() {
                 <div className="w-9 h-9 rounded-full overflow-hidden border border-border flex-shrink-0 bg-black/40">
                   <img
                     src="/images/logo.webp"
-                    alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder Logo"
-                    title="Hardik Bhaskar — Systems Architect"
+                    alt="Hardik Bhaskar: Systems Architect &amp; AI Systems Builder Logo"
+                    title="Hardik Bhaskar: Systems Architect"
                     width={36}
                     height={36}
                     loading="lazy"
@@ -163,14 +163,14 @@ export function Footer() {
 
             {/* Nav links */}
             <div className="flex flex-col gap-2">
-              <span className="font-ui text-[10px] uppercase tracking-widest text-[#00E5FF] font-semibold mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+              <span className="font-ui text-[10px] uppercase tracking-widest text-[#9DB7D5] font-semibold mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                 Navigation
               </span>
               {links.map((l) => (
                 <NavLink
                   key={l.to}
                   to={l.to}
-                  className="font-ui text-sm text-slate-200 hover:text-[#00E5FF] transition-colors duration-200 link-underline w-fit drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
+                  className="font-ui text-sm text-slate-200 hover:text-[#9DB7D5] transition-colors duration-200 link-underline w-fit drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
                 >
                   {l.label}
                 </NavLink>
@@ -179,14 +179,14 @@ export function Footer() {
 
             {/* Contact */}
             <div className="flex flex-col gap-2">
-              <span className="font-ui text-[10px] uppercase tracking-widest text-[#00E5FF] font-semibold mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+              <span className="font-ui text-[10px] uppercase tracking-widest text-[#9DB7D5] font-semibold mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
                 Contact
               </span>
               <a
                 href="mailto:hardik.bhaskar2010@gmail.com"
-                className="flex items-center gap-2 font-ui text-sm text-slate-200 hover:text-[#00E5FF] transition-colors duration-200 truncate max-w-[240px] drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
+                className="flex items-center gap-2 font-ui text-sm text-slate-200 hover:text-[#9DB7D5] transition-colors duration-200 truncate max-w-[240px] drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
               >
-                <Mail size={12} className="flex-shrink-0 text-[#00E5FF]" />
+                <Mail size={12} className="flex-shrink-0 text-[#9DB7D5]" />
                 hardik.bhaskar2010@gmail.com
               </a>
             </div>
@@ -195,19 +195,19 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="relative z-10 border-t border-border/80 bg-[#05050A]/70 backdrop-blur-sm">
+        <div className="relative z-10 border-t border-border/80 bg-[#071629]/70 backdrop-blur-sm">
           <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p className="font-ui text-xs text-slate-400">
               &copy; {new Date().getFullYear()} Hardik Bhaskar. All rights reserved.
             </p>
             <button
               onClick={scrollToTop}
-              className="flex items-center gap-1.5 font-ui text-xs text-slate-300 hover:text-[#00E5FF] transition-colors duration-200 group"
+              className="flex items-center gap-1.5 font-ui text-xs text-slate-300 hover:text-[#9DB7D5] transition-colors duration-200 group"
             >
               <span>Go to top</span>
               <ArrowUp
                 size={12}
-                className="text-[#00E5FF] group-hover:-translate-y-0.5 transition-transform duration-200"
+                className="text-[#9DB7D5] group-hover:-translate-y-0.5 transition-transform duration-200"
               />
             </button>
           </div>

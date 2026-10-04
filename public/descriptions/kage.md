@@ -1,10 +1,10 @@
-# KAGE (影) — Developer-First Autonomous Browser & Instrumentation Workstation
+# KAGE (影): Developer-First Autonomous Browser & Instrumentation Workstation
 
 ## Executive Overview
 
 KAGE is an independent, developer-first desktop browser and instrumentation workstation engineered from the ground up to fuse web standards execution, deep runtime DevTools, an automated Testing Lab, and an autonomous AI agent into a singular, cohesive developer environment. Built with Tauri v2 (Rust), Chromium Embedded Framework (CEF 152), and a bespoke Liquid Glass React 18 frontend, KAGE abandons the brittle extension model in favor of full ownership over the browser shell, tab lifecycle, omnibox, and execution policies.
 
-Rather than bolting an ungrounded chat assistant onto a consumer browser, KAGE introduces an active Context Engine and a permission-adjudicated Rust Tool Bus that bridges the Chrome DevTools Protocol (CDP). Every developer query—from layout shifts and cascade anomalies to network race conditions—is resolved against live, verified browser state with zero hallucination.
+Rather than bolting an ungrounded chat assistant onto a consumer browser, KAGE introduces an active Context Engine and a permission-adjudicated Rust Tool Bus that bridges the Chrome DevTools Protocol (CDP). Every developer query (layout shifts and cascade anomalies to network race conditions) is resolved against live, verified browser state with zero hallucination.
 
 ## The Engineering Problem: The Fragmented Developer Loop
 
@@ -29,7 +29,7 @@ KAGE is constructed upon five foundational engineering invariants:
 
 ### 1. Tauri v2 Desktop Engine & Native Window Host
 - Native Parent Window Orchestration: Coordinates native parent windows (HWND on Windows) and integrates native message loops with CefPostTask(TID_UI) using zero-cost Rust FFI bindings.
-- Low Resource Overhead: Idle memory footprint maintained under 180MB, eliminating the multi-process bloat of Electron-based browser shells.
+- Low Resource Overhead: Minimal idle memory footprint, eliminating the multi-process bloat of Electron-based browser shells.
 - Typed IPC Command Stream: Exposes type-safe IPC command channels between the native Rust host and the web frontend chrome.
 
 ### 2. Chromium Embedded Framework (CEF 152) Integration
@@ -68,6 +68,6 @@ KAGE is constructed upon five foundational engineering invariants:
 
 ## Milestone Status & Verification
 
-- Phase 1 (Governance Subsystem): SEALED (100%) — Inviolable audit hashing, ToolBus policy adjudication, two-stage fail-closed execution, and LLM context sanitization.
-- Phase 2 (CEF Engine & Composition): SEALED (100%) — Real CEF 152 child HWND composition inside Tauri WebView2 chrome, CefPostTask(TID_UI) UI loop integration, live process tree verification, and formal 10-point release sandbox packaging gate CEF-03b-D.
-- Phase 3 (Browser Lifecycle & Control Plane): CONTROL-PLANE VERIFIED — 24/24 deterministic control-plane integration tests pass across tab management, profile isolation, and session persistence.
+- Phase 1 (Governance Subsystem): SEALED (100%): Inviolable audit hashing, ToolBus policy adjudication, two-stage fail-closed execution, and LLM context sanitization.
+- Phase 2 (CEF Engine & Composition): SEALED (100%): Real CEF 152 child HWND composition inside Tauri WebView2 chrome, CefPostTask(TID_UI) UI loop integration, live process tree verification, and formal 10-point release sandbox packaging gate CEF-03b-D.
+- Phase 3 (Browser Lifecycle & Control Plane): CONTROL-PLANE VERIFIED: 24/24 deterministic control-plane integration tests pass across tab management, profile isolation, and session persistence.

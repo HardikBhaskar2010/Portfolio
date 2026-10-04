@@ -12,50 +12,72 @@ module.exports = {
     },
     extend: {
       colors: {
-        /* ── Carbonic palette ── */
-        bg:        '#05050A',
-        carbon:    '#07070D',
-        carbon2:   '#0A0A12',
-        carbon3:   '#0E0E18',
-        surface:   '#111118',
-        surface2:  '#161622',
-        border:    '#1E1E2E',
-        border2:   '#252535',
-        muted:     '#52526A',
-        body:      '#8888A8',
-        heading:   '#F0F0F8',
-        accent:    '#FFFFFF',
-        tag:       '#12121C',
-        tagText:   '#666688',
+        /* ── Frost Navy Token Architecture (WCAG AA & AAA compliant) ── */
+        'bg-base':        'var(--bg-base)',        // #071629
+        'bg-surface':     'var(--bg-surface)',     // #0D203B
+        'bg-elevated':    'var(--bg-elevated)',    // #112A4A
+        blue:             'var(--blue)',           // #17345C
 
-        /* ── Neon accents ── */
-        cyan:      '#00E5FF',
-        'cyan-dim': '#00B8CC',
-        violet:    '#7C3AED',
-        'violet-dim': '#5B21B6',
-        rose:      '#FB7185',
-        amber:     '#FBBF24',
+        'text-strong':    'var(--text-strong)',    // #FFFFFF
+        'text-primary':   'var(--text-primary)',   // #EAF4FF
+        'text-secondary': 'var(--text-secondary)', // #9DB7D5
+        'text-muted':     'var(--text-muted)',     // #7C94AF
 
-        /* ── Glow tokens ── */
-        glow:      'rgba(0,229,255,0.08)',
-        'glow-v':  'rgba(124,58,237,0.08)',
+        'border-subtle':  'var(--border-subtle)',  // #17345C (decorative only)
+        'border-strong':  'var(--border-strong)',  // #60758E (outline controls, >= 3:1)
+
+        accent:           'var(--accent)',         // #9DB7D5
+        'accent-hover':   'var(--accent-hover)',   // #EAF4FF
+        'focus-ring':     'var(--focus-ring)',     // #9DB7D5
+
+        'button-primary-bg':   'var(--button-primary-bg)',   // #FFFFFF
+        'button-primary-text': 'var(--button-primary-text)', // #071629
+
+        'status-available': 'var(--status-available)', // #6EE7B7
+
+        /* ── Backward-compatible Aliases mapped to Frost Navy tokens ── */
+        bg:          'var(--bg-base)',
+        carbon:      'var(--bg-surface)',
+        carbon2:     'var(--bg-elevated)',
+        carbon3:     'var(--bg-elevated)',
+        surface:     'var(--bg-surface)',
+        surface2:    'var(--bg-elevated)',
+        border:      'var(--border-subtle)',
+        border2:     'var(--border-strong)',
+        muted:       'var(--text-muted)',
+        body:        'var(--text-secondary)',
+        heading:     'var(--text-strong)',
+        tag:         'var(--bg-surface)',
+        tagText:     'var(--text-secondary)',
+
+        /* Retired color aliases mapped safely to Frost Navy tokens */
+        cyan:        'var(--accent)',
+        'cyan-dim':  'var(--border-strong)',
+        violet:      'var(--blue)',
+        'violet-dim':'var(--blue)',
+        rose:        'var(--accent)',
+        amber:       'var(--accent)',
+
+        /* Glow tokens */
+        glow:        'rgba(157,183,213,0.08)',
+        'glow-v':    'rgba(23,52,92,0.18)',
       },
       fontFamily: {
-        sans:    ['Inter', 'system-ui', 'sans-serif'],
-        display: ['"Instrument Serif"', 'Georgia', 'serif'],
-        heading: ['Syne', 'sans-serif'],
-        ui:      ['"Space Grotesk"', 'sans-serif'],
-        mono:    ['"JetBrains Mono"', 'monospace'],
+        sans:    ['Geist', 'system-ui', 'sans-serif'],
+        display: ['Geist', 'system-ui', 'sans-serif'],
+        heading: ['Geist', 'system-ui', 'sans-serif'],
+        ui:      ['Geist', 'system-ui', 'sans-serif'],
+        mono:    ['"Geist Mono"', 'monospace'],
       },
       backgroundImage: {
         'carbon-fiber':
-          'repeating-linear-gradient(45deg,rgba(255,255,255,0.012) 0px,rgba(255,255,255,0.012) 1px,transparent 1px,transparent 50%),repeating-linear-gradient(-45deg,rgba(255,255,255,0.012) 0px,rgba(255,255,255,0.012) 1px,transparent 1px,transparent 50%)',
+          'repeating-linear-gradient(45deg,rgba(255,255,255,0.008) 0px,rgba(255,255,255,0.008) 1px,transparent 1px,transparent 50%),repeating-linear-gradient(-45deg,rgba(255,255,255,0.008) 0px,rgba(255,255,255,0.008) 1px,transparent 1px,transparent 50%)',
         'iridescent':
-          'linear-gradient(135deg,rgba(0,229,255,0.5),rgba(124,58,237,0.5),rgba(251,113,133,0.4))',
+          'linear-gradient(135deg,rgba(157,183,213,0.5),rgba(23,52,92,0.5),rgba(234,244,255,0.4))',
         'glow-radial':
-          'radial-gradient(ellipse at center,rgba(0,229,255,0.08) 0%,transparent 65%)',
+          'radial-gradient(ellipse at center,rgba(157,183,213,0.08) 0%,transparent 65%)',
         'carbon-radial':
-          'radial-gradient(ellipse at top,#0E0E18 0%,#05050A 60%)',
+          'radial-gradient(ellipse at top,#112A4A 0%,#071629 60%)',
       },
       animation: {
         'marquee':       'marquee 50s linear infinite',
@@ -95,9 +117,9 @@ module.exports = {
       boxShadow: {
         'glass':         '0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)',
         'glass-lg':      '0 8px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
-        'glow-cyan':     '0 0 30px rgba(0,229,255,0.15), 0 0 80px rgba(0,229,255,0.05)',
-        'glow-violet':   '0 0 30px rgba(124,58,237,0.2), 0 0 80px rgba(124,58,237,0.06)',
-        'glow-cyan-sm':  '0 0 12px rgba(0,229,255,0.25)',
+        'glow-cyan':     '0 0 30px rgba(157,183,213,0.15), 0 0 80px rgba(157,183,213,0.05)',
+        'glow-violet':   '0 0 30px rgba(23,52,92,0.25), 0 0 80px rgba(23,52,92,0.08)',
+        'glow-cyan-sm':  '0 0 12px rgba(157,183,213,0.25)',
         'card':          '0 1px 0 rgba(255,255,255,0.04), 0 24px 48px rgba(0,0,0,0.4)',
         'inner-light':   'inset 0 1px 0 rgba(255,255,255,0.06)',
       },

@@ -14,10 +14,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<Variant, string> = {
-  primary: 'bg-accent text-bg font-medium hover:bg-white/90 shadow-lg shadow-white/10',
-  ghost:   'border border-border text-heading hover:border-heading/40 hover:bg-white/[0.03]',
-  outline: 'border border-heading/20 text-heading hover:border-cyan hover:text-cyan',
-  cyan:    'bg-cyan/10 text-cyan border border-cyan/20 hover:bg-cyan/20',
+  primary: 'bg-[var(--button-primary-bg)] text-[var(--button-primary-text)] font-semibold hover:bg-[var(--accent-hover)] shadow-lg shadow-white/10',
+  ghost:   'border border-[var(--border-strong)] text-[var(--text-primary)] hover:border-[var(--text-strong)] hover:bg-white/[0.04]',
+  outline: 'border border-[var(--border-strong)] text-[var(--text-primary)] hover:border-[var(--accent)] hover:text-[var(--text-strong)]',
+  cyan:    'bg-[var(--bg-elevated)] text-[var(--text-primary)] border border-[var(--border-strong)] hover:border-[var(--accent)]',
 };
 
 const sizeStyles: Record<Size, string> = {
@@ -34,7 +34,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.14, ease: [0.23, 1, 0.32, 1] }}
       className={clsx(
-        'inline-flex items-center gap-2 font-ui transition-all duration-200 tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+        'inline-flex items-center gap-2 font-ui transition-all duration-200 tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-base)]',
         variantStyles[variant],
         sizeStyles[size],
         className

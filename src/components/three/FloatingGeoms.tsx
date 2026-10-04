@@ -11,7 +11,7 @@ interface Props {
   size?: number;
 }
 
-function FloatingMesh({ type, color = '#00E5FF', speed = 1, size = 1 }: Props) {
+function FloatingMesh({ type, color = '#9DB7D5', speed = 1, size = 1 }: Props) {
   const ref = useRef<THREE.Mesh>(null!);
 
   useFrame(({ clock }) => {
@@ -39,10 +39,10 @@ function FloatingMesh({ type, color = '#00E5FF', speed = 1, size = 1 }: Props) {
 }
 
 /**
- * Drop into any bento cell — fills the container with a floating wireframe geom.
+ * Drop into any bento cell: fills the container with a floating wireframe geom.
  * Usage:
  *   <div style={{ height: 200 }}>
- *     <FloatingGeomCanvas type="icosahedron" color="#00E5FF" />
+ *     <FloatingGeomCanvas type="icosahedron" color="#9DB7D5" />
  *   </div>
  */
 export function FloatingGeomCanvas({

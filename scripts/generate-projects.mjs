@@ -26,7 +26,7 @@ if (!TOKEN) {
   }
 }
 
-const PALETTE   = ['#00E5FF', '#7C3AED', '#A855F7', '#F59E0B', '#EC4899', '#10B981'];
+const PALETTE   = ['#9DB7D5', '#17345C', '#60758E', '#EAF4FF', '#112A4A', '#0D203B'];
 const FALLBACK_IMAGE = '/images/project-placeholder.webp';
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -92,7 +92,7 @@ async function fetchRepoFileContent(repoName, filePath, owner = DEFAULT_USERNAME
 
 /**
  * Fetch both assets/pic.png and assets/description.md from the repo in parallel.
- * Returns { imageUrl, longDescription } — each falls back gracefully to existing cache or default.
+ * Returns { imageUrl, longDescription }: each falls back gracefully to existing cache or default.
  */
 async function fetchRepoAssets(repoName, fallbackDescription, existingProject = null, owner = DEFAULT_USERNAME) {
   const slug = slugify(repoName);
@@ -171,7 +171,7 @@ try {
   overrides = mod.overrides ?? {};
   console.log(`   Loaded overrides for: ${Object.keys(overrides).join(', ') || '(none)'}`);
 } catch {
-  console.warn('⚠️  Could not load projects.overrides.mjs — no overrides applied.');
+  console.warn('⚠️  Could not load projects.overrides.mjs: no overrides applied.');
 }
 
 if (!TOKEN) {
@@ -308,9 +308,40 @@ for (const missing of missingProjects) {
   projects.push({ ...missing, ...override });
 }
 
-// ── 5. Write output ────────────────────────────────────────────────────────
+// ── 5. Sanitize & Write output ─────────────────────────────────────────────
 
-writeFileSync(outPath, JSON.stringify(projects, null, 2) + '\n');
+function cleanString(str) {
+  if (typeof str !== 'string') return str;
+  return str
+    .replace(/ \u2014 /g, ': ')
+    .replace(/ \u2013 /g, ' - ')
+    .replace(/\u2014/g, '-')
+    .replace(/\u2013/g, '-')
+    .replace(/#00E5FF/gi, '#9DB7D5')
+    .replace(/#7C3AED/gi, '#17345C')
+    .replace(/#5B21B6/gi, '#17345C')
+    .replace(/#05050A/gi, '#071629')
+    .replace(/Idle memory footprint maintained under 180MB/g, 'Minimal idle memory footprint')
+    .replace(/Sub-1\.2 second parsing and vectorization time for 50MB architectural drawing sets\./g, 'Hardware-accelerated local parsing and vectorization for multi-sheet architectural drawing sets.')
+    .replace(/Automated detection of 18,000\+ electrical takeoff items across 400\+ drawing packages with a 99\.1% precision rate\./g, 'Automated detection, path tracing, and conductor sizing across complex drawing sets.')
+    .replace(/Under 142 Megabytes of total system RAM including active compositor and desktop shell\./g, 'Compact memory footprint with zero dynamic allocation in early boot.')
+    .replace(/Less than 850 milliseconds from bootloader handoff to interactive desktop shell in QEMU virtualization\./g, 'Direct handoff from bootloader to interactive desktop shell in QEMU virtualization.')
+    .replace(/Reduced full-pipeline situation analysis from 35 minutes of manual triage to 4\.2 seconds end-to-end\./g, 'Compressed multi-source cross-domain telemetry into automated executive situation briefs.')
+    .replace(/99\.4% precision in NL-to-SQL schema translation across 14 relational municipal BigQuery datasets\./g, 'Type-safe NL-to-SQL schema translation across relational municipal BigQuery datasets.');
+}
 
-console.log(`\n✓ Generated ${projects.length} project(s) → src/data/projects.generated.json`);
+const sanitizedProjects = projects.map(p => {
+  const cleaned = { ...p };
+  for (const key of Object.keys(cleaned)) {
+    if (typeof cleaned[key] === 'string') {
+      cleaned[key] = cleanString(cleaned[key]);
+    }
+  }
+  return cleaned;
+});
+
+writeFileSync(outPath, JSON.stringify(sanitizedProjects, null, 2) + '\n');
+
+console.log(`\n✓ Generated ${sanitizedProjects.length} project(s) → src/data/projects.generated.json`);
 console.log('  Legend: 🖼 = has assets/pic.png   📝 = has assets/description.md   · = using fallback');
+

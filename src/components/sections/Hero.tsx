@@ -1,6 +1,6 @@
 import { lazy, Suspense, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ArrowDown, Download } from 'lucide-react';
+import { ArrowRight, ArrowDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { CurrentFocus } from '@/components/sections/CurrentFocus';
@@ -11,36 +11,32 @@ import { track } from '@/lib/analytics';
 import { playHoverTick, playClick, playSynthPulse } from '@/lib/audio';
 import { WebGLGuard } from '@/components/three/WebGLGuard';
 
-// Lazy-load the heavy Canvas — zero impact on initial paint
+// Lazy-load the heavy Canvas: zero impact on initial paint
 const NeuralNetworkScene = lazy(() =>
   import('@/components/three/NeuralNetworkScene').then(m => ({ default: m.NeuralNetworkScene }))
 );
 
-const tagline = ['Designing', 'intelligent', 'digital', 'experiences.'];
+const headlineLines = ['Systems Architect', 'AI Systems Builder'];
 
-/* Each word: slides up with high-performance compositor animation */
+/* Each headline line: slides up with high-performance compositor animation */
 const lineVariants = {
-  hidden:  { opacity: 0, y: 36 },
-  visible: { opacity: 1, y: 0,
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number,number,number,number] } },
+  hidden:  { opacity: 0, y: 32 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }
+  },
 };
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
 };
 
 const fadeUpDelay = (delay: number) => ({
   hidden:  { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: spring, delay } },
 });
-
-const stats = [
-  { value: '3+',  label: 'Years exp.' },
-  { value: '20+', label: 'Projects' },
-  { value: '10+', label: 'Clients' },
-  { value: '3',   label: 'AI Systems shipped' },
-];
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,7 +53,7 @@ export function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex flex-col justify-center pt-20 pb-24 md:pb-16 overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center pt-20 pb-24 md:pb-16 overflow-hidden bg-base"
     >
       {/* ── 3D Neural Network Background ───────────────────── */}
       <WebGLGuard fallback={<div className="absolute inset-0 -z-10" />}>
@@ -66,16 +62,16 @@ export function Hero() {
         </Suspense>
       </WebGLGuard>
 
-      {/* ── Glass-dark overlay — keeps text readable over 3D & waves ── */}
+      {/* ── Glass-dark overlay: keeps text readable over 3D ── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           zIndex: 1,
-          background: 'linear-gradient(to right, rgba(5,5,10,0.85) 45%, rgba(5,5,10,0.25) 100%)',
+          background: 'linear-gradient(to right, rgba(7,22,41,0.90) 45%, rgba(7,22,41,0.35) 100%)',
         }}
       />
 
-      {/* ── Subtle grid (kept, complements the particles) ───── */}
+      {/* ── Subtle engineering grid ───── */}
       <div
         className="absolute inset-0 opacity-[0.025] pointer-events-none"
         style={{
@@ -89,7 +85,7 @@ export function Hero() {
       {/* ── Vignette edges ──────────────────────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ zIndex: 1, background: 'radial-gradient(ellipse at center, transparent 40%, rgba(8,8,8,0.55) 100%)' }}
+        style={{ zIndex: 1, background: 'radial-gradient(ellipse at center, transparent 40%, rgba(7,22,41,0.65) 100%)' }}
       />
 
       {/* ── Two-column layout ────────────────────────────────── */}
@@ -99,116 +95,71 @@ export function Hero() {
           {/* ── LEFT: Text column ── */}
           <motion.div style={{ y: textY, opacity }} className="flex flex-col gap-0">
 
-            {/* Badge */}
-            <motion.div variants={fadeUpDelay(0)} initial="hidden" animate="visible" className="mb-8">
-              <span className="inline-flex items-center gap-2 font-ui text-[10px] uppercase tracking-[0.22em] text-tagText bg-tag px-3.5 py-2 rounded-full border border-border">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" />
-                Available for work
-                <ArrowRight size={9} className="text-cyan" />
-              </span>
-            </motion.div>
-
-            {/* Headline — single <h1> containing all animated words as <span> children */}
+            {/* Headline: single <h1> containing approved 2-line headline */}
             <motion.div
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="mb-8"
+              className="mb-6 pt-4"
             >
-              <div className="overflow-hidden">
-                <motion.h1
-                  className="font-display italic text-heading leading-[0.87] tracking-tight block"
-                  style={{ fontSize: 'clamp(38px, 9vw, 112px)' }}
-                >
-                  <span className="sr-only">
-                    Hardik Bhaskar — Systems Architect &amp; AI Systems Builder
-                  </span>
-                  {tagline.map((word, i) => (
-                    <motion.span
-                      key={i}
-                      variants={lineVariants}
-                      className="block"
-                      aria-hidden="true"
-                    >
-                      {word}
-                      {i === tagline.length - 1 && (
-                        <motion.span
-                          className="inline-block w-[3px] h-[0.75em] bg-cyan align-middle ml-2"
-                          animate={{ opacity: [1, 0, 1, 0, 1, 0, 0] }}
-                          transition={{ duration: 2, times: [0,0.2,0.4,0.6,0.8,0.9,1], delay: tagline.length * 0.1 + 0.8 }}
-                        />
-                      )}
-                    </motion.span>
-                  ))}
-                </motion.h1>
-              </div>
+              <h1 className="font-heading font-extrabold text-[var(--text-strong)] leading-[1.02] tracking-tight block text-4xl sm:text-6xl lg:text-7xl">
+                <span className="sr-only">
+                  Hardik Bhaskar: Systems Architect &amp; AI Systems Builder
+                </span>
+                {headlineLines.map((line, i) => (
+                  <motion.span
+                    key={i}
+                    variants={lineVariants}
+                    className="block"
+                    aria-hidden="true"
+                  >
+                    {line}
+                  </motion.span>
+                ))}
+              </h1>
             </motion.div>
 
-            {/* Subtitle — "Hardik Bhaskar" present as real visible text for crawlers */}
+            {/* Subtext: approved concise copy (18 words, zero em/en dashes, no benchmark claims) */}
             <motion.p
-              variants={fadeUpDelay(0.75)}
+              variants={fadeUpDelay(0.35)}
               initial="hidden"
               animate="visible"
-              className="font-ui text-body text-base leading-[1.85] max-w-[460px] mb-8"
+              className="font-ui text-[var(--text-secondary)] text-base sm:text-lg leading-[1.75] max-w-[500px] mb-8"
             >
-              Building operating systems, autonomous AI, and intelligent software systems. Low-level systems in <span className="text-heading font-medium">Rust</span> &amp; <span className="text-heading font-medium">C++</span>,
-              bare-metal kernels, and autonomous AI platforms.{' '}
-              <span className="text-cyan">Available for systems engineering and AI product contracts.</span>
+              I build AI systems and the low-level software under them: Rust and C++ runtimes, operating systems, local-first agents.
             </motion.p>
 
-            {/* CTAs */}
+            {/* Single primary button to /projects */}
             <motion.div
-              variants={fadeUpDelay(0.9)}
+              variants={fadeUpDelay(0.5)}
               initial="hidden"
               animate="visible"
-              className="flex flex-col xs:flex-row items-stretch xs:items-start gap-3 mb-10 md:mb-16"
+              className="flex items-center gap-4 mb-8"
             >
-              <Button
-                variant="primary"
-                size="lg"
-                onMouseEnter={playHoverTick}
-                onClick={() => { playClick(); scrollTo('#contact'); track.ctaClick("Let's work together", 'hero'); }}
-                icon={<ArrowRight size={14} />}
-                className="w-full xs:w-auto justify-center"
+              <Link
+                to="/projects"
+                onClick={() => {
+                  playClick();
+                  track.ctaClick('View projects', 'hero');
+                }}
               >
-                Let's work together
-              </Button>
-              <Link to="/projects" className="w-full xs:w-auto" onClick={() => { playClick(); track.ctaClick('View case studies', 'hero'); }}>
-                <Button onMouseEnter={playHoverTick} variant="ghost" size="lg" className="w-full justify-center">View case studies</Button>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onMouseEnter={playHoverTick}
+                  icon={<ArrowRight size={16} />}
+                >
+                  View projects
+                </Button>
               </Link>
-              <a
-                href="/docs/Hardik_Bhaskar_Portfolio.pdf"
-                download
-                onMouseEnter={playHoverTick}
-                onClick={() => { playClick(); track.downloadDossier('hero'); }}
-                className="w-full xs:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full border border-white/15 bg-white/[0.03] hover:bg-white/[0.08] hover:border-cyan/40 text-white font-ui text-sm font-medium transition-all duration-200 group"
-              >
-                <Download size={14} className="text-cyan group-hover:translate-y-0.5 transition-transform" />
-                <span>Dossier (PDF)</span>
-              </a>
             </motion.div>
 
-            {/* Stats — 4-column with "3 AI Systems Shipped" */}
+            {/* Currently Building card */}
             <motion.div
-              variants={fadeUpDelay(1.05)}
+              variants={fadeUpDelay(0.65)}
               initial="hidden"
               animate="visible"
-              className="grid grid-cols-4 gap-3 md:gap-4 pt-6 md:pt-8 pb-6 border-t border-border"
-            >
-              {stats.map((s) => (
-                <div key={s.label} className="flex flex-col gap-1.5">
-                  <span className="font-display italic text-2xl md:text-4xl text-heading leading-none">{s.value}</span>
-                  <span className="font-ui text-[9px] text-muted uppercase tracking-widest leading-tight">{s.label}</span>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* Currently Building card — generous spacing to prevent overlap */}
-            <motion.div
-              variants={fadeUpDelay(1.2)}
-              initial="hidden"
-              animate="visible"
-              className="pt-4 md:pt-6"
+              className="pt-2"
             >
               <CurrentFocus />
             </motion.div>
@@ -219,20 +170,20 @@ export function Hero() {
             style={{ y: cardY }}
             className="hidden lg:flex flex-col gap-4 items-end"
           >
-            {/* Avatar card — updated title */}
+            {/* Avatar card: updated title, no hire-me badges in hero */}
             <motion.div
               initial={{ opacity: 0, x: 40, scale: 0.95 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 0.9, delay: 0.5, ease: spring }}
-              className="w-full max-w-[340px] bg-surface border border-border rounded-2xl overflow-hidden"
-              style={{ boxShadow: '0 0 60px rgba(0,229,255,0.08), 0 0 120px rgba(124,58,237,0.05)' }}
+              transition={{ duration: 0.9, delay: 0.4, ease: spring }}
+              className="w-full max-w-[340px] bg-[var(--bg-surface)] border border-[var(--border-subtle)] rounded-2xl overflow-hidden shadow-2xl"
+              style={{ boxShadow: '0 20px 50px rgba(0,0,0,0.5), 0 0 40px rgba(157,183,213,0.06)' }}
             >
               {/* Profile image */}
               <div className="h-64 overflow-hidden relative">
                 <img
                   src="/images/avatar.webp"
-                  alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
-                  title="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder"
+                  alt="Hardik Bhaskar: Systems Architect &amp; AI Systems Builder"
+                  title="Hardik Bhaskar: Systems Architect &amp; AI Systems Builder"
                   width={340}
                   height={256}
                   loading="eager"
@@ -241,19 +192,12 @@ export function Hero() {
                   className="w-full h-full object-cover object-top"
                 />
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
-                {/* Status badge */}
-                <div className="absolute top-4 right-4">
-                  <span className="flex items-center gap-1.5 font-ui text-[10px] uppercase tracking-widest text-cyan bg-bg/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-cyan/20">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" />
-                    Open to work
-                  </span>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-surface)] via-transparent to-transparent" />
               </div>
               <div className="p-5 flex flex-col gap-1">
-                <p className="font-heading font-bold text-heading text-base">Hardik Bhaskar</p>
-                <p className="font-ui text-xs text-cyan">Systems Architect · AI Systems Builder</p>
-                <p className="font-ui text-xs text-muted mt-1 leading-relaxed">
+                <p className="font-heading font-bold text-[var(--text-strong)] text-base">Hardik Bhaskar</p>
+                <p className="font-ui text-xs text-[var(--accent)]">Systems Architect · AI Systems Builder</p>
+                <p className="font-ui text-xs text-[var(--text-muted)] mt-1 leading-relaxed">
                   Building operating systems, autonomous AI &amp; intelligent systems.
                 </p>
               </div>
@@ -270,17 +214,17 @@ export function Hero() {
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, delay: 0.7 + i * 0.15, ease: spring }}
+                    transition={{ duration: 0.7, delay: 0.6 + i * 0.15, ease: spring }}
                     whileHover={{ y: -4, scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onHoverStart={playSynthPulse}
-                    className="bg-surface border border-border hover:border-cyan/40 rounded-xl overflow-hidden group cursor-pointer transition-colors duration-300 shadow-sm hover:shadow-lg hover:shadow-cyan/5"
+                    className="bg-[var(--bg-surface)] border border-[var(--border-subtle)] hover:border-[var(--border-strong)] rounded-xl overflow-hidden group cursor-pointer transition-colors duration-300 shadow-sm hover:shadow-lg"
                   >
                     <div className="aspect-video overflow-hidden relative">
                       <img
                         src={p.image}
-                        alt={`${p.title} — ${p.subtitle || 'Systems Architecture'} by Hardik Bhaskar`}
-                        title={`${p.title} — Hardik Bhaskar`}
+                        alt={`${p.title}: ${p.subtitle || 'Systems Architecture'} by Hardik Bhaskar`}
+                        title={`${p.title}: Hardik Bhaskar`}
                         width={160}
                         height={90}
                         loading="lazy"
@@ -295,15 +239,15 @@ export function Hero() {
                           }
                         }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2.5">
-                        <span className="text-[10px] font-ui text-cyan font-medium flex items-center gap-1">
+                      <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-base)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2.5">
+                        <span className="text-[10px] font-ui text-[var(--accent)] font-medium flex items-center gap-1">
                           View Project →
                         </span>
                       </div>
                     </div>
                     <div className="p-3">
-                      <p className="font-ui text-[9px] uppercase tracking-widest text-cyan mb-0.5">{p.category}</p>
-                      <p className="font-display italic text-sm text-heading leading-tight group-hover:text-cyan transition-colors">{p.title}</p>
+                      <p className="font-ui text-[9px] uppercase tracking-widest text-[var(--accent)] mb-0.5">{p.category}</p>
+                      <p className="font-heading font-medium text-sm text-[var(--text-strong)] leading-tight group-hover:text-[var(--accent-hover)] transition-colors">{p.title}</p>
                     </div>
                   </motion.div>
                 </Link>
@@ -314,16 +258,16 @@ export function Hero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.1 }}
+              transition={{ delay: 0.9 }}
               className="flex flex-wrap gap-2 w-full max-w-[340px] justify-end"
             >
-              {['Three.js', 'React', 'TypeScript', 'Framer Motion', 'AI Systems'].map((tech, i) => (
+              {['Rust', 'C++', 'Operating Systems', 'Autonomous AI', 'TypeScript', 'Three.js'].map((tech, i) => (
                 <motion.span
                   key={tech}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.2 + i * 0.07, ease: spring }}
-                  className="font-mono text-[10px] text-muted bg-tag border border-border px-2.5 py-1 rounded-full"
+                  transition={{ delay: 1.0 + i * 0.05, ease: spring }}
+                  className="font-mono text-[10px] text-[var(--text-secondary)] bg-[var(--bg-surface)] border border-[var(--border-subtle)] px-2.5 py-1 rounded-full"
                 >
                   {tech}
                 </motion.span>
@@ -337,17 +281,17 @@ export function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.6 }}
+        transition={{ delay: 1.2 }}
         onClick={() => scrollTo('#marquee')}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer group"
         style={{ zIndex: 2 }}
       >
-        <span className="font-ui text-[9px] uppercase tracking-[0.22em] text-tagText">Scroll</span>
+        <span className="font-ui text-[9px] uppercase tracking-[0.22em] text-[var(--text-muted)]">Scroll</span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <ArrowDown size={13} className="text-muted group-hover:text-cyan transition-colors" />
+          <ArrowDown size={13} className="text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors" />
         </motion.div>
       </motion.div>
     </section>

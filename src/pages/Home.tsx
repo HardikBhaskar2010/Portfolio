@@ -24,14 +24,14 @@ export default function Home() {
       className="page-wrapper"
     >
       <Seo
-        title="Hardik Bhaskar — Systems Architect & AI Systems Builder"
-        description="Official portfolio of Hardik Bhaskar — Systems Architect & AI Systems Builder focused on operating systems, autonomous AI, intelligent software systems, and engineering."
+        title="Hardik Bhaskar | Systems Architect & AI Systems Builder"
+        description="Official portfolio of Hardik Bhaskar: Systems Architect & AI Systems Builder focused on operating systems, autonomous AI, intelligent software systems, and engineering."
         path="/"
         jsonLd={[buildPersonJsonLd(), buildWebsiteJsonLd(), buildFaqJsonLd(faqs)]}
       />
       <main>
-        {/* ── Hero — no SystemLabel, has its own cinematic entrance ── */}
-        <HighlightPoint id="core-origin" color="#00E5FF" label="CORE // ORIGIN">
+        {/* ── Hero: no SystemLabel, has its own cinematic entrance ── */}
+        <HighlightPoint id="core-origin" color="#9DB7D5" label="CORE // ORIGIN">
           <Hero />
         </HighlightPoint>
 

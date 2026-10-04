@@ -1,5 +1,5 @@
 /**
- * analytics.ts — Unified Vercel Analytics & Microsoft Clarity Event Tracker
+ * analytics.ts: Unified Vercel Analytics & Microsoft Clarity Event Tracker
  *
  * Provides typed helpers to synchronize user behavior, custom events,
  * and high-value session upgrades to both Vercel Analytics and Microsoft Clarity.

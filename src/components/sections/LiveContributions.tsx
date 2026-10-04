@@ -141,13 +141,13 @@ export function LiveContributions() {
   const getLevelClasses = (level: number) => {
     switch (level) {
       case 1:
-        return 'bg-[#00E5FF]/25 border-[#00E5FF]/40 hover:bg-[#00E5FF]/40';
+        return 'bg-[#9DB7D5]/25 border-[#9DB7D5]/40 hover:bg-[#9DB7D5]/40';
       case 2:
-        return 'bg-[#00E5FF]/50 border-[#00E5FF]/60 hover:bg-[#00E5FF]/70';
+        return 'bg-[#9DB7D5]/50 border-[#9DB7D5]/60 hover:bg-[#9DB7D5]/70';
       case 3:
-        return 'bg-[#00E5FF]/80 border-[#00E5FF]/90 hover:bg-[#00E5FF]';
+        return 'bg-[#9DB7D5]/80 border-[#9DB7D5]/90 hover:bg-[#9DB7D5]';
       case 4:
-        return 'bg-[#00E5FF] border-[#00E5FF] shadow-[0_0_8px_rgba(0,229,255,0.7)] hover:shadow-[0_0_12px_rgba(0,229,255,0.9)]';
+        return 'bg-[#9DB7D5] border-[#9DB7D5] shadow-[0_0_8px_rgba(157, 183, 213, 0.7)] hover:shadow-[0_0_12px_rgba(157, 183, 213, 0.9)]';
       case 0:
       default:
         return 'bg-[#141418] border-[#24242c] hover:border-[#383844]';
@@ -334,10 +334,10 @@ export function LiveContributions() {
                 <span>Less</span>
                 <div className="flex gap-1 items-center">
                   <span className="w-2.5 h-2.5 rounded-[2px] bg-[#141418] border border-[#24242c]" />
-                  <span className="w-2.5 h-2.5 rounded-[2px] bg-[#00E5FF]/25 border border-[#00E5FF]/40" />
-                  <span className="w-2.5 h-2.5 rounded-[2px] bg-[#00E5FF]/50 border border-[#00E5FF]/60" />
-                  <span className="w-2.5 h-2.5 rounded-[2px] bg-[#00E5FF]/80 border border-[#00E5FF]/90" />
-                  <span className="w-2.5 h-2.5 rounded-[2px] bg-[#00E5FF] border border-[#00E5FF]" />
+                  <span className="w-2.5 h-2.5 rounded-[2px] bg-[#9DB7D5]/25 border border-[#9DB7D5]/40" />
+                  <span className="w-2.5 h-2.5 rounded-[2px] bg-[#9DB7D5]/50 border border-[#9DB7D5]/60" />
+                  <span className="w-2.5 h-2.5 rounded-[2px] bg-[#9DB7D5]/80 border border-[#9DB7D5]/90" />
+                  <span className="w-2.5 h-2.5 rounded-[2px] bg-[#9DB7D5] border border-[#9DB7D5]" />
                 </div>
                 <span>More</span>
               </div>
@@ -570,7 +570,7 @@ export function LiveContributions() {
                 <div className="w-full rounded-xl overflow-hidden bg-[#0a0a0c] border border-border/60 flex items-center justify-center p-2 min-h-[195px] aspect-[467/195]">
                   {!statsImgError ? (
                     <img
-                      src="https://github-readme-stats-luna.vercel.app/api?username=HardikBhaskar2010&show_icons=true&include_all_commits=true&count_private=true&bg_color=0a0a0c&text_color=8A8A93&title_color=00E5FF&icon_color=00E5FF&border_color=262626&border_radius=14"
+                      src="https://github-readme-stats-luna.vercel.app/api?username=HardikBhaskar2010&show_icons=true&include_all_commits=true&count_private=true&bg_color=0a0a0c&text_color=8A8A93&title_color=9DB7D5&icon_color=9DB7D5&border_color=262626&border_radius=14"
                       alt="Hardik Bhaskar GitHub commit statistics, streaks, and PR metrics"
                       width={467}
                       height={195}
@@ -598,7 +598,7 @@ export function LiveContributions() {
                 <div className="w-full rounded-xl overflow-hidden bg-[#0a0a0c] border border-border/60 flex items-center justify-center p-2 min-h-[140px] aspect-[300/140]">
                   {!langsImgError ? (
                     <img
-                      src="https://github-readme-stats-luna.vercel.app/api/top-langs/?username=HardikBhaskar2010&layout=compact&bg_color=0a0a0c&text_color=8A8A93&title_color=00E5FF&border_color=262626&border_radius=14"
+                      src="https://github-readme-stats-luna.vercel.app/api/top-langs/?username=HardikBhaskar2010&layout=compact&bg_color=0a0a0c&text_color=8A8A93&title_color=9DB7D5&border_color=262626&border_radius=14"
                       alt="Hardik Bhaskar primary programming languages distribution"
                       width={300}
                       height={140}

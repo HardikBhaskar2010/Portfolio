@@ -79,7 +79,6 @@ function setJsonLd(html, jsonLd) {
   return html.replace(regex, tag);
 }
 
-
 function removeMetaProperty(html, property) {
   const regex = new RegExp(`\\s*<meta(?=[^>]*\\bproperty=["']${property}["'])[^>]*>`, 'gi');
   return html.replace(regex, '');
@@ -110,8 +109,16 @@ writeFileSync(templatePath, rootHtml, 'utf8');
 let generatedCount = 0;
 
 for (const route of routes) {
-  // For root '/' route — update dist/index.html with complete JSON-LD and semantic root content
+  // For root '/' route: update dist/index.html with complete metadata, JSON-LD, and semantic root content
   if (route.path === '/') {
+    rootHtml = setTitle(rootHtml, route.title);
+    rootHtml = setMetaName(rootHtml, 'description', route.description);
+    rootHtml = setCanonical(rootHtml, `${SITE_URL}/`);
+    rootHtml = setMetaProperty(rootHtml, 'og:title', route.title);
+    rootHtml = setMetaProperty(rootHtml, 'og:description', route.description);
+    rootHtml = setMetaProperty(rootHtml, 'og:url', `${SITE_URL}/`);
+    rootHtml = setMetaName(rootHtml, 'twitter:title', route.title);
+    rootHtml = setMetaName(rootHtml, 'twitter:description', route.description);
     if (route.jsonLd) {
       rootHtml = setJsonLd(rootHtml, route.jsonLd);
     }
@@ -119,6 +126,7 @@ for (const route of routes) {
       rootHtml = setRootContent(rootHtml, route.fallbackHtml);
     }
     writeFileSync(templatePath, rootHtml, 'utf8');
+    generatedCount++;
     continue;
   }
 
@@ -147,8 +155,6 @@ for (const route of routes) {
   html = setMetaProperty(html, 'og:updated_time', buildTimeIso);
 
   // Declare dimensions ONLY for the standard 1200x630 banner.
-  // For project screenshots (arbitrary aspect ratios), strip declared dimensions
-  // so social debuggers (Facebook, LinkedIn) auto-detect natural size without mis-cropping.
   if (route.ogImage === '/og-preview.png') {
     html = setMetaProperty(html, 'og:image:width', '1200');
     html = setMetaProperty(html, 'og:image:height', '630');
@@ -170,7 +176,6 @@ for (const route of routes) {
   }
 
   // 5. Semantic prerendered content inside <div id="root">
-  // Ensures Bingbot, Googlebot, and non-JS clients find a real <h1> and semantic DOM tree.
   if (route.fallbackHtml) {
     html = setRootContent(html, route.fallbackHtml);
   }

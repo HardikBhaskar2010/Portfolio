@@ -55,7 +55,7 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
 
   if (!document || !mounted) return null;
 
-  const accent = document.accentColor || '#00E5FF';
+  const accent = document.accentColor || '#9DB7D5';
   const isPdf = document.fileType === 'pdf' || document.fileUrl.endsWith('.pdf');
 
   const modalContent = (
@@ -173,8 +173,8 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
                 <div className="flex-1 min-h-0 w-full overflow-auto flex items-center justify-center p-4">
                   <img
                     src={document.fileUrl}
-                    alt={`${document.title} — Official Verification Credential for Hardik Bhaskar`}
-                    title={`${document.title} — Hardik Bhaskar`}
+                    alt={`${document.title}: Official Verification Credential for Hardik Bhaskar`}
+                    title={`${document.title}: Hardik Bhaskar`}
                     width={1200}
                     height={800}
                     className="max-h-full w-auto max-w-full object-contain rounded-lg shadow-2xl border border-white/10"

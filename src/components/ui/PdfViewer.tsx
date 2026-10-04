@@ -47,7 +47,7 @@ export function PdfViewer({
   url,
   title,
   className = '',
-  accentColor = '#00E5FF',
+  accentColor = '#9DB7D5',
 }: PdfViewerProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const renderTaskRef = useRef<RenderTask | null>(null);
@@ -324,7 +324,7 @@ export function PdfViewer({
 
   return (
     <div
-      className={`relative flex flex-col w-full h-full min-h-0 bg-[#05050A] overflow-hidden ${className}`}
+      className={`relative flex flex-col w-full h-full min-h-0 bg-[#071629] overflow-hidden ${className}`}
     >
       {/* ── Top Floating Navigation Toolbar ── */}
       <div className="flex-shrink-0 flex items-center justify-between px-3 sm:px-4 py-2 bg-[#080812] border-b border-white/10 text-xs text-white/80 select-none z-20 gap-2">

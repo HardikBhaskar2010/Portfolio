@@ -55,7 +55,7 @@ export function CredentialsVault() {
       date: 'v2026.1 • 2 Pages',
       fileUrl: portfolioDossier.fileUrl,
       fileType: 'pdf',
-      accentColor: '#00E5FF',
+      accentColor: '#9DB7D5',
     });
   };
 
@@ -63,9 +63,9 @@ export function CredentialsVault() {
     {
       number: '01',
       cert: certificates[0], // Google Cloud
-      gradient: 'linear-gradient(145deg, #1E3A8A 0%, #0284C7 40%, #00E5FF 100%)',
+      gradient: 'linear-gradient(145deg, #1E3A8A 0%, #0284C7 40%, #9DB7D5 100%)',
       folderBg: '#0B0D19',
-      accentColor: '#00E5FF',
+      accentColor: '#9DB7D5',
       graphic: <GoogleCloud3D className="w-36 h-36" />,
     },
     {
@@ -129,7 +129,7 @@ export function CredentialsVault() {
           <motion.div
             variants={fadeUp}
             whileHover={{ y: -4 }}
-            className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#0D0E1D] via-[#101226] to-[#0A0B16] border border-cyan/30 overflow-hidden shadow-[0_16px_50px_rgba(0,229,255,0.08)] group"
+            className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#0D0E1D] via-[#101226] to-[#0A0B16] border border-cyan/30 overflow-hidden shadow-[0_16px_50px_rgba(157, 183, 213, 0.08)] group"
           >
             {/* Ambient Background Aura */}
             <div className="absolute top-0 right-1/4 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-purple-600/15 via-cyan-500/15 to-transparent rounded-full blur-3xl pointer-events-none" />
@@ -151,7 +151,7 @@ export function CredentialsVault() {
                   </div>
 
                   <h3 className="font-display italic text-2xl sm:text-3xl text-heading">
-                    Hardik Bhaskar — Technical Portfolio PDF
+                    Hardik Bhaskar: Technical Portfolio PDF
                   </h3>
 
                   <p className="font-ui text-xs text-body leading-relaxed max-w-2xl">

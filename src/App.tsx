@@ -38,14 +38,14 @@ const hyperspeedOptions = {
   cameraY: 4.8,
   bloomIntensity: 2.4,
   colors: {
-    roadColor: 0x06060a,
-    islandColor: 0x09090e,
-    background: 0x000000,
-    shoulderLines: 0x00e5ff,
+    roadColor: 0x071629,
+    islandColor: 0x0d203b,
+    background: 0x071629,
+    shoulderLines: 0x9db7d5,
     brokenLines: 0xffffff,
-    leftCars: [0xff2df1, 0xc026d3, 0xa855f7],
-    rightCars: [0x00e5ff, 0x06b6d4, 0x3b82f6],
-    sticks: 0x00e5ff
+    leftCars: [0x17345c, 0x112a4a, 0x60758e],
+    rightCars: [0x9db7d5, 0xeaf4ff, 0x60758e],
+    sticks: 0x9db7d5
   }
 };
 import { Navbar } from '@/components/layout/Navbar';
@@ -280,7 +280,7 @@ function AppContent() {
       {/* Auto-scroll to top on route change */}
       <ScrollToTop />
 
-      {/* Page content — animated in/out by AnimatePresence */}
+      {/* Page content: animated in/out by AnimatePresence */}
       <div className="relative z-10">
         <AnimatedRoutes />
       </div>

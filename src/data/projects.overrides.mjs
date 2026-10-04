@@ -1,6 +1,6 @@
 // src/data/projects.overrides.mjs
 //
-// Curation layer — keyed by repo slug (lowercase, hyphens).
+// Curation layer: keyed by repo slug (lowercase, hyphens).
 //
 // What goes HERE vs in the repo itself:
 //   ✅ Here:       title display name, category, tag, color, tools list, year
@@ -10,7 +10,7 @@
 //                  repo homepage URL  →  "Live site" link
 //                  topic "featured"   →  featured: true
 //
-// Only include fields you want to manually override — everything else is
+// Only include fields you want to manually override: everything else is
 // auto-derived from GitHub API data or the repo's asset files.
 
 export const overrides = {
@@ -23,7 +23,7 @@ export const overrides = {
     tag:      'AI Engineering',
     year:     '2025',
     tools:    ['Python', 'LangChain', 'OpenAI', 'React', 'TypeScript', 'FastAPI'],
-    color:    '#7C3AED',
+    color:    '#9DB7D5',
     image:    '/images/project-ai-veronica.webp',
     heroImage: '/images/project-ai-veronica.webp',
     fallbackImage: '/images/project-ai-veronica.webp',
@@ -38,7 +38,7 @@ export const overrides = {
     year:     '2024',
     tools:    ['React', 'TypeScript', 'Node.js', 'FastAPI', 'Google ADK'],
     link:     'https://stemidea.vercel.app',
-    color:    '#00E5FF',
+    color:    '#60758E',
     image:    '/images/project-stem-adventure.webp',
     heroImage: '/images/project-stem-adventure.webp',
     fallbackImage: '/images/project-stem-adventure.webp',
@@ -52,7 +52,7 @@ export const overrides = {
     tag:      'UI / Systems',
     year:     '2025',
     tools:    ['TypeScript', 'React', 'WebGL', 'Framer Motion', 'CSS Houdini'],
-    color:    '#A855F7',
+    color:    '#17345C',
     image:    '/images/project-mahina-os.webp',
     heroImage: '/images/project-mahina-os.webp',
     fallbackImage: '/images/project-mahina-os.webp',
@@ -67,7 +67,7 @@ export const overrides = {
     year:     '2025',
     tools:    ['Python', 'BigQuery', 'Vertex AI', 'Google ADK', 'FastAPI'],
     link:     'https://decisionforge-one.vercel.app',
-    color:    '#F59E0B',
+    color:    '#9DB7D5',
     image:    '/images/project-aegis.webp',
     heroImage: '/images/project-aegis.webp',
     fallbackImage: '/images/project-aegis.webp',
@@ -84,7 +84,7 @@ export const overrides = {
     tools:    ['Tauri v2', 'Rust', 'React 19', 'TypeScript', 'TailwindCSS', 'Local AI'],
     link:     'https://github.com/VectorisAI/Vectoris',
     repoUrl:  'https://github.com/VectorisAI/Vectoris',
-    color:    '#E11D48',
+    color:    '#17345C',
     image:    '/images/project-vectoris.webp',
     heroImage: '/images/project-vectoris.webp',
     fallbackImage: '/images/project-vectoris.webp',
@@ -101,7 +101,7 @@ export const overrides = {
     tools:         ['Tauri v2', 'Rust', 'Chromium (CEF)', 'React 18', 'TypeScript', 'CDP', 'SQLite'],
     link:          'https://github.com/HardikBhaskar2010/Kage',
     repoUrl:       'https://github.com/HardikBhaskar2010/Kage',
-    color:         '#F43F5E',
+    color:         '#60758E',
     image:         '/images/project-kage.webp',
     heroImage:     '/images/project-kage.webp',
     fallbackImage: '/images/project-kage.webp',

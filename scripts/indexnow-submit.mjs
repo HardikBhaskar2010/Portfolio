@@ -54,13 +54,13 @@ async function submit() {
       });
 
       if (res.ok) {
-        console.log(`✓ IndexNow (${new URL(endpoint).hostname}): HTTP ${res.status} — URLs accepted`);
+        console.log(`✓ IndexNow (${new URL(endpoint).hostname}): HTTP ${res.status}: URLs accepted`);
       } else {
         const text = await res.text().catch(() => '');
-        console.warn(`⚠ IndexNow (${new URL(endpoint).hostname}): HTTP ${res.status} — ${text}`);
+        console.warn(`⚠ IndexNow (${new URL(endpoint).hostname}): HTTP ${res.status}: ${text}`);
       }
     } catch (err) {
-      console.warn(`⚠ IndexNow (${new URL(endpoint).hostname}): network warning — ${err.message}`);
+      console.warn(`⚠ IndexNow (${new URL(endpoint).hostname}): network warning: ${err.message}`);
     }
   }
 }

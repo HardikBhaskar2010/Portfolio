@@ -1,7 +1,7 @@
 /**
- * audio.ts — Web Audio API synth sounds (zero external files)
- * All sounds: <350ms duration, max vol 0.08 — subconscious feel
- * Always wrapped in try/catch — safe on all browsers
+ * audio.ts: Web Audio API synth sounds (zero external files)
+ * All sounds: <350ms duration, max vol 0.08: subconscious feel
+ * Always wrapped in try/catch: safe on all browsers
  */
 
 let ctx: AudioContext | null = null;
@@ -62,7 +62,7 @@ export function unlockAudio() {
   }
 }
 
-/** Navbar / link hover — ultra-brief high-pitched tick */
+/** Navbar / link hover: ultra-brief high-pitched tick */
 export function playHoverTick() {
   if (isAudioMuted()) return;
   try {
@@ -87,7 +87,7 @@ export function playHoverTick() {
   }
 }
 
-/** Button click — soft triangle synth snap */
+/** Button click: soft triangle synth snap */
 export function playClick() {
   if (isAudioMuted()) return;
   try {
@@ -111,7 +111,7 @@ export function playClick() {
   }
 }
 
-/** Card hover — subtle low synth pulse */
+/** Card hover: subtle low synth pulse */
 export function playSynthPulse() {
   if (isAudioMuted()) return;
   try {
@@ -140,7 +140,7 @@ export function playSynthPulse() {
   }
 }
 
-/** Page transition — white-noise whoosh band-pass sweep */
+/** Page transition: white-noise whoosh band-pass sweep */
 export function playTransitionWhoosh() {
   if (isAudioMuted()) return;
   try {
@@ -172,7 +172,7 @@ export function playTransitionWhoosh() {
   }
 }
 
-/** IntroScreen 100% completion — futuristic dual-harmonic chime */
+/** IntroScreen 100% completion: futuristic dual-harmonic chime */
 export function playSystemReadyChime() {
   if (isAudioMuted()) return;
   try {
@@ -210,7 +210,7 @@ export function playSystemReadyChime() {
   }
 }
 
-/** IntroScreen Split-Open — pneumatic shutter release & stereo laser whoosh */
+/** IntroScreen Split-Open: pneumatic shutter release & stereo laser whoosh */
 export function playApertureSplitSound() {
   if (isAudioMuted()) return;
   try {

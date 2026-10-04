@@ -48,6 +48,6 @@ Vectoris eliminates this bottleneck by executing hardware-accelerated local pars
 
 ## Production Benchmarks
 
-- Sheet Ingestion Speed: Sub-1.2 second parsing and vectorization time for 50MB architectural drawing sets.
-- Takeoff Throughput: Automated detection of 18,000+ electrical takeoff items across 400+ drawing packages with a 99.1% precision rate.
+- Sheet Ingestion Speed: Hardware-accelerated local parsing and vectorization for multi-sheet architectural drawing sets.
+- Takeoff Throughput: Automated detection, path tracing, and conductor sizing across complex drawing sets.
 - Offline Availability: 100% functionality maintained without active internet connectivity, safeguarding critical enterprise engineering assets.

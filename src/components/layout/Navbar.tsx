@@ -35,7 +35,7 @@ function useRealScrollY() {
       }
     };
 
-    /* Lenis might not be ready yet — retry once mounted */
+    /* Lenis might not be ready yet: retry once mounted */
     let cleanup = tryLenis();
     if (!cleanup) {
       /* Fallback to native window scroll while waiting for Lenis */
@@ -102,7 +102,7 @@ export function Navbar() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════
-          NAVBAR  — outer nav is ALWAYS fixed via className
+          NAVBAR : outer nav is ALWAYS fixed via className
       ══════════════════════════════════════════════════════ */}
       <motion.nav
         className="fixed top-0 left-0 right-0 z-[9000] pointer-events-none"
@@ -111,7 +111,7 @@ export function Navbar() {
         transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
       >
         {/*
-          Inner pill — this is the only element that moves/shrinks.
+          Inner pill: this is the only element that moves/shrinks.
           pointer-events-auto re-enables interaction on just this element.
         */}
         <div
@@ -120,12 +120,12 @@ export function Navbar() {
             margin:       `${t * 14}px ${t * maxInset}% 0`,
             borderRadius: `${t * 999}px`,
             background:   isCompact
-              ? `rgba(5,5,10,${0.55 + t * 0.35})`
+              ? `rgba(7,22,41,${0.65 + t * 0.3})`
               : 'transparent',
             backdropFilter:       isCompact ? `blur(${18 + t * 22}px) saturate(180%)` : 'none',
             WebkitBackdropFilter: isCompact ? `blur(${18 + t * 22}px) saturate(180%)` : 'none',
             boxShadow:    isCompact
-              ? `0 8px 40px rgba(0,0,0,${0.25 + t * 0.4}), 0 0 0 1px rgba(255,255,255,${0.04 + t * 0.05}), 0 0 28px rgba(0,229,255,${t * 0.08})`
+              ? `0 8px 40px rgba(0,0,0,${0.25 + t * 0.4}), 0 0 0 1px rgba(255,255,255,${0.04 + t * 0.05}), 0 0 28px rgba(157,183,213,${t * 0.08})`
               : 'none',
             borderBottom: !isCompact
               ? '1px solid rgba(255,255,255,0.04)'
@@ -136,7 +136,7 @@ export function Navbar() {
           <div
             className="absolute top-0 left-[12%] right-[12%] h-px pointer-events-none rounded-full transition-opacity duration-500"
             style={{
-              background: 'linear-gradient(90deg,transparent,rgba(0,229,255,0.7),rgba(124,58,237,0.6),transparent)',
+              background: 'linear-gradient(90deg,transparent,rgba(157,183,213,0.7),rgba(23,52,92,0.6),transparent)',
               opacity: t * 0.9,
             }}
           />
@@ -153,13 +153,13 @@ export function Navbar() {
             {/* Logo */}
             <NavLink to="/" className="flex items-center gap-2.5 group flex-shrink-0">
               <div
-                className="rounded-full overflow-hidden border border-white/10 group-hover:border-cyan/40 transition-all duration-300"
+                className="rounded-full overflow-hidden border border-white/10 group-hover:border-[var(--accent)] transition-all duration-300"
                 style={{ width: `${32 - t * 6}px`, height: `${32 - t * 6}px` }}
               >
                 <img
                   src="/images/logo.webp"
-                  alt="Hardik Bhaskar — Systems Architect &amp; AI Systems Builder Logo"
-                  title="Hardik Bhaskar — Kitsune Dev"
+                  alt="Hardik Bhaskar: Systems Architect &amp; AI Systems Builder Logo"
+                  title="Hardik Bhaskar: Kitsune Dev"
                   width={32}
                   height={32}
                   loading="eager"
@@ -168,13 +168,13 @@ export function Navbar() {
                 />
               </div>
               <span
-                className="font-ui font-medium text-sm text-heading tracking-wide overflow-hidden whitespace-nowrap transition-all duration-500"
+                className="font-ui font-medium text-sm text-[var(--text-strong)] tracking-wide overflow-hidden whitespace-nowrap transition-all duration-500"
                 style={{
                   maxWidth: `${(1 - t) * 130}px`,
                   opacity:  Math.max(0, 1 - t * 2.2),
                 }}
               >
-                Hardik<span className="text-cyan">.</span>
+                Hardik<span className="text-[var(--accent)]">.</span>
               </span>
             </NavLink>
 
@@ -191,7 +191,7 @@ export function Navbar() {
                   className={({ isActive }) =>
                     clsx(
                       'font-ui tracking-wide transition-colors duration-200 link-underline whitespace-nowrap',
-                      isActive ? 'text-heading' : 'text-muted hover:text-heading',
+                      isActive ? 'text-[var(--text-strong)] font-medium' : 'text-[var(--text-muted)] hover:text-[var(--text-strong)]',
                       isCompact ? 'text-xs' : 'text-sm'
                     )
                   }
@@ -201,7 +201,7 @@ export function Navbar() {
               ))}
             </div>
 
-            {/* CTA + Hamburger */}
+            {/* CTA + Sound + Hamburger */}
             <div className="flex items-center gap-2 flex-shrink-0">
               {/* Sound toggle button */}
               <motion.button
@@ -213,15 +213,15 @@ export function Navbar() {
                   const next = toggleAudioMuted();
                   setMuted(next);
                 }}
-                className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 text-muted hover:text-heading hover:border-white/30 transition-all duration-200"
+                className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 text-[var(--text-muted)] hover:text-[var(--text-strong)] hover:border-white/30 transition-all duration-200"
                 style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(8px)' }}
                 aria-label={muted ? 'Unmute sound effects' : 'Mute sound effects'}
                 title={muted ? 'Unmute sound effects' : 'Mute sound effects'}
               >
-                {muted ? <VolumeX size={14} className="text-muted/60" /> : <Volume2 size={14} className="text-cyan" />}
+                {muted ? <VolumeX size={14} className="text-[var(--text-muted)]/60" /> : <Volume2 size={14} className="text-[var(--accent)]" />}
               </motion.button>
 
-              {/* GitHub icon link — separate, left of Let's Talk */}
+              {/* GitHub icon link */}
               <motion.a
                 href="https://github.com/HardikBhaskar2010/"
                 target="_blank"
@@ -229,13 +229,12 @@ export function Navbar() {
                 whileHover={{ scale: 1.12 }}
                 whileTap={{ scale: 0.92 }}
                 onClick={() => track.socialClick('GitHub', 'navbar')}
-                className="hidden md:flex items-center justify-center w-8 h-8 rounded-full border border-white/10 text-muted hover:text-heading hover:border-white/30 transition-all duration-200"
+                className="hidden md:flex items-center justify-center w-8 h-8 rounded-full border border-white/10 text-[var(--text-muted)] hover:text-[var(--text-strong)] hover:border-white/30 transition-all duration-200"
                 style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(8px)' }}
                 aria-label="GitHub profile"
               >
                 <GithubIcon size={15} />
               </motion.a>
-
 
               {/* Dossier PDF button */}
               <motion.a
@@ -245,7 +244,7 @@ export function Navbar() {
                 whileTap={{ scale: 0.94 }}
                 onMouseEnter={playHoverTick}
                 onClick={() => track.downloadDossier('navbar')}
-                className="hidden lg:inline-flex items-center gap-1 font-mono text-muted hover:text-heading px-2.5 py-1 rounded-full border border-white/10 hover:border-cyan/40 transition-all duration-200"
+                className="hidden lg:inline-flex items-center gap-1 font-mono text-[var(--text-muted)] hover:text-[var(--text-strong)] px-2.5 py-1 rounded-full border border-white/10 hover:border-[var(--accent)] transition-all duration-200"
                 style={{
                   fontSize: `${10 - t * 0.5}px`,
                   background: 'rgba(255,255,255,0.04)',
@@ -254,21 +253,22 @@ export function Navbar() {
                 title="Download Executive Portfolio Dossier (PDF)"
               >
                 <span>CV</span>
-                <span className="text-cyan text-[9px]">↓</span>
+                <span className="text-[var(--accent)] text-[9px]">↓</span>
               </motion.a>
 
+              {/* Single Contact CTA in Navbar with Status Available Dot */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => scrollTo('#contact')}
-                className="hidden md:inline-flex items-center gap-1.5 font-ui uppercase tracking-widest text-bg bg-accent rounded-full hover:bg-white/90 transition-all duration-300 whitespace-nowrap"
+                className="hidden md:inline-flex items-center gap-1.5 font-ui uppercase tracking-widest text-[#071629] bg-[#FFFFFF] rounded-full hover:bg-[#EAF4FF] transition-all duration-300 whitespace-nowrap font-semibold"
                 style={{
                   fontSize: `${11 - t}px`,
                   padding:  `${7 - t * 1.5}px ${16 - t * 4}px`,
                 }}
               >
                 <span
-                  className="rounded-full bg-bg animate-pulse"
+                  className="rounded-full bg-[#6EE7B7] animate-pulse"
                   style={{ width: `${6 - t}px`, height: `${6 - t}px` }}
                 />
                 {t < 0.5 ? "Let's Talk" : 'Talk'}
@@ -277,7 +277,7 @@ export function Navbar() {
               <motion.button
                 whileTap={{ scale: 0.88 }}
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="md:hidden flex items-center justify-center rounded-full border border-white/10 text-heading"
+                className="md:hidden flex items-center justify-center rounded-full border border-white/10 text-[var(--text-strong)]"
                 style={{
                   width:                `${36 - t * 4}px`,
                   height:               `${36 - t * 4}px`,
@@ -316,13 +316,13 @@ export function Navbar() {
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-[8999] flex flex-col justify-center px-8 md:hidden"
             style={{
-              background:           'rgba(5,5,10,0.97)',
+              background:           'rgba(7,22,41,0.98)',
               backdropFilter:       'blur(32px)',
               WebkitBackdropFilter: 'blur(32px)',
             }}
           >
-            <div className="absolute top-1/4 -left-32 w-72 h-72 rounded-full bg-cyan/5 blur-3xl pointer-events-none" />
-            <div className="absolute bottom-1/4 -right-32 w-72 h-72 rounded-full bg-violet/5 blur-3xl pointer-events-none" />
+            <div className="absolute top-1/4 -left-32 w-72 h-72 rounded-full bg-[var(--accent)]/5 blur-3xl pointer-events-none" />
+            <div className="absolute bottom-1/4 -right-32 w-72 h-72 rounded-full bg-[var(--blue)]/10 blur-3xl pointer-events-none" />
 
             <motion.div
               variants={mobileMenuContainer}
@@ -337,8 +337,8 @@ export function Navbar() {
                     to={link.to}
                     className={({ isActive }) =>
                       clsx(
-                        'block font-display italic leading-tight tracking-tight transition-colors duration-200 hover:text-heading',
-                        isActive ? 'text-heading' : 'text-muted',
+                        'block font-heading font-medium leading-tight tracking-tight transition-colors duration-200 hover:text-[var(--text-strong)]',
+                        isActive ? 'text-[var(--text-strong)]' : 'text-[var(--text-muted)]',
                       )
                     }
                     style={{ fontSize: 'clamp(42px, 11vw, 68px)' }}
@@ -351,9 +351,9 @@ export function Navbar() {
               <motion.div variants={mobileMenuItem} className="mt-8 flex flex-col gap-3">
                 <button
                   onClick={() => { scrollTo('#contact'); setMenuOpen(false); }}
-                  className="inline-flex items-center gap-2 font-ui text-sm uppercase tracking-widest text-bg bg-accent px-6 py-3 rounded-full"
+                  className="inline-flex items-center gap-2 font-ui text-sm uppercase tracking-widest text-[#071629] bg-[#FFFFFF] hover:bg-[#EAF4FF] px-6 py-3 rounded-full font-semibold"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-bg animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#6EE7B7] animate-pulse" />
                   Let's Talk
                 </button>
 
@@ -362,10 +362,10 @@ export function Navbar() {
                     href="/docs/Hardik_Bhaskar_Portfolio.pdf"
                     download
                     onClick={() => { track.downloadDossier('mobile-menu'); setMenuOpen(false); }}
-                    className="inline-flex flex-1 items-center justify-between font-ui text-xs uppercase tracking-widest text-white/90 bg-white/5 border border-white/15 px-5 py-2.5 rounded-full"
+                    className="inline-flex flex-1 items-center justify-between font-ui text-xs uppercase tracking-widest text-[var(--text-primary)] bg-white/5 border border-white/15 px-5 py-2.5 rounded-full"
                   >
                     <span>Download CV / Dossier (PDF)</span>
-                    <span className="text-cyan text-sm">↓</span>
+                    <span className="text-[var(--accent)] text-sm">↓</span>
                   </a>
 
                   <button
@@ -374,10 +374,10 @@ export function Navbar() {
                       const next = toggleAudioMuted();
                       setMuted(next);
                     }}
-                    className="inline-flex items-center gap-1.5 font-ui text-xs uppercase tracking-widest text-muted hover:text-heading bg-white/5 border border-white/10 px-3.5 py-2.5 rounded-full"
+                    className="inline-flex items-center gap-1.5 font-ui text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--text-strong)] bg-white/5 border border-white/10 px-3.5 py-2.5 rounded-full"
                     aria-label={muted ? 'Unmute sound effects' : 'Mute sound effects'}
                   >
-                    {muted ? <VolumeX size={14} className="text-muted/60" /> : <Volume2 size={14} className="text-cyan" />}
+                    {muted ? <VolumeX size={14} className="text-[var(--text-muted)]/60" /> : <Volume2 size={14} className="text-[var(--accent)]" />}
                     <span>{muted ? 'Muted' : 'Sound'}</span>
                   </button>
                 </div>
@@ -393,7 +393,7 @@ export function Navbar() {
                 ].map(s => (
                   <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                     onClick={() => track.socialClick(s.label, 'mobile-menu')}
-                    className="font-ui text-xs uppercase tracking-widest text-muted hover:text-heading transition-colors link-underline"
+                    className="font-ui text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--text-strong)] transition-colors link-underline"
                   >
                     {s.label}
                   </a>
