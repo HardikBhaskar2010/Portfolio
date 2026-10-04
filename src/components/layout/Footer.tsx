@@ -24,14 +24,15 @@ export function Footer() {
 
   useEffect(() => {
     const isReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile = typeof window !== 'undefined' && (window.matchMedia('(max-width: 768px)').matches || navigator.maxTouchPoints > 0);
     const isSaveData = typeof navigator !== 'undefined' && (navigator as any).connection?.saveData === true;
-    const shouldAutoPlay = !isMobile && !isSaveData && !isReduced;
-    const targetRate = isReduced ? 0.08 : 0.15;
+    const shouldAutoPlay = !isSaveData && !isReduced;
+    const targetRate = isReduced ? 0.35 : 1.0;
 
-    const setSpeed = () => {
+    const startPlayback = () => {
       if (videoRef.current) {
         videoRef.current.playbackRate = targetRate;
+        const p = videoRef.current.play();
+        if (p !== undefined) p.catch(() => {});
       }
     };
 
@@ -43,14 +44,13 @@ export function Footer() {
         if (!videoRef.current) return;
         if (entry.isIntersecting) {
           if (shouldAutoPlay) {
-            setSpeed();
-            videoRef.current.play().catch(() => {});
+            startPlayback();
           }
         } else {
           videoRef.current.pause();
         }
       },
-      { rootMargin: '100px 0px', threshold: 0.01 }
+      { rootMargin: '200px 0px', threshold: 0.01 }
     );
 
     observer.observe(footerEl);
@@ -60,8 +60,7 @@ export function Footer() {
       if (document.hidden) {
         videoRef.current.pause();
       } else if (shouldAutoPlay) {
-        setSpeed();
-        videoRef.current.play().catch(() => {});
+        startPlayback();
       }
     };
 
@@ -75,49 +74,44 @@ export function Footer() {
 
   const handlePlaybackSetup = (e: React.SyntheticEvent<HTMLVideoElement>) => {
     const isReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    e.currentTarget.playbackRate = isReduced ? 0.08 : 0.15;
+    e.currentTarget.playbackRate = isReduced ? 0.35 : 1.0;
   };
 
   const handleUserInteraction = () => {
     if (videoRef.current && videoRef.current.paused) {
       const isReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      videoRef.current.playbackRate = isReduced ? 0.08 : 0.15;
+      videoRef.current.playbackRate = isReduced ? 0.35 : 1.0;
       videoRef.current.play().catch(() => {});
     }
   };
 
   return (
-    <HighlightPoint id="footer-singularity" color="#FF7700" label="SINGULARITY // ANCHOR">
+    <HighlightPoint id="footer-singularity" color="#9DB7D5" label="SINGULARITY : ANCHOR">
       <footer
         ref={footerRef}
         onClick={handleUserInteraction}
-        className="relative overflow-hidden border-t border-border mt-0 bg-[#071629]"
+        className="relative overflow-hidden border-t border-border mt-0 bg-base"
       >
         {/* ── Background ASCII Black Hole Cinematic Video Loop ── */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none bg-[#071629]">
           <video
             ref={videoRef}
+            autoPlay
             loop
             muted
             playsInline
-            preload="none"
+            preload="auto"
             poster="/videos/blackhole-poster.webp"
             onLoadedMetadata={handlePlaybackSetup}
             onPlay={handlePlaybackSetup}
-            onTimeUpdate={(e) => {
-              if (e.currentTarget.playbackRate > 0.2) {
-                handlePlaybackSetup(e);
-              }
-            }}
-            className="w-full h-full object-cover object-center opacity-70 md:opacity-80 filter contrast-125 saturate-125 transition-opacity duration-700"
+            className="w-full h-full object-cover object-center opacity-100"
           >
             <source src="/videos/blackhole-ascii.mp4" type="video/mp4" />
           </video>
 
-          {/* Edge fades and readability scrim keeping text ultra-crisp while showcasing ASCII animation */}
-          <div className="absolute inset-0 bg-[#071629]/40 pointer-events-none" />
-          <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-[#071629] via-[#071629]/70 to-transparent pointer-events-none" />
-          <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-[#071629] via-[#071629]/70 to-transparent pointer-events-none" />
+          {/* Minimal top and bottom edge blending to seat the video into the navy frame without washing it out */}
+          <div className="absolute top-0 inset-x-0 h-10 bg-gradient-to-b from-[#071629] to-transparent pointer-events-none" />
+          <div className="absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t from-[#071629] to-transparent pointer-events-none" />
         </div>
 
         {/* ── Top row: Original Footer Layout ── */}
@@ -140,7 +134,7 @@ export function Footer() {
                   />
                 </div>
                 <span className="font-display italic text-2xl text-heading">
-                  Hardik<span className="text-cyan">.</span>
+                  Hardik<span className="text-accent">.</span>
                 </span>
               </div>
               <p className="font-ui text-sm text-slate-200 max-w-[280px] leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
