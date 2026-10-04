@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef } from 'react';
+import { lazy, Suspense, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ArrowDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { track } from '@/lib/analytics';
 import { playHoverTick, playClick } from '@/lib/audio';
 import { WebGLGuard } from '@/components/three/WebGLGuard';
 import { useAfterLcp } from '@/lib/useAfterLcp';
+import { OPENING_DELAY } from '@/motion/tokens';
 
 // Lazy-load the heavy Canvas: zero impact on initial paint
 const NeuralNetworkScene = lazy(() =>
@@ -21,6 +22,16 @@ const headlineLines = ['Systems Architect', 'AI Systems Builder'];
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const is3DReady = useAfterLcp(800);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (document.documentElement.getAttribute('data-intro') === 'active') {
+      const timer = window.setTimeout(() => {
+        document.documentElement.removeAttribute('data-intro');
+      }, OPENING_DELAY.settle);
+      return () => window.clearTimeout(timer);
+    }
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -138,8 +149,11 @@ export function Hero() {
               </div>
 
               {/* Currently Building card */}
-              <div className="pt-2">
-                <CurrentFocus />
+              <div className="pt-2 motion-panel motion-panel-focus" data-motion-panel="focus">
+                <div className="motion-shading" data-motion-shading="focus" aria-hidden="true" />
+                <div className="motion-content" data-motion-content="focus">
+                  <CurrentFocus />
+                </div>
               </div>
             </div>
           </motion.div>

@@ -53,12 +53,35 @@ test('Motion Tokens: CSS variables match TypeScript tokens source of truth', () 
     true,
     'tokens.css must define --overshoot-max: 4%;'
   );
+
+  // Verify delay tokens
+  const delayChecks = [
+    { name: '--delay-0', val: '0ms' },
+    { name: '--delay-headline', val: '300ms' },
+    { name: '--delay-avatar', val: '700ms' },
+    { name: '--delay-focus', val: '800ms' },
+    { name: '--delay-preview', val: '850ms' },
+    { name: '--delay-headline-cta', val: '1120ms' },
+    { name: '--delay-scene3d', val: '1300ms' },
+    { name: '--delay-scroll-orb', val: '1400ms' },
+    { name: '--delay-avatar-content', val: '1520ms' },
+    { name: '--delay-focus-content', val: '1620ms' },
+    { name: '--delay-preview-content', val: '1670ms' },
+    { name: '--delay-badges', val: '1700ms' },
+    { name: '--delay-light-sweep', val: '1950ms' },
+    { name: '--delay-settle', val: '2200ms' },
+  ];
+  for (const { name, val } of delayChecks) {
+    const cssMatch = tokensCssContent.includes(`${name}: ${val};`);
+    assert.equal(cssMatch, true, `tokens.css must define ${name}: ${val};`);
+  }
 });
 
 test('Motion Tokens: Zero raw milliseconds outside allowed scale in tokens.ts', () => {
-  const allowedNumbers = [120, 240, 420, 700, 1100, 84, 168, 294, 490, 770, 75, 4];
   // Basic sanity check ensuring tokens.ts parses cleanly
   assert.equal(tokensTsContent.includes('export const DURATION'), true);
   assert.equal(tokensTsContent.includes('export const EXIT_DURATION'), true);
   assert.equal(tokensTsContent.includes('export const EASING'), true);
+  assert.equal(tokensTsContent.includes('export const DELAY'), true);
+  assert.equal(tokensTsContent.includes('export const OPENING_DELAY'), true);
 });

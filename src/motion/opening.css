@@ -1,0 +1,324 @@
+/**
+ * src/motion/opening.css
+ * Pure CSS keyframe animations for the 3D technical blueprint opening reveal.
+ * Strictly adheres to N4 (transform and opacity only), N5 (token-derived),
+ * N6 (pure CSS, no JS on critical path), and N7 (static fallback without data-intro).
+ */
+
+/* ─────────────────────────────────────────────────────────────
+   STATIC BASELINE (When data-intro is NOT active or after settlement)
+   Zero animation, identity transforms, full opacity, zero running loops.
+───────────────────────────────────────────────────────────── */
+
+.motion-panel {
+  transform: none;
+  opacity: 1;
+  will-change: auto;
+}
+
+.motion-shading {
+  position: absolute;
+  inset: 0;
+  background: var(--motion-shading);
+  opacity: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 10;
+}
+
+.motion-crease {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 96px;
+  height: 1px;
+  background: var(--motion-crease);
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: center;
+  z-index: 5;
+}
+
+.motion-sweep {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 95px;
+  height: 3px;
+  background: var(--motion-sweep);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-100%);
+  z-index: 6;
+}
+
+.motion-content,
+.motion-content-secondary {
+  transform: none;
+  opacity: 1;
+  will-change: auto;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DESKTOP 3D OPENING SEQUENCE (Active ONLY under html[data-intro="active"])
+───────────────────────────────────────────────────────────── */
+
+@media (min-width: 768px) {
+  /* Blueprint Crease Hairline (t = 0.00s to 0.42s) */
+  html[data-intro="active"] .motion-crease {
+    opacity: 1;
+    will-change: transform, opacity;
+    animation: motion-crease-draw var(--dur-420) var(--ease-out) var(--delay-0) forwards;
+  }
+
+  /* Headline Panel 3D Hinge (t = 0.30s to 1.00s) */
+  html[data-intro="active"] .motion-panel-headline {
+    transform-origin: left center;
+    will-change: transform;
+    animation: motion-headline-hinge var(--dur-700) var(--ease-out) var(--delay-headline) both;
+  }
+
+  /* Headline Panel Shading Overlay */
+  html[data-intro="active"] [data-motion-shading="headline"] {
+    will-change: opacity;
+    animation: motion-shading-headline var(--dur-700) var(--ease-out) var(--delay-headline) both;
+  }
+
+  /* Headline Secondary CTA (120ms post-settle: t = 1.12s to 1.36s) */
+  html[data-intro="active"] .motion-content-secondary {
+    will-change: transform, opacity;
+    animation: motion-content-reveal-cta var(--dur-240) var(--ease-out) var(--delay-headline-cta) both;
+  }
+
+  /* Avatar Portrait Panel 3D Hinge (t = 0.70s to 1.40s) */
+  html[data-intro="active"] .motion-panel-avatar {
+    transform-origin: right center;
+    will-change: transform;
+    animation: motion-avatar-hinge var(--dur-700) var(--ease-out) var(--delay-avatar) both;
+  }
+
+  /* Avatar Shading Overlay */
+  html[data-intro="active"] [data-motion-shading="avatar"] {
+    will-change: opacity;
+    animation: motion-shading-avatar var(--dur-700) var(--ease-out) var(--delay-avatar) both;
+  }
+
+  /* Avatar Media & Content (120ms post-settle: t = 1.52s to 1.76s) */
+  html[data-intro="active"] [data-motion-content="avatar"] {
+    will-change: transform, opacity;
+    animation: motion-content-reveal var(--dur-240) var(--ease-out) var(--delay-avatar-content) both;
+  }
+
+  /* Focus Card Panel 3D Flip (Currently Building: t = 0.80s to 1.50s) */
+  html[data-intro="active"] .motion-panel-focus {
+    transform-origin: top center;
+    will-change: transform;
+    animation: motion-focus-flip var(--dur-700) var(--ease-out) var(--delay-focus) both;
+  }
+
+  /* Focus Shading Overlay */
+  html[data-intro="active"] [data-motion-shading="focus"] {
+    will-change: opacity;
+    animation: motion-shading-focus var(--dur-700) var(--ease-out) var(--delay-focus) both;
+  }
+
+  /* Focus Content (120ms post-settle: t = 1.62s to 1.86s) */
+  html[data-intro="active"] [data-motion-content="focus"] {
+    will-change: transform, opacity;
+    animation: motion-content-reveal var(--dur-240) var(--ease-out) var(--delay-focus-content) both;
+  }
+
+  /* Preview Cards Panel 3D Flip (t = 0.85s to 1.55s) */
+  html[data-intro="active"] .motion-panel-preview {
+    transform-origin: top center;
+    will-change: transform;
+    animation: motion-preview-flip var(--dur-700) var(--ease-out) var(--delay-preview) both;
+  }
+
+  /* Preview Shading Overlay */
+  html[data-intro="active"] [data-motion-shading="preview"] {
+    will-change: opacity;
+    animation: motion-shading-preview var(--dur-700) var(--ease-out) var(--delay-preview) both;
+  }
+
+  /* Preview Cards Content (120ms post-settle: t = 1.67s to 1.91s) */
+  html[data-intro="active"] [data-motion-content="preview"] {
+    will-change: transform, opacity;
+    animation: motion-content-reveal var(--dur-240) var(--ease-out) var(--delay-preview-content) both;
+  }
+
+  /* Tech Badges (t = 1.70s to 1.94s) */
+  html[data-intro="active"] [data-motion-content="tech-badges"] {
+    will-change: transform, opacity;
+    animation: motion-content-reveal var(--dur-240) var(--ease-out) var(--delay-badges) both;
+  }
+
+  /* Crease Specular Light Sweep (t = 1.95s to 2.19s) */
+  html[data-intro="active"] .motion-sweep {
+    will-change: transform, opacity;
+    animation: motion-sweep-gleam var(--dur-240) var(--ease-out) var(--delay-light-sweep) forwards;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   KEYFRAME DEFINITIONS (Hardware-Accelerated Transform & Opacity)
+───────────────────────────────────────────────────────────── */
+
+@keyframes motion-crease-draw {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  90% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+@keyframes motion-headline-hinge {
+  0% {
+    transform: perspective(1200px) rotateY(-90deg);
+  }
+  100% {
+    transform: perspective(1200px) rotateY(0deg);
+  }
+}
+
+@keyframes motion-shading-headline {
+  0% {
+    opacity: 0.70;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes motion-avatar-hinge {
+  0% {
+    transform: perspective(1200px) rotateY(90deg);
+  }
+  100% {
+    transform: perspective(1200px) rotateY(0deg);
+  }
+}
+
+@keyframes motion-shading-avatar {
+  0% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes motion-focus-flip {
+  0% {
+    transform: perspective(1000px) rotateX(-90deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(0deg);
+  }
+}
+
+@keyframes motion-shading-focus {
+  0% {
+    opacity: 0.60;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes motion-preview-flip {
+  0% {
+    transform: perspective(1000px) rotateX(-90deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(0deg);
+  }
+}
+
+@keyframes motion-shading-preview {
+  0% {
+    opacity: 0.60;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes motion-content-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes motion-content-reveal-cta {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes motion-sweep-gleam {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   REDUCED MOTION OVERRIDE (Strict N7 Compliance)
+   OS reduced-motion unconditionally enforces static identity.
+───────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-intro="active"] .motion-panel,
+  html[data-intro="active"] .motion-panel-headline,
+  html[data-intro="active"] .motion-panel-avatar,
+  html[data-intro="active"] .motion-panel-focus,
+  html[data-intro="active"] .motion-panel-preview,
+  html[data-intro="active"] .motion-content,
+  html[data-intro="active"] .motion-content-secondary,
+  html[data-intro="active"] .motion-crease,
+  html[data-intro="active"] .motion-sweep,
+  html[data-intro="active"] .motion-shading {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    will-change: auto !important;
+  }
+
+  html[data-intro="active"] .motion-crease,
+  html[data-intro="active"] .motion-sweep,
+  html[data-intro="active"] .motion-shading {
+    opacity: 0 !important;
+    display: none !important;
+  }
+}

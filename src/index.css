@@ -1,4 +1,5 @@
 @import './motion/tokens.css';
+@import './motion/opening.css';
 
 /* ─── Self-Hosted Geist Variable Fonts ───────────────────────── */
 @font-face {

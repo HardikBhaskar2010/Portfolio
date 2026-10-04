@@ -29,6 +29,22 @@
   /* Overshoot */
   --overshoot-max: 4%;
 
+  /* Opening Sequence Delays (derived from tokens.ts) */
+  --delay-0: 0ms;
+  --delay-headline: 300ms;
+  --delay-avatar: 700ms;
+  --delay-focus: 800ms;
+  --delay-preview: 850ms;
+  --delay-headline-cta: 1120ms;
+  --delay-scene3d: 1300ms;
+  --delay-scroll-orb: 1400ms;
+  --delay-avatar-content: 1520ms;
+  --delay-focus-content: 1620ms;
+  --delay-preview-content: 1670ms;
+  --delay-badges: 1700ms;
+  --delay-light-sweep: 1950ms;
+  --delay-settle: 2200ms;
+
   /* Frost palette aliases for motion elements */
   --motion-crease: var(--frost-accent, #9db7d5);
   --motion-shading: rgba(7, 22, 41, 0.75);
