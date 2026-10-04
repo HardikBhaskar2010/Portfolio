@@ -72,6 +72,7 @@ export function ScrollFlow() {
           if (inner) {
             gsap.to(inner, {
               scale: 0.94,
+              opacity: 0,
               ease: 'none',
               scrollTrigger: {
                 trigger: nextPanel,
@@ -84,7 +85,7 @@ export function ScrollFlow() {
 
           if (dim) {
             gsap.to(dim, {
-              opacity: 0.5,
+              opacity: 0.6,
               ease: 'none',
               scrollTrigger: {
                 trigger: nextPanel,
@@ -94,6 +95,17 @@ export function ScrollFlow() {
               },
             });
           }
+
+          ScrollTrigger.create({
+            trigger: nextPanel,
+            start: 'top top',
+            onEnter: () => {
+              panel.style.visibility = 'hidden';
+            },
+            onLeaveBack: () => {
+              panel.style.visibility = 'visible';
+            },
+          });
         }
       });
 
@@ -136,9 +148,9 @@ export function ScrollFlow() {
       {/* ── CHAPTER 1: FOUNDATIONS ── */}
       <section
         id="chapter-foundations"
-        className="chapter-pin-panel relative w-full lg:min-h-screen bg-bg flex flex-col justify-center overflow-hidden z-10 border-t border-border/80"
+        className="chapter-pin-panel relative w-full lg:min-h-screen bg-[#071629]/85 flex flex-col justify-center overflow-hidden z-10 border-t border-border/80"
       >
-        <div className="chapter-dim pointer-events-none absolute inset-0 bg-bg opacity-0 z-20" />
+        <div className="chapter-dim pointer-events-none absolute inset-0 bg-[#071629]/60 opacity-0 z-20" />
         <div className="chapter-inner w-full max-w-[1240px] mx-auto px-6 md:px-12 py-16 lg:py-24">
           <div className="mb-8">
             <span className="text-xs font-mono uppercase tracking-[0.2em] text-cyan/90 block mb-2">
@@ -321,9 +333,9 @@ export function ScrollFlow() {
       {/* ── CHAPTER 2: RUNTIME ── */}
       <section
         id="chapter-runtime"
-        className="chapter-pin-panel relative w-full lg:min-h-screen bg-bg flex flex-col justify-center overflow-hidden z-20 border-t border-border/80"
+        className="chapter-pin-panel relative w-full lg:min-h-screen bg-[#071629]/85 flex flex-col justify-center overflow-hidden z-20 border-t border-border/80"
       >
-        <div className="chapter-dim pointer-events-none absolute inset-0 bg-bg opacity-0 z-20" />
+        <div className="chapter-dim pointer-events-none absolute inset-0 bg-[#071629]/60 opacity-0 z-20" />
         <div className="chapter-inner w-full max-w-[1240px] mx-auto px-6 md:px-12 py-16 lg:py-24">
           <div className="mb-8">
             <span className="text-xs font-mono uppercase tracking-[0.2em] text-cyan/90 block mb-2">
@@ -431,9 +443,9 @@ export function ScrollFlow() {
       {/* ── CHAPTER 3: INTELLIGENCE ── */}
       <section
         id="chapter-intelligence"
-        className="chapter-pin-panel relative w-full lg:min-h-screen bg-bg flex flex-col justify-center overflow-hidden z-30 border-t border-border/80"
+        className="chapter-pin-panel relative w-full lg:min-h-screen bg-[#071629]/85 flex flex-col justify-center overflow-hidden z-30 border-t border-border/80"
       >
-        <div className="chapter-dim pointer-events-none absolute inset-0 bg-bg opacity-0 z-20" />
+        <div className="chapter-dim pointer-events-none absolute inset-0 bg-[#071629]/60 opacity-0 z-20" />
         <div className="chapter-inner w-full max-w-[1240px] mx-auto px-6 md:px-12 py-16 lg:py-24">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
             <div>
@@ -606,7 +618,7 @@ export function ScrollFlow() {
       {/* ── ARCHIVE PAN: REMAINING SYSTEMS (Horizontal Filmstrip >= 1024px) ── */}
       <section
         id="archive-pan"
-        className="relative w-full lg:min-h-screen bg-bg flex flex-col justify-center overflow-hidden z-40 border-t border-border/80"
+        className="relative w-full lg:min-h-screen bg-[#071629]/85 flex flex-col justify-center overflow-hidden z-40 border-t border-border/80"
       >
         <div className="w-full max-w-[1240px] mx-auto px-6 md:px-12 py-16 lg:py-24">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
