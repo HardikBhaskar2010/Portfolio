@@ -20,6 +20,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
   const [greetingVisible, setGreetingVisible] = useState(false);
   const [greetingWriting, setGreetingWriting] = useState(false);
   const [greetingFading, setGreetingFading] = useState(false);
+  const [overlayState, setOverlayState] = useState<'active' | 'clearing'>('active');
   const completedRef = useRef(false);
 
   useEffect(() => {
@@ -56,6 +57,9 @@ export function Preloader({ onComplete }: PreloaderProps) {
           setGreetingVisible(false);
         }, PRELOADER_DELAY.mobileCenterPanel),
         window.setTimeout(() => {
+          setOverlayState('clearing');
+        }, PRELOADER_DELAY.mobileOverlayFade),
+        window.setTimeout(() => {
           if (!completedRef.current) {
             completedRef.current = true;
             onComplete();
@@ -77,13 +81,16 @@ export function Preloader({ onComplete }: PreloaderProps) {
           setCounterVisible(false);
           setGreetingVisible(true);
           setGreetingWriting(true);
-        }, PRELOADER_DELAY.helloStart),
+        }, PRELOADER_DELAY.helloDraw),
         window.setTimeout(() => {
           setGreetingFading(true);
         }, PRELOADER_DELAY.helloFade),
         window.setTimeout(() => {
           setGreetingVisible(false);
         }, PRELOADER_DELAY.centerPanel),
+        window.setTimeout(() => {
+          setOverlayState('clearing');
+        }, PRELOADER_DELAY.overlayFade),
         window.setTimeout(() => {
           if (!completedRef.current) {
             completedRef.current = true;
@@ -102,6 +109,8 @@ export function Preloader({ onComplete }: PreloaderProps) {
     <div
       id="portfolio-preloader"
       className="preloader-overlay"
+      data-splitting="true"
+      data-state={overlayState}
       aria-hidden="true"
       tabIndex={-1}
     >
@@ -151,6 +160,21 @@ export function Preloader({ onComplete }: PreloaderProps) {
             d="M 108 45.5 C 108.5 46.5 109 47.5 109.5 48.5"
           />
         </svg>
+      </div>
+
+      {/* Split Panels Curtain */}
+      <div className="preloader-panels-container">
+        {[0, 1, 2, 3, 4].map(idx => (
+          <div
+            key={idx}
+            className={`preloader-panel preloader-panel-${idx}`}
+            data-tone={idx % 2 === 1 ? 'alt' : 'base'}
+          >
+            <div className="panel-half panel-half-left" />
+            <div className="panel-half panel-half-right" />
+            <div className="panel-seam" />
+          </div>
+        ))}
       </div>
     </div>
   );

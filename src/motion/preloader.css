@@ -11,7 +11,7 @@
   height: 100dvh;
   width: 100vw;
   z-index: 99999;
-  background: var(--bg-base, #071629);
+  background: transparent;
   overflow: hidden;
   pointer-events: auto;
   user-select: none;
@@ -131,6 +131,164 @@
 @keyframes preloader-draw-stroke {
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SPLIT PANELS CURTAIN (Desktop: 5 vertical panels)
+───────────────────────────────────────────────────────────── */
+
+.preloader-panels-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.preloader-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.preloader-panel-0 {
+  left: 0%;
+  width: 20%;
+}
+
+.preloader-panel-1 {
+  left: 20%;
+  width: 20%;
+}
+
+.preloader-panel-2 {
+  left: 40%;
+  width: 20%;
+}
+
+.preloader-panel-3 {
+  left: 60%;
+  width: 20%;
+}
+
+.preloader-panel-4 {
+  left: 80%;
+  width: 20%;
+}
+
+.panel-half {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--bg-base, #071629);
+  will-change: auto;
+}
+
+.panel-half-left {
+  left: 0;
+}
+
+.panel-half-right {
+  left: 50%;
+}
+
+.panel-seam {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-50%);
+  background: var(--border-subtle, #17345c);
+  opacity: 1;
+  z-index: 5;
+  transition: opacity var(--dur-120) var(--ease-out);
+}
+
+/* Subtle tonal differentiation */
+.preloader-panel[data-tone="alt"] .panel-half {
+  background: var(--bg-surface1, #0b213f);
+}
+
+@media (min-width: 768px) {
+  /* Center Panel (index 2): starts at 1080ms */
+  .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-left {
+    will-change: transform;
+    animation: preloader-split-left var(--dur-700) var(--ease-out) var(--delay-preloader-center-panel) forwards;
+  }
+  .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-right {
+    will-change: transform;
+    animation: preloader-split-right var(--dur-700) var(--ease-out) var(--delay-preloader-center-panel) forwards;
+  }
+  .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-seam {
+    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-center-panel) forwards;
+  }
+
+  /* Mid Panels (indices 1, 3): delay 75ms (1155ms) */
+  .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-left,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-half-left {
+    will-change: transform;
+    animation: preloader-split-left var(--dur-700) var(--ease-out) var(--delay-preloader-mid-panels) forwards;
+  }
+  .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-right,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-half-right {
+    will-change: transform;
+    animation: preloader-split-right var(--dur-700) var(--ease-out) var(--delay-preloader-mid-panels) forwards;
+  }
+  .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-seam,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-seam {
+    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-mid-panels) forwards;
+  }
+
+  /* Outer Panels (indices 0, 4): delay 150ms (1230ms) */
+  .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-left,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-half-left {
+    will-change: transform;
+    animation: preloader-split-left var(--dur-700) var(--ease-out) var(--delay-preloader-outer-panels) forwards;
+  }
+  .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-right,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-half-right {
+    will-change: transform;
+    animation: preloader-split-right var(--dur-700) var(--ease-out) var(--delay-preloader-outer-panels) forwards;
+  }
+  .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-seam,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-seam {
+    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-outer-panels) forwards;
+  }
+}
+
+@keyframes preloader-split-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes preloader-split-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes preloader-seam-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
