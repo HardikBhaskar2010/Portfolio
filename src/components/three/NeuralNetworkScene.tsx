@@ -1,19 +1,24 @@
-import { useRef, useMemo, useCallback } from 'react';
+import { useRef, useMemo, useCallback, useEffect, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+import { themeColors } from '@/lib/theme';
 
 // ─── Config ─────────────────────────────────────────────────────────────────
 const PARTICLE_COUNT      = 120;
 const SPREAD              = 14;         // bounding box half-size
 const CONNECTION_DISTANCE = 3.5;
-const PARTICLE_COLOR      = '#9DB7D5';  // cyan
-const LINE_COLOR          = '#17345C';  // violet
+const PARTICLE_COLOR      = themeColors.accent;  // #9DB7D5
+const LINE_COLOR          = themeColors.blue;    // #17345C
 const PARTICLE_SIZE       = 0.06;
 const DRIFT_SPEED         = 0.0008;
 const MOUSE_PARALLAX      = 0.4;
 // ────────────────────────────────────────────────────────────────────────────
 
-function Particles() {
+interface ParticlesProps {
+  reducedMotion: boolean;
+}
+
+function Particles({ reducedMotion }: ParticlesProps) {
   const meshRef  = useRef<THREE.InstancedMesh>(null!);
   const linesRef = useRef<THREE.LineSegments>(null!);
   const mouse    = useRef({ x: 0, y: 0 });
@@ -47,19 +52,49 @@ function Particles() {
   const { camera } = useThree();
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
-  // Mousemove → subtle parallax on camera
+  // Mousemove subtle parallax on camera
   const handleMouseMove = useCallback((e: MouseEvent) => {
     mouse.current.x = (e.clientX / window.innerWidth  - 0.5) * 2;
     mouse.current.y = -(e.clientY / window.innerHeight - 0.5) * 2;
   }, []);
 
-  useMemo(() => {
-    window.addEventListener('mousemove', handleMouseMove);
+  useEffect(() => {
+    if (reducedMotion) return;
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [handleMouseMove]);
+  }, [handleMouseMove, reducedMotion]);
+
+  // Initial setup of instance matrices and connection lines for static/animated frame
+  useEffect(() => {
+    if (!meshRef.current || !linesRef.current) return;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      dummy.position.set(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+      dummy.updateMatrix();
+      meshRef.current.setMatrixAt(i, dummy.matrix);
+    }
+    meshRef.current.instanceMatrix.needsUpdate = true;
+
+    const lp = linesRef.current.geometry.attributes.position as THREE.BufferAttribute;
+    let lineIndex = 0;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      for (let j = i + 1; j < PARTICLE_COUNT; j++) {
+        const dx   = positions[i * 3]     - positions[j * 3];
+        const dy   = positions[i * 3 + 1] - positions[j * 3 + 1];
+        const dz   = positions[i * 3 + 2] - positions[j * 3 + 2];
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (dist < CONNECTION_DISTANCE) {
+          lp.setXYZ(lineIndex++, positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+          lp.setXYZ(lineIndex++, positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]);
+        }
+      }
+    }
+    for (let k = lineIndex; k < lp.count; k++) lp.setXYZ(k, 0, 0, 0);
+    lp.needsUpdate = true;
+    linesRef.current.geometry.setDrawRange(0, lineIndex);
+  }, [dummy, lineGeometry, positions, reducedMotion]);
 
   useFrame(() => {
-    if (!meshRef.current || !linesRef.current) return;
+    if (reducedMotion || !meshRef.current || !linesRef.current) return;
 
     // ── Drift particles ──────────────────────────────────────────────────
     for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -124,24 +159,55 @@ function Particles() {
 
 // ─── Public export: wrap in Canvas ─────────────────────────────────────────
 export function NeuralNetworkScene() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting && !document.hidden);
+    }, { threshold: 0.05 });
+
+    observer.observe(el);
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        setIsVisible(false);
+      } else if (el) {
+        const rect = el.getBoundingClientRect();
+        setIsVisible(rect.bottom > 0 && rect.top < window.innerHeight);
+      }
+    };
+
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
+  }, []);
+
   return (
-    <Canvas
-      camera={{ position: [0, 0, 8], fov: 60 }}
-      dpr={[1, 1.5]}
-      frameloop="always"
-      style={{
-        position: 'absolute',
-        inset: 0,
-        zIndex: 0,
-        pointerEvents: 'none',
-      }}
-      gl={{
-        antialias: false,
-        alpha: true,
-        powerPreference: 'high-performance',
-      }}
-    >
-      <Particles />
-    </Canvas>
+    <div ref={containerRef} className="absolute inset-0 z-0 pointer-events-none">
+      <Canvas
+        camera={{ position: [0, 0, 8], fov: 60 }}
+        dpr={[1, 1.5]}
+        frameloop={reducedMotion ? 'demand' : (isVisible ? 'always' : 'never')}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+        gl={{
+          antialias: false,
+          alpha: true,
+          powerPreference: 'high-performance',
+        }}
+      >
+        <Particles reducedMotion={reducedMotion} />
+      </Canvas>
+    </div>
   );
 }

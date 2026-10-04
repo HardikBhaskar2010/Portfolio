@@ -7,7 +7,15 @@ import { useLenis, getLenis } from '@/lib/lenis';
 import { track } from '@/lib/analytics';
 import { unlockAudio, playTransitionWhoosh } from '@/lib/audio';
 import { GridDistortion } from '@/components/effects/GridDistortion';
-import Hyperspeed from '@/components/ui/Hyperspeed';
+import { useAfterLcp } from '@/lib/useAfterLcp';
+
+// Lazy-load 3D scenes and subpages to keep initial JS bundle small and accelerate initial paint
+const Hyperspeed = lazy(() => import('@/components/ui/Hyperspeed'));
+const ScrollOrb = lazy(() => import('@/components/three/ScrollOrb').then(m => ({ default: m.ScrollOrb })));
+const Projects = lazy(() => import('@/pages/Projects'));
+const About = lazy(() => import('@/pages/About'));
+const ProjectDetail = lazy(() => import('@/pages/ProjectDetail'));
+const NotFound = lazy(() => import('@/pages/NotFound'));
 
 const hyperspeedOptions = {
   onSpeedUp: () => {},
@@ -53,13 +61,6 @@ import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
 import { IntroScreen } from '@/components/ui/IntroScreen';
 import { ConsentBanner } from '@/components/ui/ConsentBanner';
 import Home from '@/pages/Home';
-
-// Lazy-load subpages and 3D scenes to split bundle and accelerate initial paint
-const ScrollOrb = lazy(() => import('@/components/three/ScrollOrb').then(m => ({ default: m.ScrollOrb })));
-const Projects = lazy(() => import('@/pages/Projects'));
-const About = lazy(() => import('@/pages/About'));
-const ProjectDetail = lazy(() => import('@/pages/ProjectDetail'));
-const NotFound = lazy(() => import('@/pages/NotFound'));
 
 /* ── Custom Cursor (Compositor-accelerated with translate3d, disabled on touch) ── */
 function CustomCursor() {
@@ -196,6 +197,7 @@ function AnimatedRoutes() {
 /* ── Root App content ───────────────────────────────────────── */
 function AppContent() {
   useLenis();
+  const is3DReady = useAfterLcp(1000);
   const [showIntro, setShowIntro] = useState(() => {
     if (typeof window === 'undefined') return false;
     const params = new URLSearchParams(window.location.search);
@@ -263,9 +265,13 @@ function AppContent() {
       <ConsentBanner />
 
       {/* ── Backmost Layer: Hyperspeed (React Bits) ── */}
-      <div className="fixed inset-0 z-0 overflow-hidden select-none">
-        <Hyperspeed effectOptions={hyperspeedOptions} />
-      </div>
+      {is3DReady && (
+        <div className="fixed inset-0 z-0 overflow-hidden select-none">
+          <Suspense fallback={null}>
+            <Hyperspeed effectOptions={hyperspeedOptions} />
+          </Suspense>
+        </div>
+      )}
 
       {/* ── Background grid + glow effect (BELOW everything) ── */}
       <GridDistortion />
@@ -273,9 +279,11 @@ function AppContent() {
       <Navbar />           {/* ← always fixed, always visible */}
       <ScrollProgressBar />
       <CustomCursor />
-      <Suspense fallback={null}>
-        <ScrollOrb />
-      </Suspense>
+      {is3DReady && (
+        <Suspense fallback={null}>
+          <ScrollOrb />
+        </Suspense>
+      )}
 
       {/* Auto-scroll to top on route change */}
       <ScrollToTop />

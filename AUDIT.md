@@ -328,3 +328,22 @@ The following violations of the Vercel Web Design Guidelines were identified dur
   - Transition from agency template marketing to authoritative low-level systems engineering proof.
   - Zero decorative purple gradients. Calibrate single high-contrast engineering accent for functional states.
 
+---
+
+## 13. Appendix C: 3D Architecture & Shared WebGL Context Evaluation
+
+### Evaluation of `@react-three/drei` `View` vs. Independent Canvases
+
+As mandated in the redesign evaluation, we analyzed unifying all 3D scenes (`Hyperspeed`, `ScrollOrb`, `NeuralNetworkScene`, and `FloatingGeoms`) into a single full-screen WebGL context using `@react-three/drei`'s `<View>` component.
+
+| Evaluation Metric | Shared Canvas (`drei View`) | Independent Isolated Canvases (Implemented) | Verdict |
+| :--- | :--- | :--- | :--- |
+| **WebGL Context Limit** | 1 context total. | 3 active contexts maximum (`Hyperspeed`, `ScrollOrb`, `NeuralNetworkScene`), well under browser limit of 8-16. | Pass for both; independent canvases remain safely within budget. |
+| **Postprocessing Pipeline Compatibility** | `Hyperspeed` uses raw Three.js with `postprocessing` (`EffectComposer`, `BloomEffect`, `SMAAEffect`). Integrating it into R3F `View` requires `@react-three/postprocessing`, adding ~60 KB gzipped overhead. | `Hyperspeed` maintains its optimized raw Three.js pipeline; `ScrollOrb` and `NeuralNetworkScene` maintain lightweight R3F canvases. | **Independent Canvases Win** (saves 60 KB gzipped). |
+| **Scroll / Layout Reflow Overhead** | Drei `View` tracks DOM elements with `getBoundingClientRect()` on scroll/resize, reintroducing forced synchronous layouts. | `ScrollOrb` caches document offsets with `ResizeObserver` and scroll listener, executing ZERO `getBoundingClientRect()` calls in rAF. | **Independent Canvases Win** (zero reflows). |
+| **Mobile Fill-Rate & Redraw Penalty** | A single full-window canvas requires full-viewport GPU buffer redraws whenever any child view animates (e.g. 80px orb moving). | Each canvas is scoped strictly to its bounding container. The 80px orb only redraws an 80px buffer, while `NeuralNetworkScene` and `Hyperspeed` pause offscreen. | **Independent Canvases Win** (superior battery & GPU fill rate). |
+| **Lifecycle & Lazy Loading** | All 3D dependencies must bundle together for the shared root canvas. | `Hyperspeed` (78.3 KB gzip) and `three-vendor` (234.95 KB gzip) are separate lazy chunks deferred until after LCP paints via `useAfterLcp`. Initial JS is only 117.81 KB gzip. | **Independent Canvases Win** (fastest initial paint). |
+
+**Architectural Decision**: Keep independent, isolated canvases with strict DPR capping (`Math.min(devicePixelRatio, 1.5)`), deferred mounting after LCP (`useAfterLcp`), automated pause when offscreen or tab hidden, static single-frame rendering under `prefers-reduced-motion`, and zero per-frame heap allocations.
+
+

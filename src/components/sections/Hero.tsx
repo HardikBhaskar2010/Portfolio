@@ -10,6 +10,7 @@ import { projects } from '@/data/projects';
 import { track } from '@/lib/analytics';
 import { playHoverTick, playClick, playSynthPulse } from '@/lib/audio';
 import { WebGLGuard } from '@/components/three/WebGLGuard';
+import { useAfterLcp } from '@/lib/useAfterLcp';
 
 // Lazy-load the heavy Canvas: zero impact on initial paint
 const NeuralNetworkScene = lazy(() =>
@@ -40,6 +41,7 @@ const fadeUpDelay = (delay: number) => ({
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const is3DReady = useAfterLcp(800);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -55,12 +57,14 @@ export function Hero() {
       ref={containerRef}
       className="relative min-h-screen flex flex-col justify-center pt-20 pb-24 md:pb-16 overflow-hidden bg-base"
     >
-      {/* ── 3D Neural Network Background ───────────────────── */}
-      <WebGLGuard fallback={<div className="absolute inset-0 -z-10" />}>
-        <Suspense fallback={null}>
-          <NeuralNetworkScene />
-        </Suspense>
-      </WebGLGuard>
+      {/* ── 3D Neural Network Background (Deferred until after LCP paints) ───── */}
+      {is3DReady && (
+        <WebGLGuard fallback={<div className="absolute inset-0 -z-10" />}>
+          <Suspense fallback={null}>
+            <NeuralNetworkScene />
+          </Suspense>
+        </WebGLGuard>
+      )}
 
       {/* ── Glass-dark overlay: keeps text readable over 3D ── */}
       <div

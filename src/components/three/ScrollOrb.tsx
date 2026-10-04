@@ -4,6 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere, Torus } from '@react-three/drei';
 import { useHighlightStore } from '@/store/highlightStore';
 import { playHoverTick, playSynthPulse } from '@/lib/audio';
+import { themeColors } from '@/lib/theme';
 import * as THREE from 'three';
 
 interface CelestialOrbProps {
@@ -45,6 +46,9 @@ function CelestialOrb({ activeColorHex, isHovered, shockwaveCount, reducedMotion
   }, [shockwaveCount]);
 
   useFrame(({ clock }, delta) => {
+    // Under prefers-reduced-motion, render static frame with zero ongoing calculations
+    if (reducedMotion) return;
+
     const elapsed = clock.getElapsedTime();
 
     // Smoothly decay impulse back to 1.0
@@ -73,19 +77,18 @@ function CelestialOrb({ activeColorHex, isHovered, shockwaveCount, reducedMotion
       satelliteMatRef.current.color.lerp(whiteColor, 0.08);
     }
 
-    // Rotations & Pulsing (subdued if prefers-reduced-motion)
-    const baseMult = reducedMotion ? 0.3 : 1.0;
-    const speedMult = (isHovered ? 2.6 : baseMult) * impulseRef.current;
+    // Rotations & Pulsing
+    const speedMult = (isHovered ? 2.6 : 1.0) * impulseRef.current;
 
     if (coreRef.current) {
       coreRef.current.rotation.x = elapsed * 0.4 * speedMult;
       coreRef.current.rotation.y = elapsed * 0.55 * speedMult;
-      const pulseScale = (1 + Math.sin(elapsed * 3.5) * (reducedMotion ? 0.02 : 0.07)) * impulseRef.current;
+      const pulseScale = (1 + Math.sin(elapsed * 3.5) * 0.07) * impulseRef.current;
       coreRef.current.scale.set(pulseScale, pulseScale, pulseScale);
     }
 
     if (nucleusRef.current) {
-      const nucleusScale = (1 + Math.cos(elapsed * 5) * (reducedMotion ? 0.03 : 0.12)) * impulseRef.current;
+      const nucleusScale = (1 + Math.cos(elapsed * 5) * 0.12) * impulseRef.current;
       nucleusRef.current.scale.set(nucleusScale, nucleusScale, nucleusScale);
     }
 
@@ -156,100 +159,159 @@ function CelestialOrb({ activeColorHex, isHovered, shockwaveCount, reducedMotion
   );
 }
 
+interface CachedHighlightPosition {
+  id: string;
+  docTop: number;
+  docBottom: number;
+  docLeft: number;
+  height: number;
+  color?: string;
+}
+
 export function ScrollOrb() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Active Story & Theme State
-  const [activeColor, setActiveColor] = useState('#9DB7D5');
-  const [activeLabel, setActiveLabel] = useState('SYSTEM // ONLINE');
+  const [activeColor, setActiveColor] = useState<string>(themeColors.accent);
   const [isHovered, setIsHovered] = useState(false);
   const [shockwaveCount, setShockwaveCount] = useState(0);
-  const [isNearRightEdge, setIsNearRightEdge] = useState(true);
+  const [tabVisible, setTabVisible] = useState(true);
 
   // Cache refs to prevent redundant React re-renders during RAF ticks
-  const lastColorRef = useRef(activeColor);
-  const lastLabelRef = useRef(activeLabel);
-  const lastEdgeRef = useRef(isNearRightEdge);
+  const lastColorRef = useRef<string>(activeColor);
 
   // Check prefers-reduced-motion
   const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Track document visibility to pause animation loop when tab is hidden
+  useEffect(() => {
+    const onVisibility = () => {
+      setTabVisible(!document.hidden);
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
+
   // Physics and Position tracking
   const currentPos = useRef({ x: -100, y: -100, vx: 0, vy: 0, initialized: false });
+  const cachedPositionsRef = useRef<Map<string, CachedHighlightPosition>>(new Map());
   const cachedTargetRef = useRef<{
     left: number;
     top: number;
     bottom: number;
     height: number;
     color?: string;
-    label?: string;
   } | null>(null);
-  const lastMeasureTimeRef = useRef(0);
+
+  // Cache element positions using ResizeObserver to eliminate getBoundingClientRect() in rAF
+  useEffect(() => {
+    const updateCache = () => {
+      const latestHighlights = useHighlightStore.getState().highlights;
+      const newCache = new Map<string, CachedHighlightPosition>();
+      const scrollY = window.scrollY;
+      const scrollX = window.scrollX;
+
+      for (const key in latestHighlights) {
+        const item = latestHighlights[key];
+        if (item && item.element) {
+          const rect = item.element.getBoundingClientRect();
+          newCache.set(key, {
+            id: key,
+            docTop: rect.top + scrollY,
+            docBottom: rect.bottom + scrollY,
+            docLeft: rect.left + scrollX,
+            height: rect.height,
+            color: item.color,
+          });
+        }
+      }
+      cachedPositionsRef.current = newCache;
+    };
+
+    updateCache();
+
+    const ro = new ResizeObserver(() => {
+      updateCache();
+    });
+
+    const unsubscribe = useHighlightStore.subscribe((state) => {
+      ro.disconnect();
+      for (const key in state.highlights) {
+        const item = state.highlights[key];
+        if (item && item.element) {
+          ro.observe(item.element);
+        }
+      }
+      updateCache();
+    });
+
+    const currentHighlights = useHighlightStore.getState().highlights;
+    for (const key in currentHighlights) {
+      const item = currentHighlights[key];
+      if (item && item.element) {
+        ro.observe(item.element);
+      }
+    }
+
+    window.addEventListener('resize', updateCache, { passive: true });
+    window.addEventListener('orientationchange', updateCache, { passive: true });
+
+    return () => {
+      unsubscribe();
+      ro.disconnect();
+      window.removeEventListener('resize', updateCache);
+      window.removeEventListener('orientationchange', updateCache);
+    };
+  }, []);
 
   // Animation Frame Loop for Target Selection, Smooth Drift, and Physics
+  // Computes positions relative to scroll without any DOM layout queries
   useAnimationFrame((time) => {
-    if (!containerRef.current) return;
+    if (!tabVisible || document.hidden || !containerRef.current) return;
 
     const vh = window.innerHeight;
     const vw = window.innerWidth;
     const centerY = vh / 2;
+    const scrollY = window.scrollY;
 
-    // Throttle DOM measurement queries to 100ms
-    if (time - lastMeasureTimeRef.current > 100) {
-      lastMeasureTimeRef.current = time;
-      let closestDist = Infinity;
-      let bestItem: {
-        left: number;
-        top: number;
-        bottom: number;
-        height: number;
-        color?: string;
-        label?: string;
-      } | null = null;
+    let closestDist = Infinity;
+    let bestItem: {
+      left: number;
+      top: number;
+      bottom: number;
+      height: number;
+      color?: string;
+    } | null = null;
 
-      const latestHighlights = useHighlightStore.getState().highlights;
-      const elements = Object.values(latestHighlights);
+    for (const item of cachedPositionsRef.current.values()) {
+      const topInViewport = item.docTop - scrollY;
+      const bottomInViewport = item.docBottom - scrollY;
 
-      for (let i = 0; i < elements.length; i++) {
-        const item = elements[i];
-        if (!item || !item.element) continue;
-        const rect = item.element.getBoundingClientRect();
-        
-        // Distance is 0 if viewport center is inside the section boundaries
-        const dist = (rect.top <= centerY && rect.bottom >= centerY)
-          ? 0
-          : (rect.top > centerY ? rect.top - centerY : centerY - rect.bottom);
+      // Distance is 0 if viewport center is inside the section boundaries
+      const dist = (topInViewport <= centerY && bottomInViewport >= centerY)
+        ? 0
+        : (topInViewport > centerY ? topInViewport - centerY : centerY - bottomInViewport);
 
-        if (dist < closestDist && dist < vh * 0.75) {
-          closestDist = dist;
-          bestItem = {
-            left: rect.left,
-            top: rect.top,
-            bottom: rect.bottom,
-            height: rect.height,
-            color: item.color,
-            label: item.label,
-          };
-        }
+      if (dist < closestDist && dist < vh * 0.75) {
+        closestDist = dist;
+        bestItem = {
+          left: item.docLeft,
+          top: topInViewport,
+          bottom: bottomInViewport,
+          height: item.height,
+          color: item.color,
+        };
       }
-      cachedTargetRef.current = bestItem;
+    }
+    cachedTargetRef.current = bestItem;
 
-      // Update Active Color & Label (Overrides from hovering cards take priority)
-      const overrideColor = useHighlightStore.getState().overrideColor;
-      const overrideLabel = useHighlightStore.getState().overrideLabel;
+    // Update Active Color (Overrides from hovering cards take priority)
+    const overrideColor = useHighlightStore.getState().overrideColor;
+    const resolvedColor = overrideColor || bestItem?.color || themeColors.accent;
 
-      const resolvedColor = overrideColor || bestItem?.color || '#9DB7D5';
-      const resolvedLabel = overrideLabel || bestItem?.label || 'SYSTEM // ONLINE';
-
-      // Only update React state if the value actually changed
-      if (resolvedColor !== lastColorRef.current) {
-        lastColorRef.current = resolvedColor;
-        setActiveColor(resolvedColor);
-      }
-      if (resolvedLabel !== lastLabelRef.current) {
-        lastLabelRef.current = resolvedLabel;
-        setActiveLabel(resolvedLabel);
-      }
+    if (resolvedColor !== lastColorRef.current) {
+      lastColorRef.current = resolvedColor;
+      setActiveColor(resolvedColor);
     }
 
     // Default target: floating gracefully along the right border
@@ -258,8 +320,6 @@ export function ScrollOrb() {
 
     const targetRect = cachedTargetRef.current;
     if (targetRect) {
-      // If locked onto a highlight point:
-      // Clamp targetY so orb stays within viewport and section boundaries
       const clampedY = Math.max(
         Math.max(70, targetRect.top + 60),
         Math.min(vh - 70, targetRect.bottom - 60, centerY)
@@ -268,7 +328,6 @@ export function ScrollOrb() {
       if (vw >= 768) {
         targetX = Math.max(36, targetRect.left - (vw < 1024 ? 40 : 64));
         targetY = clampedY;
-        // Organic Lissajous orbit while locked on
         if (!reducedMotion) {
           targetX += Math.cos(time / 1200) * 14;
           targetY += Math.sin(time / 900) * 12;
@@ -282,7 +341,6 @@ export function ScrollOrb() {
         }
       }
     } else {
-      // Ambient Lissajous drift when resting
       if (!reducedMotion) {
         targetX += Math.sin(time / 1700) * 10;
       }
@@ -309,13 +367,6 @@ export function ScrollOrb() {
     const speed = Math.hypot(vx, vy);
     const stretch = reducedMotion ? 0 : Math.min(speed * 0.02, 0.16);
     const angle = Math.atan2(vy, vx);
-
-    // Only update nearRight state if changed
-    const nearRight = currentPos.current.x > vw - 220;
-    if (nearRight !== lastEdgeRef.current) {
-      lastEdgeRef.current = nearRight;
-      setIsNearRightEdge(nearRight);
-    }
 
     // Apply transform with sub-pixel 3D acceleration
     containerRef.current.style.transform = `translate3d(${currentPos.current.x}px, ${currentPos.current.y}px, 0) translate(-50%, -50%) rotate(${angle}rad) scale(${1 + stretch}, ${1 - stretch * 0.5}) rotate(${-angle}rad)`;
@@ -357,7 +408,7 @@ export function ScrollOrb() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className="w-full h-full relative pointer-events-auto cursor-pointer group"
-        title="Neural Core: Click to ping"
+        title="Interactive 3D Core"
       >
         {/* Shockwave visual pulse ring on click */}
         {shockwaveCount > 0 && (
@@ -371,6 +422,7 @@ export function ScrollOrb() {
         {/* 3D WebGL Canvas with restricted DPR and high-performance settings */}
         <Canvas
           dpr={[1, 1.5]}
+          frameloop={reducedMotion ? 'demand' : (tabVisible ? 'always' : 'never')}
           camera={{ position: [0, 0, 3.8], fov: 45 }}
           gl={{
             alpha: true,
@@ -393,45 +445,6 @@ export function ScrollOrb() {
           </Suspense>
         </Canvas>
       </div>
-
-      {/* ── Micro-HUD Telemetry Pill ── */}
-      <div
-        className={`absolute top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-300 select-none hidden sm:flex items-center gap-2 ${
-          isNearRightEdge
-            ? 'right-full mr-3.5 flex-row-reverse text-right'
-            : 'left-full ml-3.5 flex-row text-left'
-        }`}
-      >
-        {/* Blinking status beacon dot */}
-        <span className="relative flex h-2 w-2 flex-shrink-0">
-          <span
-            className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-            style={{ backgroundColor: activeColor }}
-          />
-          <span
-            className="relative inline-flex rounded-full h-2 w-2"
-            style={{ backgroundColor: activeColor }}
-          />
-        </span>
-
-        {/* Glassmorphic Telemetry Badge */}
-        <div
-          className="px-2.5 py-1 rounded-md border backdrop-blur-md transition-all duration-200"
-          style={{
-            borderColor: `${activeColor}30`,
-            backgroundColor: 'rgba(5, 5, 10, 0.75)',
-            boxShadow: `0 4px 16px ${activeColor}15`,
-          }}
-        >
-          <div className="font-mono text-[9px] font-semibold tracking-wider text-heading/95 uppercase whitespace-nowrap">
-            {isHovered ? 'CORE // READY' : activeLabel}
-          </div>
-          <div className="font-mono text-[8px] tracking-tight text-muted/60 whitespace-nowrap">
-            {isHovered ? 'CLICK TO PING' : 'NEURAL TELEMETRY'}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
-

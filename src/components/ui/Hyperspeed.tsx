@@ -93,16 +93,22 @@ const defaultOptions: HyperspeedOptions = {
   cameraY: 4.8,
   bloomIntensity: 2.4,
   colors: {
-    roadColor: 0x080808,
-    islandColor: 0x0a0a0a,
-    background: 0x000000,
-    shoulderLines: 0xffffff,
+    roadColor: 0x071629,
+    islandColor: 0x0d203b,
+    background: 0x071629,
+    shoulderLines: 0x9db7d5,
     brokenLines: 0xffffff,
-    leftCars: [0xd856bf, 0x6750a2, 0xc247ac],
-    rightCars: [0x03b3c3, 0x0e5ea5, 0x324555],
-    sticks: 0x03b3c3
+    leftCars: [0x17345c, 0x112a4a, 0x60758e],
+    rightCars: [0x9db7d5, 0xeaf4ff, 0x60758e],
+    sticks: 0x9db7d5
   }
 };
+
+// Reusable Three.js vectors to eliminate per-frame object allocation and GC churn
+const tempDistortion = new THREE.Vector3();
+const tempLookAtAmp = new THREE.Vector3();
+const tempLookAtOffset = new THREE.Vector3();
+const tempCameraLookAt = new THREE.Vector3();
 
 function nsin(val: number) {
   return Math.sin(val) * 0.5 + 0.5;
@@ -157,7 +163,7 @@ const distortions: Distortions = {
       const movementProgressFix = 0.02;
       const uFreq = mountainUniforms.uFreq.value;
       const uAmp = mountainUniforms.uAmp.value;
-      const distortion = new THREE.Vector3(
+      tempDistortion.set(
         Math.cos(progress * Math.PI * uFreq.x + time) * uAmp.x -
           Math.cos(movementProgressFix * Math.PI * uFreq.x + time) * uAmp.x,
         nsin(progress * Math.PI * uFreq.y + time) * uAmp.y -
@@ -165,9 +171,9 @@ const distortions: Distortions = {
         nsin(progress * Math.PI * uFreq.z + time) * uAmp.z -
           nsin(movementProgressFix * Math.PI * uFreq.z + time) * uAmp.z
       );
-      const lookAtAmp = new THREE.Vector3(2, 2, 2);
-      const lookAtOffset = new THREE.Vector3(0, 0, -5);
-      return distortion.multiply(lookAtAmp).add(lookAtOffset);
+      tempLookAtAmp.set(2, 2, 2);
+      tempLookAtOffset.set(0, 0, -5);
+      return tempDistortion.multiply(tempLookAtAmp).add(tempLookAtOffset);
     }
   },
   xyDistortion: {
@@ -189,16 +195,16 @@ const distortions: Distortions = {
       const movementProgressFix = 0.02;
       const uFreq = xyUniforms.uFreq.value;
       const uAmp = xyUniforms.uAmp.value;
-      const distortion = new THREE.Vector3(
+      tempDistortion.set(
         Math.cos(progress * Math.PI * uFreq.x + time) * uAmp.x -
           Math.cos(movementProgressFix * Math.PI * uFreq.x + time) * uAmp.x,
         Math.sin(progress * Math.PI * uFreq.y + time + Math.PI / 2) * uAmp.y -
           Math.sin(movementProgressFix * Math.PI * uFreq.y + time + Math.PI / 2) * uAmp.y,
         0
       );
-      const lookAtAmp = new THREE.Vector3(2, 0.4, 1);
-      const lookAtOffset = new THREE.Vector3(0, 0, -3);
-      return distortion.multiply(lookAtAmp).add(lookAtOffset);
+      tempLookAtAmp.set(2, 0.4, 1);
+      tempLookAtOffset.set(0, 0, -3);
+      return tempDistortion.multiply(tempLookAtAmp).add(tempLookAtOffset);
     }
   },
   LongRaceDistortion: {
@@ -220,16 +226,16 @@ const distortions: Distortions = {
       const camProgress = 0.0125;
       const uFreq = LongRaceUniforms.uFreq.value;
       const uAmp = LongRaceUniforms.uAmp.value;
-      const distortion = new THREE.Vector3(
+      tempDistortion.set(
         Math.sin(progress * Math.PI * uFreq.x + time) * uAmp.x -
           Math.sin(camProgress * Math.PI * uFreq.x + time) * uAmp.x,
         Math.sin(progress * Math.PI * uFreq.y + time) * uAmp.y -
           Math.sin(camProgress * Math.PI * uFreq.y + time) * uAmp.y,
         0
       );
-      const lookAtAmp = new THREE.Vector3(1, 1, 0);
-      const lookAtOffset = new THREE.Vector3(0, 0, -5);
-      return distortion.multiply(lookAtAmp).add(lookAtOffset);
+      tempLookAtAmp.set(1, 1, 0);
+      tempLookAtOffset.set(0, 0, -5);
+      return tempDistortion.multiply(tempLookAtAmp).add(tempLookAtOffset);
     }
   },
   turbulentDistortion: {
@@ -273,14 +279,14 @@ const distortions: Distortions = {
         -nsin(Math.PI * p * uFreq.z + time) * uAmp.z -
         Math.pow(nsin(Math.PI * p * uFreq.w + time / (uFreq.z / uFreq.w)), 5) * uAmp.w;
 
-      const distortion = new THREE.Vector3(
+      tempDistortion.set(
         getX(progress) - getX(progress + 0.007),
         getY(progress) - getY(progress + 0.007),
         0
       );
-      const lookAtAmp = new THREE.Vector3(-2, -3.2, 0);
-      const lookAtOffset = new THREE.Vector3(0, 3.2, -10);
-      return distortion.multiply(lookAtAmp).add(lookAtOffset);
+      tempLookAtAmp.set(-2, -3.2, 0);
+      tempLookAtOffset.set(0, 3.2, -10);
+      return tempDistortion.multiply(tempLookAtAmp).add(tempLookAtOffset);
     }
   },
   turbulentDistortionStill: {
@@ -378,14 +384,14 @@ const distortions: Distortions = {
       const getX = (p: number) => Math.sin(p * Math.PI * uFreq.x + time) * uAmp.x;
       const getY = (p: number) => Math.pow(p * uPowY.x, uPowY.y) + Math.sin(p * Math.PI * uFreq.y + time) * uAmp.y;
 
-      const distortion = new THREE.Vector3(
+      tempDistortion.set(
         getX(progress) - getX(progress + 0.01),
         getY(progress) - getY(progress + 0.01),
         0
       );
-      const lookAtAmp = new THREE.Vector3(-2, -4, 0);
-      const lookAtOffset = new THREE.Vector3(0, 0, -10);
-      return distortion.multiply(lookAtAmp).add(lookAtOffset);
+      tempLookAtAmp.set(-2, -4, 0);
+      tempLookAtOffset.set(0, 0, -10);
+      return tempDistortion.multiply(tempLookAtAmp).add(tempLookAtOffset);
     }
   }
 };
@@ -945,6 +951,9 @@ class App {
   speedUp: number;
   timeOffset: number;
   hasValidSize: boolean;
+  isPaused: boolean;
+  reducedMotion: boolean;
+  rafId: number | null;
 
   constructor(container: HTMLElement, options: HyperspeedOptions) {
     this.options = options;
@@ -956,16 +965,20 @@ class App {
     }
     this.container = container;
     this.hasValidSize = false;
+    this.isPaused = false;
+    this.reducedMotion = false;
+    this.rafId = null;
 
     const initW = Math.max(1, container.offsetWidth);
     const initH = Math.max(1, container.offsetHeight);
 
+    const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 1.5);
     this.renderer = new THREE.WebGLRenderer({
       antialias: false,
       alpha: true
     });
     this.renderer.setSize(initW, initH, false);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setPixelRatio(dpr);
 
     this.composer = new EffectComposer(this.renderer);
     container.appendChild(this.renderer.domElement);
@@ -1041,6 +1054,8 @@ class App {
       return;
     }
 
+    const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 1.5);
+    this.renderer.setPixelRatio(dpr);
     this.renderer.setSize(width, height);
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
@@ -1124,6 +1139,14 @@ class App {
     this.container.addEventListener('touchcancel', this.onTouchEnd, { passive: true });
     this.container.addEventListener('contextmenu', this.onContextMenu);
 
+    this.reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (this.reducedMotion) {
+      this.hasValidSize = true;
+      this.timer.reset();
+      this.render(0.016);
+      return;
+    }
+
     this.tick();
   }
 
@@ -1175,13 +1198,12 @@ class App {
 
     if (typeof this.options.distortion === 'object' && this.options.distortion.getJS) {
       const distortion = this.options.distortion.getJS(0.025, time);
-      this.camera.lookAt(
-        new THREE.Vector3(
-          this.camera.position.x + distortion.x,
-          this.camera.position.y + distortion.y,
-          this.camera.position.z + distortion.z
-        )
+      tempCameraLookAt.set(
+        this.camera.position.x + distortion.x,
+        this.camera.position.y + distortion.y,
+        this.camera.position.z + distortion.z
       );
+      this.camera.lookAt(tempCameraLookAt);
       updateCamera = true;
     }
 
@@ -1196,6 +1218,7 @@ class App {
 
   dispose() {
     this.disposed = true;
+    this.pause();
     this.timer.dispose();
 
     if (this.scene) {
@@ -1245,7 +1268,7 @@ class App {
   }
 
   tick() {
-    if (this.disposed) return;
+    if (this.disposed || this.reducedMotion || this.isPaused) return;
 
     if (!this.hasValidSize) {
       const w = this.container.offsetWidth;
@@ -1258,7 +1281,7 @@ class App {
         this.hasValidSize = true;
         this.timer.reset();
       } else {
-        requestAnimationFrame(this.tick);
+        this.rafId = requestAnimationFrame(this.tick);
         return;
       }
     }
@@ -1278,7 +1301,24 @@ class App {
       this.update(delta);
     }
 
-    requestAnimationFrame(this.tick);
+    this.rafId = requestAnimationFrame(this.tick);
+  }
+
+  pause() {
+    this.isPaused = true;
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  }
+
+  resume() {
+    if (this.disposed || this.reducedMotion) return;
+    if (this.isPaused) {
+      this.isPaused = false;
+      this.timer.reset();
+      this.rafId = requestAnimationFrame(this.tick);
+    }
   }
 }
 
@@ -1327,7 +1367,31 @@ export const Hyperspeed: FC<HyperspeedProps> = ({
       }
     });
 
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        myApp.pause();
+      } else {
+        myApp.resume();
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !document.hidden) {
+          myApp.resume();
+        } else {
+          myApp.pause();
+        }
+      },
+      { threshold: 0.01 }
+    );
+
+    observer.observe(container);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       if (appRef.current) {
         appRef.current.dispose();
         appRef.current = null;

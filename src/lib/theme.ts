@@ -34,4 +34,5 @@ export const THEME_TOKENS = {
   statusAvailable: '#6EE7B7',
 } as const;
 
+export const themeColors = THEME_TOKENS;
 export type ThemeTokens = typeof THEME_TOKENS;
