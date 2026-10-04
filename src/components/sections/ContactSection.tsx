@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ArrowRight, Mail, ExternalLink, Calendar } from 'lucide-react';
@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/Button';
 import { stagger, fadeUp, scaleIn } from '@/lib/motion';
 import { track } from '@/lib/analytics';
 import { playClick } from '@/lib/audio';
+import { initScrollTriggerContext } from '@/motion/scroll';
+import { DURATION, EASING_CSS } from '@/motion/tokens';
+import { HighlightPoint } from '@/components/ui/HighlightPoint';
 
 export function ContactSection() {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
@@ -53,6 +56,64 @@ export function ContactSection() {
 
   const [highlightForm, setHighlightForm] = useState(false);
 
+  useEffect(() => {
+    let isMounted = true;
+    let teardown: (() => void) | undefined;
+
+    initScrollTriggerContext(({ gsap }) => {
+      const contact = document.querySelector<HTMLElement>('#contact');
+      if (!contact) return;
+
+      const bordersX = contact.querySelectorAll<HTMLElement>('.uplink-border-x-top, .uplink-border-x-bottom');
+      const bordersY = contact.querySelectorAll<HTMLElement>('.uplink-border-y-right, .uplink-border-y-left');
+
+      if (bordersX.length > 0) {
+        gsap.fromTo(
+          bordersX,
+          { scaleX: 0 },
+          {
+            scaleX: 1,
+            duration: DURATION[700] / 1000,
+            ease: EASING_CSS.out,
+            scrollTrigger: {
+              trigger: contact,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      if (bordersY.length > 0) {
+        gsap.fromTo(
+          bordersY,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            duration: DURATION[700] / 1000,
+            ease: EASING_CSS.out,
+            scrollTrigger: {
+              trigger: contact,
+              start: 'top 80%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+    }).then((cleanup) => {
+      if (isMounted) {
+        teardown = cleanup;
+      } else {
+        cleanup();
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      teardown?.();
+    };
+  }, []);
+
   const handleBegin = (e: React.MouseEvent) => {
     e.preventDefault();
     playClick();
@@ -87,7 +148,21 @@ export function ContactSection() {
           {/* Left */}
           <div className="flex flex-col gap-8">
             <motion.div variants={fadeUp}>
-              <SectionLabel>Get in touch</SectionLabel>
+              <span className="text-xs font-mono uppercase tracking-[0.2em] text-cyan/90 block mb-2">
+                Chapter 4: Invitation
+              </span>
+              <div className="flex items-center gap-3">
+                <SectionLabel>Get in touch</SectionLabel>
+                <HighlightPoint id="contact-terminal-anchor" color="#10B981" label="UPLINK // TRANSMIT">
+                  <div
+                    id="contact-terminal-anchor"
+                    className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan/10 border border-cyan/30 text-cyan text-xs font-mono"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" />
+                    <span>Uplink terminal open</span>
+                  </div>
+                </HighlightPoint>
+              </div>
             </motion.div>
 
             <motion.h2
@@ -177,11 +252,28 @@ export function ContactSection() {
 
           {/* Right: Form */}
           <motion.div variants={scaleIn} id="contact-form">
-            <div className={`bg-surface border rounded-2xl p-8 md:p-10 transition-all duration-300 ${
+            <div className={`relative overflow-hidden bg-surface border rounded-2xl p-8 md:p-10 transition-all duration-300 ${
               highlightForm
                 ? 'border-[var(--accent)] ring-2 ring-[var(--accent)] shadow-[0_0_35px_rgba(157,183,213,0.25)]'
                 : 'border-border'
             }`}>
+              {/* Uplink perimeter reveal hairlines */}
+              <div
+                className="uplink-border-x-top absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-cyan/80 via-cyan/40 to-transparent origin-left pointer-events-none"
+                style={{ transform: 'scaleX(1)' }}
+              />
+              <div
+                className="uplink-border-y-right absolute top-0 right-0 bottom-0 w-[1px] bg-gradient-to-b from-cyan/60 via-cyan/30 to-transparent origin-top pointer-events-none"
+                style={{ transform: 'scaleY(1)' }}
+              />
+              <div
+                className="uplink-border-x-bottom absolute bottom-0 right-0 left-0 h-[1px] bg-gradient-to-l from-cyan/80 via-cyan/40 to-transparent origin-right pointer-events-none"
+                style={{ transform: 'scaleX(1)' }}
+              />
+              <div
+                className="uplink-border-y-left absolute bottom-0 left-0 top-0 w-[1px] bg-gradient-to-t from-cyan/60 via-cyan/30 to-transparent origin-bottom pointer-events-none"
+                style={{ transform: 'scaleY(1)' }}
+              />
               {sent ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
