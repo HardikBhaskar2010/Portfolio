@@ -1,0 +1,41 @@
+/**
+ * Motion System CSS Custom Properties
+ * Strictly derived from src/motion/tokens.ts.
+ * Verified against tokens.ts via automated drift test.
+ */
+
+:root {
+  /* Entrance Durations */
+  --dur-120: 120ms;
+  --dur-240: 240ms;
+  --dur-420: 420ms;
+  --dur-700: 700ms;
+  --dur-1100: 1100ms;
+
+  /* Exit Durations (entrance * 0.7) */
+  --exit-84: 84ms;
+  --exit-168: 168ms;
+  --exit-294: 294ms;
+  --exit-490: 490ms;
+  --exit-770: 770ms;
+
+  /* Easings */
+  --ease-out: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Stagger */
+  --stagger-step: 75ms;
+
+  /* Overshoot */
+  --overshoot-max: 4%;
+
+  /* Frost palette aliases for motion elements */
+  --motion-crease: var(--frost-accent, #9db7d5);
+  --motion-shading: rgba(7, 22, 41, 0.75);
+  --motion-sweep: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(234, 244, 255, 0.45) 50%,
+    transparent 100%
+  );
+}

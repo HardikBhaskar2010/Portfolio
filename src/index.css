@@ -1,3 +1,5 @@
+@import './motion/tokens.css';
+
 /* ─── Self-Hosted Geist Variable Fonts ───────────────────────── */
 @font-face {
   font-family: 'Geist';
