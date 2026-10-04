@@ -30,6 +30,8 @@ dist-ssr
 
 # Scratch & temporary test artifacts
 scratch/
+blackhole-ascii-kit/
+blackhole-ascii-kit.zip
 
 # Planning and guide documents
 /Implementation_Plan.md

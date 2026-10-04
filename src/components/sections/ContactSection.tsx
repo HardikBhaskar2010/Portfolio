@@ -51,6 +51,21 @@ export function ContactSection() {
     }
   };
 
+  const [highlightForm, setHighlightForm] = useState(false);
+
+  const handleBegin = (e: React.MouseEvent) => {
+    e.preventDefault();
+    playClick();
+    track.ctaClick("Let's begin", 'contact-section');
+    setHighlightForm(true);
+    setTimeout(() => setHighlightForm(false), 1500);
+    const input = document.getElementById('contact-name') as HTMLInputElement | null;
+    if (input) {
+      input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      input.focus({ preventScroll: true });
+    }
+  };
+
   const socials = [
     { label: 'GitHub',      href: 'https://github.com/HardikBhaskar2010/' },
     { label: 'LinkedIn',    href: 'https://www.linkedin.com/in/hardik-bhaskar-8a107a3bb/' },
@@ -89,11 +104,14 @@ export function ContactSection() {
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col xs:flex-row items-start gap-3">
-              <a href="mailto:hardik.bhaskar2010@gmail.com">
-                <Button variant="primary" size="lg" icon={<ArrowRight size={14} />}>
-                  Let's begin
-                </Button>
-              </a>
+              <Button
+                variant="primary"
+                size="lg"
+                icon={<ArrowRight size={14} />}
+                onClick={handleBegin}
+              >
+                Let's begin
+              </Button>
               <a
                 href="https://calendly.com/lunakitsune/30min"
                 target="_blank"
@@ -158,8 +176,12 @@ export function ContactSection() {
           </div>
 
           {/* Right: Form */}
-          <motion.div variants={scaleIn}>
-            <div className="bg-surface border border-border rounded-2xl p-8 md:p-10">
+          <motion.div variants={scaleIn} id="contact-form">
+            <div className={`bg-surface border rounded-2xl p-8 md:p-10 transition-all duration-300 ${
+              highlightForm
+                ? 'border-[var(--accent)] ring-2 ring-[var(--accent)] shadow-[0_0_35px_rgba(157,183,213,0.25)]'
+                : 'border-border'
+            }`}>
               {sent ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -202,47 +224,50 @@ export function ContactSection() {
                   </div>
 
                   <div>
-                    <label className="font-ui text-[10px] uppercase tracking-widest text-tagText block mb-2">
+                    <label className="font-ui text-[10px] uppercase tracking-widest text-tagText block mb-2" htmlFor="contact-name">
                       Full name
                     </label>
                     <input
+                      id="contact-name"
                       type="text"
                       required
                       maxLength={100}
                       value={form.name}
                       onChange={e => handleFieldChange('name', e.target.value)}
                       placeholder="Your name"
-                      className="w-full bg-bg border border-border focus:border-cyan/60 focus:ring-1 focus:ring-cyan/30 focus:outline-none rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted transition-all duration-200"
+                      className="w-full bg-bg border border-border focus:border-[var(--focus-ring)] focus:ring-1 focus:ring-[var(--focus-ring)]/40 focus:outline-none rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="font-ui text-[10px] uppercase tracking-widest text-tagText block mb-2">
+                    <label className="font-ui text-[10px] uppercase tracking-widest text-tagText block mb-2" htmlFor="contact-email">
                       Email address
                     </label>
                     <input
+                      id="contact-email"
                       type="email"
                       required
                       maxLength={254}
                       value={form.email}
                       onChange={e => handleFieldChange('email', e.target.value)}
                       placeholder="you@example.com"
-                      className="w-full bg-bg border border-border focus:border-cyan/60 focus:ring-1 focus:ring-cyan/30 focus:outline-none rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted transition-all duration-200"
+                      className="w-full bg-bg border border-border focus:border-[var(--focus-ring)] focus:ring-1 focus:ring-[var(--focus-ring)]/40 focus:outline-none rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="font-ui text-[10px] uppercase tracking-widest text-tagText block mb-2">
+                    <label className="font-ui text-[10px] uppercase tracking-widest text-tagText block mb-2" htmlFor="contact-message">
                       Message
                     </label>
                     <textarea
+                      id="contact-message"
                       required
                       rows={5}
                       maxLength={5000}
                       value={form.message}
                       onChange={e => handleFieldChange('message', e.target.value)}
                       placeholder="Tell me about your project..."
-                      className="w-full bg-bg border border-border focus:border-cyan/60 focus:ring-1 focus:ring-cyan/30 focus:outline-none rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted resize-none transition-all duration-200"
+                      className="w-full bg-bg border border-border focus:border-[var(--focus-ring)] focus:ring-1 focus:ring-[var(--focus-ring)]/40 focus:outline-none rounded-xl px-4 py-3.5 font-ui text-sm text-heading placeholder:text-muted resize-none transition-all duration-200"
                     />
                   </div>
 

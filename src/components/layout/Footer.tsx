@@ -1,8 +1,9 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ArrowUp, Mail } from 'lucide-react';
 import { scrollToTop } from '@/lib/lenis';
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
+import { BlackHoleASCII } from '@/components/ui/BlackHoleASCII';
 
 const links = [
   { label: 'Home',     to: '/' },
@@ -20,98 +21,16 @@ const socials = [
 
 export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const isReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isSaveData = typeof navigator !== 'undefined' && (navigator as any).connection?.saveData === true;
-    const shouldAutoPlay = !isSaveData && !isReduced;
-    const targetRate = isReduced ? 0.35 : 1.0;
-
-    const startPlayback = () => {
-      if (videoRef.current) {
-        videoRef.current.playbackRate = targetRate;
-        const p = videoRef.current.play();
-        if (p !== undefined) p.catch(() => {});
-      }
-    };
-
-    const footerEl = footerRef.current;
-    if (!footerEl) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!videoRef.current) return;
-        if (entry.isIntersecting) {
-          if (shouldAutoPlay) {
-            startPlayback();
-          }
-        } else {
-          videoRef.current.pause();
-        }
-      },
-      { rootMargin: '200px 0px', threshold: 0.01 }
-    );
-
-    observer.observe(footerEl);
-
-    const handleVisibilityChange = () => {
-      if (!videoRef.current) return;
-      if (document.hidden) {
-        videoRef.current.pause();
-      } else if (shouldAutoPlay) {
-        startPlayback();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      observer.disconnect();
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, []);
-
-  const handlePlaybackSetup = (e: React.SyntheticEvent<HTMLVideoElement>) => {
-    const isReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    e.currentTarget.playbackRate = isReduced ? 0.35 : 1.0;
-  };
-
-  const handleUserInteraction = () => {
-    if (videoRef.current && videoRef.current.paused) {
-      const isReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      videoRef.current.playbackRate = isReduced ? 0.35 : 1.0;
-      videoRef.current.play().catch(() => {});
-    }
-  };
 
   return (
     <HighlightPoint id="footer-singularity" color="#9DB7D5" label="SINGULARITY : ANCHOR">
       <footer
         ref={footerRef}
-        onClick={handleUserInteraction}
         className="relative overflow-hidden border-t border-border mt-0 bg-base"
       >
-        {/* ── Background ASCII Black Hole Cinematic Video Loop ── */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none bg-[#071629]">
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            poster="/videos/blackhole-poster.webp"
-            onLoadedMetadata={handlePlaybackSetup}
-            onPlay={handlePlaybackSetup}
-            className="w-full h-full object-cover object-center opacity-100"
-          >
-            <source src="/videos/blackhole-ascii.mp4" type="video/mp4" />
-          </video>
-
-          {/* Minimal top and bottom edge blending to seat the video into the navy frame without washing it out */}
-          <div className="absolute top-0 inset-x-0 h-10 bg-gradient-to-b from-[#071629] to-transparent pointer-events-none" />
-          <div className="absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t from-[#071629] to-transparent pointer-events-none" />
+        {/* ── Background Interactive ASCII Black Hole Singularity Simulation ── */}
+        <div className="absolute inset-0 z-0 overflow-hidden select-none bg-[#071629]">
+          <BlackHoleASCII defaultMode="amber" />
         </div>
 
         {/* ── Top row: Original Footer Layout ── */}
