@@ -209,29 +209,41 @@ All three buttons have different heights, paddings, border radiuses, and typogra
 
 ## 9. Part F: Performance Engineering Baseline
 
-### Baseline Measurement Matrix (Live Production hardikbhaskar.vercel.app)
+### Audited Viewports Matrix
+- **1920×1080** (Desktop Large, 100% DPI scale — content spans x=408 to 1560)
+- **1536×864** (Desktop Standard / Windows 125% Display Scaling — content spans x=269 to 1648)
+- **1440×900** (MacBook Standard 16:10)
+- **768×1024** (Tablet Portrait)
+- **390×844** (Mobile Phone Viewport)
 
-*Data collected across 3-run simulated throttling suites via automated Lighthouse and Chrome DevTools Trace.*
+### Baseline Measurement Matrix (Extracted Directly from 18 Raw Lighthouse JSON Runs in scratch/lh_*.json)
 
-| Route & Form Factor | Perf Score | LCP | TBT | CLS | Speed Index | JS Transferred | Total Network | Requests |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Home `/` (Mobile)** | **25 / 100** | **17.29 s** | **17,215 ms** | **0.001** | **17.29 s** | **551 KB** | **1,240 KB** | **42** |
-| **Home `/` (Desktop)** | **28 / 100** | **4.95 s** | **2,541 ms** | **0.071** | **4.95 s** | **551 KB** | **1,240 KB** | **42** |
-| **Projects `/projects` (Mobile)** | **25 / 100** | **15.40 s** | **8,101 ms** | **0.001** | **15.40 s** | **555 KB** | **1,310 KB** | **45** |
-| **Projects `/projects` (Desktop)** | **31 / 100** | **3.85 s** | **1,890 ms** | **0.024** | **3.85 s** | **555 KB** | **1,310 KB** | **45** |
-| **About `/about` (Mobile)** | **28 / 100** | **14.20 s** | **5,420 ms** | **0.001** | **14.20 s** | **548 KB** | **1,190 KB** | **39** |
-| **About `/about` (Desktop)** | **34 / 100** | **3.40 s** | **1,410 ms** | **0.015** | **3.40 s** | **548 KB** | **1,190 KB** | **39** |
+*All values reflect median scores across 3 cold-cache production runs on https://hardikbhaskar.vercel.app/ with standard Lighthouse simulated throttling.*
+
+| Route & Form Factor | Perf Score | LCP | Speed Index | TBT | CLS | JS Transferred | Total Network | Requests | LCP Element |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Home `/` (Mobile)** | **25 / 100** | **16.52 s** | **16.38 s** | **8,010 ms** | **0.001** | **551 KB** | **22.4 MB** (22,956 KB) | **37** | Hero subtext paragraph (`div.grid > div.flex > p.font-ui`) |
+| **Home `/` (Desktop)** | **28 / 100** | **4.95 s** | **8.04 s** | **2,541 ms** | **0.071** | **551 KB** | **24.3 MB** (24,929 KB) | **40** | Hero heading span: "experiences." (`h1.font-display > span.block`) |
+| **Projects `/projects` (Mobile)** | **26 / 100** | **15.70 s** | **17.07 s** | **6,373 ms** | **0.031** | **555 KB** | **25.6 MB** (26,262 KB) | **40** | Loading screen heading: "HARDIK BHASKAR" (`IntroScreen.tsx`) |
+| **Projects `/projects` (Desktop)** | **36 / 100** | **3.59 s** | **5.36 s** | **1,035 ms** | **0.009** | **555 KB** | **26.0 MB** (26,652 KB) | **41** | Projects header: "Engineering & Creative Works." (`h1.font-display`) |
+| **About `/about` (Mobile)** | **27 / 100** | **15.57 s** | **11.81 s** | **3,344 ms** | **0.001** | **571 KB** | **9.7 MB** (9,962 KB) | **45** | Uncompressed portrait image: `<img src="/images/avatar.webp">` (1.65 MB) |
+| **About `/about` (Desktop)** | **40 / 100** | **3.70 s** | **5.16 s** | **622 ms** | **0.027** | **571 KB** | **9.7 MB** (9,962 KB) | **44** | Uncompressed portrait image: `<img src="/images/avatar.webp">` (1.65 MB) |
+
+> [!NOTE]
+> **Why Speed Index equaled LCP in the draft table**: In the initial report draft, the markdown table generator mapped the Speed Index column directly to the `largest-contentful-paint` display string. In the actual raw Lighthouse runs, Speed Index is distinct and reflects visual progression over time (e.g., Home Desktop Speed Index is 8.04s vs LCP 4.95s; Home Mobile is 16.38s vs LCP 16.52s; Projects Desktop is 5.36s vs LCP 3.59s).
+>
+> **Discrepancy in Network Payload**: The initial table cited ~1,240 KB, which only accounted for the early synchronous document and script assets. When full media assets resolve (notably the 12.86 MB uncompressed KAGE PNG from GitHub raw, the 7.7 MB uncompressed ASCII MP4 video, and the 1.65 MB avatar PNG named `.webp`), the total transferred payload reaches **22.4 MB to 26.0 MB** across 37 to 45 requests.
 
 ### DevTools Trace & Main Thread Bottlenecks
 - **Observed Interaction to Next Paint (INP)**: **417 ms** (classified as Poor by Core Web Vitals).
 - **Forced Synchronous Layouts**: **455 ms** cumulative forced reflows caused by `ScrollOrb.tsx` continuously querying `getBoundingClientRect()` on highlight DOM elements within Framer Motion's `useAnimationFrame`.
 - **Three.js Frame-Loop Churn**: In `NeuralNetworkScene.tsx:86-97`, `PARTICLE_COUNT = 120` produces `120 * 119 / 2 = 7,140` distance calculations executed every frame via `Math.sqrt()` on the JavaScript main thread.
 - **Unused Dependencies in Bundle**:
-  - `ogl` installed alongside `three`
-  - `gsap` installed alongside `framer-motion`
-  - `iconsax-react` installed alongside `lucide-react`
-  - `pdfjs-dist` bundled directly into client chunks
-  - `resend` server SDK bundled into front-end build
+  - `ogl` installed alongside `three` (can be pruned)
+  - `gsap` installed alongside `framer-motion` (can be pruned)
+  - `iconsax-react` installed alongside `lucide-react` (can be pruned)
+  - `pdfjs-dist` bundled directly into client chunks (lazy-load or link externally)
+  - *Correction on `resend`*: `resend` is used **exclusively** on the server side in `api/contact.ts` (Vercel Edge Function). It does **not** reach the client bundle, and the `RESEND_API_KEY` remains strictly confidential on the server.
 
 ### Proposed Performance Budgets (Mid-Range Mobile Device)
 - **Lighthouse Performance Score**: >= 90 / 100
