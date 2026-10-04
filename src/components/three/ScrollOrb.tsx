@@ -394,56 +394,58 @@ export function ScrollOrb() {
         willChange: 'transform',
       }}
     >
-      {/* ── Ambient Radial Glow (Hardware-accelerated separate layer, avoids Canvas raster filter invalidation) ── */}
-      <div
-        className="absolute inset-0 rounded-full blur-xl pointer-events-none transition-colors duration-500 opacity-60"
-        style={{
-          backgroundColor: activeColor,
-        }}
-      />
-
-      {/* ── Interactive Orb Hit Target ── */}
-      <div
-        onClick={handleOrbClick}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        className="w-full h-full relative pointer-events-auto cursor-pointer group"
-        title="Interactive 3D Core"
-      >
-        {/* Shockwave visual pulse ring on click */}
-        {shockwaveCount > 0 && (
-          <span
-            key={shockwaveCount}
-            className="absolute inset-0 rounded-full animate-ping pointer-events-none opacity-60"
-            style={{ backgroundColor: activeColor }}
-          />
-        )}
-
-        {/* 3D WebGL Canvas with restricted DPR and high-performance settings */}
-        <Canvas
-          dpr={[1, 1.5]}
-          frameloop={reducedMotion ? 'demand' : (tabVisible ? 'always' : 'never')}
-          camera={{ position: [0, 0, 3.8], fov: 45 }}
-          gl={{
-            alpha: true,
-            antialias: true,
-            powerPreference: 'high-performance',
-            stencil: false,
-            depth: true,
+      <div className="motion-scroll-orb-entrance w-full h-full relative" data-motion-orb="hero">
+        {/* ── Ambient Radial Glow (Hardware-accelerated separate layer, avoids Canvas raster filter invalidation) ── */}
+        <div
+          className="absolute inset-0 rounded-full blur-xl pointer-events-none transition-colors duration-500 opacity-60"
+          style={{
+            backgroundColor: activeColor,
           }}
-          className="w-full h-full"
+        />
+
+        {/* ── Interactive Orb Hit Target ── */}
+        <div
+          onClick={handleOrbClick}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className="w-full h-full relative pointer-events-auto cursor-pointer group"
+          title="Interactive 3D Core"
         >
-          <ambientLight intensity={0.6} />
-          <pointLight position={[4, 4, 4]} intensity={1.5} color={activeColor} />
-          <Suspense fallback={null}>
-            <CelestialOrb
-              activeColorHex={activeColor}
-              isHovered={isHovered}
-              shockwaveCount={shockwaveCount}
-              reducedMotion={reducedMotion}
+          {/* Shockwave visual pulse ring on click */}
+          {shockwaveCount > 0 && (
+            <span
+              key={shockwaveCount}
+              className="absolute inset-0 rounded-full animate-ping pointer-events-none opacity-60"
+              style={{ backgroundColor: activeColor }}
             />
-          </Suspense>
-        </Canvas>
+          )}
+
+          {/* 3D WebGL Canvas with restricted DPR and high-performance settings */}
+          <Canvas
+            dpr={[1, 1.5]}
+            frameloop={reducedMotion ? 'demand' : (tabVisible ? 'always' : 'never')}
+            camera={{ position: [0, 0, 3.8], fov: 45 }}
+            gl={{
+              alpha: true,
+              antialias: true,
+              powerPreference: 'high-performance',
+              stencil: false,
+              depth: true,
+            }}
+            className="w-full h-full"
+          >
+            <ambientLight intensity={0.6} />
+            <pointLight position={[4, 4, 4]} intensity={1.5} color={activeColor} />
+            <Suspense fallback={null}>
+              <CelestialOrb
+                activeColorHex={activeColor}
+                isHovered={isHovered}
+                shockwaveCount={shockwaveCount}
+                reducedMotion={reducedMotion}
+              />
+            </Suspense>
+          </Canvas>
+        </div>
       </div>
     </div>
   );

@@ -53,7 +53,9 @@
 }
 
 .motion-content,
-.motion-content-secondary {
+.motion-content-secondary,
+.motion-3d-layer,
+.motion-scroll-orb-entrance {
   transform: none;
   opacity: 1;
   will-change: auto;
@@ -151,6 +153,18 @@
   html[data-intro="active"] [data-motion-content="tech-badges"] {
     will-change: transform, opacity;
     animation: motion-content-reveal var(--dur-240) var(--ease-out) var(--delay-badges) both;
+  }
+
+  /* 3D WebGL Background Depth Entrance (t = 1.30s to 2.00s) */
+  html[data-intro="active"] .motion-3d-layer {
+    will-change: transform, opacity;
+    animation: motion-3d-depth-enter var(--dur-700) var(--ease-out) var(--delay-scene3d) both;
+  }
+
+  /* Scroll Orb Settle Beside Headline (t = 1.40s to 2.10s) */
+  html[data-intro="active"] .motion-scroll-orb-entrance {
+    will-change: transform, opacity;
+    animation: motion-orb-settle var(--dur-700) var(--ease-out) var(--delay-scroll-orb) both;
   }
 
   /* Crease Specular Light Sweep (t = 1.95s to 2.19s) */
@@ -293,6 +307,28 @@
   }
 }
 
+@keyframes motion-3d-depth-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes motion-orb-settle {
+  0% {
+    opacity: 0;
+    transform: translate3d(-30px, -15px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 /* ─────────────────────────────────────────────────────────────
    MOBILE ACCORDION FOLD (Active ONLY under html[data-intro="active"])
    Total duration strictly bounded at 1.40s.
@@ -380,6 +416,8 @@
   html[data-intro="active"] .motion-panel-preview,
   html[data-intro="active"] .motion-content,
   html[data-intro="active"] .motion-content-secondary,
+  html[data-intro="active"] .motion-3d-layer,
+  html[data-intro="active"] .motion-scroll-orb-entrance,
   html[data-intro="active"] .motion-crease,
   html[data-intro="active"] .motion-sweep,
   html[data-intro="active"] .motion-shading {
