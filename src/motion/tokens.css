@@ -45,6 +45,17 @@
   --delay-light-sweep: 1950ms;
   --delay-settle: 2200ms;
 
+  /* Mobile Opening Sequence Delays (derived from tokens.ts) */
+  --delay-mobile-headline: 200ms;
+  --delay-mobile-avatar: 400ms;
+  --delay-mobile-focus: 500ms;
+  --delay-mobile-preview: 550ms;
+  --delay-mobile-avatar-content: 940ms;
+  --delay-mobile-headline-cta: 1020ms;
+  --delay-mobile-focus-content: 1040ms;
+  --delay-mobile-preview-content: 1090ms;
+  --delay-mobile-settle: 1400ms;
+
   /* Frost palette aliases for motion elements */
   --motion-crease: var(--frost-accent, #9db7d5);
   --motion-shading: rgba(7, 22, 41, 0.75);

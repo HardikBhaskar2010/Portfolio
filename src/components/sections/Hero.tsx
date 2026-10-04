@@ -11,6 +11,7 @@ import { playHoverTick, playClick } from '@/lib/audio';
 import { WebGLGuard } from '@/components/three/WebGLGuard';
 import { useAfterLcp } from '@/lib/useAfterLcp';
 import { OPENING_DELAY } from '@/motion/tokens';
+import { initSkipListener } from '@/motion/skipListener';
 
 // Lazy-load the heavy Canvas: zero impact on initial paint
 const NeuralNetworkScene = lazy(() =>
@@ -25,12 +26,19 @@ export function Hero() {
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
+    const cleanupSkip = initSkipListener();
     if (document.documentElement.getAttribute('data-intro') === 'active') {
+      const isMobile = window.innerWidth < 768;
+      const settleDelay = isMobile ? OPENING_DELAY.mobileSettle : OPENING_DELAY.settle;
       const timer = window.setTimeout(() => {
         document.documentElement.removeAttribute('data-intro');
-      }, OPENING_DELAY.settle);
-      return () => window.clearTimeout(timer);
+      }, settleDelay);
+      return () => {
+        cleanupSkip();
+        window.clearTimeout(timer);
+      };
     }
+    return cleanupSkip;
   }, []);
 
   const { scrollYProgress } = useScroll({

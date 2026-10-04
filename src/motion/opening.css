@@ -294,6 +294,80 @@
 }
 
 /* ─────────────────────────────────────────────────────────────
+   MOBILE ACCORDION FOLD (Active ONLY under html[data-intro="active"])
+   Total duration strictly bounded at 1.40s.
+───────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  /* Mobile Crease Hairline (t = 0.00s to 0.24s) */
+  html[data-intro="active"] .motion-crease {
+    opacity: 1;
+    will-change: transform, opacity;
+    animation: motion-crease-draw var(--dur-240) var(--ease-out) var(--delay-0) forwards;
+  }
+
+  /* Mobile Headline Panel Vertical Accordion Fold (t = 0.20s to 0.90s) */
+  html[data-intro="active"] .motion-panel-headline {
+    transform-origin: top center;
+    will-change: transform;
+    animation: motion-mobile-headline-fold var(--dur-700) var(--ease-out) var(--delay-mobile-headline) both;
+  }
+
+  /* Mobile Headline Panel Shading */
+  html[data-intro="active"] [data-motion-shading="headline"] {
+    will-change: opacity;
+    animation: motion-mobile-shading-headline var(--dur-700) var(--ease-out) var(--delay-mobile-headline) both;
+  }
+
+  /* Mobile Headline CTA (120ms post-settle: t = 1.02s to 1.26s) */
+  html[data-intro="active"] .motion-content-secondary {
+    will-change: transform, opacity;
+    animation: motion-content-reveal var(--dur-240) var(--ease-out) var(--delay-mobile-headline-cta) both;
+  }
+
+  /* Mobile Focus Panel Slide (t = 0.50s to 0.92s) */
+  html[data-intro="active"] .motion-panel-focus {
+    will-change: transform, opacity;
+    animation: motion-mobile-panel-slide var(--dur-420) var(--ease-out) var(--delay-mobile-focus) both;
+  }
+
+  /* Mobile Focus Content (120ms post-settle: t = 1.04s to 1.28s) */
+  html[data-intro="active"] [data-motion-content="focus"] {
+    will-change: transform, opacity;
+    animation: motion-content-reveal var(--dur-240) var(--ease-out) var(--delay-mobile-focus-content) both;
+  }
+}
+
+@keyframes motion-mobile-headline-fold {
+  0% {
+    transform: perspective(800px) rotateX(-90deg);
+  }
+  100% {
+    transform: perspective(800px) rotateX(0deg);
+  }
+}
+
+@keyframes motion-mobile-shading-headline {
+  0% {
+    opacity: 0.60;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes motion-mobile-panel-slide {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
    REDUCED MOTION OVERRIDE (Strict N7 Compliance)
    OS reduced-motion unconditionally enforces static identity.
 ───────────────────────────────────────────────────────────── */

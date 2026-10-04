@@ -70,6 +70,15 @@ test('Motion Tokens: CSS variables match TypeScript tokens source of truth', () 
     { name: '--delay-badges', val: '1700ms' },
     { name: '--delay-light-sweep', val: '1950ms' },
     { name: '--delay-settle', val: '2200ms' },
+    { name: '--delay-mobile-headline', val: '200ms' },
+    { name: '--delay-mobile-avatar', val: '400ms' },
+    { name: '--delay-mobile-focus', val: '500ms' },
+    { name: '--delay-mobile-preview', val: '550ms' },
+    { name: '--delay-mobile-avatar-content', val: '940ms' },
+    { name: '--delay-mobile-headline-cta', val: '1020ms' },
+    { name: '--delay-mobile-focus-content', val: '1040ms' },
+    { name: '--delay-mobile-preview-content', val: '1090ms' },
+    { name: '--delay-mobile-settle', val: '1400ms' },
   ];
   for (const { name, val } of delayChecks) {
     const cssMatch = tokensCssContent.includes(`${name}: ${val};`);

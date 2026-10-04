@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Volume2, VolumeX } from 'lucide-react';
+import { Menu, X, Volume2, VolumeX, Play, Pause } from 'lucide-react';
 
 const GithubIcon = ({ size = 14 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -13,6 +13,7 @@ import { mobileMenuContainer, mobileMenuItem } from '@/lib/motion';
 import { scrollTo, getLenis } from '@/lib/lenis';
 import { track } from '@/lib/analytics';
 import { playHoverTick, isAudioMuted, toggleAudioMuted } from '@/lib/audio';
+import { isMotionPaused, toggleMotionPaused } from '@/motion/motionPreference';
 
 const navLinks = [
   { label: 'Home',     to: '/' },
@@ -69,6 +70,7 @@ export function Navbar() {
   const scrollY     = useRealScrollY();
   const [menuOpen, setMenuOpen] = useState(false);
   const [muted, setMuted] = useState(() => isAudioMuted());
+  const [motionPaused, setMotionPaused] = useState(() => isMotionPaused());
   const location                 = useLocation();
 
   const [prevLocation, setPrevLocation] = useState(location.pathname);
@@ -82,8 +84,16 @@ export function Navbar() {
       const custom = e as CustomEvent<{ muted: boolean }>;
       setMuted(custom.detail?.muted ?? isAudioMuted());
     };
+    const handleMotionPauseChange = (e: Event) => {
+      const custom = e as CustomEvent<{ paused: boolean }>;
+      setMotionPaused(custom.detail?.paused ?? isMotionPaused());
+    };
     window.addEventListener('portfolio:audio-mute-change', handleMuteChange);
-    return () => window.removeEventListener('portfolio:audio-mute-change', handleMuteChange);
+    window.addEventListener('portfolio:motion-pause-change', handleMotionPauseChange);
+    return () => {
+      window.removeEventListener('portfolio:audio-mute-change', handleMuteChange);
+      window.removeEventListener('portfolio:motion-pause-change', handleMotionPauseChange);
+    };
   }, []);
 
   /* ── Convergence thresholds ── */
@@ -219,6 +229,29 @@ export function Navbar() {
                 title={muted ? 'Unmute sound effects' : 'Mute sound effects'}
               >
                 {muted ? <VolumeX size={14} className="text-[var(--text-muted)]/60" /> : <Volume2 size={14} className="text-[var(--accent)]" />}
+              </motion.button>
+
+              {/* Pause motion toggle button */}
+              <motion.button
+                type="button"
+                whileHover={{ scale: 1.12 }}
+                whileTap={{ scale: 0.92 }}
+                onMouseEnter={playHoverTick}
+                onClick={() => {
+                  const next = toggleMotionPaused();
+                  setMotionPaused(next);
+                }}
+                className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 text-[var(--text-muted)] hover:text-[var(--text-strong)] hover:border-white/30 transition-all duration-200"
+                style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(8px)' }}
+                aria-label={motionPaused ? 'Resume motion' : 'Pause motion'}
+                aria-pressed={motionPaused}
+                title={motionPaused ? 'Resume motion' : 'Pause motion'}
+              >
+                {motionPaused ? (
+                  <Play size={13} className="text-[var(--text-muted)]/60 ml-0.5" />
+                ) : (
+                  <Pause size={13} className="text-[var(--accent)]" />
+                )}
               </motion.button>
 
               {/* GitHub icon link */}
@@ -374,11 +407,25 @@ export function Navbar() {
                       const next = toggleAudioMuted();
                       setMuted(next);
                     }}
-                    className="inline-flex items-center gap-1.5 font-ui text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--text-strong)] bg-white/5 border border-white/10 px-3.5 py-2.5 rounded-full"
+                    className="inline-flex items-center gap-1.5 font-ui text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--text-strong)] bg-white/5 border border-white/10 px-3 py-2.5 rounded-full"
                     aria-label={muted ? 'Unmute sound effects' : 'Mute sound effects'}
                   >
                     {muted ? <VolumeX size={14} className="text-[var(--text-muted)]/60" /> : <Volume2 size={14} className="text-[var(--accent)]" />}
                     <span>{muted ? 'Muted' : 'Sound'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = toggleMotionPaused();
+                      setMotionPaused(next);
+                    }}
+                    className="inline-flex items-center gap-1.5 font-ui text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--text-strong)] bg-white/5 border border-white/10 px-3 py-2.5 rounded-full"
+                    aria-label={motionPaused ? 'Resume motion' : 'Pause motion'}
+                    aria-pressed={motionPaused}
+                  >
+                    {motionPaused ? <Play size={14} className="text-[var(--text-muted)]/60" /> : <Pause size={14} className="text-[var(--accent)]" />}
+                    <span>Pause motion</span>
                   </button>
                 </div>
               </motion.div>

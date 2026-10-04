@@ -44,10 +44,18 @@ export const OVERSHOOT = {
 
 export const DELAY = {
   0: 0,
+  200: 200,
   300: 300,
+  400: 400,
+  500: 500,
+  550: 550,
   700: 700,
   800: 800,
   850: 850,
+  940: 940,
+  1020: 1020,
+  1040: 1040,
+  1090: 1090,
   1120: 1120,
   1300: 1300,
   1400: 1400,
@@ -74,6 +82,17 @@ export const OPENING_DELAY = {
   badges: DELAY[1700],
   lightSweep: DELAY[1950],
   settle: DELAY[2200],
+  // Mobile opening delays
+  mobileCrease: DELAY[0],
+  mobileHeadline: DELAY[200],
+  mobileAvatar: DELAY[400],
+  mobileFocus: DELAY[500],
+  mobilePreview: DELAY[550],
+  mobileAvatarContent: DELAY[940],
+  mobileHeadlineCta: DELAY[1020],
+  mobileFocusContent: DELAY[1040],
+  mobilePreviewContent: DELAY[1090],
+  mobileSettle: DELAY[1400],
 } as const;
 
 export const MOTION_TOKENS = {
