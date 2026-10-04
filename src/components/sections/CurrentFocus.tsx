@@ -2,9 +2,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 const items = [
-  { text: 'Vectoris Desktop (Rust)', tag: 'BUILDING' },
-  { text: 'Veronica AI Multi-Agent', tag: 'LIVE' },
-  { text: 'MahinaOS Kernel (C++)',   tag: 'RESEARCH' },
+  { text: 'KAGE Browser (Rust / CEF)', tag: 'BUILDING' },
+  { text: 'Vectoris Desktop (Rust)',   tag: 'BUILDING' },
+  { text: 'Veronica AI Multi-Agent',   tag: 'LIVE' },
+  { text: 'MahinaOS Kernel (C++)',     tag: 'RESEARCH' },
 ];
 
 const TAG_STYLES: Record<string, string> = {
@@ -27,7 +28,7 @@ export function CurrentFocus() {
   }, []);
 
   return (
-    <div className="relative inline-block w-full max-w-[360px]">
+    <div className="relative inline-block w-full max-w-[370px]">
       {/* Pulsing border glow */}
       <motion.div
         className="absolute -inset-px rounded-xl pointer-events-none"
