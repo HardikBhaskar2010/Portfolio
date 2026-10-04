@@ -179,8 +179,8 @@ export function Preloader({ onComplete }: PreloaderProps) {
             className={`preloader-panel preloader-panel-${idx}`}
             data-tone={idx % 2 === 1 ? 'alt' : 'base'}
           >
-            <div className="panel-half panel-half-left" />
-            <div className="panel-half panel-half-right" />
+            <div className="panel-half panel-half-top" />
+            <div className="panel-half panel-half-bottom" />
             <div className="panel-seam" />
           </div>
         ))}

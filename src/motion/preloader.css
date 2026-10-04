@@ -184,29 +184,30 @@
 
 .panel-half {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  height: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 50%;
   background: var(--bg-base, #071629);
   will-change: auto;
 }
 
-.panel-half-left {
-  left: 0;
+.panel-half-top {
+  top: 0;
 }
 
-.panel-half-right {
-  left: 50%;
+.panel-half-bottom {
+  top: 50%;
 }
 
 .panel-seam {
   position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  transform: translateY(-50%);
   background: var(--border-subtle, #17345c);
   opacity: 1;
   z-index: 5;
@@ -220,28 +221,28 @@
 
 @media (min-width: 768px) {
   /* Center Panel (index 2): starts at 1080ms */
-  .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-left {
+  .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-top {
     will-change: transform;
-    animation: preloader-split-left var(--dur-700) var(--ease-out) var(--delay-preloader-center-panel) forwards;
+    animation: preloader-split-top var(--dur-700) var(--ease-out) var(--delay-preloader-center-panel) forwards;
   }
-  .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-right {
+  .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-bottom {
     will-change: transform;
-    animation: preloader-split-right var(--dur-700) var(--ease-out) var(--delay-preloader-center-panel) forwards;
+    animation: preloader-split-bottom var(--dur-700) var(--ease-out) var(--delay-preloader-center-panel) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-seam {
     animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-center-panel) forwards;
   }
 
   /* Mid Panels (indices 1, 3): delay 75ms (1155ms) */
-  .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-left,
-  .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-half-left {
+  .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-top,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-half-top {
     will-change: transform;
-    animation: preloader-split-left var(--dur-700) var(--ease-out) var(--delay-preloader-mid-panels) forwards;
+    animation: preloader-split-top var(--dur-700) var(--ease-out) var(--delay-preloader-mid-panels) forwards;
   }
-  .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-right,
-  .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-half-right {
+  .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-bottom,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-half-bottom {
     will-change: transform;
-    animation: preloader-split-right var(--dur-700) var(--ease-out) var(--delay-preloader-mid-panels) forwards;
+    animation: preloader-split-bottom var(--dur-700) var(--ease-out) var(--delay-preloader-mid-panels) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-seam,
   .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-seam {
@@ -249,15 +250,15 @@
   }
 
   /* Outer Panels (indices 0, 4): delay 150ms (1230ms) */
-  .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-left,
-  .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-half-left {
+  .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-top,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-half-top {
     will-change: transform;
-    animation: preloader-split-left var(--dur-700) var(--ease-out) var(--delay-preloader-outer-panels) forwards;
+    animation: preloader-split-top var(--dur-700) var(--ease-out) var(--delay-preloader-outer-panels) forwards;
   }
-  .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-right,
-  .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-half-right {
+  .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-bottom,
+  .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-half-bottom {
     will-change: transform;
-    animation: preloader-split-right var(--dur-700) var(--ease-out) var(--delay-preloader-outer-panels) forwards;
+    animation: preloader-split-bottom var(--dur-700) var(--ease-out) var(--delay-preloader-outer-panels) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-seam,
   .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-seam {
@@ -265,21 +266,21 @@
   }
 }
 
-@keyframes preloader-split-left {
+@keyframes preloader-split-top {
   0% {
-    transform: translateX(0);
+    transform: translateY(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateY(-100%);
   }
 }
 
-@keyframes preloader-split-right {
+@keyframes preloader-split-bottom {
   0% {
-    transform: translateX(0);
+    transform: translateY(0);
   }
   100% {
-    transform: translateX(100%);
+    transform: translateY(100%);
   }
 }
 
