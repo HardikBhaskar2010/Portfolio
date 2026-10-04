@@ -27,10 +27,50 @@ declare global {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   CONSENT MODE MANAGER
+   CONSENT MODE & DYNAMIC CLARITY LOADER
 ───────────────────────────────────────────────────────────── */
 
+const CLARITY_PROJECT_ID = 'yicwccx7q2';
+let clarityInitialized = false;
+
 export type ConsentStatus = 'granted' | 'denied' | 'unset';
+
+/**
+ * Loads Microsoft Clarity dynamically ONLY after consent is granted
+ * and the browser has reached an idle state.
+ */
+export function initClarityWhenIdle() {
+  if (typeof window === 'undefined' || clarityInitialized) return;
+  if (consentManager.getStatus() !== 'granted') return;
+
+  clarityInitialized = true;
+
+  const load = () => {
+    (function(c: any, l: Document, a: string, r: string, i: string, t?: any, y?: any){
+      c[a] = c[a] || function(){(c[a].q = c[a].q || []).push(arguments)};
+      t = l.createElement(r);
+      t.async = 1;
+      t.src = "https://www.clarity.ms/tag/" + i + "?ref=bwt";
+      y = l.getElementsByTagName(r)[0];
+      y.parentNode?.insertBefore(t, y);
+    })(window, document, "clarity", "script", CLARITY_PROJECT_ID);
+
+    try {
+      window.clarity?.('consent', true);
+    } catch {
+      // Ignore
+    }
+  };
+
+  const win = window as any;
+  if (typeof win.requestIdleCallback === 'function') {
+    win.requestIdleCallback(load, { timeout: 3000 });
+  } else if (document.readyState === 'complete') {
+    setTimeout(load, 1500);
+  } else {
+    window.addEventListener('load', () => setTimeout(load, 1500), { once: true });
+  }
+}
 
 export const consentManager = {
   /** Retrieve active consent state from localStorage */
@@ -50,14 +90,21 @@ export const consentManager = {
     if (typeof window === 'undefined') return;
     try {
       localStorage.setItem('analytics_consent', granted ? 'granted' : 'denied');
-      if (typeof window.clarity === 'function') {
-        window.clarity('consent', granted);
+      if (granted) {
+        initClarityWhenIdle();
+      } else if (typeof window.clarity === 'function') {
+        window.clarity('consent', false);
       }
     } catch {
       // Fallback for storage errors
     }
   },
 };
+
+// If visitor previously granted consent, schedule loading during idle
+if (typeof window !== 'undefined' && consentManager.getStatus() === 'granted') {
+  initClarityWhenIdle();
+}
 
 /**
  * Microsoft Clarity programmatic helpers

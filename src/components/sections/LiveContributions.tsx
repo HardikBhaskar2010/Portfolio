@@ -150,7 +150,7 @@ export function LiveContributions() {
         return 'bg-[#9DB7D5] border-[#9DB7D5] shadow-[0_0_8px_rgba(157, 183, 213, 0.7)] hover:shadow-[0_0_12px_rgba(157, 183, 213, 0.9)]';
       case 0:
       default:
-        return 'bg-[#141418] border-[#24242c] hover:border-[#383844]';
+        return 'bg-elevated border-borderSubtle hover:border-borderStrong';
     }
   };
 
@@ -162,9 +162,9 @@ export function LiveContributions() {
       className="py-24 md:py-32 border-b border-border relative overflow-hidden"
       style={{ contentVisibility: 'auto', containIntrinsicSize: '1px 850px' }}
     >
-      {/* Subtle ambient cyan glow behind section */}
+      {/* Subtle ambient glow behind section */}
       <div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-cyan/5 rounded-full blur-[140px] pointer-events-none -z-10"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-accent/5 rounded-full blur-[140px] pointer-events-none -z-10"
         aria-hidden="true"
       />
 
@@ -179,7 +179,7 @@ export function LiveContributions() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="flex flex-col gap-4">
               <motion.div variants={fadeUp}>
-                <SectionLabel>Activity // Neural Uplink</SectionLabel>
+                <SectionLabel>Activity : Verification</SectionLabel>
               </motion.div>
               <motion.h2
                 id="live-contributions-heading"
@@ -201,16 +201,16 @@ export function LiveContributions() {
                 href="https://github.com/HardikBhaskar2010"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-2.5 px-4 py-2 rounded-full bg-surface border border-border hover:border-cyan/50 transition-all duration-300 shadow-sm"
+                className="group flex items-center gap-2.5 px-4 py-2 rounded-full bg-surface border border-border hover:border-accent/50 transition-all duration-300 shadow-sm"
               >
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
                 </span>
-                <span className="font-mono text-xs text-heading group-hover:text-cyan transition-colors">
+                <span className="font-mono text-xs text-heading group-hover:text-accent transition-colors">
                   {isLiveSynced ? 'LIVE UPLINK ACTIVE' : 'CONNECTING API...'}
                 </span>
-                <ArrowUpRight size={13} className="text-muted group-hover:text-cyan group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                <ArrowUpRight size={13} className="text-muted group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             </motion.div>
           </div>
@@ -228,7 +228,7 @@ export function LiveContributions() {
               <div>
                 <div className="flex items-center justify-between text-muted">
                   <span className="font-ui text-[10px] uppercase tracking-widest text-tagText">Past 12 Months</span>
-                  <Calendar size={15} className="text-cyan/70" />
+                  <Calendar size={15} className="text-accent/70" />
                 </div>
                 <div className="py-2">
                   <CountUp
@@ -239,7 +239,7 @@ export function LiveContributions() {
                 </div>
               </div>
               <p className="font-ui text-xs text-body mt-1">Total GitHub contributions</p>
-              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </motion.div>
 
             {/* Current Streak */}
@@ -272,7 +272,7 @@ export function LiveContributions() {
               <div>
                 <div className="flex items-center justify-between text-muted">
                   <span className="font-ui text-[10px] uppercase tracking-widest text-tagText">Peak Cadence</span>
-                  <Sparkles size={15} className="text-[#A855F7]" />
+                  <Sparkles size={15} className="text-accent" />
                 </div>
                 <div className="py-2">
                   <CountUp
@@ -283,7 +283,7 @@ export function LiveContributions() {
                 </div>
               </div>
               <p className="font-ui text-xs text-body mt-1">Longest unbroken streak</p>
-              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#A855F7]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </motion.div>
 
             {/* Active Days / Cadence */}
@@ -316,7 +316,7 @@ export function LiveContributions() {
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/50 pb-5">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-bg border border-border flex items-center justify-center text-cyan">
+                <div className="w-8 h-8 rounded-lg bg-base border border-border flex items-center justify-center text-accent">
                   <Code2 size={16} />
                 </div>
                 <div>
@@ -333,7 +333,7 @@ export function LiveContributions() {
               <div className="flex items-center gap-2 font-ui text-[11px] text-muted self-end sm:self-auto">
                 <span>Less</span>
                 <div className="flex gap-1 items-center">
-                  <span className="w-2.5 h-2.5 rounded-[2px] bg-[#141418] border border-[#24242c]" />
+                  <span className="w-2.5 h-2.5 rounded-[2px] bg-elevated border border-borderSubtle" />
                   <span className="w-2.5 h-2.5 rounded-[2px] bg-[#9DB7D5]/25 border border-[#9DB7D5]/40" />
                   <span className="w-2.5 h-2.5 rounded-[2px] bg-[#9DB7D5]/50 border border-[#9DB7D5]/60" />
                   <span className="w-2.5 h-2.5 rounded-[2px] bg-[#9DB7D5]/80 border border-[#9DB7D5]/90" />
@@ -439,10 +439,10 @@ export function LiveContributions() {
                         ? 'translate(-50%, 0%)'
                         : 'translate(-50%, -100%)',
                     }}
-                    className="absolute pointer-events-none z-50 px-3.5 py-2 rounded-xl bg-[#0c0c10]/95 border border-cyan/60 shadow-[0_8px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl flex flex-col items-center gap-1 whitespace-nowrap min-w-max"
+                    className="absolute pointer-events-none z-50 px-3.5 py-2 rounded-xl bg-surface/95 border border-borderStrong shadow-[0_8px_30px_rgba(0,0,0,0.85)] backdrop-blur-xl flex flex-col items-center gap-1 whitespace-nowrap min-w-max"
                   >
                     <p className="font-ui font-semibold text-xs text-heading whitespace-nowrap leading-none flex items-center gap-1.5">
-                      <span className="text-cyan font-mono font-bold text-sm">{activeTooltip.count}</span>
+                      <span className="text-accent font-mono font-bold text-sm">{activeTooltip.count}</span>
                       <span>{activeTooltip.count === 1 ? 'contribution' : 'contributions'}</span>
                     </p>
                     <p className="font-mono text-[10px] text-muted whitespace-nowrap leading-none">
@@ -468,7 +468,7 @@ export function LiveContributions() {
             >
               <div className="flex items-center justify-between border-b border-border/50 pb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-bg border border-border flex items-center justify-center text-[#A855F7]">
+                  <div className="w-8 h-8 rounded-lg bg-base border border-border flex items-center justify-center text-accent">
                     <GitCommit size={16} />
                   </div>
                   <div>
@@ -485,7 +485,7 @@ export function LiveContributions() {
                   <span className="font-mono text-[10px] text-muted bg-tag px-2.5 py-1 rounded-full border border-border">
                     PUBLIC & PRIVATE
                   </span>
-                  <span className="font-mono text-[10px] text-cyan/80 bg-cyan/10 border border-cyan/20 px-2.5 py-1 rounded-full">
+                  <span className="font-mono text-[10px] text-accent bg-elevated border border-borderStrong px-2.5 py-1 rounded-full">
                     LIVE FEED
                   </span>
                 </div>
@@ -500,16 +500,16 @@ export function LiveContributions() {
                   >
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex items-center gap-2.5 min-w-0 flex-wrap sm:flex-nowrap">
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan flex-shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
                         <a
                           href={ev.repoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-heading font-semibold text-sm text-heading hover:text-cyan transition-colors"
+                          className="font-heading font-semibold text-sm text-heading hover:text-accent transition-colors"
                         >
                           {ev.shortName}
                         </a>
-                        <span className="font-mono text-xs text-cyan font-medium bg-cyan/10 border border-cyan/30 px-2.5 py-0.5 rounded-full whitespace-nowrap">
+                        <span className="font-mono text-xs text-accent font-medium bg-elevated border border-borderStrong px-2.5 py-0.5 rounded-full whitespace-nowrap">
                           {ev.commitCount} {ev.commitCount === 1 ? 'commit' : 'commits'}
                         </span>
                         {ev.refName && (
@@ -536,7 +536,7 @@ export function LiveContributions() {
                   href="https://github.com/HardikBhaskar2010?tab=repositories"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-ui text-xs text-cyan hover:text-white transition-colors group"
+                  className="inline-flex items-center gap-2 font-ui text-xs text-accent hover:text-textStrong transition-colors group"
                 >
                   Explore all repositories & commits
                   <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -553,26 +553,26 @@ export function LiveContributions() {
               <div className="bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4 group">
                 <div className="flex items-center justify-between">
                   <h3 className="font-ui text-[10px] uppercase tracking-widest text-tagText flex items-center gap-1.5 font-semibold">
-                    <Layers size={12} className="text-cyan" />
+                    <Layers size={12} className="text-accent" />
                     Verified GitHub Metrics
                   </h3>
                   <a
                     href="https://github-readme-stats-luna.vercel.app/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[10px] text-muted hover:text-cyan transition-colors"
+                    className="font-mono text-[10px] text-muted hover:text-accent transition-colors"
                   >
                     luna.vercel.app
                   </a>
                 </div>
 
                 {/* Embedded Themed SVG Stats Card with Zero-CLS Container */}
-                <div className="w-full rounded-xl overflow-hidden bg-[#0a0a0c] border border-border/60 flex items-center justify-center p-2 min-h-[195px] aspect-[467/195]">
+                <div className="w-full rounded-xl overflow-hidden bg-base border border-borderSubtle flex items-center justify-center p-2 min-h-[195px] aspect-[495/195]">
                   {!statsImgError ? (
                     <img
-                      src="https://github-readme-stats-luna.vercel.app/api?username=HardikBhaskar2010&show_icons=true&include_all_commits=true&count_private=true&bg_color=0a0a0c&text_color=8A8A93&title_color=9DB7D5&icon_color=9DB7D5&border_color=262626&border_radius=14"
+                      src="https://github-readme-stats-luna.vercel.app/api?username=HardikBhaskar2010&show_icons=true&include_all_commits=true&count_private=true&bg_color=071629&text_color=9DB7D5&title_color=EAF4FF&icon_color=9DB7D5&border_color=17345C&border_radius=14"
                       alt="Hardik Bhaskar GitHub commit statistics, streaks, and PR metrics"
-                      width={467}
+                      width={495}
                       height={195}
                       loading="lazy"
                       decoding="async"
@@ -581,7 +581,7 @@ export function LiveContributions() {
                     />
                   ) : (
                     <div className="w-full h-full flex flex-col justify-center items-center p-4 text-center gap-2">
-                      <span className="font-mono text-cyan text-sm font-bold">1,867+ VERIFIED COMMITS</span>
+                      <span className="font-mono text-accent text-sm font-bold">1,867+ VERIFIED COMMITS</span>
                       <span className="font-ui text-xs text-muted">A+ Architecture Velocity · 100% Repository Delivery</span>
                     </div>
                   )}
@@ -591,14 +591,14 @@ export function LiveContributions() {
               {/* Most Used Languages Card with Zero-CLS Container */}
               <div className="bg-surface border border-border rounded-2xl p-6 flex flex-col gap-4">
                 <h3 className="font-ui text-[10px] uppercase tracking-widest text-tagText flex items-center gap-1.5 font-semibold">
-                  <Code2 size={12} className="text-[#A855F7]" />
+                  <Code2 size={12} className="text-accent" />
                   Core Language Distribution
                 </h3>
 
-                <div className="w-full rounded-xl overflow-hidden bg-[#0a0a0c] border border-border/60 flex items-center justify-center p-2 min-h-[140px] aspect-[300/140]">
+                <div className="w-full rounded-xl overflow-hidden bg-base border border-borderSubtle flex items-center justify-center p-2 min-h-[140px] aspect-[300/140]">
                   {!langsImgError ? (
                     <img
-                      src="https://github-readme-stats-luna.vercel.app/api/top-langs/?username=HardikBhaskar2010&layout=compact&bg_color=0a0a0c&text_color=8A8A93&title_color=9DB7D5&border_color=262626&border_radius=14"
+                      src="https://github-readme-stats-luna.vercel.app/api/top-langs/?username=HardikBhaskar2010&layout=compact&bg_color=071629&text_color=9DB7D5&title_color=EAF4FF&border_color=17345C&border_radius=14"
                       alt="Hardik Bhaskar primary programming languages distribution"
                       width={300}
                       height={140}
@@ -609,10 +609,10 @@ export function LiveContributions() {
                     />
                   ) : (
                     <div className="w-full h-full flex flex-wrap justify-center items-center gap-3 p-3">
-                      <span className="font-mono text-xs text-heading px-2.5 py-1 rounded bg-[#141418] border border-border">Rust</span>
-                      <span className="font-mono text-xs text-heading px-2.5 py-1 rounded bg-[#141418] border border-border">TypeScript</span>
-                      <span className="font-mono text-xs text-heading px-2.5 py-1 rounded bg-[#141418] border border-border">C / C++</span>
-                      <span className="font-mono text-xs text-heading px-2.5 py-1 rounded bg-[#141418] border border-border">Python</span>
+                      <span className="font-mono text-xs text-heading px-2.5 py-1 rounded bg-elevated border border-borderSubtle">Rust</span>
+                      <span className="font-mono text-xs text-heading px-2.5 py-1 rounded bg-elevated border border-borderSubtle">TypeScript</span>
+                      <span className="font-mono text-xs text-heading px-2.5 py-1 rounded bg-elevated border border-borderSubtle">C / C++</span>
+                      <span className="font-mono text-xs text-heading px-2.5 py-1 rounded bg-elevated border border-borderSubtle">Python</span>
                     </div>
                   )}
                 </div>

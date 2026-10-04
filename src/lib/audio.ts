@@ -18,6 +18,7 @@ function checkInitialMute(): boolean {
   try {
     const saved = localStorage.getItem(AUDIO_MUTE_KEY);
     if (saved !== null) return saved === 'true';
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
     return true; // Default to muted for respect of user preference and autoplay policies
   } catch {
     /* ignore storage error */
