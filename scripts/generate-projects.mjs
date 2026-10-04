@@ -98,7 +98,12 @@ async function fetchRepoAssets(repoName, fallbackDescription, existingProject = 
   const slug = slugify(repoName);
   
   // 1. Fetch description and image in parallel across common conventions
-  const imageCandidates = ['assets/preview.png', 'assets/pic.png', 'public/preview.png'];
+  const imageCandidates = [
+    'assets/pic.png',
+    'assets/preview.png',
+    'public/preview.png',
+    'assets/ChatGPT Image Jul 15, 2026, 11_11_53 PM.png',
+  ];
   const descCandidates  = ['assets/description.md', 'assets/info.md', 'info.md'];
 
   let longDescription = '';

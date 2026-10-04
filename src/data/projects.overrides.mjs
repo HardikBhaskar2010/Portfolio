@@ -53,8 +53,6 @@ export const overrides = {
     year:     '2025',
     tools:    ['TypeScript', 'React', 'WebGL', 'Framer Motion', 'CSS Houdini'],
     color:    '#17345C',
-    image:    '/images/project-mahina-os.webp',
-    heroImage: '/images/project-mahina-os.webp',
     fallbackImage: '/images/project-mahina-os.webp',
   },
 
