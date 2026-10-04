@@ -45,6 +45,7 @@ export function setMotionPaused(paused: boolean): boolean {
 
   if (paused) {
     document.documentElement.removeAttribute('data-intro');
+    document.documentElement.removeAttribute('data-preloader');
     document.documentElement.setAttribute('data-motion-paused', 'true');
   } else {
     document.documentElement.removeAttribute('data-motion-paused');

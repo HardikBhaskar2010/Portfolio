@@ -58,7 +58,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'sha256-qdn6P/iimNyKi1mTCIXaesOQmPtf03MVc/dYiKZAcX0=' 'wasm-unsafe-eval' https://www.clarity.ms https://scripts.clarity.ms https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://raw.githubusercontent.com https://avatars.githubusercontent.com https://github-readme-stats-luna.vercel.app https://hardikbhaskar.vercel.app; connect-src 'self' https://api.github.com https://github-contributions-api.jogruber.de https://github-readme-stats-luna.vercel.app https://c.clarity.ms https://k.clarity.ms https://e.clarity.ms https://www.clarity.ms https://scripts.clarity.ms https://vitals.vercel-insights.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none';"
+          "value": "default-src 'self'; script-src 'self' 'sha256-W6Ui79K5DFeYhUUfAMc6hS4iSSz2L0PTVoktRXTaqrY=' 'wasm-unsafe-eval' https://www.clarity.ms https://scripts.clarity.ms https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://raw.githubusercontent.com https://avatars.githubusercontent.com https://github-readme-stats-luna.vercel.app https://hardikbhaskar.vercel.app; connect-src 'self' https://api.github.com https://github-contributions-api.jogruber.de https://github-readme-stats-luna.vercel.app https://c.clarity.ms https://k.clarity.ms https://e.clarity.ms https://www.clarity.ms https://scripts.clarity.ms https://vitals.vercel-insights.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none';"
         }
       ]
     },
