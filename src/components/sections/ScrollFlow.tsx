@@ -12,17 +12,16 @@ export function ScrollFlow() {
       if (!isDesktop) return;
 
       const panels = gsap.utils.toArray<HTMLElement>('.chapter-pin-panel');
-      if (panels.length < 2) return;
+      const archivePanel = document.querySelector<HTMLElement>('#archive-pan');
+      const track = archivePanel?.querySelector<HTMLElement>('.archive-track');
 
       panels.forEach((panel, i) => {
-        const isLast = i === panels.length - 1;
-
         ScrollTrigger.create({
           trigger: panel,
           start: 'top top',
-          end: () => (isLast ? '+=100%' : 'bottom top'),
+          end: () => 'bottom top',
           pin: true,
-          pinSpacing: isLast,
+          pinSpacing: false,
           anticipatePin: 1,
         });
 
@@ -65,8 +64,8 @@ export function ScrollFlow() {
           }
         }
 
-        if (!isLast) {
-          const nextPanel = panels[i + 1];
+        const nextPanel = panels[i + 1] || archivePanel;
+        if (nextPanel) {
           const inner = panel.querySelector<HTMLElement>('.chapter-inner');
           const dim = panel.querySelector<HTMLElement>('.chapter-dim');
 
@@ -97,6 +96,27 @@ export function ScrollFlow() {
           }
         }
       });
+
+      if (archivePanel && track) {
+        const getDistance = () => {
+          return Math.max(0, track.scrollWidth - archivePanel.clientWidth + 96);
+        };
+
+        gsap.to(track, {
+          x: () => -getDistance(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: archivePanel,
+            start: 'top top',
+            end: '+=1200',
+            pin: true,
+            pinSpacing: true,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
     }).then((cleanup) => {
       if (isMounted) {
         teardown = cleanup;
@@ -577,6 +597,187 @@ export function ScrollFlow() {
                   <span>Explore AEGIS</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── ARCHIVE PAN: REMAINING SYSTEMS (Horizontal Filmstrip >= 1024px) ── */}
+      <section
+        id="archive-pan"
+        className="relative w-full lg:min-h-screen bg-bg flex flex-col justify-center overflow-hidden z-40 border-t border-border/80"
+      >
+        <div className="w-full max-w-[1240px] mx-auto px-6 md:px-12 py-16 lg:py-24">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-[0.2em] text-cyan/90 block mb-2">
+                Archive pan: Remaining systems
+              </span>
+              <h2 className="font-display italic text-heading text-3xl sm:text-4xl lg:text-5xl tracking-tight">
+                Interactive learning platforms and exploratory systems prototypes.
+              </h2>
+            </div>
+            <HighlightPoint id="project-track-anchor" color="#F59E0B" label="ARCHIVE // REMAINING SYSTEMS">
+              <div
+                id="project-track-anchor"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-cyan/10 border border-cyan/30 text-cyan text-xs font-mono"
+              >
+                <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
+                <span>Archive filmstrip active</span>
+              </div>
+            </HighlightPoint>
+          </div>
+
+          <div className="w-full overflow-hidden">
+            <div className="archive-track flex flex-col lg:flex-row gap-6 w-full lg:w-max will-change-transform">
+              {/* Card 1: STEM Idea Adventure */}
+              <div className="w-full lg:w-[420px] flex-shrink-0 bg-surface/50 border border-border/80 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between">
+                <div>
+                  <div className="relative rounded-lg border border-border overflow-hidden bg-card/60 aspect-[16/10] mb-4">
+                    <img
+                      src="/images/project-stem-adventure.webp"
+                      alt="STEM Idea Adventure learning platform"
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      width={420}
+                      height={262}
+                    />
+                  </div>
+                  <h3 className="text-lg font-display font-semibold text-heading mb-1">
+                    STEM Idea Adventure
+                  </h3>
+                  <p className="text-xs font-mono text-cyan/80 mb-3">
+                    Interactive Learning Platform
+                  </p>
+                  <p className="text-xs text-text-secondary leading-relaxed mb-4">
+                    AI-powered STEM idea generator that creates personalized science experiments, engineering challenges, and learning paths for K-12 students using multi-agent AI.
+                  </p>
+                </div>
+                <div>
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      React
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      TypeScript
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      FastAPI
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      Google ADK
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <a
+                      href="https://stemidea.vercel.app"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono text-heading hover:text-cyan transition-colors"
+                    >
+                      <span>Live Platform</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                    <a
+                      href="https://github.com/HardikBhaskar2010/STEM-IDEA-GENERATOR"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono text-text-secondary hover:text-heading transition-colors"
+                    >
+                      <span>Repository</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 2: Systems Architecture Laboratory */}
+              <div className="w-full lg:w-[420px] flex-shrink-0 bg-surface/50 border border-border/80 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between">
+                <div>
+                  <div className="relative rounded-lg border border-border overflow-hidden bg-card/60 aspect-[16/10] mb-4 flex items-center justify-center p-6 bg-gradient-to-br from-surface to-card">
+                    <div className="text-center font-mono">
+                      <Terminal className="w-8 h-8 text-cyan mx-auto mb-2 opacity-80" />
+                      <span className="text-xs text-text-secondary block">Systems Prototype Lab</span>
+                      <span className="text-[10px] text-muted block mt-1">C17 / Rust / ASM</span>
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-display font-semibold text-heading mb-1">
+                    Systems Prototype Lab
+                  </h3>
+                  <p className="text-xs font-mono text-cyan/80 mb-3">
+                    Low-Level Runtimes & Kernels
+                  </p>
+                  <p className="text-xs text-text-secondary leading-relaxed mb-4">
+                    Exploratory prototypes across bare-metal bootloaders, zero-allocation display pipelines, memory-mapped shared buffers, and hardened kernel configurations.
+                  </p>
+                </div>
+                <div>
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      C17
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      Rust
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      Assembly
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      Limine
+                    </span>
+                  </div>
+                  <a
+                    href="/projects"
+                    className="inline-flex items-center gap-1.5 text-xs font-mono text-heading hover:text-cyan transition-colors"
+                  >
+                    <span>Inspect Lab Work</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Card 3: Complete Project Index */}
+              <div className="w-full lg:w-[420px] flex-shrink-0 bg-surface/50 border border-border/80 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between">
+                <div>
+                  <div className="relative rounded-lg border border-border overflow-hidden bg-card/60 aspect-[16/10] mb-4 flex items-center justify-center p-6 bg-gradient-to-br from-surface to-card">
+                    <div className="text-center font-mono">
+                      <Boxes className="w-8 h-8 text-cyan mx-auto mb-2 opacity-80" />
+                      <span className="text-xs text-text-secondary block">Full Project Index</span>
+                      <span className="text-[10px] text-muted block mt-1">6 Production Systems</span>
+                    </div>
+                  </div>
+                  <h3 className="text-lg font-display font-semibold text-heading mb-1">
+                    Complete Systems Archive
+                  </h3>
+                  <p className="text-xs font-mono text-cyan/80 mb-3">
+                    Verified Production Repositories
+                  </p>
+                  <p className="text-xs text-text-secondary leading-relaxed mb-4">
+                    In-depth case studies, formal architectural specifications, benchmark verification tables, and complete source repositories across all shipped projects.
+                  </p>
+                </div>
+                <div>
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      6 Systems
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      Case Studies
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-card border border-border/60 text-text-secondary">
+                      Benchmarks
+                    </span>
+                  </div>
+                  <a
+                    href="/projects"
+                    className="inline-flex items-center gap-1.5 text-xs font-mono text-heading hover:text-cyan transition-colors"
+                  >
+                    <span>View All Systems</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
