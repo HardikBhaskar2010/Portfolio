@@ -20,14 +20,15 @@ This specification explicitly and intentionally supersedes the previous opening 
 ## Skills Applied
 
 - design-taste-frontend:
-  - Refined the mechanical center-split aperture metaphor.
-  - Evaluated panel count (5 on desktop, 3 on mobile) and symmetrical center-outward reveal.
-  - Calibrated visual density, optical proportions, and palette restraint using existing Frost Navy tokens.
+  - Formulated the precision engineering shutter metaphor: screen divided into vertical strips across the horizontal width, with each strip splitting vertically (top moves UP, bottom moves DOWN).
+  - Evaluated panel count (5 on desktop, 3 on mobile) to guarantee odd-numbered mathematical symmetry with an exact solitary center panel.
+  - Calibrated center weighting: center panel acts as the optical origin of the reveal, aligning directly with the handwritten "Hello." before initiating the outward wave.
   - Eliminated generic loading tropes (no spinners, no loading bars, no percentage signs, no fake telemetry).
+  - Enforced palette restraint using existing Frost Navy tokens (`--bg-base`, `--bg-surface1`, `--border-subtle`).
 
 - web-design-guidelines:
   - Verified decorative overlay semantics (`aria-hidden="true"`, `tabindex="-1"`).
-  - Maintained keyboard accessibility of the real Hero underneath at t = 0 ms.
+  - Maintained native keyboard accessibility of the real Hero underneath from t = 0 ms.
   - Strictly respected OS `prefers-reduced-motion: reduce` and user Pause Motion hierarchy.
   - Clean one-shot passive event listeners for skipping without blocking default browser scrolling or navigation.
 
@@ -47,11 +48,11 @@ Reading this as: Systems Architect and AI Systems Builder portfolio for technica
 - Emotional Progression: Technical -> Human -> Mechanical -> Reveal.
   1. Stage 1 (Technical Anticipation): Minimal monospace counter establishing page arrival without dashboard clutter.
   2. Stage 2 (Human Greeting): Small, quiet, sentence-case handwritten "Hello." offering a brief personal moment.
-  3. Stage 3 (Mechanical Form): Full-screen Frost Navy field divided into tall vertical engineering panels with center hairlines.
-  4. Stage 4 (Mechanical Motion): Each panel physically parts from its center seam (`<- | | ->`), opening outward like precision shutters.
+  3. Stage 3 (Mechanical Form): Full-screen Frost Navy field divided into tall vertical engineering strips with horizontal center hairlines.
+  4. Stage 4 (Mechanical Motion): Each vertical strip physically splits through its horizontal center. The top half translates UP (`translateY(-100%)`) and the bottom half translates DOWN (`translateY(100%)`), propagating outward as a symmetrical horizontal wave from the center strip (`P3`) to adjacent flanks (`P2 + P4`) and outer edges (`P1 + P5`).
   5. Stage 5 (Reveal): The existing Hero emerges intact over the ongoing ambient 3D technical environment.
 
-- Visual Metaphor: Precision architectural shutters / pocket panels parting symmetrically from center seams, revealing the interior object. Not an agency splash, not a loading progress bar, not a generic crossfade.
+- Visual Metaphor: Precision vertical shutter plates parting up and down along horizontal center seams. The opening axis is strictly VERTICAL (`translateY`), while the wave propagation axis is strictly HORIZONTAL (`CENTER -> OUTWARD`). Not an agency splash, not a loading progress bar, not a generic crossfade.
 
 ---
 
@@ -64,7 +65,7 @@ Reading this as: Systems Architect and AI Systems Builder portfolio for technica
 |                                                             |
 |                                                             |
 |                                                             |
-|                            07                               |
+|                            42                               |
 |                                                             |
 |                                                             |
 |                                                             |
@@ -97,33 +98,68 @@ Reading this as: Systems Architect and AI Systems Builder portfolio for technica
 ```text
 +----------+----------+----------+----------+----------+
 |    P1    |    P2    |    P3    |    P4    |    P5    |
-|    |     |    |     |    |     |    |     |    |     |
-|    |     |    |     |    |     |    |     |    |     |
-|    |     |    |     |    |     |    |     |    |     |
-|    |     |    |     |    |     |    |     |    |     |
-|    |     |    |     |    |     |    |     |    |     |
+|          |          |          |          |          |
+| TOP HALF | TOP HALF | TOP HALF | TOP HALF | TOP HALF |
+|          |          |          |          |          |
++----------+----------+----------+----------+----------+ <-- Horizontal Center Seams
+|          |          |          |          |          |
+| BTM HALF | BTM HALF | BTM HALF | BTM HALF | BTM HALF |
+|          |          |          |          |          |
 +----------+----------+----------+----------+----------+
 ```
 - Full-viewport Frost Navy field (`--bg-base`: `#071629`) covering the viewport.
-- 5 equal vertical panels on Desktop (each 20% width).
-- 1px hairline center seam on each panel in `--border-subtle` (`#17345C`).
+- 5 equal vertical strips on Desktop (each 20% width).
+- Each strip contains a TOP HALF (top 50% height), a BOTTOM HALF (bottom 50% height), and a 1px horizontal center seam in `--border-subtle` (`#17345C`).
 
-### Stage 4: Center-Split Aperture Opening (t = 1.08 s to 1.93 s Desktop)
+### Stage 4: Center-Outward Mechanical Wave Opening (t = 1.08 s to 1.93 s Desktop)
 
 ```text
-+----------+----------+----------+----------+----------+
-|  P1      |  P2      |  P3      |  P4      |  P5      |
-|  <- | -> |  <- | -> |  <- | -> |  <- | -> |  <- | -> |
-|  <- | -> |  <- | -> |  <- | -> |  <- | -> |  <- | -> |
-|  <- | -> |  <- | -> |  <- | -> |  <- | -> |  <- | -> |
-|  <- | -> |  <- | -> |  <- | -> |  <- | -> |  <- | -> |
-+----------+----------+----------+----------+----------+
+              P3 (Center)
+              ↑ (translateY(-100%))
+          +----------+
+          | TOP HALF |
+          +----------+
+          ------------ <-- Horizontal Center Seam Dissolves
+          +----------+
+          | BTM HALF |
+          +----------+
+              ↓ (translateY(100%))
+          (Starts at t = 1.08s)
+
+     P2 (Adjacent)          P4 (Adjacent)
+     ↑                      ↑
+  +----------+           +----------+
+  | TOP HALF |           | TOP HALF |
+  +----------+           +----------+
+  ------------           ------------
+  +----------+           +----------+
+  | BTM HALF |           | BTM HALF |
+  +----------+           +----------+
+     ↓                      ↓
+ (Starts at t = 1.155s) (Starts at t = 1.155s)
+
+P1 (Outer)                                  P5 (Outer)
+↑                                           ↑
++----------+                             +----------+
+| TOP HALF |                             | TOP HALF |
++----------+                             +----------+
+------------                             ------------
++----------+                             +----------+
+| BTM HALF |                             | BTM HALF |
++----------+                             +----------+
+↓                                           ↓
+(Starts at t = 1.23s)                   (Starts at t = 1.23s)
 ```
-- Center panel (P3) initiates the split first at t = 1.08 s.
-- Paired flank panels follow with a controlled 75 ms stagger step.
-- Left half of each panel translates left (`translateX(-100%)`).
-- Right half of each panel translates right (`translateX(100%)`).
-- Central seam hairlines dissolve (`opacity: 0` over 120 ms).
+- Distinct Axis Principles:
+  1. Panel Layout Axis: HORIZONTAL (`P1 | P2 | P3 | P4 | P5`).
+  2. Panel Opening Axis: VERTICAL (Top Half moves UP `translateY(-100%)`, Bottom Half moves DOWN `translateY(100%)`).
+  3. Wave Propagation Axis: HORIZONTAL (`CENTER -> OUTWARD`).
+- Wave Choreography:
+  - Center strip (P3) initiates the vertical split first at t = 1.08 s.
+  - Adjacent pair (P2 and P4) begins together at t = 1.155 s (75 ms stagger step).
+  - Outer pair (P1 and P5) begins together at t = 1.23 s (150 ms total delay).
+  - All panels move simultaneously across overlapping ease-out curves, producing a single uninterrupted mechanical wave propagating outward from center.
+  - Horizontal seam hairlines dissolve (`opacity: 0` over 120 ms) as each strip begins opening.
 
 ### Stage 5: Hero Emergence & Ambient 3D Settlement (t = 1.93 s to 2.05 s Desktop)
 
@@ -157,7 +193,7 @@ All durations, delays, and easings derive 100% from existing approved tokens in 
 - `EASING.out`: `cubic-bezier(0.32, 0.72, 0, 1)`
 - `EASING.inOut`: `cubic-bezier(0.65, 0, 0.35, 1)`
 
-Zero raw milliseconds or non-token values exist in this schedule.
+All non-zero animation durations and stagger intervals derive strictly from approved motion tokens.
 
 ### Desktop Sequence (Hard Ceiling: 2.20 s | Total Scheduled: 2.05 s)
 
@@ -172,15 +208,15 @@ Zero raw milliseconds or non-token values exist in this schedule.
 | S2.2 | "Hello." Stroke Draw | stroke-dashoffset / opacity | 0.60 | 240 | DURATION[240] | EASING.out | 0.84 | glyph drawn, opacity 1 |
 | S2.3 | "Hello." Resting Hold | none | 0.84 | 120 | DURATION[120] | none | 0.96 | greeting resting |
 | S2.4 | "Hello." Fade Out | opacity | 0.96 | 120 | DURATION[120] | EASING.out | 1.08 | greeting opacity 0 |
-| S3.1 | Center Panel (P3) Left Half | transform: translateX | 1.08 | 700 | DURATION[700] | EASING.out | 1.78 | translateX(-100%) |
-| S3.2 | Center Panel (P3) Right Half | transform: translateX | 1.08 | 700 | DURATION[700] | EASING.out | 1.78 | translateX(100%) |
-| S3.3 | Center Panel (P3) Seam Hairline | opacity | 1.08 | 120 | DURATION[120] | EASING.out | 1.20 | opacity 0 |
-| S4.1 | Mid Panels (P2, P4) Left Halves | transform: translateX | 1.155 | 700 | DURATION[700] | EASING.out | 1.855 | translateX(-100%) |
-| S4.2 | Mid Panels (P2, P4) Right Halves | transform: translateX | 1.155 | 700 | DURATION[700] | EASING.out | 1.855 | translateX(100%) |
-| S4.3 | Mid Panels (P2, P4) Seam Hairlines | opacity | 1.155 | 120 | DURATION[120] | EASING.out | 1.275 | opacity 0 |
-| S5.1 | Outer Panels (P1, P5) Left Halves | transform: translateX | 1.23 | 700 | DURATION[700] | EASING.out | 1.93 | translateX(-100%) |
-| S5.2 | Outer Panels (P1, P5) Right Halves | transform: translateX | 1.23 | 700 | DURATION[700] | EASING.out | 1.93 | translateX(100%) |
-| S5.3 | Outer Panels (P1, P5) Seam Hairlines | opacity | 1.23 | 120 | DURATION[120] | EASING.out | 1.35 | opacity 0 |
+| S3.1 | Center Strip (P3) Top Half | transform: translateY | 1.08 | 700 | DURATION[700] | EASING.out | 1.78 | translateY(-100%) |
+| S3.2 | Center Strip (P3) Bottom Half | transform: translateY | 1.08 | 700 | DURATION[700] | EASING.out | 1.78 | translateY(100%) |
+| S3.3 | Center Strip (P3) Horizontal Seam | opacity | 1.08 | 120 | DURATION[120] | EASING.out | 1.20 | opacity 0 |
+| S4.1 | Mid Strips (P2, P4) Top Halves | transform: translateY | 1.155 | 700 | DURATION[700] | EASING.out | 1.855 | translateY(-100%) |
+| S4.2 | Mid Strips (P2, P4) Bottom Halves | transform: translateY | 1.155 | 700 | DURATION[700] | EASING.out | 1.855 | translateY(100%) |
+| S4.3 | Mid Strips (P2, P4) Horizontal Seams | opacity | 1.155 | 120 | DURATION[120] | EASING.out | 1.275 | opacity 0 |
+| S5.1 | Outer Strips (P1, P5) Top Halves | transform: translateY | 1.23 | 700 | DURATION[700] | EASING.out | 1.93 | translateY(-100%) |
+| S5.2 | Outer Strips (P1, P5) Bottom Halves | transform: translateY | 1.23 | 700 | DURATION[700] | EASING.out | 1.93 | translateY(100%) |
+| S5.3 | Outer Strips (P1, P5) Horizontal Seams | opacity | 1.23 | 120 | DURATION[120] | EASING.out | 1.35 | opacity 0 |
 | S6.1 | Overlay Container Fade Out | opacity | 1.93 | 120 | DURATION[120] | EASING.out | 2.05 | container opacity 0 |
 | S6.2 | End-State DOM Settlement | attribute removal | 2.05 | 0 | 0 ms | immediate | 2.05 | clean rest state (<= 2.20 s ceiling) |
 
@@ -195,12 +231,12 @@ Zero raw milliseconds or non-token values exist in this schedule.
 | M2.2 | Mobile "Hello." Stroke Draw | stroke-dashoffset / opacity | 0.36 | 240 | DURATION[240] | EASING.out | 0.60 | glyph drawn |
 | M2.3 | Mobile "Hello." Resting Hold | none | 0.60 | 120 | DURATION[120] | none | 0.72 | greeting resting |
 | M2.4 | Mobile "Hello." Fade Out | opacity | 0.72 | 120 | DURATION[120] | EASING.out | 0.84 | greeting opacity 0 |
-| M3.1 | Mobile Center Panel (M2) Left Half | transform: translateX | 0.84 | 420 | DURATION[420] | EASING.out | 1.26 | translateX(-100%) |
-| M3.2 | Mobile Center Panel (M2) Right Half | transform: translateX | 0.84 | 420 | DURATION[420] | EASING.out | 1.26 | translateX(100%) |
-| M3.3 | Mobile Center Panel (M2) Seam | opacity | 0.84 | 120 | DURATION[120] | EASING.out | 0.96 | opacity 0 |
-| M4.1 | Mobile Flanks (M1, M3) Left Halves | transform: translateX | 0.915 | 420 | DURATION[420] | EASING.out | 1.335 | translateX(-100%) |
-| M4.2 | Mobile Flanks (M1, M3) Right Halves | transform: translateX | 0.915 | 420 | DURATION[420] | EASING.out | 1.335 | translateX(100%) |
-| M4.3 | Mobile Flanks (M1, M3) Seams | opacity | 0.915 | 120 | DURATION[120] | EASING.out | 1.035 | opacity 0 |
+| M3.1 | Mobile Center Strip (M2) Top Half | transform: translateY | 0.84 | 420 | DURATION[420] | EASING.out | 1.26 | translateY(-100%) |
+| M3.2 | Mobile Center Strip (M2) Bottom Half | transform: translateY | 0.84 | 420 | DURATION[420] | EASING.out | 1.26 | translateY(100%) |
+| M3.3 | Mobile Center Strip (M2) Horizontal Seam | opacity | 0.84 | 120 | DURATION[120] | EASING.out | 0.96 | opacity 0 |
+| M4.1 | Mobile Flank Strips (M1, M3) Top Halves | transform: translateY | 0.915 | 420 | DURATION[420] | EASING.out | 1.335 | translateY(-100%) |
+| M4.2 | Mobile Flank Strips (M1, M3) Bottom Halves | transform: translateY | 0.915 | 420 | DURATION[420] | EASING.out | 1.335 | translateY(100%) |
+| M4.3 | Mobile Flank Strips (M1, M3) Horizontal Seams | opacity | 0.915 | 120 | DURATION[120] | EASING.out | 1.035 | opacity 0 |
 | M5.1 | Mobile Overlay Container Fade | opacity | 1.26 | 120 | DURATION[120] | EASING.out | 1.38 | container opacity 0 |
 | M5.2 | Mobile DOM Settlement | attribute removal | 1.38 | 0 | 0 ms | immediate | 1.38 | clean rest state (<= 1.40 s ceiling) |
 
@@ -245,17 +281,17 @@ The sequence `00 -> 18 -> 42 -> 73 -> 91 -> 100` consists of visual counter mile
 
 ### Natural Writing Order & Stroke Geometry
 1. Stroke 1 (Capital 'H' Entrance & Left Stem):
-   - Pen enters with an upper-left curl at (24, 16), sweeps up to (30, 8), and flows downward along a 25-degree slant to the baseline at (20, 48), concluding with a soft bottom hook.
+   - Pen enters with an upper-left curl at (20, 15), sweeps up to (31, 8), and flows downward along a 25-degree slant to the baseline at (17, 46), concluding with a soft bottom hook.
 2. Stroke 2 (Capital 'H' Right Stem & Sweeping Crossbar):
-   - Pen enters at upper right (44, 10), descends along the parallel slant to baseline at (36, 48), loops back upward counter-clockwise to cross both vertical stems at x-height (y = 30), and sweeps outward to form the baseline ligature connecting to 'e'.
+   - Pen enters at upper right (43, 9), descends along the parallel slant to baseline at (35, 45), loops back upward counter-clockwise to cross both vertical stems at x-height (y = 29), and sweeps outward to form the baseline ligature connecting to 'e'.
 3. Stroke 3 (Continuous Lowercase Ligature 'ello'):
    - Rendered as a single continuous cursive vector path to emulate unbroken pen contact:
-     - 'e': Enters from baseline at (44, 48), arches up to x-height (54, 30), loops counter-clockwise around (50, 38), and exits to baseline at (58, 48).
-     - 'l' (first): Climbs steeply along the 25-degree slant to the ascender line at (70, 8), forms a delicate loop apex, and drops straight down to baseline at (66, 48).
-     - 'l' (second): Climbs immediately into the second ascender loop to (80, 8), curves smoothly, and drops down to baseline at (76, 48).
-     - 'o': Climbs to x-height (88, 30), traces counter-clockwise around the oval (82, 38) to (88, 48), seals at top right, and finishes with a refined exit flick at (96, 32).
+     - 'e': Enters from baseline at (47, 48), arches up to x-height (56, 31), loops counter-clockwise around (50, 30), and exits to baseline at (59, 47).
+     - 'l' (first): Climbs steeply along the 25-degree slant to the ascender line at (75, 9), forms a delicate loop apex, and drops straight down to baseline at (65, 46).
+     - 'l' (second): Climbs immediately into the second ascender loop to (85, 9), curves smoothly, and drops down to baseline at (75, 46).
+     - 'o': Climbs to x-height (93, 29), traces counter-clockwise around the oval (88, 29) to (94, 48), seals at top right, and finishes with a refined exit flick at (103, 33).
 4. Stroke 4 (Terminal Period '.'):
-   - Pen concludes with a discrete, deliberate contact tap at baseline (102, 48), rendered as a compact dot glyph.
+   - Pen concludes with a discrete downward contact pen tap at baseline (108, 45.5 to 109.5, 48.5), rendered as an open calligraphic stroke rather than a mechanical circle.
 
 ### Pure CSS / SVG Animation Mechanics
 - Lightweight & Local: Zero external handwriting libraries, zero canvas, zero video, and zero runtime path-generation dependencies.
@@ -279,7 +315,7 @@ The sequence `00 -> 18 -> 42 -> 73 -> 91 -> 100` consists of visual counter mile
 - Clean Fade Exit: t = 0.96 s to 1.08 s (120 ms fade to opacity 0, `DURATION[120]`).
 
 ### Optical Proportions & Styling
-- Viewport Dimensions: Desktop width ~140px, height ~36px; Mobile width ~110px, height ~28px.
+- Viewport Dimensions: Desktop width ~140px, height ~56px; Mobile width ~110px, height ~44px.
 - Stroke Color: `--text-primary` (`#EAF4FF`).
 - Stroke Width: `1.8px` (desktop), `1.5px` (mobile).
 - Caps & Joins: `stroke-linecap: round; stroke-linejoin: round;` producing soft calligraphic stroke ends.
@@ -289,7 +325,8 @@ The sequence `00 -> 18 -> 42 -> 73 -> 91 -> 100` consists of visual counter mile
   - Stroke drawing animations are bypassed completely:
     ```css
     @media (prefers-reduced-motion: reduce) {
-      .preloader-hello-stroke {
+      .preloader-hello-stroke,
+      .preloader-hello-dot {
         animation: none !important;
         stroke-dashoffset: 0 !important;
         opacity: 1 !important;
@@ -303,62 +340,116 @@ The sequence `00 -> 18 -> 42 -> 73 -> 91 -> 100` consists of visual counter mile
 ## 7. Panel Geometry & Explicit Viewport Sizing
 
 ### Viewport Sizing Specification
-To prevent mobile URL bar jump without introducing layout shift, viewport dimensions are declared with dynamic viewport units and standard fallbacks:
+To prevent mobile URL bar jump without introducing layout shift, viewport dimensions are declared with dynamic viewport units and standard fallbacks, with explicit positional coordinates:
 ```css
-.preloader-overlay,
-.preloader-panel {
+.preloader-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
   height: 100vh;  /* Fallback for browsers without dynamic viewport support */
   height: 100dvh; /* Exact dynamic viewport height preventing address bar shifts */
-  width: 100vw;
+  overflow: hidden;
+  z-index: 99999;
+}
+
+.preloader-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  height: 100vh;  /* Fallback for browsers without dynamic viewport support */
+  height: 100dvh; /* Exact dynamic viewport height preventing address bar shifts */
   overflow: hidden;
 }
 ```
 
 ### Desktop Panel Layout (Viewport >= 768px)
-- Panel Count: 5 vertical panels.
-- Width Distribution: Uniform 20.00% width per panel (`calc(100vw / 5)`).
-- Structure of each panel:
-  ```html
-  <div class="preloader-panel" style="left: calc(var(--panel-idx) * 20%); width: 20%;">
-    <div class="panel-half panel-half-left"></div>
-    <div class="panel-half panel-half-right"></div>
-    <div class="panel-seam"></div>
-  </div>
-  ```
-- Proportions:
-  - `panel-half-left`: `position: absolute; left: 0; width: 50%; height: 100%; overflow: hidden;`
-  - `panel-half-right`: `position: absolute; left: 50%; width: 50%; height: 100%; overflow: hidden;`
-  - `panel-seam`: `position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); background: var(--border-subtle);`
-- Base Surface Color: Frost Navy `--bg-base` (`#071629`).
-- Tonal Variation: Controlled alternation across panels using existing tokens:
-  - Panels 1, 3, 5: `--bg-base` (`#071629`)
-  - Panels 2, 4: `--bg-surface1` (`#0B213F`, 1.5% contrast delta)
-- Seam Hairline: 1px wide in `--border-subtle` (`#17345C`). Zero box-shadow, zero neon laser glows.
+- Panel Count: 5 vertical strips (`P1 | P2 | P3 | P4 | P5`).
+- Width Distribution: Uniform 20.00% width per strip (`calc(100vw / 5)`).
+- Strip Positional Sizing Contract:
+  - `P1` (preloader-panel-0): `top: 0; bottom: 0; left: 0%; width: 20%;`
+  - `P2` (preloader-panel-1): `top: 0; bottom: 0; left: 20%; width: 20%;`
+  - `P3` (preloader-panel-2, Center): `top: 0; bottom: 0; left: 40%; width: 20%;`
+  - `P4` (preloader-panel-3): `top: 0; bottom: 0; left: 60%; width: 20%;`
+  - `P5` (preloader-panel-4): `top: 0; bottom: 0; left: 80%; width: 20%;`
+
+### Structure of Each Vertical Strip:
+```html
+<div class="preloader-panel preloader-panel-[idx]" data-tone="[base|alt]">
+  <div class="panel-half panel-half-top"></div>
+  <div class="panel-half panel-half-bottom"></div>
+  <div class="panel-seam"></div>
+</div>
+```
+
+### Proportions of Internal Elements:
+- `panel-half-top`:
+  `position: absolute; top: 0; left: 0; width: 100%; height: 50%; overflow: hidden;`
+- `panel-half-bottom`:
+  `position: absolute; top: 50%; left: 0; width: 100%; height: 50%; overflow: hidden;`
+- `panel-seam` (Horizontal Center Seam):
+  `position: absolute; left: 0; right: 0; top: 50%; width: 100%; height: 1px; transform: translateY(-50%); background: var(--border-subtle, #17345C); z-index: 5; transition: opacity var(--dur-120) var(--ease-out);`
+
+### Center Weighting & Strip Count Analysis (Skill Guidance):
+- Strip Count (5 Strips):
+  - Why 5 is optimal: An odd count provides an exact solitary center strip (`P3`) spanning 40% to 60% of the viewport width. This dead-center strip sits directly beneath the monospace counter and handwritten "Hello.", making it the natural optical epicenter of the entire reveal.
+  - Symmetrical pairing: 5 strips allows two clean bilateral pairs: mid pair (`P2 + P4`) and outer pair (`P1 + P5`).
+- Center Weighting:
+  - Uniform 20% width per strip preserves architectural mathematical discipline. Rather than an arbitrary non-uniform width, the center strip receives its emphasis through chronological priority (it initiates the split first) and optical convergence (it anchors the central aperture).
+- Tonal Variation:
+  - Strips P1, P3, P5: `--bg-base` (`#071629`).
+  - Strips P2, P4: `data-tone="alt"` (`--bg-surface1`: `#0B213F`, 1.5% contrast delta).
+  - Tonal alternation subtly defines the vertical strips without adding decorative borders or shadows.
+- Seam Hairline:
+  - 1px high horizontal hairline across each vertical strip at `top: 50%` in `--border-subtle` (`#17345C`).
+  - Zero box-shadow, zero neon laser glows, zero animated blurs.
 
 ### Mobile Panel Layout (Viewport < 768px)
-- Panel Count: 3 vertical panels.
-- Width Distribution: Uniform 33.333% width per panel (`calc(100vw / 3)`).
-- Sub-element proportions: Identical paired-half structure (`panel-half-left` 50%, `panel-half-right` 50%, center seam at 50%).
+- Panel Count: 3 vertical strips (`M1 | M2 | M3`).
+- Width Distribution: Uniform 33.333% width per strip (`calc(100vw / 3)`).
+- Strip Positional Sizing Contract:
+  - `M1` (preloader-panel-0): `top: 0; bottom: 0; left: 0%; width: 33.334%;`
+  - `M2` (preloader-panel-1, Center): `top: 0; bottom: 0; left: 33.333%; width: 33.334%;`
+  - `M3` (preloader-panel-2): `top: 0; bottom: 0; left: 66.666%; width: 33.334%;`
+  - Strips 3 and 4: `display: none;`
+- Sub-element proportions: Identical paired-half structure (`panel-half-top` 50% height, `panel-half-bottom` 50% height, horizontal center seam at `top: 50%`).
 
 ---
 
 ## 8. Split Reveal Choreography & Mechanical Metaphor
 
-Inside each vertical stripe:
-- The left shutter plate translates left: `transform: translateX(-100%);`
-- The right shutter plate translates right: `transform: translateX(100%);`
-- Both halves retract into the parent container's `overflow: hidden` boundaries.
-- The center seam hairline dissolves instantly at split onset (`opacity: 0` over 120 ms).
+### Fundamental Coordinate Axiom (Two Distinct Axes):
+1. **Strip Geometry Axis**: The viewport is partitioned along the horizontal axis into vertical strips (`P1` through `P5`).
+2. **Strip Opening Axis**: Each individual vertical strip splits VERTICALLY:
+   - The Top Half moves UP: `transform: translateY(-100%);`
+   - The Bottom Half moves DOWN: `transform: translateY(100%);`
+   - Both halves retract vertically into the strip's `overflow: hidden` boundaries.
+   - The horizontal center seam dissolves instantly at split onset (`opacity: 0` over 120 ms).
+   - Zero `translateX` is applied to the panel halves.
+3. **Wave Propagation Axis**: The opening motion travels HORIZONTALLY outward from the center strip:
+   - Center strip (`P3`) splits first.
+   - Flank pair (`P2 + P4`) splits second.
+   - Edge pair (`P1 + P5`) splits third.
 
-### Stagger Ordering
-- Symmetrical Center-Outward Stagger:
-  - Desktop: Center panel (P3) opens first at t = 1.08 s.
-  - Mid flanks (P2 and P4) open next at t = 1.155 s (75 ms step, `STAGGER.step`).
-  - Outer flanks (P1 and P5) open last at t = 1.23 s (150 ms step, `2 * STAGGER.step`).
-  - Mobile: Center panel (M2) opens first at t = 0.84 s.
-  - Outer flanks (M1 and M3) open at t = 0.915 s (75 ms step, `STAGGER.step`).
+### Center-Outward Wave Stagger Ordering:
+- Desktop (5 Strips):
+  1. Center Strip (`P3`, index 2): Starts at t = 1.08 s (`--delay-preloader-center-panel`).
+  2. Mid Flanks (`P2` and `P4`, indices 1 and 3): Start synchronously at t = 1.155 s (`--delay-preloader-mid-panels`, 75 ms step, `STAGGER.step`).
+  3. Outer Edges (`P1` and `P5`, indices 0 and 4): Start synchronously at t = 1.23 s (`--delay-preloader-outer-panels`, 150 ms total delay, `2 * STAGGER.step`).
+- Mobile (3 Strips):
+  1. Center Strip (`M2`, index 1): Starts at t = 0.84 s (`--delay-preloader-mobile-center-panel`).
+  2. Flank Pair (`M1` and `M3`, indices 0 and 2): Starts synchronously at t = 0.915 s (`--delay-preloader-mobile-flank-panels`, 75 ms step, `STAGGER.step`).
+
+### Continuous Mechanical Wave Perception (Emil Kowalski / Design Skill Principles):
+- The reveal must NEVER feel like three stop-and-start animations (`OPEN -> PAUSE -> OPEN -> PAUSE -> OPEN`).
+- Because each vertical split duration is 700 ms (`DURATION[700]`) and the stagger step is only 75 ms (`STAGGER.step`):
+  - At t = 1.08 s: P3 begins moving vertically.
+  - At t = 1.155 s: P3 is still at only ~11% travel when P2 and P4 begin moving.
+  - At t = 1.23 s: P3 is at ~22% travel, P2/P4 are at ~11% travel, and P1/P5 begin moving.
+  - From t = 1.23 s to t = 1.78 s, ALL 5 STRIPS ARE MOVING SIMULTANEOUSLY.
+- The human visual system perceives this overlapping cascading motion as a single continuous outward mechanical wave, parting like precision interlocking shutters.
 
 ---
 
@@ -369,7 +460,7 @@ The preloader must NOT be used as cover for expensive Three.js/WebGL initializat
 - Architecture:
   1. All 3D canvases (`NeuralNetworkScene`, `Hyperspeed`, `ScrollOrb`) are already lazily loaded via `useAfterLcp` and `WebGLGuard`.
   2. Heavy Three.js shader compilation and scene initialization remain strictly deferred until AFTER the panel reveal completes (t > 2.05 s) or after skip is triggered.
-  3. The preloader animation itself uses pure CSS transforms running on the GPU compositor thread, completely isolated from WebGL canvas lifecycle.
+  3. The preloader animation itself uses pure CSS `transform: translateY()` and `opacity` running on the GPU compositor thread, completely isolated from WebGL canvas lifecycle.
 
 ---
 
@@ -440,48 +531,48 @@ Both tiers are evaluated and recorded separately in `docs/motion-proof/` so pre-
 <div id="portfolio-preloader" class="preloader-overlay" aria-hidden="true" tabindex="-1">
   <!-- Minimal Counter -->
   <div class="preloader-counter-wrap">
-    <span class="preloader-counter-digits font-mono">07</span>
+    <span class="preloader-counter-digits font-mono">42</span>
   </div>
 
   <!-- Handwritten Greeting (Italianno Centerline Strokes) -->
   <div class="preloader-greeting-wrap">
-    <svg class="preloader-hello-svg" viewBox="0 0 120 60" fill="none" aria-label="Hello.">
+    <svg class="preloader-hello-svg" viewBox="0 0 120 56" fill="none" aria-label="Hello.">
       <!-- Stroke 1: H entrance curl and left stem -->
       <path class="preloader-hello-stroke preloader-stroke-h1" pathLength="100" d="..." />
       <!-- Stroke 2: H right stem and sweeping crossbar -->
       <path class="preloader-hello-stroke preloader-stroke-h2" pathLength="100" d="..." />
       <!-- Stroke 3: Continuous cursive ligature 'ello' -->
       <path class="preloader-hello-stroke preloader-stroke-ello" pathLength="100" d="..." />
-      <!-- Stroke 4: Terminal period dot -->
-      <circle class="preloader-hello-dot" cx="102" cy="48" r="1.5" />
+      <!-- Stroke 4: Terminal period downward pen tap -->
+      <path class="preloader-hello-dot preloader-stroke-dot" pathLength="100" d="..." />
     </svg>
   </div>
 
-  <!-- Split Panels Curtain -->
+  <!-- Split Panels Curtain (Vertical Strips with Vertical Shutter Split) -->
   <div class="preloader-panels-container">
-    <div class="preloader-panel preloader-panel-0">
-      <div class="panel-half panel-half-left"></div>
-      <div class="panel-half panel-half-right"></div>
+    <div class="preloader-panel preloader-panel-0" data-tone="base">
+      <div class="panel-half panel-half-top"></div>
+      <div class="panel-half panel-half-bottom"></div>
       <div class="panel-seam"></div>
     </div>
-    <div class="preloader-panel preloader-panel-1">
-      <div class="panel-half panel-half-left"></div>
-      <div class="panel-half panel-half-right"></div>
+    <div class="preloader-panel preloader-panel-1" data-tone="alt">
+      <div class="panel-half panel-half-top"></div>
+      <div class="panel-half panel-half-bottom"></div>
       <div class="panel-seam"></div>
     </div>
-    <div class="preloader-panel preloader-panel-2">
-      <div class="panel-half panel-half-left"></div>
-      <div class="panel-half panel-half-right"></div>
+    <div class="preloader-panel preloader-panel-2" data-tone="base">
+      <div class="panel-half panel-half-top"></div>
+      <div class="panel-half panel-half-bottom"></div>
       <div class="panel-seam"></div>
     </div>
-    <div class="preloader-panel preloader-panel-3">
-      <div class="panel-half panel-half-left"></div>
-      <div class="panel-half panel-half-right"></div>
+    <div class="preloader-panel preloader-panel-3" data-tone="alt">
+      <div class="panel-half panel-half-top"></div>
+      <div class="panel-half panel-half-bottom"></div>
       <div class="panel-seam"></div>
     </div>
-    <div class="preloader-panel preloader-panel-4">
-      <div class="panel-half panel-half-left"></div>
-      <div class="panel-half panel-half-right"></div>
+    <div class="preloader-panel preloader-panel-4" data-tone="base">
+      <div class="panel-half panel-half-top"></div>
+      <div class="panel-half panel-half-bottom"></div>
       <div class="panel-seam"></div>
     </div>
   </div>
@@ -506,12 +597,15 @@ All Phase 2 implementation commits will be small, atomic, and individually verif
    - Implement compact, quiet sentence-case "Hello." SVG stroke draw and hold.
    - Connect fade exit prior to split initiation.
 
-4. `feat(motion): desktop center-split panel curtain`
-   - Implement 5-panel paired-half mechanical split with center-outward stagger.
+4. `feat(motion): desktop vertical-strip horizontal-split curtain`
+   - Implement 5 vertical strips with horizontal center seams.
+   - Implement vertical shutter split (`translateY(-100%)` on top half, `translateY(100%)` on bottom half).
+   - Choreograph center-outward horizontal wave propagation (`P3` -> `P2 + P4` -> `P1 + P5`) with 75 ms stagger step.
    - Compose pure CSS keyframes using compositor-friendly transforms.
 
 5. `feat(motion): responsive 3-panel mobile opening reveal`
-   - Implement 3-panel layout under `@media (max-width: 767px)` with accelerated 1.38 s timeline.
+   - Implement 3 vertical strips under `@media (max-width: 767px)` with vertical shutter split (`translateY`).
+   - Choreograph mobile center-outward wave (`M2` -> `M1 + M3`) with accelerated 1.38 s timeline.
 
 6. `feat(motion): skip listener, pause motion, and reduced-motion contract`
    - Implement one-shot passive skip listeners on keydown, pointerdown, wheel.
@@ -543,7 +637,7 @@ All Phase 2 implementation commits will be small, atomic, and individually verif
 If performance audits during Phase 2 show any regression against Tier 2 budgets, cuts will be applied strictly in this order:
 
 1. Cut tonal variation across panels (revert all panels to single uniform `--bg-base`).
-2. Reduce desktop panel count from 5 to 4.
+2. Reduce desktop panel count from 5 to 3.
 3. Simplify handwritten greeting from SVG path stroke draw to a subtle opacity fade.
 4. Reduce stagger step from 75 ms to 60 ms (the lower bound of the approved 60 to 90 ms stagger window), only if runtime trace analysis demonstrates an animation-frame task exceeds the 50 ms budget.
 5. Shorten counter hold time.
