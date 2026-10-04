@@ -2,13 +2,10 @@ import { motion } from 'framer-motion';
 import { Footer } from '@/components/layout/Footer';
 import { Hero } from '@/components/sections/Hero';
 import { MarqueeBanner } from '@/components/sections/MarqueeBanner';
-import { AboutPreview } from '@/components/sections/AboutPreview';
-import { FeaturedWork } from '@/components/sections/FeaturedWork';
+import { ScrollFlow } from '@/components/sections/ScrollFlow';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { FAQ } from '@/components/sections/FAQ';
-import { Services } from '@/components/sections/Services';
 import { ContactSection } from '@/components/sections/ContactSection';
-import { SystemLabel } from '@/components/effects/SystemLabel';
 import { HighlightPoint } from '@/components/ui/HighlightPoint';
 import { pageEnter } from '@/lib/motion';
 import { Seo, buildPersonJsonLd, buildWebsiteJsonLd, buildFaqJsonLd } from '@/lib/seo';
@@ -30,7 +27,7 @@ export default function Home() {
         jsonLd={[buildPersonJsonLd(), buildWebsiteJsonLd(), buildFaqJsonLd(faqs)]}
       />
       <main>
-        {/* ── Hero: no SystemLabel, has its own cinematic entrance ── */}
+        {/* ── Hero: Opening reveal with LCP priority ── */}
         <HighlightPoint id="core-origin" color="#9DB7D5" label="CORE // ORIGIN">
           <Hero />
         </HighlightPoint>
@@ -38,47 +35,22 @@ export default function Home() {
         {/* ── Tech stack marquee ── */}
         <MarqueeBanner />
 
-        {/* ── SYSTEM_01: About preview ── */}
-        <SystemLabel id="SYSTEM_01" index="01" total="05">
-          <HighlightPoint id="about-section" color="#10B981" label="PROFILE // HARDIK">
-            <AboutPreview />
-          </HighlightPoint>
-        </SystemLabel>
+        {/* ── Systems Architecture Scroll Flow (Chapters 1 to 3 sticky stack) ── */}
+        <ScrollFlow />
 
-        {/* ── PROJECT_ARCHIVE: Featured work ── */}
-        <SystemLabel id="PROJECT_ARCHIVE" index="02" total="05">
-          <HighlightPoint id="featured-work" color="#E11D48" label="ARCHIVE // 5 SYSTEMS">
-            <FeaturedWork limit={4} showViewAll />
-          </HighlightPoint>
-        </SystemLabel>
+        {/* ── Appendix: Testimonials & FAQ ── */}
+        <HighlightPoint id="testimonials" color="#8B5CF6" label="FEEDBACK // VERIFIED">
+          <Testimonials />
+        </HighlightPoint>
 
-        {/* ── SERVICES: What I Build ── */}
-        <SystemLabel id="SERVICES" index="03" total="06">
-          <HighlightPoint id="services" color="#F59E0B" label="CAPABILITIES // FULL-STACK">
-            <Services />
-          </HighlightPoint>
-        </SystemLabel>
+        <HighlightPoint id="faq" color="#06B6D4" label="QUERY // KNOWLEDGE">
+          <FAQ />
+        </HighlightPoint>
 
-        {/* ── NEURAL_FEEDBACK: Testimonials ── */}
-        <SystemLabel id="NEURAL_FEEDBACK" index="04" total="06">
-          <HighlightPoint id="testimonials" color="#8B5CF6" label="FEEDBACK // VERIFIED">
-            <Testimonials />
-          </HighlightPoint>
-        </SystemLabel>
-
-        {/* ── QUERY_ENGINE: FAQ ── */}
-        <SystemLabel id="QUERY_ENGINE" index="05" total="06">
-          <HighlightPoint id="faq" color="#06B6D4" label="QUERY // KNOWLEDGE">
-            <FAQ />
-          </HighlightPoint>
-        </SystemLabel>
-
-        {/* ── OPEN_CHANNEL: Contact ── */}
-        <SystemLabel id="OPEN_CHANNEL" index="06" total="06">
-          <HighlightPoint id="contact" color="#10B981" label="UPLINK // TRANSMIT">
-            <ContactSection />
-          </HighlightPoint>
-        </SystemLabel>
+        {/* ── Contact Channel ── */}
+        <HighlightPoint id="contact" color="#10B981" label="UPLINK // TRANSMIT">
+          <ContactSection />
+        </HighlightPoint>
       </main>
 
       <Footer />
