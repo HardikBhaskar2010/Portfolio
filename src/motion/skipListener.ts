@@ -1,20 +1,27 @@
 /**
  * src/motion/skipListener.ts
  * One-shot passive event listener for skipping the opening reveal.
- * Instantly removes data-intro on keydown, pointerdown, or wheel.
+ * Instantly removes data-preloader and data-intro on keydown, pointerdown, or wheel.
  */
 
-export function initSkipListener(): () => void {
+export function initSkipListener(onSkip?: () => void): () => void {
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     return () => {};
   }
 
-  if (document.documentElement.getAttribute('data-intro') !== 'active') {
+  const isPreloaderActive = document.documentElement.getAttribute('data-preloader') === 'active';
+  const isIntroActive = document.documentElement.getAttribute('data-intro') === 'active';
+
+  if (!isPreloaderActive && !isIntroActive) {
     return () => {};
   }
 
   const handleSkip = () => {
+    document.documentElement.removeAttribute('data-preloader');
     document.documentElement.removeAttribute('data-intro');
+    if (onSkip) {
+      onSkip();
+    }
     cleanup();
   };
 
@@ -32,3 +39,4 @@ export function initSkipListener(): () => void {
 
   return cleanup;
 }
+

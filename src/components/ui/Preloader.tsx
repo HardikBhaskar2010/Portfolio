@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { DURATION, PRELOADER_DELAY } from '@/motion/tokens';
 import { isOsReducedMotion, isMotionPaused } from '@/motion/motionPreference';
+import { initSkipListener } from '@/motion/skipListener';
 import '@/motion/preloader.css';
 
 interface PreloaderProps {
@@ -100,8 +101,16 @@ export function Preloader({ onComplete }: PreloaderProps) {
       );
     }
 
+    const cleanupSkip = initSkipListener(() => {
+      if (!completedRef.current) {
+        completedRef.current = true;
+        onComplete();
+      }
+    });
+
     return () => {
       timers.forEach(t => window.clearTimeout(t));
+      cleanupSkip();
     };
   }, [onComplete]);
 

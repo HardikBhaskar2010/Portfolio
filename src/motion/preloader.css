@@ -360,3 +360,10 @@
     stroke-dashoffset: 0 !important;
   }
 }
+
+html[data-motion-paused="true"] .preloader-overlay {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
