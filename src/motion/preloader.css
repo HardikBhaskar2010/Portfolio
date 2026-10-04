@@ -1,0 +1,70 @@
+/**
+ * src/motion/preloader.css
+ * Styles and keyframes for the cinematic portfolio preloader.
+ * Animate transform and opacity only (N4). Delays and durations strictly token-derived.
+ */
+
+.preloader-overlay {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  z-index: 99999;
+  background: var(--bg-base, #071629);
+  overflow: hidden;
+  pointer-events: auto;
+  user-select: none;
+  transition: opacity var(--dur-120) var(--ease-out);
+}
+
+.preloader-overlay[data-state="clearing"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MINIMAL COUNTER
+───────────────────────────────────────────────────────────── */
+
+.preloader-counter-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  pointer-events: none;
+  transition: opacity var(--dur-120) var(--ease-out);
+}
+
+.preloader-counter-wrap[data-visible="false"] {
+  opacity: 0;
+}
+
+.preloader-counter-digits {
+  font-family: var(--font-mono, 'Geist Mono', monospace);
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.25em;
+  color: var(--text-secondary, #9db7d5);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 767px) {
+  .preloader-counter-digits {
+    font-size: 12px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   REDUCED MOTION OVERRIDE
+───────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader-overlay {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}

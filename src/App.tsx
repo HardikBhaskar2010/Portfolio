@@ -58,7 +58,7 @@ const hyperspeedOptions = {
 };
 import { Navbar } from '@/components/layout/Navbar';
 import { ScrollProgressBar } from '@/components/ui/ScrollProgressBar';
-import { IntroScreen } from '@/components/ui/IntroScreen';
+import { Preloader } from '@/components/ui/Preloader';
 import { ConsentBanner } from '@/components/ui/ConsentBanner';
 import Home from '@/pages/Home';
 
@@ -202,8 +202,12 @@ function AppContent() {
     if (typeof window === 'undefined') return false;
     const params = new URLSearchParams(window.location.search);
     if (params.get('nointro') === 'true') return false;
+    if (params.get('intro') === '1') return true;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
     try {
-      if (sessionStorage.getItem('intro_seen') === 'true') return false;
+      if (localStorage.getItem('portfolio_motion_paused') === 'true') return false;
+      const seen = sessionStorage.getItem('intro_seen');
+      if (seen === 'true' || seen === '1') return false;
     } catch {
       // Storage access blocked or restricted
     }
@@ -213,9 +217,13 @@ function AppContent() {
   const handleIntroComplete = () => {
     setShowIntro(false);
     try {
-      sessionStorage.setItem('intro_seen', 'true');
+      sessionStorage.setItem('intro_seen', '1');
     } catch {
       // Ignore storage error
+    }
+    if (typeof document !== 'undefined') {
+      document.documentElement.removeAttribute('data-preloader');
+      document.documentElement.removeAttribute('data-intro');
     }
   };
 
@@ -261,7 +269,7 @@ function AppContent() {
 
   return (
     <>
-      {showIntro && <IntroScreen onComplete={handleIntroComplete} />}
+      {showIntro && <Preloader onComplete={handleIntroComplete} />}
       <ConsentBanner />
 
       {/* ── Backmost Layer: Hyperspeed (React Bits) ── */}
