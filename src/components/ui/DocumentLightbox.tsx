@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, ExternalLink, FileText } from 'lucide-react';
 import { playClick } from '@/lib/audio';
 import { getLenis } from '@/lib/lenis';
-import { PdfViewer } from '@/components/ui/PdfViewer';
+
+const LazyPdfViewer = lazy(() =>
+  import('@/components/ui/PdfViewer').then((m) => ({ default: m.PdfViewer }))
+);
 
 export interface DocumentModalProps {
   isOpen: boolean;
@@ -88,14 +91,14 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
             exit={{ opacity: 0, scale: 0.96, y: 8 }}
             transition={{ type: 'spring', duration: 0.35, bounce: 0 }}
             data-lenis-prevent="true"
-            className="relative w-full max-w-5xl h-[90vh] max-h-[90vh] flex flex-col bg-[#0A0A10] border border-white/10 rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.8)] overflow-hidden z-10"
+            className="relative w-full max-w-5xl h-[90vh] max-h-[90vh] flex flex-col bg-surface border border-borderStrong rounded-2xl shadow-2xl overflow-hidden z-10"
             style={{
-              boxShadow: `0 0 0 1px rgba(255,255,255,0.08), 0 20px 60px -15px ${accent}25`,
+              boxShadow: `0 0 0 1px rgba(255,255,255,0.08), 0 20px 60px -15px rgba(23, 52, 92, 0.4)`,
             }}
           >
 
-            {/* Top HUD Header */}
-            <div className="flex-shrink-0 flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-white/10 bg-white/[0.02]">
+            {/* Top Header */}
+            <div className="flex-shrink-0 flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-borderSubtle bg-elevated/40">
               <div className="flex items-center gap-3 min-w-0">
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -108,16 +111,16 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
                     <h3 className="font-heading font-bold text-white text-base truncate">
                       {document.title}
                     </h3>
-                    <span className="inline-flex items-center gap-1 font-mono text-[10px] uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex-shrink-0">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="inline-flex items-center gap-1 font-mono text-[10px] uppercase px-2 py-0.5 rounded-full bg-statusAvailable/10 text-statusAvailable border border-statusAvailable/20 flex-shrink-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-statusAvailable animate-pulse" />
                       VERIFIED
                     </span>
                   </div>
                   <p className="font-ui text-xs text-muted truncate mt-0.5">
-                    {document.issuer && <span className="text-white/80">{document.issuer}</span>}
-                    {document.date && <span> • {document.date}</span>}
+                    {document.issuer && <span className="text-secondary">{document.issuer}</span>}
+                    {document.date && <span> : {document.date}</span>}
                     {document.credentialId && (
-                      <span className="font-mono text-[11px] text-cyan/90 ml-1">
+                      <span className="font-mono text-[11px] text-accent ml-1">
                         [ID: {document.credentialId}]
                       </span>
                     )}
@@ -131,7 +134,7 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
                   href={document.fileUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-ui font-medium text-white/80 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-ui font-medium text-secondary hover:text-white bg-elevated hover:bg-surface border border-borderStrong transition-colors"
                 >
                   <ExternalLink size={13} />
                   <span>Open Tab</span>
@@ -140,8 +143,7 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
                 <a
                   href={document.fileUrl}
                   download
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-ui font-semibold text-black transition-all hover:brightness-110 active:scale-95"
-                  style={{ background: accent }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-ui font-semibold bg-buttonPrimaryBg text-buttonPrimaryText transition-all hover:brightness-105 active:scale-95 shadow-sm"
                 >
                   <Download size={13} />
                   <span>Download</span>
@@ -152,7 +154,7 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
                     playClick();
                     onClose();
                   }}
-                  className="p-1.5 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                  className="p-1.5 rounded-lg text-muted hover:text-white hover:bg-white/10 transition-colors"
                   aria-label="Close modal"
                 >
                   <X size={18} />
@@ -161,14 +163,23 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
             </div>
 
             {/* Document Viewer Body */}
-            <div className="relative flex-1 min-h-0 w-full bg-[#050508] flex flex-col overflow-hidden">
+            <div className="relative flex-1 min-h-0 w-full bg-base flex flex-col overflow-hidden">
               {isPdf ? (
-                <PdfViewer
-                  url={document.fileUrl}
-                  title={document.title}
-                  accentColor={accent}
-                  className="w-full h-full flex-1 min-h-0"
-                />
+                <Suspense
+                  fallback={
+                    <div className="flex-1 w-full h-full flex flex-col items-center justify-center p-8 gap-3">
+                      <div className="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+                      <span className="font-mono text-xs text-muted">Loading PDF Engine...</span>
+                    </div>
+                  }
+                >
+                  <LazyPdfViewer
+                    url={document.fileUrl}
+                    title={document.title}
+                    accentColor={accent}
+                    className="w-full h-full flex-1 min-h-0"
+                  />
+                </Suspense>
               ) : (
                 <div className="flex-1 min-h-0 w-full overflow-auto flex items-center justify-center p-4">
                   <img
@@ -186,10 +197,10 @@ export function DocumentLightbox({ isOpen, onClose, document }: DocumentModalPro
             </div>
 
             {/* Footer status bar */}
-            <div className="flex-shrink-0 flex items-center justify-between px-4 sm:px-5 py-2.5 border-t border-white/10 bg-white/[0.01] text-[11px] font-mono text-muted">
+            <div className="flex-shrink-0 flex items-center justify-between px-4 sm:px-5 py-2.5 border-t border-borderSubtle bg-elevated/20 text-[11px] font-mono text-muted">
               <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan" />
-                SECURE ARTIFACT // PROTOCOL V4
+                <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                VERIFIED CREDENTIAL ARTIFACT
               </span>
               <span className="hidden sm:inline">Press ESC to dismiss</span>
             </div>

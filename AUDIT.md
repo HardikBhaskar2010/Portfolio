@@ -259,8 +259,8 @@ All three buttons have different heights, paddings, border radiuses, and typogra
 
 ### Ranked "What to Add" (Optimized for a 30-Second Technical Recruiter Skim)
 
-1. **Kernel & Microbenchmark Tables** (*Impact: Maximum / Effort: Medium*)
-   - Add hard numbers directly under KAGE and Vectoris: Sub-180MB RAM idle ceiling, <15ms microkernel boot sequence, sub-1.2s DWG vectorization throughput across 50MB blueprint sets.
+1. **Verified Architecture & Repository Metrics** (*Impact: Maximum / Effort: Medium*)
+   - Present verifiable architectural facts directly under KAGE and Vectoris: 100% Rust memory safety, zero external runtime dependencies, native multi-threaded vectorization pipelines verified by repository test suites.
 2. **Interactive Terminal / Wasm REPL Demo** (*Impact: Very High / Effort: High*)
    - Embed a compiled WebAssembly terminal module directly on the homepage allowing recruiters to run interactive CLI commands (e.g. `kage --version`, `vectoris inspect --bench`).
 3. **Systems Architecture Flowcharts** (*Impact: High / Effort: Low*)
@@ -274,18 +274,18 @@ All three buttons have different heights, paddings, border radiuses, and typogra
 
 ### Exhaustive "What to Cut" List
 
-- **CUT** Three.js Hyperspeed background (`Hyperspeed.tsx`).
-- **CUT** Three.js Celestial ScrollOrb (`ScrollOrb.tsx`).
-- **CUT** Three.js Neural Network 7,140-calc particle scene (`NeuralNetworkScene.tsx`).
+- **CUT** Three.js Hyperspeed background (`Hyperspeed.tsx`) - *retained per user decision, optimized with static allocations and offscreen pause*.
+- **CUT** Three.js Celestial ScrollOrb (`ScrollOrb.tsx`) - *retained per user decision ("life of the portfolio"), HUD telemetry removed, rects cached via ResizeObserver*.
+- **CUT** Three.js Neural Network particle scene (`NeuralNetworkScene.tsx`) - *retained per user decision, DPR capped at 1.5, paused offscreen*.
 - **CUT** Fake 6-stage boot screen (`IntroScreen.tsx`).
-- **CUT** 6-layer progressive blur bottom overlay (`BottomBlur.tsx`).
+- **CUT** 6-layer progressive blur bottom overlay (`BottomBlur.tsx`) - *removed in Batch 1*.
 - **CUT** SVG feTurbulence grid distortion (`GridDistortion.tsx`).
 - **CUT** Custom cursor hiding native OS pointer (`index.css:73-84`).
-- **CUT** Conflicting Google Fonts (`Instrument Serif`, `Syne`, `Space Grotesk`).
-- **CUT** 4 of 5 competing "hire me" signals.
+- **CUT** Conflicting Google Fonts (`Instrument Serif`, `Syne`, `Space Grotesk`) - *replaced by self-hosted Geist Sans + Geist Mono*.
+- **CUT** 4 of 5 competing "hire me" signals - *consolidated to 1 status indicator and 1 contact CTA in navbar*.
 - **CUT** Sci-fi HUD telemetry syntax (`// TELEMETRY`, `UPLINK // TRANSMIT`).
-- **CUT** Autoplay-violating Web Audio synthesizer hooks on load.
-- **CUT** Unused heavy packages (`ogl`, `gsap`, `iconsax-react`, `pdfjs-dist`).
+- **CUT** Autoplay-violating Web Audio synthesizer hooks on load - *muted by default in Batch 1*.
+- **CUT** Unused heavy packages (`ogl`, `gsap`, `iconsax-react`; prune unused dead files; keep `resend` in serverless `api/contact.ts`; lazy-load `pdfjs-dist` on demand).
 
 ---
 

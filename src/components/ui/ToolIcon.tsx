@@ -1,43 +1,36 @@
 /**
- * ToolIcon: maps tool names to real iconsax-react icons.
- * Uses the "Bulk" variant (two-tone filled) for a premium dark-mode look.
- * Color coding: Cyan → Design/Dev | Violet → AI | Muted → Collaboration
+ * ToolIcon: maps tool names to standardized Lucide icons with Frost Navy tokens.
+ * Single unified icon set across the entire repository.
  */
 import type { ReactNode } from 'react';
 import {
-  Figma,
-  Code,
-  Code1,
-  Data,
-  Global,
-  Layer,
-  Link21,
-  Monitor,
-  Shapes,
-  Speedometer,
-  Setting2,
-  Star1,
-  Flash,
-  Component,
-  Element3,
-  Graph,
+  Cpu,
+  Braces,
+  Binary,
+  FileCode,
+  Code2,
+  Database,
+  PenTool,
+  Layers,
+  Boxes,
+  Gauge,
+  Atom,
+  Terminal,
+  Triangle,
+  Wind,
+  Bot,
+  Network,
+  Sparkles,
+  Zap,
+  FileText,
   Kanban,
-  MagicStar,
-  ClipboardText,
-  Command,
-  CpuCharge,
-  Hierarchy,
-  Chart,
-} from 'iconsax-react';
-import { GitBranch, Triangle, Wind, Braces, Bot } from 'lucide-react';
+  GitBranch,
+  Star,
+} from 'lucide-react';
 
-const SZ   = 18;
-const BULK  = 'Bulk' as const;
-const CYAN  = '#9DB7D5';
-const VLT   = '#17345C';
-const MUTED = '#94A3B8';
-const ORG   = '#F97316';
-const EMER  = '#10B981';
+const SZ = 18;
+const ACCENT = '#9DB7D5';
+const MUTED = '#7C94AF';
 
 export function getToolIcon(name: string, customSize?: number): ReactNode {
   const iconSize = customSize || SZ;
@@ -45,61 +38,61 @@ export function getToolIcon(name: string, customSize?: number): ReactNode {
   switch (name) {
     // ── Languages & Systems ────────────────────────────────────
     case 'Rust':
-      return <CpuCharge   size={iconSize} variant={BULK} color={ORG} />;
+      return <Cpu size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'C / C++':
-      return <Braces      size={iconSize} color={CYAN} strokeWidth={2} />;
+      return <Braces size={iconSize} color={ACCENT} strokeWidth={2} />;
     case 'Assembly (x86_64)':
-      return <Setting2    size={iconSize} variant={BULK} color={EMER} />;
+      return <Binary size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'Python':
-      return <Code        size={iconSize} variant={BULK} color={VLT} />;
+      return <FileCode size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'TypeScript':
-      return <Code1       size={iconSize} variant={BULK} color={CYAN} />;
+      return <Code2 size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'SQL & BigQuery':
-      return <Chart       size={iconSize} variant={BULK} color={CYAN} />;
+      return <Database size={iconSize} color={ACCENT} strokeWidth={1.75} />;
 
     // ── Design ────────────────────────────────────────────────
     case 'Figma':
-      return <Figma       size={iconSize} variant={BULK} color={CYAN} />;
+      return <PenTool size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'Framer':
-      return <Flash       size={iconSize} variant={BULK} color={CYAN} />;
+      return <Layers size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'Three.js':
-      return <Shapes      size={iconSize} variant={BULK} color={CYAN} />;
+      return <Boxes size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'Framer Motion':
-      return <Speedometer size={iconSize} variant={BULK} color={CYAN} />;
+      return <Gauge size={iconSize} color={ACCENT} strokeWidth={1.75} />;
 
     // ── Development ───────────────────────────────────────────
     case 'React':
-      return <Component   size={iconSize} variant={BULK} color={CYAN} />;
+      return <Atom size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'Tauri v2':
-      return <Command     size={iconSize} variant={BULK} color={ORG} />;
+      return <Terminal size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'Next.js':
-      return <Triangle    size={iconSize} color={CYAN}   strokeWidth={1.5} />;
+      return <Triangle size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'Tailwind CSS':
-      return <Wind        size={iconSize} color={CYAN}   strokeWidth={1.5} />;
+      return <Wind size={iconSize} color={ACCENT} strokeWidth={1.75} />;
 
     // ── AI & Systems ──────────────────────────────────────────
     case 'Google ADK 2.0':
-      return <Bot         size={iconSize} color={VLT} strokeWidth={1.75} />;
+      return <Bot size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'LangChain':
-      return <Hierarchy   size={iconSize} variant={BULK} color={VLT} />;
+      return <Network size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'OpenAI API':
-      return <MagicStar   size={iconSize} variant={BULK} color={VLT} />;
+      return <Sparkles size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'FastAPI':
-      return <Flash       size={iconSize} variant={BULK} color={EMER} />;
+      return <Zap size={iconSize} color={ACCENT} strokeWidth={1.75} />;
     case 'Supabase':
-      return <Data        size={iconSize} variant={BULK} color={VLT} />;
+      return <Database size={iconSize} color={ACCENT} strokeWidth={1.75} />;
 
     // ── Collaboration ─────────────────────────────────────────
     case 'Notion':
-      return <ClipboardText size={iconSize} variant={BULK} color={MUTED} />;
+      return <FileText size={iconSize} color={MUTED} strokeWidth={1.5} />;
     case 'Linear':
-      return <Kanban      size={iconSize} variant={BULK} color={MUTED} />;
+      return <Kanban size={iconSize} color={MUTED} strokeWidth={1.5} />;
     case 'GitHub':
-      return <GitBranch   size={iconSize} color={MUTED}  strokeWidth={1.5} />;
+      return <GitBranch size={iconSize} color={MUTED} strokeWidth={1.5} />;
     case 'Vercel':
-      return <Triangle    size={iconSize} color={MUTED}  strokeWidth={1.5} />;
+      return <Triangle size={iconSize} color={MUTED} strokeWidth={1.5} />;
 
     default:
-      return <Star1       size={iconSize} variant={BULK} color={MUTED} />;
+      return <Star size={iconSize} color={MUTED} strokeWidth={1.5} />;
   }
 }
