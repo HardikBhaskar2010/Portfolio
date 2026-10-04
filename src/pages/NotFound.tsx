@@ -9,8 +9,8 @@ export default function NotFound() {
   return (
     <motion.div variants={pageEnter} initial="hidden" animate="visible" exit="exit" className="page-wrapper min-h-screen flex flex-col">
       <Seo
-        title="404 — Page Not Found — Hardik Bhaskar"
-        description="This page doesn't exist. Head back to Hardik Bhaskar's portfolio."
+        title="404: Page Not Found | Hardik Bhaskar"
+        description="This page does not exist. Head back to Hardik Bhaskar's portfolio."
         path="/404"
         noindex
       />

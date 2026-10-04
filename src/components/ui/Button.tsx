@@ -34,7 +34,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.14, ease: [0.23, 1, 0.32, 1] }}
       className={clsx(
-        'inline-flex items-center gap-2 font-ui transition-all duration-200 tracking-wide',
+        'inline-flex items-center gap-2 font-ui transition-all duration-200 tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
         variantStyles[variant],
         sizeStyles[size],
         className

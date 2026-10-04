@@ -8,7 +8,6 @@ import { track } from '@/lib/analytics';
 import { unlockAudio, playTransitionWhoosh } from '@/lib/audio';
 import { GridDistortion } from '@/components/effects/GridDistortion';
 import Hyperspeed from '@/components/ui/Hyperspeed';
-import { BottomBlur } from '@/components/ui/BottomBlur';
 
 const hyperspeedOptions = {
   onSpeedUp: () => {},
@@ -285,9 +284,6 @@ function AppContent() {
       <div className="relative z-10">
         <AnimatedRoutes />
       </div>
-
-      {/* ── Progressive bottom-edge blur (dissolves content into bottom edge) ── */}
-      <BottomBlur />
 
       {/* ── Vercel: Page-view analytics ── */}
       <Analytics />

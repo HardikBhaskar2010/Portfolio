@@ -23,13 +23,16 @@
       "permanent": true
     }
   ],
-  "rewrites": [
-    {
-      "source": "/((?!api|images|docs|videos|favicon|apple-touch-icon|icons|og-preview|google|site\\.webmanifest|robots\\.txt|sitemap\\.xml|llms\\.txt|ba4a24c6fef4406899d311af30c603fc\\.txt|.*?\\.(?:ico|png|svg|webp|jpg|jpeg|gif|pdf|txt|xml|json|webmanifest|html)).*)",
-      "destination": "/index.html"
-    }
-  ],
   "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [

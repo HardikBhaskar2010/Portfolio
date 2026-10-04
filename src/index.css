@@ -96,6 +96,23 @@ body::before {
   color: #F0F0F8;
 }
 
+/* ─── Keyboard Focus Rings (WCAG 2.4.7 & 2.4.11) ───────────── */
+:focus-visible {
+  outline: 2px solid #00E5FF !important;
+  outline-offset: 2px !important;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #00E5FF !important;
+  outline-offset: 2px !important;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    TYPOGRAPHY UTILITIES
 ═══════════════════════════════════════════════════════════════ */

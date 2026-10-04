@@ -14,17 +14,15 @@ function getCtx(): AudioContext {
 const AUDIO_MUTE_KEY = 'portfolio_audio_muted';
 
 function checkInitialMute(): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === 'undefined') return true;
   try {
     const saved = localStorage.getItem(AUDIO_MUTE_KEY);
     if (saved !== null) return saved === 'true';
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return true;
-    }
+    return true; // Default to muted for respect of user preference and autoplay policies
   } catch {
     /* ignore storage error */
   }
-  return false;
+  return true;
 }
 
 let mutedState: boolean = checkInitialMute();
