@@ -26,6 +26,45 @@ export function ScrollFlow() {
           anticipatePin: 1,
         });
 
+        if (i === 0) {
+          const busLinesX = panel.querySelectorAll<HTMLElement>('.architecture-bus-line-x');
+          const busLinesY = panel.querySelectorAll<HTMLElement>('.architecture-bus-line-y');
+
+          if (busLinesX.length > 0) {
+            gsap.fromTo(
+              busLinesX,
+              { scaleX: 0 },
+              {
+                scaleX: 1,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: panel,
+                  start: 'top 80%',
+                  end: 'top 30%',
+                  scrub: 1,
+                },
+              }
+            );
+          }
+
+          if (busLinesY.length > 0) {
+            gsap.fromTo(
+              busLinesY,
+              { scaleY: 0 },
+              {
+                scaleY: 1,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: panel,
+                  start: 'top 75%',
+                  end: 'top 25%',
+                  scrub: 1,
+                },
+              }
+            );
+          }
+        }
+
         if (!isLast) {
           const nextPanel = panels[i + 1];
           const inner = panel.querySelector<HTMLElement>('.chapter-inner');
@@ -157,6 +196,60 @@ export function ScrollFlow() {
                   <p className="text-xs text-text-secondary leading-normal">
                     Documentation-First Engineering with Limine bootloader protocol and hardened kernel.
                   </p>
+                </div>
+              </div>
+
+              {/* Subsystems Interconnect Bus Blueprint */}
+              <div className="mb-6 pt-5 border-t border-border/60">
+                <div className="flex items-center justify-between text-[11px] font-mono text-cyan/90 uppercase tracking-wider mb-3">
+                  <span>Architecture Interconnect Bus</span>
+                  <span className="text-[10px] text-muted">Clock: Synchronous</span>
+                </div>
+
+                <div className="relative bg-card/40 border border-border/60 rounded-lg p-3.5 font-mono text-xs">
+                  {/* Node 1: Limine Bootloader */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan" />
+                      <span className="text-heading font-medium">Limine Bootloader</span>
+                    </div>
+                    <span className="text-[10px] text-muted font-mono">PORT 0x00</span>
+                  </div>
+
+                  {/* Bus Line Vertical 1 */}
+                  <div className="my-2 ml-2 pl-4 relative h-6 flex items-center">
+                    <div
+                      className="architecture-bus-line-y absolute left-0 top-0 bottom-0 w-[1px] bg-cyan/60 origin-top"
+                      style={{ transform: 'scaleY(1)' }}
+                    />
+                    <span className="text-[10px] text-muted">/dev/fb0 Framebuffer Handoff</span>
+                  </div>
+
+                  {/* Node 2: luna-init PID 1 */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan" />
+                      <span className="text-heading font-medium">luna-init (PID 1)</span>
+                    </div>
+                    <span className="text-[10px] text-muted font-mono">DAG SOLVER</span>
+                  </div>
+
+                  {/* Bus Line Horizontal to LGP */}
+                  <div className="my-2 ml-2 pl-4 relative h-3 flex items-center">
+                    <div
+                      className="architecture-bus-line-x absolute left-0 top-1/2 w-full h-[1px] bg-cyan/60 origin-left"
+                      style={{ transform: 'scaleX(1)' }}
+                    />
+                  </div>
+
+                  {/* Node 3: Luna Graphics Protocol */}
+                  <div className="flex items-center justify-between pt-1">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan" />
+                      <span className="text-heading font-medium">Luna Graphics Protocol</span>
+                    </div>
+                    <span className="text-[10px] text-muted font-mono">SHM BUFFER</span>
+                  </div>
                 </div>
               </div>
 
