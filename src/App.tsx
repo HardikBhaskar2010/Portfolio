@@ -272,17 +272,25 @@ function AppContent() {
       {showIntro && <Preloader onComplete={handleIntroComplete} />}
       <ConsentBanner />
 
-      {/* ── Backmost Layer: Hyperspeed (React Bits) ── */}
+      {/* ── Layer 1: Persistent Ambient 3D Environment (Mounted ONCE at root level) ── */}
       {is3DReady && (
-        <div className="fixed inset-0 z-0 overflow-hidden select-none">
+        <div className="fixed inset-0 z-0 overflow-hidden select-none pointer-events-none">
           <Suspense fallback={null}>
             <Hyperspeed effectOptions={hyperspeedOptions} />
           </Suspense>
         </div>
       )}
 
-      {/* ── Background grid + glow effect (BELOW everything) ── */}
+      {/* ── Background grid and glow effect (BELOW everything) ── */}
       <GridDistortion />
+
+      {/* ── Layer 2: Persistent Atmospheric Readability Treatment ── */}
+      <div
+        className="fixed inset-0 z-[1] pointer-events-none select-none"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 50%, rgba(7,22,41,0.08) 0%, rgba(7,22,41,0.36) 100%)',
+        }}
+      />
 
       <Navbar />           {/* ← always fixed, always visible */}
       <ScrollProgressBar />

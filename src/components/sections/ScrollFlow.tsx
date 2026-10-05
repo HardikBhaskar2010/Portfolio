@@ -67,7 +67,6 @@ export function ScrollFlow() {
         const nextPanel = panels[i + 1] || archivePanel;
         if (nextPanel) {
           const inner = panel.querySelector<HTMLElement>('.chapter-inner');
-          const dim = panel.querySelector<HTMLElement>('.chapter-dim');
 
           if (inner) {
             gsap.to(inner, {
@@ -82,30 +81,6 @@ export function ScrollFlow() {
               },
             });
           }
-
-          if (dim) {
-            gsap.to(dim, {
-              opacity: 0.6,
-              ease: 'none',
-              scrollTrigger: {
-                trigger: nextPanel,
-                start: 'top bottom',
-                end: 'top top',
-                scrub: 1,
-              },
-            });
-          }
-
-          ScrollTrigger.create({
-            trigger: nextPanel,
-            start: 'top top',
-            onEnter: () => {
-              panel.style.visibility = 'hidden';
-            },
-            onLeaveBack: () => {
-              panel.style.visibility = 'visible';
-            },
-          });
         }
       });
 
@@ -148,9 +123,8 @@ export function ScrollFlow() {
       {/* ── CHAPTER 1: FOUNDATIONS ── */}
       <section
         id="chapter-foundations"
-        className="chapter-pin-panel relative w-full lg:min-h-screen bg-[#071629]/85 flex flex-col justify-center overflow-hidden z-10 border-t border-border/80"
+        className="chapter-pin-panel relative w-full lg:min-h-screen bg-transparent flex flex-col justify-center z-10"
       >
-        <div className="chapter-dim pointer-events-none absolute inset-0 bg-[#071629]/60 opacity-0 z-20" />
         <div className="chapter-inner w-full max-w-[1240px] mx-auto px-6 md:px-12 py-16 lg:py-24">
           <div className="mb-8">
             <span className="text-xs font-mono uppercase tracking-[0.2em] text-cyan/90 block mb-2">
@@ -161,168 +135,282 @@ export function ScrollFlow() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left Column: Mahina OS Architecture Blueprint */}
-            <div className="lg:col-span-7 bg-surface/50 border border-border/80 rounded-xl p-6 sm:p-8 backdrop-blur-sm">
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          {/* Unified Master Glass Architecture Panel */}
+          <div className="relative rounded-2xl lg:rounded-3xl border border-white/10 bg-[#06152b]/55 backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.12)] p-6 sm:p-8 lg:p-10 overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+              {/* Left Column: Mahina OS Architecture Blueprint */}
+              <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-display font-semibold text-heading">
-                    Mahina OS
-                  </h3>
-                  <p className="text-sm font-mono text-cyan/80 mt-0.5">
-                    Experimental OS Interface
-                  </p>
-                </div>
-                <HighlightPoint id="luna-init-anchor" color="#00E5FF" label="FOUNDATIONS // MAHINA OS">
-                  <div
-                    id="luna-init-anchor"
-                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-cyan/10 border border-cyan/30 text-cyan text-xs font-mono"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
-                    <span>PID 1 luna-init active</span>
-                  </div>
-                </HighlightPoint>
-              </div>
-
-              <p className="text-sm sm:text-base text-text-secondary leading-relaxed mb-6 font-ui">
-                Deterministic, lightweight, and AI-native operating system engineered on the discipline of documentation-first engineering.
-              </p>
-
-              {/* Subsystems Blueprint Matrix */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                <div className="p-4 rounded-lg bg-card/60 border border-border/60">
-                  <div className="flex items-center gap-2 text-xs font-mono text-heading mb-1.5">
-                    <Terminal className="w-3.5 h-3.5 text-cyan" />
-                    <span className="font-semibold">luna-init</span>
-                  </div>
-                  <p className="text-xs text-text-secondary leading-normal">
-                    PID 1 Service Manager in C17 with deterministic DAG dependency solver.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-lg bg-card/60 border border-border/60">
-                  <div className="flex items-center gap-2 text-xs font-mono text-heading mb-1.5">
-                    <Cpu className="w-3.5 h-3.5 text-cyan" />
-                    <span className="font-semibold">luna-splash</span>
-                  </div>
-                  <p className="text-xs text-text-secondary leading-normal">
-                    Zero-allocation early boot graphics directly on framebuffer device (/dev/fb0).
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-lg bg-card/60 border border-border/60">
-                  <div className="flex items-center gap-2 text-xs font-mono text-heading mb-1.5">
-                    <Layers className="w-3.5 h-3.5 text-cyan" />
-                    <span className="font-semibold">Luna Graphics Protocol</span>
-                  </div>
-                  <p className="text-xs text-text-secondary leading-normal">
-                    Compact display protocol and compositor with shared-memory buffer transport.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-lg bg-card/60 border border-border/60">
-                  <div className="flex items-center gap-2 text-xs font-mono text-heading mb-1.5">
-                    <Shield className="w-3.5 h-3.5 text-cyan" />
-                    <span className="font-semibold">Verification</span>
-                  </div>
-                  <p className="text-xs text-text-secondary leading-normal">
-                    Documentation-First Engineering with Limine bootloader protocol and hardened kernel.
-                  </p>
-                </div>
-              </div>
-
-              {/* Subsystems Interconnect Bus Blueprint */}
-              <div className="mb-6 pt-5 border-t border-border/60">
-                <div className="flex items-center justify-between text-[11px] font-mono text-cyan/90 uppercase tracking-wider mb-3">
-                  <span>Architecture Interconnect Bus</span>
-                  <span className="text-[10px] text-muted">Clock: Synchronous</span>
-                </div>
-
-                <div className="relative bg-card/40 border border-border/60 rounded-lg p-3.5 font-mono text-xs">
-                  {/* Node 1: Limine Bootloader */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan" />
-                      <span className="text-heading font-medium">Limine Bootloader</span>
+                  <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
+                    <div>
+                      <h3 className="text-2xl sm:text-3xl font-display font-semibold text-white tracking-tight">
+                        Mahina <span className="text-cyan">OS</span>
+                      </h3>
+                      <p className="text-xs font-mono text-cyan/90 uppercase tracking-wider mt-1">
+                        Experimental OS Interface
+                      </p>
                     </div>
-                    <span className="text-[10px] text-muted font-mono">PORT 0x00</span>
-                  </div>
-
-                  {/* Bus Line Vertical 1 */}
-                  <div className="my-2 ml-2 pl-4 relative h-6 flex items-center">
-                    <div
-                      className="architecture-bus-line-y absolute left-0 top-0 bottom-0 w-[1px] bg-cyan/60 origin-top"
-                      style={{ transform: 'scaleY(1)' }}
-                    />
-                    <span className="text-[10px] text-muted">/dev/fb0 Framebuffer Handoff</span>
-                  </div>
-
-                  {/* Node 2: luna-init PID 1 */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan" />
-                      <span className="text-heading font-medium">luna-init (PID 1)</span>
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#030d1a]/80 border border-white/10 text-xs font-mono text-[#9db7d5]">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]" />
+                        <span>PID 1 luna-init active</span>
+                      </div>
+                      <HighlightPoint id="luna-init-anchor" color="#00E5FF" label="FOUNDATIONS // MAHINA OS">
+                        <div id="luna-init-anchor" className="w-8 h-8 opacity-0 pointer-events-none" />
+                      </HighlightPoint>
                     </div>
-                    <span className="text-[10px] text-muted font-mono">DAG SOLVER</span>
                   </div>
+                  <p className="text-sm sm:text-base text-[#9db7d5] leading-relaxed font-ui max-w-xl">
+                    Deterministic, lightweight, and AI-native operating system engineered on the discipline of documentation-first engineering.
+                  </p>
+                </div>
 
-                  {/* Bus Line Horizontal to LGP */}
-                  <div className="my-2 ml-2 pl-4 relative h-3 flex items-center">
-                    <div
-                      className="architecture-bus-line-x absolute left-0 top-1/2 w-full h-[1px] bg-cyan/60 origin-left"
-                      style={{ transform: 'scaleX(1)' }}
-                    />
-                  </div>
-
-                  {/* Node 3: Luna Graphics Protocol */}
-                  <div className="flex items-center justify-between pt-1">
-                    <div className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan" />
-                      <span className="text-heading font-medium">Luna Graphics Protocol</span>
+                {/* Subsystems Blueprint Matrix */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div className="p-4 rounded-xl bg-[#041021]/50 border border-white/[0.05] hover:border-cyan/30 transition-colors">
+                    <div className="flex items-center gap-2 text-xs font-mono text-white mb-1.5">
+                      <Terminal className="w-3.5 h-3.5 text-cyan" />
+                      <span className="font-semibold">luna-init</span>
                     </div>
-                    <span className="text-[10px] text-muted font-mono">SHM BUFFER</span>
+                    <p className="text-xs text-[#9db7d5]/90 leading-normal">
+                      PID 1 Service Manager in C17 with deterministic DAG dependency solver.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-[#041021]/50 border border-white/[0.05] hover:border-cyan/30 transition-colors">
+                    <div className="flex items-center gap-2 text-xs font-mono text-white mb-1.5">
+                      <Cpu className="w-3.5 h-3.5 text-cyan" />
+                      <span className="font-semibold">luna-splash</span>
+                    </div>
+                    <p className="text-xs text-[#9db7d5]/90 leading-normal">
+                      Zero-allocation early boot graphics directly on framebuffer device (/dev/fb0).
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-[#041021]/50 border border-white/[0.05] hover:border-cyan/30 transition-colors">
+                    <div className="flex items-center gap-2 text-xs font-mono text-white mb-1.5">
+                      <Layers className="w-3.5 h-3.5 text-cyan" />
+                      <span className="font-semibold">Luna Graphics Protocol</span>
+                    </div>
+                    <p className="text-xs text-[#9db7d5]/90 leading-normal">
+                      Compact display protocol and compositor with shared-memory buffer transport.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-[#041021]/50 border border-white/[0.05] hover:border-cyan/30 transition-colors">
+                    <div className="flex items-center gap-2 text-xs font-mono text-white mb-1.5">
+                      <Shield className="w-3.5 h-3.5 text-cyan" />
+                      <span className="font-semibold">Verification</span>
+                    </div>
+                    <p className="text-xs text-[#9db7d5]/90 leading-normal">
+                      Documentation-First Engineering with Limine bootloader protocol and hardened kernel.
+                    </p>
                   </div>
                 </div>
+
+                {/* Subsystems Interconnect Bus Blueprint */}
+                <div className="pt-2">
+                  <div className="flex items-center justify-between text-[11px] font-mono text-cyan/90 uppercase tracking-wider mb-2.5">
+                    <span>Architecture Interconnect Bus</span>
+                    <span className="text-[10px] text-[#9db7d5]/60 font-mono">Clock: Synchronous</span>
+                  </div>
+
+                  <div className="relative bg-[#030c18]/60 border border-white/[0.05] rounded-xl p-3.5 font-mono text-xs">
+                    {/* Node 1: Limine Bootloader */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan shadow-[0_0_6px_#00e5ff]" />
+                        <span className="text-white font-medium">Limine Bootloader</span>
+                      </div>
+                      <span className="text-[10px] text-[#9db7d5]/70 font-mono">PORT 0x00</span>
+                    </div>
+
+                    {/* Bus Line Vertical 1 */}
+                    <div className="my-1.5 ml-2 pl-4 relative h-5 flex items-center">
+                      <div
+                        className="architecture-bus-line-y absolute left-0 top-0 bottom-0 w-[1px] bg-cyan/40 origin-top"
+                        style={{ transform: 'scaleY(1)' }}
+                      />
+                      <span className="text-[10px] text-[#9db7d5]/60 font-mono">/dev/fb0 Framebuffer Handoff</span>
+                    </div>
+
+                    {/* Node 2: luna-init PID 1 */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan shadow-[0_0_6px_#00e5ff]" />
+                        <span className="text-white font-medium">luna-init (PID 1)</span>
+                      </div>
+                      <span className="text-[10px] text-[#9db7d5]/70 font-mono">DAG SOLVER</span>
+                    </div>
+
+                    {/* Bus Line Horizontal to LGP */}
+                    <div className="my-1.5 ml-2 pl-4 relative h-3 flex items-center">
+                      <div
+                        className="architecture-bus-line-x absolute left-0 top-1/2 w-full h-[1px] bg-cyan/40 origin-left"
+                        style={{ transform: 'scaleX(1)' }}
+                      />
+                    </div>
+
+                    {/* Node 3: Luna Graphics Protocol */}
+                    <div className="flex items-center justify-between pt-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan shadow-[0_0_6px_#00e5ff]" />
+                        <span className="text-white font-medium">Luna Graphics Protocol</span>
+                      </div>
+                      <span className="text-[10px] text-[#9db7d5]/70 font-mono">SHM BUFFER</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Link */}
+                <a
+                  href="https://github.com/HardikBhaskar2010/MahinaOS"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-xs font-mono text-[#eaf4ff] hover:text-cyan transition-colors pt-1"
+                >
+                  <span>View repository source</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-cyan" />
+                </a>
               </div>
 
-              {/* Action Link */}
-              <a
-                href="https://github.com/HardikBhaskar2010/MahinaOS"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs font-mono text-heading hover:text-cyan transition-colors"
-              >
-                <span>View repository source</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
+              {/* Right Column: Terminal / System Monitor & Metadata */}
+              <div className="lg:col-span-5 flex flex-col gap-5 justify-between">
+                {/* Linux Terminal & System Monitor Window */}
+                <div className="rounded-xl overflow-hidden border border-white/10 bg-[#020712]/95 shadow-[0_16px_40px_rgba(0,0,0,0.6)]">
+                  {/* Window Title Bar */}
+                  <div className="h-8 px-3.5 bg-[#050f1e] border-b border-white/[0.06] flex items-center justify-between select-none">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444]/90" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#eab308]/90" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#22c55e]/90" />
+                    </div>
+                    <span className="text-[11px] font-mono text-[#9db7d5]/80">mahina@luna:~</span>
+                    <span className="text-xs font-mono text-[#9db7d5]/40 leading-none">...</span>
+                  </div>
 
-            {/* Right Column: Visual Artifact */}
-            <div className="lg:col-span-5 flex flex-col gap-4">
-              <div className="relative rounded-xl border border-border overflow-hidden bg-card/60 aspect-[16/10]">
-                <img
-                  src="/images/project-mahina-os.webp"
-                  alt="Mahina OS system screenshot"
-                  className="w-full h-full object-cover object-top"
-                  loading="lazy"
-                  decoding="async"
-                  width={600}
-                  height={375}
-                />
-              </div>
+                  {/* Window Interior: Boot Log + System Monitor */}
+                  <div className="p-3 sm:p-3.5 font-mono text-[10px] sm:text-[10.5px] leading-[1.48] grid grid-cols-12 gap-2.5">
+                    {/* Left Pane: Boot Sequence */}
+                    <div className="col-span-7 border-r border-white/[0.06] pr-2 space-y-0.5 text-slate-300">
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Starting luna-init....</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Mounted /sys</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Mounted /proc</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Starting udevd</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Started dev-mapper</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Started network-manager</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Started dbus-daemon</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Started pipewire</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Started wireplumber</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Started ollama</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Started luna-ai-d</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Started compositor</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Started session-manager</div>
+                      <div><span className="text-[#34d399] font-medium">[ OK ]</span> Reached multi-user.target</div>
+                    </div>
 
-              <div className="p-4 rounded-xl bg-surface/30 border border-border/60 font-mono text-xs text-text-secondary space-y-1.5">
-                <div className="flex justify-between">
-                  <span className="text-muted">Footprint:</span>
-                  <span className="text-heading">Under 18 MB userland</span>
+                    {/* Right Pane: System Monitor & Processes */}
+                    <div className="col-span-5 pl-0.5 flex flex-col justify-between text-[9.5px] sm:text-[10px]">
+                      <div>
+                        <div className="flex justify-between items-center text-[#9db7d5] font-semibold border-b border-white/[0.06] pb-1 mb-1.5">
+                          <span>System Monitor</span>
+                          <span className="text-[9px] text-[#9db7d5]/60">14:28:09</span>
+                        </div>
+
+                        {/* CPU */}
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-[#f87171]">CPU</span>
+                          <span className="text-white">12%</span>
+                          <svg className="w-10 h-3 text-[#f87171]" viewBox="0 0 40 12" fill="none">
+                            <path d="M0 10 L8 8 L16 11 L24 4 L32 7 L40 6" stroke="currentColor" strokeWidth="1" />
+                          </svg>
+                        </div>
+
+                        {/* MEM */}
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-[#34d399]">MEM</span>
+                          <span className="text-white text-[9px]">1.8G/32G</span>
+                        </div>
+                        <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mb-1.5">
+                          <div className="w-[18%] h-full bg-[#34d399] rounded-full" />
+                        </div>
+
+                        {/* GPU */}
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-cyan">GPU</span>
+                          <span className="text-white">8%</span>
+                          <svg className="w-10 h-3 text-cyan" viewBox="0 0 40 12" fill="none">
+                            <path d="M0 9 L8 9 L16 6 L24 8 L32 5 L40 7" stroke="currentColor" strokeWidth="1" />
+                          </svg>
+                        </div>
+                      </div>
+
+                      {/* Processes Table */}
+                      <div className="border-t border-white/[0.06] pt-1.5">
+                        <div className="text-[#9db7d5] font-semibold mb-0.5">Processes</div>
+                        <div className="text-[8.5px] text-[#9db7d5]/60 flex justify-between border-b border-white/[0.04] pb-0.5 mb-0.5">
+                          <span>PID</span>
+                          <span>NAME</span>
+                          <span>CPU</span>
+                          <span>MEM</span>
+                        </div>
+                        <div className="space-y-0.5 text-[8.5px] sm:text-[9px] text-[#cbd5e1]">
+                          <div className="flex justify-between">
+                            <span className="text-[#9db7d5]/70">1</span>
+                            <span className="truncate max-w-[55px]">luna-init</span>
+                            <span>0.2</span>
+                            <span>12M</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-[#9db7d5]/70">312</span>
+                            <span className="truncate max-w-[55px]">compositor</span>
+                            <span>1.4</span>
+                            <span>220M</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-[#9db7d5]/70">428</span>
+                            <span className="truncate max-w-[55px]">pipewire</span>
+                            <span>0.8</span>
+                            <span>96M</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-[#9db7d5]/70">512</span>
+                            <span className="truncate max-w-[55px]">ollama</span>
+                            <span>2.1</span>
+                            <span>1.2G</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-[#9db7d5]/70">681</span>
+                            <span className="truncate max-w-[55px]">luna-ai-d</span>
+                            <span>0.6</span>
+                            <span>180M</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-[#9db7d5]/70">722</span>
+                            <span className="truncate max-w-[55px]">networkmgr</span>
+                            <span>0.3</span>
+                            <span>42M</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted">Toolchain:</span>
-                  <span className="text-heading">C17 / Clang 18 / QEMU</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted">Cadence:</span>
-                  <span className="text-heading">Active git commit pipeline</span>
+
+                {/* Technical Metadata Definition List */}
+                <div className="space-y-2.5 pt-1 font-mono text-xs">
+                  <div className="flex justify-between items-center border-b border-white/[0.04] pb-1.5">
+                    <span className="text-[#9db7d5]">Footprint:</span>
+                    <span className="text-white font-medium">Under 18 MB userland</span>
+                  </div>
+                  <div className="flex justify-between items-center border-b border-white/[0.04] pb-1.5">
+                    <span className="text-[#9db7d5]">Toolchain:</span>
+                    <span className="text-white font-medium">C17 / Clang 18 / QEMU</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-[#9db7d5]">Cadence:</span>
+                    <span className="text-white font-medium">Active git commit pipeline</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -333,9 +421,8 @@ export function ScrollFlow() {
       {/* ── CHAPTER 2: RUNTIME ── */}
       <section
         id="chapter-runtime"
-        className="chapter-pin-panel relative w-full lg:min-h-screen bg-[#071629]/85 flex flex-col justify-center overflow-hidden z-20 border-t border-border/80"
+        className="chapter-pin-panel relative w-full lg:min-h-screen bg-transparent flex flex-col justify-center z-20"
       >
-        <div className="chapter-dim pointer-events-none absolute inset-0 bg-[#071629]/60 opacity-0 z-20" />
         <div className="chapter-inner w-full max-w-[1240px] mx-auto px-6 md:px-12 py-16 lg:py-24">
           <div className="mb-8">
             <span className="text-xs font-mono uppercase tracking-[0.2em] text-cyan/90 block mb-2">
@@ -346,7 +433,7 @@ export function ScrollFlow() {
             </h2>
           </div>
 
-          <div className="bg-surface/50 border border-border/80 rounded-xl p-6 sm:p-8 backdrop-blur-sm">
+          <div className="relative rounded-2xl lg:rounded-3xl border border-white/10 bg-[#06152b]/55 backdrop-blur-xl shadow-[0_25px_60px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.12)] p-6 sm:p-8 lg:p-10 overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent">
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
               <div>
                 <h3 className="text-xl sm:text-2xl font-display font-semibold text-heading">
@@ -359,7 +446,7 @@ export function ScrollFlow() {
               <HighlightPoint id="kage-runtime-anchor" color="#00E5FF" label="RUNTIME // KAGE BROWSER">
                 <div
                   id="kage-runtime-anchor"
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-cyan/10 border border-cyan/30 text-cyan text-xs font-mono"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#030d1a]/80 border border-white/10 text-cyan text-xs font-mono"
                 >
                   <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
                   <span>CDP Tool Bus active</span>
@@ -374,7 +461,7 @@ export function ScrollFlow() {
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                  <div className="p-4 rounded-lg bg-card/60 border border-border/60">
+                  <div className="p-4 rounded-xl bg-[#041021]/50 border border-white/[0.05] hover:border-cyan/30 transition-colors">
                     <span className="text-xs font-mono font-semibold text-heading block mb-1">
                       Tauri v2 + CEF 152
                     </span>
@@ -383,7 +470,7 @@ export function ScrollFlow() {
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-lg bg-card/60 border border-border/60">
+                  <div className="p-4 rounded-xl bg-[#041021]/50 border border-white/[0.05] hover:border-cyan/30 transition-colors">
                     <span className="text-xs font-mono font-semibold text-heading block mb-1">
                       Rust Tool Bus
                     </span>
@@ -392,7 +479,7 @@ export function ScrollFlow() {
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-lg bg-card/60 border border-border/60">
+                  <div className="p-4 rounded-xl bg-[#041021]/50 border border-white/[0.05] hover:border-cyan/30 transition-colors">
                     <span className="text-xs font-mono font-semibold text-heading block mb-1">
                       CDP WebSocket Engine
                     </span>
@@ -401,7 +488,7 @@ export function ScrollFlow() {
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-lg bg-card/60 border border-border/60">
+                  <div className="p-4 rounded-xl bg-[#041021]/50 border border-white/[0.05] hover:border-cyan/30 transition-colors">
                     <span className="text-xs font-mono font-semibold text-heading block mb-1">
                       Context Engine
                     </span>
@@ -413,7 +500,7 @@ export function ScrollFlow() {
               </div>
 
               <div className="lg:col-span-5">
-                <div className="relative rounded-xl border border-border overflow-hidden bg-card/60 aspect-[16/10]">
+                <div className="relative rounded-xl border border-white/10 overflow-hidden bg-card/60 aspect-[16/10] shadow-xl">
                   <img
                     src="/images/project-kage.webp"
                     alt="KAGE Browser interface"
@@ -443,9 +530,8 @@ export function ScrollFlow() {
       {/* ── CHAPTER 3: INTELLIGENCE ── */}
       <section
         id="chapter-intelligence"
-        className="chapter-pin-panel relative w-full lg:min-h-screen bg-[#071629]/85 flex flex-col justify-center overflow-hidden z-30 border-t border-border/80"
+        className="chapter-pin-panel relative w-full lg:min-h-screen bg-transparent flex flex-col justify-center z-30"
       >
-        <div className="chapter-dim pointer-events-none absolute inset-0 bg-[#071629]/60 opacity-0 z-20" />
         <div className="chapter-inner w-full max-w-[1240px] mx-auto px-6 md:px-12 py-16 lg:py-24">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
             <div>
@@ -459,7 +545,7 @@ export function ScrollFlow() {
             <HighlightPoint id="intelligence-hub-anchor" color="#00E5FF" label="INTELLIGENCE // HUB">
               <div
                 id="intelligence-hub-anchor"
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-cyan/10 border border-cyan/30 text-cyan text-xs font-mono"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#030d1a]/80 border border-white/10 text-cyan text-xs font-mono"
               >
                 <span className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
                 <span>Intelligence Hub connected</span>
@@ -469,7 +555,7 @@ export function ScrollFlow() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Card 1: Vectoris */}
-            <div className="bg-surface/50 border border-border/80 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between">
+            <div className="bg-[#06152b]/55 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] hover:border-cyan/30 transition-colors flex flex-col justify-between">
               <div>
                 <div className="relative rounded-lg border border-border overflow-hidden bg-card/60 aspect-[16/10] mb-4">
                   <img
@@ -517,7 +603,7 @@ export function ScrollFlow() {
             </div>
 
             {/* Card 2: Veronica AI */}
-            <div className="bg-surface/50 border border-border/80 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between">
+            <div className="bg-[#06152b]/55 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] hover:border-cyan/30 transition-colors flex flex-col justify-between">
               <div>
                 <div className="relative rounded-lg border border-border overflow-hidden bg-card/60 aspect-[16/10] mb-4">
                   <img
@@ -565,7 +651,7 @@ export function ScrollFlow() {
             </div>
 
             {/* Card 3: AEGIS Platform */}
-            <div className="bg-surface/50 border border-border/80 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between">
+            <div className="bg-[#06152b]/55 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] hover:border-cyan/30 transition-colors flex flex-col justify-between">
               <div>
                 <div className="relative rounded-lg border border-border overflow-hidden bg-card/60 aspect-[16/10] mb-4">
                   <img
@@ -618,7 +704,7 @@ export function ScrollFlow() {
       {/* ── ARCHIVE PAN: REMAINING SYSTEMS (Horizontal Filmstrip >= 1024px) ── */}
       <section
         id="archive-pan"
-        className="relative w-full lg:min-h-screen bg-[#071629]/85 flex flex-col justify-center overflow-hidden z-40 border-t border-border/80"
+        className="relative w-full lg:min-h-screen bg-transparent flex flex-col justify-center z-40"
       >
         <div className="w-full max-w-[1240px] mx-auto px-6 md:px-12 py-16 lg:py-24">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
@@ -644,7 +730,7 @@ export function ScrollFlow() {
           <div className="w-full overflow-hidden">
             <div className="archive-track flex flex-col lg:flex-row gap-6 w-full lg:w-max will-change-transform">
               {/* Card 1: STEM Idea Adventure */}
-              <div className="w-full lg:w-[420px] flex-shrink-0 bg-surface/50 border border-border/80 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between">
+              <div className="w-full lg:w-[420px] flex-shrink-0 bg-[#06152b]/55 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] flex flex-col justify-between">
                 <div>
                   <div className="relative rounded-lg border border-border overflow-hidden bg-card/60 aspect-[16/10] mb-4">
                     <img
@@ -706,7 +792,7 @@ export function ScrollFlow() {
               </div>
 
               {/* Card 2: Systems Architecture Laboratory */}
-              <div className="w-full lg:w-[420px] flex-shrink-0 bg-surface/50 border border-border/80 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between">
+              <div className="w-full lg:w-[420px] flex-shrink-0 bg-[#06152b]/55 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] flex flex-col justify-between">
                 <div>
                   <div className="relative rounded-lg border border-border overflow-hidden bg-card/60 aspect-[16/10] mb-4 flex items-center justify-center p-6 bg-gradient-to-br from-surface to-card">
                     <div className="text-center font-mono">
@@ -751,7 +837,7 @@ export function ScrollFlow() {
               </div>
 
               {/* Card 3: Complete Project Index */}
-              <div className="w-full lg:w-[420px] flex-shrink-0 bg-surface/50 border border-border/80 rounded-xl p-6 backdrop-blur-sm flex flex-col justify-between">
+              <div className="w-full lg:w-[420px] flex-shrink-0 bg-[#06152b]/55 border border-white/10 rounded-2xl p-6 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] flex flex-col justify-between">
                 <div>
                   <div className="relative rounded-lg border border-border overflow-hidden bg-card/60 aspect-[16/10] mb-4 flex items-center justify-center p-6 bg-gradient-to-br from-surface to-card">
                     <div className="text-center font-mono">
