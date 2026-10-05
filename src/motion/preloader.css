@@ -44,16 +44,21 @@
 
 .preloader-counter-digits {
   font-family: var(--font-mono, 'Geist Mono', monospace);
-  font-size: 14px;
+  font-size: 36px;
+  font-weight: 500;
   line-height: 1;
-  letter-spacing: 0.25em;
-  color: var(--text-secondary, #9db7d5);
+  letter-spacing: 0.08em;
+  color: var(--text-primary, #eaf4ff);
   font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  text-align: center;
+  display: inline-block;
 }
 
 @media (max-width: 767px) {
   .preloader-counter-digits {
-    font-size: 12px;
+    font-size: 26px;
+    letter-spacing: 0.06em;
   }
 }
 
@@ -114,22 +119,127 @@
   stroke-dashoffset: 100;
 }
 
-/* Sequential stroke drawing */
-.preloader-greeting-wrap[data-writing="true"] .preloader-stroke-h1,
+/* Sequential stroke drawing with authentic handwriting velocity (FAST -> SLOW -> FAST) */
+.preloader-greeting-wrap[data-writing="true"] .preloader-stroke-h1 {
+  animation: preloader-write-h1 var(--dur-240) linear forwards;
+}
+
 .preloader-greeting-wrap[data-writing="true"] .preloader-stroke-h2 {
-  animation: preloader-draw-stroke var(--dur-120) var(--ease-out) forwards;
+  animation: preloader-write-h2 var(--dur-240) linear forwards;
 }
 
 .preloader-greeting-wrap[data-writing="true"] .preloader-stroke-ello {
-  animation: preloader-draw-stroke var(--dur-120) var(--ease-out) var(--dur-120) forwards;
+  animation: preloader-write-ello var(--dur-240) linear forwards;
 }
 
 .preloader-greeting-wrap[data-writing="true"] .preloader-hello-dot {
-  animation: preloader-draw-stroke var(--dur-120) var(--ease-out) var(--dur-120) forwards;
+  animation: preloader-write-dot var(--dur-240) linear forwards;
 }
 
-@keyframes preloader-draw-stroke {
-  to {
+@keyframes preloader-write-h1 {
+  /* H Left Stem: fast entrance flourish (0-6%), slower descending stem (6-18%), fast bottom curl (18-24%) */
+  0% {
+    stroke-dashoffset: 100;
+  }
+  6% {
+    stroke-dashoffset: 66;
+  }
+  18% {
+    stroke-dashoffset: 24;
+  }
+  24% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes preloader-write-h2 {
+  /* H Right Stem: pen arrives (21%), fast descending stem (21-32%), controlled loop (32-40%), fast crossbar connection (40-46%) */
+  0%, 21% {
+    stroke-dashoffset: 100;
+  }
+  32% {
+    stroke-dashoffset: 54;
+  }
+  40% {
+    stroke-dashoffset: 34;
+  }
+  46% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes preloader-write-ello {
+  /* Continuous cursive 'ello':
+     - 'e': fast entry (44-47%), slow loop (47-53%), fast exit (53-56%)
+     - 'l1': fast ascender (56-62%), slow loop (62-66%), fast descent (66-71%), fast turn (71-73%)
+     - 'l2': fast ascender (73-79%), slow loop (79-83%), fast descent (83-87%), fast turn (87-89%)
+     - 'o': fast entry (89-91%), slow curved closure (91-96%), fast exit flick (96-98%)
+  */
+  0%, 44% {
+    stroke-dashoffset: 100;
+  }
+  47% {
+    stroke-dashoffset: 93.7;
+  }
+  53% {
+    stroke-dashoffset: 84.5;
+  }
+  56% {
+    stroke-dashoffset: 80.8;
+  }
+  62% {
+    stroke-dashoffset: 69.4;
+  }
+  66% {
+    stroke-dashoffset: 66.5;
+  }
+  71% {
+    stroke-dashoffset: 55;
+  }
+  73% {
+    stroke-dashoffset: 51.9;
+  }
+  79% {
+    stroke-dashoffset: 40;
+  }
+  83% {
+    stroke-dashoffset: 37.1;
+  }
+  87% {
+    stroke-dashoffset: 25.6;
+  }
+  89% {
+    stroke-dashoffset: 22.4;
+  }
+  91% {
+    stroke-dashoffset: 16.3;
+  }
+  96% {
+    stroke-dashoffset: 3.8;
+  }
+  98% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes preloader-write-dot {
+  /* Terminal period: crisp pen tap at 96-98%, then holds */
+  0%, 96% {
+    stroke-dashoffset: 100;
+  }
+  98% {
+    stroke-dashoffset: 0;
+  }
+  100% {
     stroke-dashoffset: 0;
   }
 }
@@ -220,49 +330,49 @@
 }
 
 @media (min-width: 768px) {
-  /* Center Panel (index 2): starts at 1080ms */
+  /* Center Panel (index 2 / P3): starts at 0ms from split trigger */
   .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-top {
     will-change: transform;
-    animation: preloader-split-top var(--dur-700) var(--ease-out) var(--delay-preloader-center-panel) forwards;
+    animation: preloader-split-top var(--dur-700) var(--ease-out) var(--delay-0) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-bottom {
     will-change: transform;
-    animation: preloader-split-bottom var(--dur-700) var(--ease-out) var(--delay-preloader-center-panel) forwards;
+    animation: preloader-split-bottom var(--dur-700) var(--ease-out) var(--delay-0) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-seam {
-    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-center-panel) forwards;
+    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-0) forwards;
   }
 
-  /* Mid Panels (indices 1, 3): delay 75ms (1155ms) */
+  /* Mid Panels (indices 1, 3 / P2, P4): delay 75ms (STAGGER.step) */
   .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-top,
   .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-half-top {
     will-change: transform;
-    animation: preloader-split-top var(--dur-700) var(--ease-out) var(--delay-preloader-mid-panels) forwards;
+    animation: preloader-split-top var(--dur-700) var(--ease-out) var(--stagger-step, 75ms) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-bottom,
   .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-half-bottom {
     will-change: transform;
-    animation: preloader-split-bottom var(--dur-700) var(--ease-out) var(--delay-preloader-mid-panels) forwards;
+    animation: preloader-split-bottom var(--dur-700) var(--ease-out) var(--stagger-step, 75ms) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-seam,
   .preloader-overlay[data-splitting="true"] .preloader-panel-3 .panel-seam {
-    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-mid-panels) forwards;
+    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--stagger-step, 75ms) forwards;
   }
 
-  /* Outer Panels (indices 0, 4): delay 150ms (1230ms) */
+  /* Outer Panels (indices 0, 4 / P1, P5): delay 150ms (2 * STAGGER.step) */
   .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-top,
   .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-half-top {
     will-change: transform;
-    animation: preloader-split-top var(--dur-700) var(--ease-out) var(--delay-preloader-outer-panels) forwards;
+    animation: preloader-split-top var(--dur-700) var(--ease-out) calc(var(--stagger-step, 75ms) * 2) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-bottom,
   .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-half-bottom {
     will-change: transform;
-    animation: preloader-split-bottom var(--dur-700) var(--ease-out) var(--delay-preloader-outer-panels) forwards;
+    animation: preloader-split-bottom var(--dur-700) var(--ease-out) calc(var(--stagger-step, 75ms) * 2) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-seam,
   .preloader-overlay[data-splitting="true"] .preloader-panel-4 .panel-seam {
-    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-outer-panels) forwards;
+    animation: preloader-seam-fade var(--dur-120) var(--ease-out) calc(var(--stagger-step, 75ms) * 2) forwards;
   }
 }
 
@@ -320,33 +430,33 @@
     display: none;
   }
 
-  /* Mobile Center Panel (index 1 / M2): starts at 840ms */
+  /* Mobile Center Panel (index 1 / M2): starts at 0ms from split trigger */
   .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-top {
     will-change: transform;
-    animation: preloader-split-top var(--dur-420) var(--ease-out) var(--delay-preloader-mobile-center-panel) forwards;
+    animation: preloader-split-top var(--dur-420) var(--ease-out) var(--delay-0) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-half-bottom {
     will-change: transform;
-    animation: preloader-split-bottom var(--dur-420) var(--ease-out) var(--delay-preloader-mobile-center-panel) forwards;
+    animation: preloader-split-bottom var(--dur-420) var(--ease-out) var(--delay-0) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-1 .panel-seam {
-    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-mobile-center-panel) forwards;
+    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-0) forwards;
   }
 
-  /* Mobile Flank Panels (indices 0 and 2 / M1, M3): delay 75ms (915ms) */
+  /* Mobile Flank Panels (indices 0 and 2 / M1, M3): delay 75ms (STAGGER.step) */
   .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-top,
   .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-top {
     will-change: transform;
-    animation: preloader-split-top var(--dur-420) var(--ease-out) var(--delay-preloader-mobile-flank-panels) forwards;
+    animation: preloader-split-top var(--dur-420) var(--ease-out) var(--stagger-step, 75ms) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-half-bottom,
   .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-half-bottom {
     will-change: transform;
-    animation: preloader-split-bottom var(--dur-420) var(--ease-out) var(--delay-preloader-mobile-flank-panels) forwards;
+    animation: preloader-split-bottom var(--dur-420) var(--ease-out) var(--stagger-step, 75ms) forwards;
   }
   .preloader-overlay[data-splitting="true"] .preloader-panel-0 .panel-seam,
   .preloader-overlay[data-splitting="true"] .preloader-panel-2 .panel-seam {
-    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--delay-preloader-mobile-flank-panels) forwards;
+    animation: preloader-seam-fade var(--dur-120) var(--ease-out) var(--stagger-step, 75ms) forwards;
   }
 }
 

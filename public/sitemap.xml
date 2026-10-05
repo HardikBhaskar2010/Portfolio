@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://hardikbhaskar.vercel.app/</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -44,7 +44,7 @@
   </url>
   <url>
     <loc>https://hardikbhaskar.vercel.app/about</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -65,9 +65,14 @@
   </url>
   <url>
     <loc>https://hardikbhaskar.vercel.app/projects</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-mahina-os.webp</image:loc>
+      <image:title>Mahina OS: Experimental OS Interface by Hardik Bhaskar</image:title>
+      <image:caption>Mahina OS: A reimagined operating system interface: brutally minimal, intentionally different. MahinaOS is an experimental OS-shell aesthetic built for those who think modern computing has gotten too comfortable.</image:caption>
+    </image:image>
     <image:image>
       <image:loc>https://hardikbhaskar.vercel.app/images/project-kage.webp</image:loc>
       <image:title>KAGE (影): Developer-First Autonomous Browser &amp; Workstation by Hardik Bhaskar</image:title>
@@ -77,11 +82,6 @@
       <image:loc>https://hardikbhaskar.vercel.app/images/project-vectoris.webp</image:loc>
       <image:title>Vectoris: AI-Native Engineering &amp; Takeoff Workstation by Hardik Bhaskar</image:title>
       <image:caption>Vectoris: Official release distribution repository for Vectoris Engineering Desktop Workstation</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://hardikbhaskar.vercel.app/images/project-mahina-os.webp</image:loc>
-      <image:title>Mahina OS: Experimental OS Interface by Hardik Bhaskar</image:title>
-      <image:caption>Mahina OS: A reimagined operating system interface: brutally minimal, intentionally different. MahinaOS is an experimental OS-shell aesthetic built for those who think modern computing has gotten too comfortable.</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://hardikbhaskar.vercel.app/images/project-ai-veronica.webp</image:loc>
@@ -100,8 +100,19 @@
     </image:image>
   </url>
   <url>
+    <loc>https://hardikbhaskar.vercel.app/projects/mahinaos</loc>
+    <lastmod>2025-12-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://hardikbhaskar.vercel.app/images/project-mahina-os.webp</image:loc>
+      <image:title>Mahina OS: Experimental OS Interface by Hardik Bhaskar</image:title>
+      <image:caption>Mahina OS architecture, interface, and system design overview engineered by Hardik Bhaskar</image:caption>
+    </image:image>
+  </url>
+  <url>
     <loc>https://hardikbhaskar.vercel.app/projects/kage</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -112,24 +123,13 @@
   </url>
   <url>
     <loc>https://hardikbhaskar.vercel.app/projects/vectoris</loc>
-    <lastmod>2026-10-04</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://hardikbhaskar.vercel.app/images/project-vectoris.webp</image:loc>
       <image:title>Vectoris: AI-Native Engineering &amp; Takeoff Workstation by Hardik Bhaskar</image:title>
       <image:caption>Vectoris architecture, interface, and system design overview engineered by Hardik Bhaskar</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://hardikbhaskar.vercel.app/projects/mahinaos</loc>
-    <lastmod>2025-12-31</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <image:image>
-      <image:loc>https://hardikbhaskar.vercel.app/images/project-mahina-os.webp</image:loc>
-      <image:title>Mahina OS: Experimental OS Interface by Hardik Bhaskar</image:title>
-      <image:caption>Mahina OS architecture, interface, and system design overview engineered by Hardik Bhaskar</image:caption>
     </image:image>
   </url>
   <url>

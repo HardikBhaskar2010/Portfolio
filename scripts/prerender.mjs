@@ -123,7 +123,7 @@ for (const route of routes) {
       rootHtml = setJsonLd(rootHtml, route.jsonLd);
     }
     if (route.fallbackHtml) {
-      rootHtml = setRootContent(rootHtml, route.fallbackHtml);
+      rootHtml = setNoscriptContent(rootHtml, route.fallbackHtml);
     }
     writeFileSync(templatePath, rootHtml, 'utf8');
     generatedCount++;
@@ -175,9 +175,9 @@ for (const route of routes) {
     html = setJsonLd(html, route.jsonLd);
   }
 
-  // 5. Semantic prerendered content inside <div id="root">
+  // 5. Semantic prerendered content inside <noscript>
   if (route.fallbackHtml) {
-    html = setRootContent(html, route.fallbackHtml);
+    html = setNoscriptContent(html, route.fallbackHtml);
   }
 
   // 6. Write to dist/<route>/index.html (directory index)

@@ -16,11 +16,12 @@ function checkPageReadiness(): boolean {
 }
 
 export function Preloader({ onComplete }: PreloaderProps) {
-  const [digits, setDigits] = useState('00');
+  const counterRef = useRef<HTMLSpanElement>(null);
   const [counterVisible, setCounterVisible] = useState(true);
   const [greetingVisible, setGreetingVisible] = useState(false);
   const [greetingWriting, setGreetingWriting] = useState(false);
   const [greetingFading, setGreetingFading] = useState(false);
+  const [isSplitting, setIsSplitting] = useState(false);
   const [overlayState, setOverlayState] = useState<'active' | 'clearing'>('active');
   const completedRef = useRef(false);
 
@@ -37,16 +38,40 @@ export function Preloader({ onComplete }: PreloaderProps) {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const timers: number[] = [];
 
+    // Continuous numeric count: 00 -> 01 -> ... -> 99 -> 100
+    // Lightweight local implementation with zero React re-renders during the count
+    const countDuration = isMobile
+      ? PRELOADER_DELAY.mobileHelloDraw - 40
+      : PRELOADER_DELAY.helloDraw - 60;
+    const startTime = performance.now();
+    let rafId: number;
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / countDuration);
+
+      // Velocity curve: fast start (~0-40 in first 20%), smooth controlled middle, gentle settle into 100
+      const eased = 1 - Math.pow(1 - progress, 2.2);
+      const val = Math.min(100, Math.floor(eased * 100));
+
+      if (counterRef.current) {
+        counterRef.current.textContent = val === 100 ? '100' : String(val).padStart(2, '0');
+      }
+
+      if (progress < 1) {
+        rafId = window.requestAnimationFrame(tick);
+      }
+    };
+
+    rafId = window.requestAnimationFrame(tick);
+
     if (isMobile) {
-      // Mobile milestone ticks (00 -> 42 -> 88 -> 100)
       timers.push(
-        window.setTimeout(() => setDigits('42'), PRELOADER_DELAY.mobileMilestone2),
         window.setTimeout(() => {
           checkPageReadiness();
-          setDigits('88');
         }, PRELOADER_DELAY.mobileResolve),
         window.setTimeout(() => {
-          setDigits('100');
+          if (counterRef.current) counterRef.current.textContent = '100';
           setCounterVisible(false);
           setGreetingVisible(true);
           setGreetingWriting(true);
@@ -56,6 +81,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
         }, PRELOADER_DELAY.mobileHelloFade),
         window.setTimeout(() => {
           setGreetingVisible(false);
+          setIsSplitting(true);
         }, PRELOADER_DELAY.mobileCenterPanel),
         window.setTimeout(() => {
           setOverlayState('clearing');
@@ -68,17 +94,12 @@ export function Preloader({ onComplete }: PreloaderProps) {
         }, PRELOADER_DELAY.mobileSettle)
       );
     } else {
-      // Desktop milestone ticks (00 -> 18 -> 42 -> 73 -> 91 -> 100)
       timers.push(
-        window.setTimeout(() => setDigits('18'), PRELOADER_DELAY.milestone2),
-        window.setTimeout(() => setDigits('42'), PRELOADER_DELAY.milestone3),
-        window.setTimeout(() => setDigits('73'), PRELOADER_DELAY.milestone4),
         window.setTimeout(() => {
           checkPageReadiness();
-          setDigits('91');
         }, PRELOADER_DELAY.resolve),
         window.setTimeout(() => {
-          setDigits('100');
+          if (counterRef.current) counterRef.current.textContent = '100';
           setCounterVisible(false);
           setGreetingVisible(true);
           setGreetingWriting(true);
@@ -88,6 +109,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
         }, PRELOADER_DELAY.helloFade),
         window.setTimeout(() => {
           setGreetingVisible(false);
+          setIsSplitting(true);
         }, PRELOADER_DELAY.centerPanel),
         window.setTimeout(() => {
           setOverlayState('clearing');
@@ -109,6 +131,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
     });
 
     return () => {
+      window.cancelAnimationFrame(rafId);
       timers.forEach(t => window.clearTimeout(t));
       cleanupSkip();
     };
@@ -118,7 +141,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
     <div
       id="portfolio-preloader"
       className="preloader-overlay"
-      data-splitting="true"
+      data-splitting={isSplitting ? 'true' : 'false'}
       data-state={overlayState}
       aria-hidden="true"
       tabIndex={-1}
@@ -128,7 +151,9 @@ export function Preloader({ onComplete }: PreloaderProps) {
         className="preloader-counter-wrap"
         data-visible={counterVisible ? 'true' : 'false'}
       >
-        <span className="preloader-counter-digits font-mono">{digits}</span>
+        <span ref={counterRef} className="preloader-counter-digits font-mono">
+          00
+        </span>
       </div>
 
       {/* Handwritten Greeting (Italianno Centerline Handwriting) */}
