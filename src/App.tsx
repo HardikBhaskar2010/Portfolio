@@ -206,6 +206,14 @@ function AppContent() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
     try {
       if (localStorage.getItem('portfolio_motion_paused') === 'true') return false;
+    } catch {
+      // Storage access blocked or restricted
+    }
+    // Authoritative signal: pre-paint script in index.html set data-preloader to active
+    if (document.documentElement.getAttribute('data-preloader') === 'active') {
+      return true;
+    }
+    try {
       const seen = sessionStorage.getItem('intro_seen');
       if (seen === 'true' || seen === '1') return false;
     } catch {
