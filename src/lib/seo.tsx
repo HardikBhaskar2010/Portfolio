@@ -47,6 +47,10 @@ interface SeoProps {
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   /** If true, adds <meta name="robots" content="noindex, follow"> */
   noindex?: boolean;
+  /** Schema.org/Open Graph page type. */
+  type?: 'website' | 'profile' | 'article';
+  /** Optional keyword set used for page-specific metadata and schema context. */
+  keywords?: string[];
 }
 
 export function Seo({
@@ -56,6 +60,8 @@ export function Seo({
   ogImage = '/og-preview.png',
   jsonLd,
   noindex = false,
+  type = 'website',
+  keywords,
 }: SeoProps) {
   const canonicalUrl = `${SITE_URL}${path === '/' ? '' : path}`;
   const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${SITE_URL}${ogImage}`;
@@ -66,6 +72,8 @@ export function Seo({
       {/* Primary */}
       <title>{title}</title>
       <meta name="description" content={description} />
+      <meta name="author" content="Hardik Bhaskar" />
+      {keywords?.length ? <meta name="keywords" content={keywords.join(', ')} /> : null}
       <link rel="canonical" href={canonicalUrl} />
       {noindex ? (
         <meta name="robots" content="noindex, follow" />
@@ -74,6 +82,9 @@ export function Seo({
       )}
 
       {/* Open Graph */}
+      <meta property="og:site_name" content="Hardik Bhaskar" />
+      <meta property="og:type" content={type} />
+      <meta property="og:locale" content="en_US" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonicalUrl} />
@@ -88,6 +99,9 @@ export function Seo({
       )}
 
       {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@kitsune_luna05" />
+      <meta name="twitter:creator" content="@kitsune_luna05" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImageUrl} />
