@@ -8,7 +8,7 @@
 export const SITE_URL =
   (typeof process !== 'undefined' && process.env?.VITE_SITE_URL) ||
   (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL) ||
-  'https://hardikbhaskar.vercel.app';
+  'https://hardikbhaskar.me';
 
 /** schema.org Person: represents Hardik Bhaskar across all pages */
 export function buildPersonJsonLd() {
