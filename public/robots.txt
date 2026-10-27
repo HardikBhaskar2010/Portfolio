@@ -1,4 +1,5 @@
-# robots.txt for https://hardikbhaskar.vercel.app
+# robots.txt for https://hardikbhaskar.me
+# Canonical production origin: https://hardikbhaskar.me
 # Optimized for Bingbot, Googlebot, and IndexNow crawl efficiency
 
 User-agent: *
@@ -31,4 +32,4 @@ Disallow: /*?
 Disallow: /*&
 
 # XML Sitemap reference
-Sitemap: https://hardikbhaskar.vercel.app/sitemap.xml
+Sitemap: https://hardikbhaskar.me/sitemap.xml
