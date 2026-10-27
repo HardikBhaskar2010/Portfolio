@@ -6,10 +6,21 @@
       "has": [
         {
           "type": "host",
+          "value": "hardikbhaskar.vercel.app"
+        }
+      ],
+      "destination": "https://hardikbhaskar.me/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "lunakitsune.vercel.app"
         }
       ],
-      "destination": "https://hardikbhaskar.vercel.app/:path*",
+      "destination": "https://hardikbhaskar.me/:path*",
       "permanent": true
     },
     {
